@@ -15,6 +15,8 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\Access\Authorizable;
+use Spatie\Permission\Traits\HasPermissions;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends BaseModel implements
     AuthenticatableContract,
@@ -27,6 +29,8 @@ class User extends BaseModel implements
     use CanResetPassword;
     use MustVerifyEmail;
     use HasFactory;
+    use HasRoles;
+    use HasPermissions;
 
     protected $fillable = [
         'full_name',
