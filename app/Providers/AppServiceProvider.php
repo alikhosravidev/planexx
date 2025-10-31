@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Core\User\Providers\UserServiceProvider;
 use App\Services\ModuleManager;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -12,7 +15,8 @@ class AppServiceProvider extends ServiceProvider
         // Bind ModuleManager
         $this->app->singleton(ModuleManager::class, fn () => new ModuleManager());
 
-        // Register Core and Feature module service providers
+        $this->registerCoreProviders();
+
         $this->registerModuleProviders();
     }
 
@@ -28,10 +32,16 @@ class AppServiceProvider extends ServiceProvider
 
         // Register enabled Feature module providers: Modules\\{Module}\\Providers\\{Module}ServiceProvider
         foreach ($manager->getEnabledModules() as $module) {
-            $provider = "Modules\\\\{$module}\\\\Providers\\\\{$module}ServiceProvider";
+            $provider = "Modules\\{$module}\\Providers\\{$module}ServiceProvider";
+
             if (class_exists($provider)) {
                 $this->app->register($provider);
             }
         }
+    }
+
+    private function registerCoreProviders(): void
+    {
+        $this->app->register(UserServiceProvider::class);
     }
 }

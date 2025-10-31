@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Contracts\Repository;
 
-use App\Contracts\BaseModel;
+use App\Contracts\Model\BaseModel;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 

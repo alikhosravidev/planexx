@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Contracts\Transformer;
+namespace App\Transformers;
 
+use App\Contracts\Transformer\BaseFieldTransformer;
 use BackedEnum;
 
 /**
@@ -15,7 +16,7 @@ class EnumTransformer extends BaseFieldTransformer
     {
         if ($value instanceof BackedEnum) {
             return [
-                'key' => $value->name,
+                'key'   => $value->name,
                 'value' => $value->value,
             ];
         }

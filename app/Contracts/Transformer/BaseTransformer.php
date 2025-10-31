@@ -4,30 +4,19 @@ declare(strict_types=1);
 
 namespace App\Contracts\Transformer;
 
-use App\Contracts\BaseModel;
+use App\Contracts\Model\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use League\Fractal\Manager;
-use League\Fractal\Resource\Collection;
-use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
 
-/**
- * Base transformer class using League Fractal.
- * Provides a simple, extensible foundation for transforming models to API responses.
- *
- * Principles:
- * - Single Responsibility: Only handles transformation logic.
- * - Open/Closed: Extensible via protected properties and methods.
- * - Dependency Inversion: Depends on abstractions (FieldTransformerInterface).
- */
 abstract class BaseTransformer extends TransformerAbstract
 {
-    protected array $blackListFields = [];
+    protected array $blackListFields   = [];
     protected array $fieldTransformers = [];
     protected array $availableIncludes = [];
-    protected array $defaultIncludes = [];
-    protected bool $includeAccessors = true;
+    protected array $defaultIncludes   = [];
+    protected bool $includeAccessors   = true;
 
     private Manager $manager;
 
@@ -104,8 +93,8 @@ abstract class BaseTransformer extends TransformerAbstract
         foreach ($data as $field => $value) {
             if (isset($this->fieldTransformers[$field])) {
                 $transformerClass = $this->fieldTransformers[$field];
-                $transformer = new $transformerClass();
-                $data[$field] = $transformer->transformOne($value);
+                $transformer      = new $transformerClass();
+                $data[$field]     = $transformer->transformOne($value);
             }
         }
 
@@ -118,6 +107,7 @@ abstract class BaseTransformer extends TransformerAbstract
     public function transformOne($model, ?string $resourceKey = null): mixed
     {
         $resource = $this->item($model, $this, $resourceKey);
+
         return $this->manager->createData($resource)->toArray();
     }
 
@@ -127,6 +117,7 @@ abstract class BaseTransformer extends TransformerAbstract
     public function transformMany($model, ?string $resourceKey = null): mixed
     {
         $resource = $this->collection($model, $this, $resourceKey);
+
         return $this->manager->createData($resource)->toArray();
     }
 
@@ -153,9 +144,11 @@ abstract class BaseTransformer extends TransformerAbstract
     {
         return function ($model) use ($name, $callback, $transformer) {
             $relation = $callback($model);
+
             if ($transformer) {
                 return $transformer->transform($relation);
             }
+
             return $relation;
         };
     }

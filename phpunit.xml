@@ -5,12 +5,35 @@
          colors="true"
 >
     <testsuites>
+        <testsuite name="All">
+            <directory suffix="Test.php">./app/Tests</directory>
+
+            <directory suffix="Test.php">./Modules/*/Tests/Unit</directory>
+            <directory suffix="Test.php">./Modules/*/Tests/Feature</directory>
+            <directory suffix="Test.php">./Modules/*/Tests/Integration</directory>
+
+        </testsuite>
+
         <testsuite name="Unit">
-            <directory>tests/Unit</directory>
+            <directory suffix="Test.php">./Modules/*/Tests/Unit</directory>
         </testsuite>
         <testsuite name="Feature">
-            <directory>tests/Feature</directory>
+            <directory suffix="Test.php">./Modules/*/Tests/Feature</directory>
         </testsuite>
+        <testsuite name="Integration">
+            <directory suffix="Test.php">./Modules/*/Tests/Integration</directory>
+        </testsuite>
+
+        <testsuite name="CoreUnit">
+            <directory suffix="Test.php">./app/Core/*/Tests/Unit</directory>
+        </testsuite>
+        <testsuite name="CoreFeature">
+            <directory suffix="Test.php">./app/Core/*/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="CoreIntegration">
+            <directory suffix="Test.php">./app/Core/*/Tests/Integration</directory>
+        </testsuite>
+
     </testsuites>
     <source>
         <include>
@@ -23,8 +46,8 @@
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="BROADCAST_CONNECTION" value="null"/>
         <env name="CACHE_STORE" value="array"/>
-        <env name="DB_CONNECTION" value="sqlite"/>
-        <env name="DB_DATABASE" value=":memory:"/>
+<!--        <env name="DB_CONNECTION" value="sqlite"/>-->
+<!--        <env name="DB_DATABASE" value=":memory:"/>-->
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>

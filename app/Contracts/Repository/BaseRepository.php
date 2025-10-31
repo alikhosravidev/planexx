@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Contracts\Repository;
 
-use App\Contracts\BaseModel;
+use App\Contracts\Model\BaseModel;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -28,6 +30,7 @@ abstract class BaseRepository implements RepositoryInterface
 
         if (!$model instanceof BaseModel) {
             $baseModelClass = BaseModel::class;
+
             throw new Exception("Class {$this->model()} must be an instance of {$baseModelClass}");
         }
 
@@ -45,6 +48,7 @@ abstract class BaseRepository implements RepositoryInterface
         $this->applyCriteria();
         $result = $this->model->get();
         $this->resetModel();
+
         return $result;
     }
 
@@ -53,6 +57,16 @@ abstract class BaseRepository implements RepositoryInterface
         $this->applyCriteria();
         $result = $this->model->find($id);
         $this->resetModel();
+
+        return $result;
+    }
+
+    public function first(): ?BaseModel
+    {
+        $this->applyCriteria();
+        $result = $this->model->first();
+        $this->resetModel();
+
         return $result;
     }
 
@@ -61,6 +75,7 @@ abstract class BaseRepository implements RepositoryInterface
         $this->applyCriteria();
         $result = $this->model->findOrFail($id);
         $this->resetModel();
+
         return $result;
     }
 
@@ -86,6 +101,7 @@ abstract class BaseRepository implements RepositoryInterface
         $this->applyCriteria();
         $result = $this->model->paginate($perPage);
         $this->resetModel();
+
         return $result;
     }
 
@@ -105,6 +121,7 @@ abstract class BaseRepository implements RepositoryInterface
         $this->applyCriteria();
         $result = $this->model->count();
         $this->resetModel();
+
         return $result;
     }
 
@@ -112,6 +129,7 @@ abstract class BaseRepository implements RepositoryInterface
     public function pushCriteria(CriteriaInterface $criteria): self
     {
         $this->criteria->push($criteria);
+
         return $this;
     }
 
@@ -131,6 +149,7 @@ abstract class BaseRepository implements RepositoryInterface
     public function newQuery(): Builder
     {
         $this->applyCriteria();
+
         return $this->model->newQuery();
     }
 }

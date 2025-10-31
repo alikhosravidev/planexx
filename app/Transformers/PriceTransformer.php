@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Contracts\Transformer;
+namespace App\Transformers;
 
 /**
  * Transformer for price fields.
  */
-class PriceTransformer extends BaseFieldTransformer
+class PriceTransformer extends \App\Contracts\Transformer\BaseFieldTransformer
 {
     public function transform(mixed $value): mixed
     {

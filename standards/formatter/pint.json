@@ -1,0 +1,32 @@
+{
+  "preset": "psr12",
+  "rules": {
+    "array_syntax": {"syntax": "short"},
+    "binary_operator_spaces": {"default": "align_single_space_minimal"},
+    "single_quote": true,
+    "no_unused_imports": true,
+    "ordered_imports": {"sort_algorithm": "alpha"},
+    "declare_strict_types": true,
+    "align_multiline_comment": true,
+
+    "increment_style": false,
+
+    "php_unit_method_casing": {
+      "case": "snake_case"
+    },
+
+    "trailing_comma_in_multiline": true,
+    "no_whitespace_in_blank_line": true,
+    "blank_line_after_namespace": true,
+    "blank_line_before_statement": {
+      "statements": ["return", "throw", "try", "if", "foreach", "while"]
+    },
+    "method_argument_space": {
+      "on_multiline": "ensure_fully_multiline"
+    },
+    "concat_space": {
+      "spacing": "one"
+    },
+    "single_blank_line_at_eof": true
+  }
+}
