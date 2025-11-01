@@ -229,6 +229,28 @@ class ProductSyncService
 
 ---
 
+### 6. Docblocks for Entities
+
+Keep model docblocks concise and in sync with migrations.
+
+- Use `@property` for scalar columns (map to table fields).
+- Add a “Relations” subsection with `@property` entries for Eloquent relations (single model or collections).
+- Keep `$fillable` aligned with columns; prefer `$fillable` over `$guarded`.
+
+Minimal example:
+```php
+/**
+ * @property int         $id
+ * @property string      $name
+ * @property string|null $name_en
+ *
+ * Relations:
+ * @property HasMany     $addresses
+ */
+class Country extends Model { /* ... */ }
+```
+---
+
 ## Quick Reference
 
 | Component | Belongs in Entity | Delegate to |
@@ -251,3 +273,4 @@ class ProductSyncService
 3. **Leverage Laravel features** - Relationships, casts, events
 4. **Implement contracts** - For simple model behaviors
 5. **Delegate complexity** - To services/repositories
+5. **Docblocks for Entities**

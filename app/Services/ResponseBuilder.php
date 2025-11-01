@@ -12,9 +12,15 @@ class ResponseBuilder
     private int $statusCode = SymfonyResponse::HTTP_OK;
     private array $data = [];
 
-    public function setData(array|object $data): self
+    public function setResult(array|object $result): self
     {
-        $this->data['data'] = $data;
+        $this->data['result'] = $result;
+        return $this;
+    }
+
+    public function setMeta(array $meta): self
+    {
+        $this->data['meta'] = $meta;
         return $this;
     }
 
@@ -36,6 +42,18 @@ class ResponseBuilder
         return $this;
     }
 
+    public function setError(string $code, string $message, ?array $details = null): self
+    {
+        $this->data['error'] = [
+            'code' => $code,
+            'message' => $message,
+        ];
+        if ($details) {
+            $this->data['error']['details'] = $details;
+        }
+        return $this;
+    }
+
     public function setStatusCode(int $statusCode): self
     {
         $this->statusCode = $statusCode;
@@ -50,11 +68,14 @@ class ResponseBuilder
         return response()->json($this->data, $this->statusCode);
     }
 
-    public function success(array|object $data = [], ?string $message = null): JsonResponse
+    public function success(array|object $result = [], ?string $message = null, ?array $meta = null): JsonResponse
     {
-        $this->setStatus(true)->setData($data);
+        $this->setStatus(true)->setResult($result);
         if ($message) {
             $this->setMessage($message);
+        }
+        if ($meta) {
+            $this->setMeta($meta);
         }
         return $this->build();
     }
@@ -62,18 +83,16 @@ class ResponseBuilder
     public function error(
         string $message,
         int    $statusCode = SymfonyResponse::HTTP_BAD_REQUEST,
-        array  $errors = []
+        array  $errors = [],
+        ?string $code = null
     ): JsonResponse {
-        $this->setStatus(false)->setMessage($message)->setStatusCode($statusCode);
-        if (!empty($errors)) {
-            $this->setErrors($errors);
-        }
+        $this->setStatus(false)->setError($code ?? 'error', $message, $errors)->setStatusCode($statusCode);
         return $this->build();
     }
 
-    public function created(array|object $data = [], ?string $message = null): JsonResponse
+    public function created(array|object $result = [], ?string $message = null, ?array $meta = null): JsonResponse
     {
         $this->setStatusCode(SymfonyResponse::HTTP_CREATED);
-        return $this->success($data, $message);
+        return $this->success($result, $message, $meta);
     }
 }

@@ -16,6 +16,9 @@ abstract class BaseRepository implements RepositoryInterface
     protected BaseModel $model;
     protected Collection $criteria;
 
+    public array $fieldSearchable = [];
+    public array $sortableFields = [];
+
     public function __construct()
     {
         $this->criteria = new Collection();
@@ -93,7 +96,7 @@ abstract class BaseRepository implements RepositoryInterface
 
     public function delete(int $id): bool
     {
-        return $this->model->destroy($id);
+        return (bool) $this->model->destroy($id);
     }
 
     public function paginate(int $perPage = 15): LengthAwarePaginator

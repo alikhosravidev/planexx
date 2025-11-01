@@ -25,10 +25,21 @@ use App\Core\User\Services\Auth\ValueObjects\Identifier;
 
 class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
-    protected $fieldSearchable = [
+    public array $fieldSearchable = [
         'id'        => '=',
         'slug'      => 'like',
-        'full_name' => '=',
+        'full_name' => 'like',
+        'mobile'    => '=',
+        'email'     => '=',
+    ];
+
+    public array $sortableFields = [
+        'id',
+        'full_name',
+        'mobile',
+        'email',
+        'created_at',
+        'updated_at',
     ];
 
     public function model(): string

@@ -22,6 +22,7 @@ return new class () extends Migration {
                 ->on('users')
                 ->onDelete('set null');
 
+            $table->string('full_name', 200);
             $table->string('first_name', 100);
             $table->string('last_name', 100);
             $table->string('mobile', 15)->unique();
@@ -37,24 +38,12 @@ return new class () extends Migration {
             $table->string('email', 150)->unique()->nullable();
             $table->char('national_code', 10)->nullable()->unique();
 
+            $table->string('password', 128)->nullable();
+
             // ['male', 'female', 'other']
             $table->unsignedTinyInteger('gender')->nullable();
             $table->string('image_url', 255)->nullable();
 
-            $table->unsignedBigInteger('province_id')->nullable();
-            /*$table->foreign('province_id')
-                ->references('id')
-                ->on('provinces')
-                ->onDelete('set null');*/
-
-            $table->unsignedBigInteger('city_id')->nullable();
-            /*$table->foreign('city_id')
-                ->references('id')
-                ->on('cities')
-                ->onDelete('set null');*/
-
-            $table->text('address')->nullable();
-            $table->string('postal_code', 10)->nullable();
             $table->boolean('is_active')->default(true);
 
             $table->timestamp('birth_date')->nullable();

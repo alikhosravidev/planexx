@@ -15,7 +15,7 @@ declare(strict_types=1);
  * @CTO Mehrdad Dadkhah <dadkhah.ir@gmail.com>
  */
 
-namespace App\Core\User\Http\Requests\API\V1\Client;
+namespace App\Core\User\Http\Requests\V1\Client;
 
 use App\Contracts\Requests\BaseRequest;
 use App\Core\User\Http\Rules\IdentifierRule;

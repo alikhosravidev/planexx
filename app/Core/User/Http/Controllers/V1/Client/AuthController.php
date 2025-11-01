@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Core\User\Http\Controllers\API\V1\Client;
+namespace App\Core\User\Http\Controllers\V1\Client;
 
 use App\Contracts\Controller\APIBaseController;
 use App\Contracts\User\UserRepositoryInterface;
-use App\Core\User\Http\Requests\API\V1\Client\AuthInitiateRequest;
-use App\Core\User\Http\Requests\API\V1\Client\AuthRequest;
-use App\Core\User\Http\Requests\API\V1\Client\InitiateResetPasswordRequest;
-use App\Core\User\Http\Requests\API\V1\Client\ResetPasswordRequest;
+use App\Core\User\Http\Requests\V1\Client\AuthInitiateRequest;
+use App\Core\User\Http\Requests\V1\Client\AuthRequest;
+use App\Core\User\Http\Requests\V1\Client\InitiateResetPasswordRequest;
+use App\Core\User\Http\Requests\V1\Client\ResetPasswordRequest;
 use App\Core\User\Http\Transformers\V1\Client\AuthTransformer;
 use App\Core\User\Services\Auth\AuthService;
 use App\Core\User\Services\Auth\DTOs\AuthRequestDto;

@@ -46,9 +46,8 @@ abstract class BaseTransformer extends TransformerAbstract
     {
         $data = $this->extractData($model);
         $data = $this->applyBlacklist($data);
-        $data = $this->transformFields($model, $data);
 
-        return $data;
+        return $this->transformFields($model, $data);
     }
 
     /**

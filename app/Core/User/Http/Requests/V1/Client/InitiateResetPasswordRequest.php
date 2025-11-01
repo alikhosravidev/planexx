@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\User\Http\Requests\API\V1\Client;
+namespace App\Core\User\Http\Requests\V1\Client;
 
 use App\Contracts\Requests\BaseRequest;
 use App\Core\User\Http\Rules\IdentifierCanEmailOrMobileRule;

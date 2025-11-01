@@ -15,6 +15,8 @@ class UserFactory extends Factory
     {
         return [
             'full_name'          => $this->faker->name(),
+            'first_name'         => $this->faker->firstName(),
+            'last_name'          => $this->faker->lastName(),
             'mobile'             => $this->faker->unique()->phoneNumber(),
             'email'              => $this->faker->unique()->safeEmail(),
             'email_verified_at'  => $this->faker->optional()->dateTime(),

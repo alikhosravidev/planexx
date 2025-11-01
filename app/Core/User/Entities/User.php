@@ -16,7 +16,9 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
@@ -24,6 +26,7 @@ use Spatie\Permission\Traits\HasRoles;
 /**
  * @property int                          $id
  * @property int|null                     $direct_manager_id
+ * @property string                       $full_name
  * @property string                       $first_name
  * @property string                       $last_name
  * @property string                       $mobile
@@ -33,10 +36,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string|null                  $national_code
  * @property GenderEnum|null              $gender
  * @property string|null                  $image_url
- * @property int|null                     $province_id
- * @property int|null                     $city_id
- * @property string|null                  $address
- * @property string|null                  $postal_code
+ * @property int|null                     $address_id
  * @property bool                         $is_active
  * @property \Carbon\Carbon|null         $birth_date
  * @property \Carbon\Carbon|null         $mobile_verified_at
@@ -45,6 +45,9 @@ use Spatie\Permission\Traits\HasRoles;
  * @property \Carbon\Carbon              $created_at
  * @property \Carbon\Carbon              $updated_at
  * @property \Carbon\Carbon|null         $deleted_at
+ *
+ * Relations:
+ * @property Address                      $address
  */
 class User extends BaseModel implements
     AuthenticatableContract,
@@ -71,10 +74,7 @@ class User extends BaseModel implements
         'national_code',
         'gender',
         'image_url',
-        'province_id',
-        'city_id',
-        'address',
-        'postal_code',
+        'address_id',
         'is_active',
         'birth_date',
         'mobile_verified_at',
@@ -90,8 +90,6 @@ class User extends BaseModel implements
         'birth_date'         => 'datetime',
         'mobile_verified_at' => 'datetime',
         'email_verified_at'  => 'datetime',
-        'last_login_at'      => 'datetime',
-        'birth_date'         => 'datetime',
         'last_login_at'      => 'datetime',
     ];
 
@@ -114,5 +112,18 @@ class User extends BaseModel implements
         $this->last_login_at = now();
 
         return $this;
+    }
+
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(Address::class);
+    }
+
+    public function fullName(): Attribute
+    {
+        return new Attribute(
+            get: fn (self $model) => $model->full_name ?? ($model->first_name . ' ' . $model->last_name),
+            set: fn (self $model) => $model->first_name . ' ' . $model->last_name
+        );
     }
 }
