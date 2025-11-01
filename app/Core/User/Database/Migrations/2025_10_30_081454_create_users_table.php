@@ -15,19 +15,78 @@ return new class () extends Migration {
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('full_name')->nullable();
-            $table->string('mobile')->unique()->nullable();
-            $table->string('email')->unique()->nullable();
-            $table->string('username')->unique()->nullable();
-            $table->timestamp('email_verified_at')->nullable();
+
+            $table->unsignedBigInteger('direct_manager_id')->nullable();
+            $table->foreign('direct_manager_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('set null');
+
+            $table->string('first_name', 100);
+            $table->string('last_name', 100);
+            $table->string('mobile', 15)->unique();
+
+            //['employee', 'customer', 'user']
+            $table->unsignedTinyInteger('user_type')
+                // default: user
+                ->default(1);
+
+            // ['b2c', 'b2b', 'b2g']
+            $table->unsignedTinyInteger('customer_type')->nullable();
+
+            $table->string('email', 150)->unique()->nullable();
+            $table->char('national_code', 10)->nullable()->unique();
+
+            // ['male', 'female', 'other']
+            $table->unsignedTinyInteger('gender')->nullable();
+            $table->string('image_url', 255)->nullable();
+
+            $table->unsignedBigInteger('province_id')->nullable();
+            /*$table->foreign('province_id')
+                ->references('id')
+                ->on('provinces')
+                ->onDelete('set null');*/
+
+            $table->unsignedBigInteger('city_id')->nullable();
+            /*$table->foreign('city_id')
+                ->references('id')
+                ->on('cities')
+                ->onDelete('set null');*/
+
+            $table->text('address')->nullable();
+            $table->string('postal_code', 10)->nullable();
+            $table->boolean('is_active')->default(true);
+
+            $table->timestamp('birth_date')->nullable();
             $table->timestamp('mobile_verified_at')->nullable();
-            $table->string('password');
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('last_login_at')->nullable();
+
             $table->timestamps();
+            $table->softDeletes();
+
+            /*
+            $table->unsignedBigInteger('job_position_id')->nullable();
+            $table->foreign('job_position_id')
+                ->references('id')
+                ->on('job_positions')
+                ->onDelete('set null');
+            $table->string('employee_code', 50)->nullable()->unique();
+            $table->timestamp('employment_date')->nullable();
+            $table->index('job_position_id');
+            */
+
+            $table->index('mobile');
+            $table->index('email');
+            $table->index('national_code');
+            $table->index('user_type');
+            $table->index('customer_type');
+            $table->index('direct_manager_id');
+            $table->index('is_active');
+            $table->index('deleted_at');
         });
 
-        DB::statement('ALTER TABLE users ADD CONSTRAINT check_user_identity
-               CHECK (email IS NOT NULL OR mobile IS NOT NULL OR username IS NOT NULL)');
+        DB::statement('ALTER TABLE users ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;');
     }
 
     /**
