@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace App\Core\User\Http\Rules;
 
 use App\Core\User\Services\Auth\DTOs\PasswordConfig;
-use Illuminate\Contracts\Validation\InvokableRule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-final class PasswordDifficultyRule implements InvokableRule
+final class PasswordDifficultyRule implements ValidationRule
 {
     public function __construct(
         private readonly PasswordConfig $passwordConfig,
     ) {
     }
 
-    public function __invoke($attribute, $value, $fail): void
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $regex = $this->passwordConfig->validationRegex;
 

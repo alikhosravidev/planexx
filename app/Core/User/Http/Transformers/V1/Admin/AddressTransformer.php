@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Core\User\Transformers;
+namespace App\Core\User\Http\Transformers\V1\Admin;
 
 use App\Contracts\Transformer\BaseTransformer;
-use App\Core\User\Entities\Address;
-use Illuminate\Http\Request;
 
 class AddressTransformer extends BaseTransformer
 {

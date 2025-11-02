@@ -6,11 +6,12 @@ namespace App\Core\User\Http\Rules;
 
 use App\Core\User\Services\Auth\Exceptions\IdentifierException;
 use App\Core\User\Services\Auth\ValueObjects\Identifier;
-use Illuminate\Contracts\Validation\InvokableRule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-final class IdentifierCanEmailOrMobileRule implements InvokableRule
+final class IdentifierCanEmailOrMobileRule implements ValidationRule
 {
-    public function __invoke($attribute, $value, $fail): void
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         try {
             $identifier = Identifier::fromString($value);

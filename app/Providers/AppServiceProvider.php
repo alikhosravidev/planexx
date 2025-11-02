@@ -25,6 +25,11 @@ class AppServiceProvider extends ServiceProvider
         // Nothing required here for now
     }
 
+    private function registerCoreProviders(): void
+    {
+        $this->app->register(UserServiceProvider::class);
+    }
+
     private function registerModuleProviders(): void
     {
         /** @var ModuleManager $manager */
@@ -38,10 +43,5 @@ class AppServiceProvider extends ServiceProvider
                 $this->app->register($provider);
             }
         }
-    }
-
-    private function registerCoreProviders(): void
-    {
-        $this->app->register(UserServiceProvider::class);
     }
 }

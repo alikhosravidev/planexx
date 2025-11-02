@@ -32,8 +32,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * Relations:
  * @property Province    $province
- *
- * @method static Builder search(?string $searchKey, bool $inClient = false)
  */
 class City extends BaseModel
 {
@@ -54,25 +52,5 @@ class City extends BaseModel
     public function province(): BelongsTo
     {
         return $this->belongsTo(Province::class);
-    }
-
-    public function scopeSearch(Builder $query, ?string $searchKey, bool $inClient = false): Builder
-    {
-        if (empty($searchKey)) {
-            return $query;
-        }
-
-        return $query
-            ->where(static function (Builder $query) use ($searchKey, $inClient): void {
-                $query
-                    ->when(!$inClient, static function (Builder $query) use ($searchKey): void {
-                        $query->orWhere('id', '=', $searchKey);
-                    })
-                    ->orWhere('name', 'LIKE', "%{$searchKey}%")
-                    ->orWhere('name_en', 'LIKE', "%{$searchKey}%")
-                    ->orWhere('id', 'LIKE', "%{$searchKey}%")
-                ;
-            })
-        ;
     }
 }

@@ -155,4 +155,9 @@ abstract class BaseRepository implements RepositoryInterface
 
         return $this->model->newQuery();
     }
+
+    public function query(): Builder
+    {
+        return $this->newQuery();
+    }
 }

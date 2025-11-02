@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Core\User\Services\Mappers;
+namespace App\Core\User\Mappers;
 
+use App\Core\User\DTOs\AddressDTO;
 use App\Core\User\Entities\Address;
-use App\Core\User\Services\DTOs\AddressDTO;
 use Illuminate\Http\Request;
 
 /**

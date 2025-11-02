@@ -2,10 +2,10 @@
 
 namespace App\Core\User\Services;
 
+use App\Core\User\DTOs\AddressDTO;
 use App\Core\User\Entities\Address;
 use App\Core\User\Repositories\AddressRepository;
 use App\Core\User\Repositories\CityRepository;
-use App\Core\User\Services\DTOs\AddressDTO;
 
 class AddressService
 {
@@ -15,7 +15,7 @@ class AddressService
     ) {
     }
 
-    public function createAddress(AddressDTO $dto): Address
+    public function create(AddressDTO $dto): Address
     {
         $data = $dto->toArray();
 
@@ -28,7 +28,7 @@ class AddressService
         return $this->addressRepository->create($data);
     }
 
-    public function updateAddress(Address $address, AddressDTO $dto): Address
+    public function update(Address $address, AddressDTO $dto): Address
     {
         $data = $dto->toArray();
 
@@ -41,7 +41,7 @@ class AddressService
         return $this->addressRepository->update($address->id, $data);
     }
 
-    public function deleteAddress(Address $address): bool
+    public function delete(Address $address): bool
     {
         return $this->addressRepository->delete($address->id);
     }

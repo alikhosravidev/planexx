@@ -2,28 +2,27 @@
 
 declare(strict_types=1);
 
-namespace App\Core\User\Services\DTOs;
+namespace App\Core\User\DTOs;
 
 use App\Services\AddressValidationService;
 
-final class AddressDTO
+final readonly class AddressDTO
 {
     public function __construct(
-        public readonly int $cityId,
-        public readonly string $receiverName,
-        public readonly string $receiverMobile,
-        public readonly string $address,
-        public readonly string $postalCode,
-        public readonly float $latitude,
-        public readonly float $longitude,
-        public readonly int $userId,
+        public ?int    $cityId,
+        public string $receiverName,
+        public string $receiverMobile,
+        public string $address,
+        public string $postalCode,
+        public float  $latitude,
+        public float  $longitude,
+        public int    $userId,
     ) {
     }
 
     public function toArray(): array
     {
         return [
-            'id' => $this->id,
             'city_id' => $this->cityId,
             'receiver_name' => $this->receiverName,
             'receiver_mobile' => $this->receiverMobile,

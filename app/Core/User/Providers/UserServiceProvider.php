@@ -23,6 +23,7 @@ class UserServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->register(EventServiceProvider::class);
+        $this->app->register(EventServiceProvider::class);
 
         // Bind OTPGenerator
         $this->app->bind(OTPGenerator::class, RealGenerator::class);
@@ -64,6 +65,10 @@ class UserServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        $this->loadRoutesFrom(
+            ProviderUtility::corePath('User/Routes/V1/Admin/routes.php')
+        );
+
         $this->loadMigrationsFrom(
             ProviderUtility::corePath('User/Database/Migrations')
         );

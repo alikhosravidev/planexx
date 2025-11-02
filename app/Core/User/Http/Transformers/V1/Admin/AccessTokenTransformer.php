@@ -21,17 +21,4 @@ use App\Contracts\Transformer\BaseTransformer;
 
 class AccessTokenTransformer extends BaseTransformer
 {
-    public function transform($model): array
-    {
-        return [
-            'token'        => $this->resource->token,
-            'ip'           => $this->resource->ip,
-            'logout_at'    => $this->resource->logout_at,
-            'expires_at'   => $this->resource->expires_at,
-            'created_at'   => $this->resource->created_at,
-            'last_used_at' => $this->resource->last_used_at,
-            'is_active'    => null === $this->resource->logout_at
-                && (null === $this->resource->expires_at || !$this->resource->expires_at->isPast()),
-        ];
-    }
 }

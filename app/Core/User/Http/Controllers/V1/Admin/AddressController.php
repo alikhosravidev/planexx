@@ -6,9 +6,9 @@ use App\Contracts\Controller\BaseController;
 use App\Core\Location\Http\Transformers\V3\Admin\AddressTransformer;
 use App\Core\User\Http\Requests\V1\Admin\CreateAddressRequest;
 use App\Core\User\Http\Requests\V1\Admin\UpdateAddressRequest;
+use App\Core\User\Mappers\AddressMapper;
 use App\Core\User\Repositories\AddressRepository;
 use App\Core\User\Services\AddressService;
-use App\Core\User\Services\Mappers\AddressMapper;
 use Illuminate\Http\JsonResponse;
 
 class AddressController extends BaseController
@@ -22,17 +22,17 @@ class AddressController extends BaseController
         parent::__construct($repository, $transformer);
     }
 
+    // POST /location/addresses
     public function store(CreateAddressRequest $request): JsonResponse
     {
         $dto = $this->mapper->fromRequest($request);
 
-        $model = $this->service->createAddress($dto);
+        $model = $this->service->create($dto);
 
         return $this->response->created(
             $this->transformer->transformOne($model)
         );
     }
-    // GET /location/addresses/{id}
 
     // PUT/PATCH /location/addresses/{id}
     public function update(UpdateAddressRequest $request, int $id): JsonResponse
@@ -40,7 +40,7 @@ class AddressController extends BaseController
         $address = $this->repository->findOrFail($id);
         $dto = $this->mapper->fromRequestForUpdate($request, $address);
 
-        $updated = $this->service->updateAddress($address, $dto);
+        $updated = $this->service->update($address, $dto);
 
         return $this->response->success(
             $this->transformer->transformOne($updated)
@@ -51,7 +51,7 @@ class AddressController extends BaseController
     public function destroy(int $id): JsonResponse
     {
         $address = $this->repository->findOrFail($id);
-        $this->service->deleteAddress($address);
+        $this->service->delete($address);
 
         return $this->response->success([]);
     }

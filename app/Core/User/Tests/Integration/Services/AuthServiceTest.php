@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\User\Tests\Integration;
+namespace App\Core\User\Tests\Integration\Services;
 
 use App\Core\User\Entities\User;
 use App\Core\User\Services\Auth\AuthService;

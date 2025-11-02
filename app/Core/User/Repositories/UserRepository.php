@@ -57,12 +57,16 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             ->first();
     }
 
-    public function createFromMobile(string $mobile, ?string $fullName = null): User
+    public function createFromMobile(string $mobile, string $fullName = null): User
     {
+        $nameParts = explode(' ', $fullName);
+
         return $this->create(
             [
                 'mobile'    => $mobile,
                 'full_name' => $fullName,
+                'first_name' => $nameParts[0],
+                'last_name' => $nameParts[1] ?? '',
                 'meta'      => [
                     'mobile_verified' => true,
                 ],
