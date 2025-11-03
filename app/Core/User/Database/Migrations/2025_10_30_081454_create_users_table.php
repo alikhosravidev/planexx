@@ -25,7 +25,7 @@ return new class () extends Migration {
             $table->string('full_name', 200);
             $table->string('first_name', 100);
             $table->string('last_name', 100);
-            $table->string('mobile', 15)->unique();
+            $table->char('mobile', 15)->unique();
 
             //['employee', 'customer', 'user']
             $table->unsignedTinyInteger('user_type')

@@ -8,7 +8,7 @@ use App\Core\User\Entities\User;
 use App\Utilities\HashUtilities;
 use Illuminate\Support\Facades\Hash;
 
-class UserBeforeCommitObserver
+class UserPasswordObserver
 {
     public function saving(User $user): void
     {

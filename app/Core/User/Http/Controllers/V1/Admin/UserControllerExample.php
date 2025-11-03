@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Core\User\Http\Controllers\V1\Admin;
 
 use App\Contracts\Controller\BaseController;
+use App\Core\User\Http\Transformers\V1\Admin\UserTransformer;
 use App\Core\User\Repositories\UserRepository;
-use App\Core\User\Transformers\UserTransformer;
 use App\Services\ResponseBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -19,10 +19,10 @@ class UserControllerExample extends BaseController
         ResponseBuilder $response,
     ) {
         parent::__construct($repository, $transformer, $response);
-        
-        $this->defaultPerPage = 20;
-        $this->maxPerPage = 50;
-        $this->defaultSortField = 'id';
+
+        $this->defaultPerPage       = 20;
+        $this->maxPerPage           = 50;
+        $this->defaultSortField     = 'id';
         $this->defaultSortDirection = 'desc';
     }
 
@@ -62,7 +62,7 @@ class UserControllerExample extends BaseController
     protected function beforeShow(int|string $id, Request $request): void
     {
         logger()->info('User profile viewed', [
-            'user_id' => $id,
+            'user_id'   => $id,
             'viewer_id' => auth()->id(),
         ]);
     }

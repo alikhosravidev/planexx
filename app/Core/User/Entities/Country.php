@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Core\User\Entities;
 
 use App\Contracts\Model\BaseModel;
+use App\Core\User\Database\Factories\CountryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -17,9 +20,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Country extends BaseModel
 {
     use HasFactory;
-    protected $table = 'location_countries';
-    public $timestamps = false;
-    protected $perPage = 20;
+    protected $table    = 'location_countries';
+    public $timestamps  = false;
+    protected $perPage  = 20;
     protected $fillable = [
         'name',
         'name_en',
@@ -28,5 +31,10 @@ class Country extends BaseModel
     public function addresses(): HasMany
     {
         return $this->hasMany(Address::class);
+    }
+
+    protected static function newFactory(): CountryFactory
+    {
+        return CountryFactory::new();
     }
 }

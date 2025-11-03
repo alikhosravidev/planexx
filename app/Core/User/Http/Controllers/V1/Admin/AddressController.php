@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Core\User\Http\Controllers\V1\Admin;
 
 use App\Contracts\Controller\BaseController;
-use App\Core\Location\Http\Transformers\V3\Admin\AddressTransformer;
 use App\Core\User\Http\Requests\V1\Admin\CreateAddressRequest;
 use App\Core\User\Http\Requests\V1\Admin\UpdateAddressRequest;
+use App\Core\User\Http\Transformers\V1\Admin\AddressTransformer;
 use App\Core\User\Mappers\AddressMapper;
 use App\Core\User\Repositories\AddressRepository;
 use App\Core\User\Services\AddressService;
@@ -14,10 +16,10 @@ use Illuminate\Http\JsonResponse;
 class AddressController extends BaseController
 {
     public function __construct(
-        AddressRepository $repository,
-        AddressTransformer $transformer,
+        AddressRepository               $repository,
+        AddressTransformer              $transformer,
         private readonly AddressService $service,
-        private readonly AddressMapper $mapper,
+        private readonly AddressMapper  $mapper,
     ) {
         parent::__construct($repository, $transformer);
     }
@@ -38,7 +40,7 @@ class AddressController extends BaseController
     public function update(UpdateAddressRequest $request, int $id): JsonResponse
     {
         $address = $this->repository->findOrFail($id);
-        $dto = $this->mapper->fromRequestForUpdate($request, $address);
+        $dto     = $this->mapper->fromRequestForUpdate($request, $address);
 
         $updated = $this->service->update($address, $dto);
 

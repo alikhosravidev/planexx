@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Core\User\Entities;
 
 use App\Contracts\Model\BaseModel;
+use App\Core\User\Database\Factories\ProvinceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -20,9 +23,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Province extends BaseModel
 {
     use HasFactory;
-    protected $table = 'location_provinces';
-    public $timestamps = false;
-    protected $perPage = 20;
+    protected $table    = 'location_provinces';
+    public $timestamps  = false;
+    protected $perPage  = 20;
     protected $fillable = [
         'country_id',
         'name',
@@ -34,5 +37,10 @@ class Province extends BaseModel
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
+    }
+
+    protected static function newFactory(): ProvinceFactory
+    {
+        return ProvinceFactory::new();
     }
 }

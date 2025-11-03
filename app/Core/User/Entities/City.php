@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of the LSP API and Panels projects
@@ -18,7 +18,7 @@ declare(strict_types = 1);
 namespace App\Core\User\Entities;
 
 use App\Contracts\Model\BaseModel;
-use Illuminate\Database\Eloquent\Builder;
+use App\Core\User\Database\Factories\CityFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -52,5 +52,10 @@ class City extends BaseModel
     public function province(): BelongsTo
     {
         return $this->belongsTo(Province::class);
+    }
+
+    protected static function newFactory(): CityFactory
+    {
+        return CityFactory::new();
     }
 }

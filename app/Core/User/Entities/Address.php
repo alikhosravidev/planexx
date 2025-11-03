@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Core\User\Entities;
 
 use App\Contracts\Model\BaseModel;
+use App\Core\User\Database\Factories\AddressFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -32,8 +35,8 @@ class Address extends BaseModel
 {
     use HasFactory;
 
-    protected $table = 'location_addresses';
-    protected $perPage = 20;
+    protected $table    = 'location_addresses';
+    protected $perPage  = 20;
     protected $fillable = [
         'user_id',
         'country_id',
@@ -72,5 +75,10 @@ class Address extends BaseModel
     public function city(): BelongsTo
     {
         return $this->belongsTo(City::class);
+    }
+
+    protected static function newFactory(): AddressFactory
+    {
+        return AddressFactory::new();
     }
 }

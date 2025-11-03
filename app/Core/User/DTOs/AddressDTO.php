@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Core\User\DTOs;
 
-use App\Services\AddressValidationService;
-
 final readonly class AddressDTO
 {
     public function __construct(
@@ -23,14 +21,14 @@ final readonly class AddressDTO
     public function toArray(): array
     {
         return [
-            'city_id' => $this->cityId,
-            'receiver_name' => $this->receiverName,
+            'city_id'         => $this->cityId,
+            'receiver_name'   => $this->receiverName,
             'receiver_mobile' => $this->receiverMobile,
-            'address' => $this->address,
-            'postal_code' => $this->postalCode,
-            'latitude' => $this->latitude,
-            'longitude' => $this->longitude,
-            'user_id' => $this->userId,
+            'address'         => $this->address,
+            'postal_code'     => $this->postalCode,
+            'latitude'        => $this->latitude,
+            'longitude'       => $this->longitude,
+            'user_id'         => $this->userId,
         ];
     }
 }

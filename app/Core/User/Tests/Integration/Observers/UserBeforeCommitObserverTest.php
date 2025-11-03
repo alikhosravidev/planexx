@@ -10,50 +10,38 @@ use Tests\IntegrationTestBase;
 
 class UserBeforeCommitObserverTest extends IntegrationTestBase
 {
-    public function testPasswordIsHashedWhenDirtyAndNotAlreadyHashed(): void
+    public function test_password_is_hashed_when_dirty_and_not_already_hashed(): void
     {
-        $user = \App\Core\User\Entities\User::create([
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-            'mobile' => '09123456789',
-            'email' => 'john@example.com',
+        $user = User::factory()->create([
+            'email'    => 'john@example.com',
+            'mobile'   => '09123456789',
             'password' => 'plaintextpassword',
-            'user_type' => \App\Core\User\Enums\UserTypeEnum::Customer,
-            'is_active' => true,
         ]);
 
         // The observer should have hashed the password on creation
-        $this->assertTrue(\Illuminate\Support\Facades\Hash::check('plaintextpassword', $user->fresh()->password));
+        $this->assertTrue(Hash::check('plaintextpassword', $user->fresh()->password));
     }
 
-    public function testPasswordIsNotHashedWhenAlreadyHashed(): void
+    public function test_password_is_not_hashed_when_already_hashed(): void
     {
-        $hashedPassword = \Illuminate\Support\Facades\Hash::make('plaintextpassword');
+        $hashedPassword = Hash::make('plaintextpassword');
 
-        $user = \App\Core\User\Entities\User::create([
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-            'mobile' => '09123456789',
-            'email' => 'john@example.com',
+        $user = User::factory()->create([
+            'email'    => 'john@example.com',
+            'mobile'   => '09123456789',
             'password' => $hashedPassword,
-            'user_type' => \App\Core\User\Enums\UserTypeEnum::Customer,
-            'is_active' => true,
         ]);
 
         // Password should remain the same since it's already hashed
         $this->assertEquals($hashedPassword, $user->fresh()->password);
     }
 
-    public function testPasswordIsNotHashedWhenNotDirty(): void
+    public function test_password_is_not_hashed_when_not_dirty(): void
     {
-        $user = \App\Core\User\Entities\User::create([
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-            'mobile' => '09123456789',
-            'email' => 'john@example.com',
+        $user = User::factory()->create([
+            'email'    => 'john@example.com',
+            'mobile'   => '09123456789',
             'password' => 'plaintextpassword',
-            'user_type' => \App\Core\User\Enums\UserTypeEnum::Customer,
-            'is_active' => true,
         ]);
 
         $originalPassword = $user->password;
@@ -66,21 +54,17 @@ class UserBeforeCommitObserverTest extends IntegrationTestBase
         $this->assertEquals($originalPassword, $user->fresh()->password);
     }
 
-    public function testPasswordIsHashedOnUpdateWhenDirty(): void
+    public function test_password_is_hashed_on_update_when_dirty(): void
     {
-        $user = \App\Core\User\Entities\User::create([
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-            'mobile' => '09123456789',
-            'email' => 'john@example.com',
+        $user = User::factory()->create([
+            'email'    => 'john@example.com',
+            'mobile'   => '09123456789',
             'password' => 'oldpassword',
-            'user_type' => \App\Core\User\Enums\UserTypeEnum::Customer,
-            'is_active' => true,
         ]);
 
         $user->changePassword('newplaintextpassword');
         $user->save();
 
-        $this->assertTrue(\Illuminate\Support\Facades\Hash::check('newplaintextpassword', $user->fresh()->password));
+        $this->assertTrue(Hash::check('newplaintextpassword', $user->fresh()->password));
     }
 }

@@ -18,10 +18,10 @@ export CONTAINER_NAME
 # Get the working directory
 WORKING_DIR="$(git rev-parse --show-toplevel)"
 
-# Run parallel tests
+# Run tests
 echo ""
-echo "🧪 Running parallel tests..."
-sh ./standards/scripts/parallel.sh || {
+echo "🧪 Running tests..."
+sh ./standards/scripts/phpunit.sh || {
     echo "❌ Tests failed!"
     exit 1
 }

@@ -16,7 +16,6 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\Access\Authorizable;
@@ -95,11 +94,6 @@ class User extends BaseModel implements
 
     protected $hidden = ['password'];
 
-    protected static function newFactory(): UserFactory
-    {
-        return UserFactory::new();
-    }
-
     public function changePassword(string $password): self
     {
         $this->attributes['password'] = $password;
@@ -119,11 +113,8 @@ class User extends BaseModel implements
         return $this->hasMany(Address::class);
     }
 
-    public function fullName(): Attribute
+    protected static function newFactory(): UserFactory
     {
-        return new Attribute(
-            get: fn (self $model) => $model->full_name ?? ($model->first_name . ' ' . $model->last_name),
-            set: fn (self $model) => $model->first_name . ' ' . $model->last_name
-        );
+        return UserFactory::new();
     }
 }

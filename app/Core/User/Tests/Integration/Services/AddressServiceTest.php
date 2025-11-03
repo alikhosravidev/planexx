@@ -6,6 +6,7 @@ namespace App\Core\User\Tests\Integration\Services;
 
 use App\Core\User\DTOs\AddressDTO;
 use App\Core\User\Entities\Address;
+use App\Core\User\Entities\User;
 use App\Core\User\Repositories\AddressRepository;
 use App\Core\User\Repositories\CityRepository;
 use App\Core\User\Services\AddressService;
@@ -22,23 +23,18 @@ class AddressServiceTest extends IntegrationTestBase
         parent::setUp();
 
         $this->addressRepository = app(AddressRepository::class);
-        $this->cityRepository = app(CityRepository::class);
-        $this->service = new AddressService(
+        $this->cityRepository    = app(CityRepository::class);
+        $this->service           = new AddressService(
             $this->addressRepository,
             $this->cityRepository
         );
     }
 
-    public function testCreateWithoutCityId(): void
+    public function test_create_without_city_id(): void
     {
-        $user = \App\Core\User\Entities\User::create([
-            'first_name' => 'John',
-            'last_name' => 'Doe',
+        $user = User::factory()->create([
+            'email'  => 'john@example.com',
             'mobile' => '09123456789',
-            'email' => 'john@example.com',
-            'password' => 'password',
-            'user_type' => \App\Core\User\Enums\UserTypeEnum::Customer,
-            'is_active' => true,
         ]);
 
         $dto = new AddressDTO(
@@ -60,22 +56,17 @@ class AddressServiceTest extends IntegrationTestBase
         $this->assertNull($address->country_id);
     }
 
-    public function testCreateWithCityIdSetsProvinceAndCountry(): void
+    public function test_create_with_city_id_sets_province_and_country(): void
     {
-        $user = \App\Core\User\Entities\User::create([
-            'first_name' => 'John',
-            'last_name' => 'Doe',
+        $user = User::factory()->create([
+            'email'  => 'john@example.com',
             'mobile' => '09123456789',
-            'email' => 'john@example.com',
-            'password' => 'password',
-            'user_type' => \App\Core\User\Enums\UserTypeEnum::Customer,
-            'is_active' => true,
         ]);
 
-        // Create country, province, city
-        $country = \App\Core\User\Entities\Country::create(['name' => 'Test Country']);
-        $province = \App\Core\User\Entities\Province::create(['name' => 'Test Province', 'country_id' => $country->id]);
-        $city = \App\Core\User\Entities\City::create(['name' => 'Test City', 'province_id' => $province->id]);
+        // Create city with related province and country via factories
+        $city     = \App\Core\User\Entities\City::factory()->create();
+        $province = $city->province;
+        $country  = $province->country;
 
         $dto = new AddressDTO(
             cityId: $city->id,
@@ -95,27 +86,22 @@ class AddressServiceTest extends IntegrationTestBase
         $this->assertEquals($country->id, $address->country_id);
     }
 
-    public function testUpdateWithoutCityId(): void
+    public function test_update_without_city_id(): void
     {
-        $user = \App\Core\User\Entities\User::create([
-            'first_name' => 'John',
-            'last_name' => 'Doe',
+        $user = User::factory()->create([
+            'email'  => 'john@example.com',
             'mobile' => '09123456789',
-            'email' => 'john@example.com',
-            'password' => 'password',
-            'user_type' => \App\Core\User\Enums\UserTypeEnum::Customer,
-            'is_active' => true,
         ]);
 
-        $address = \App\Core\User\Entities\Address::create([
-            'city_id' => 1,
-            'receiver_name' => 'Old Name',
+        $address = Address::factory()->create([
+            'city_id'         => 1,
+            'receiver_name'   => 'Old Name',
             'receiver_mobile' => '09123456789',
-            'address' => 'Old Address',
-            'postal_code' => '1234567890',
-            'latitude' => 35.0,
-            'longitude' => 51.0,
-            'user_id' => $user->id,
+            'address'         => 'Old Address',
+            'postal_code'     => '1234567890',
+            'latitude'        => 35.0,
+            'longitude'       => 51.0,
+            'user_id'         => $user->id,
         ]);
 
         $dto = new AddressDTO(
@@ -136,32 +122,27 @@ class AddressServiceTest extends IntegrationTestBase
         $this->assertNull($updatedAddress->province_id);
     }
 
-    public function testUpdateWithCityIdSetsProvinceAndCountry(): void
+    public function test_update_with_city_id_sets_province_and_country(): void
     {
-        $user = \App\Core\User\Entities\User::create([
-            'first_name' => 'John',
-            'last_name' => 'Doe',
+        $user = User::factory()->create([
+            'email'  => 'john@example.com',
             'mobile' => '09123456789',
-            'email' => 'john@example.com',
-            'password' => 'password',
-            'user_type' => \App\Core\User\Enums\UserTypeEnum::Customer,
-            'is_active' => true,
         ]);
 
-        $address = \App\Core\User\Entities\Address::create([
-            'city_id' => 1,
-            'receiver_name' => 'Old Name',
+        $address = Address::factory()->create([
+            'city_id'         => 1,
+            'receiver_name'   => 'Old Name',
             'receiver_mobile' => '09123456789',
-            'address' => 'Old Address',
-            'postal_code' => '1234567890',
-            'latitude' => 35.0,
-            'longitude' => 51.0,
-            'user_id' => $user->id,
+            'address'         => 'Old Address',
+            'postal_code'     => '1234567890',
+            'latitude'        => 35.0,
+            'longitude'       => 51.0,
+            'user_id'         => $user->id,
         ]);
 
-        $country = \App\Core\User\Entities\Country::create(['name' => 'Test Country']);
-        $province = \App\Core\User\Entities\Province::create(['name' => 'Test Province', 'country_id' => $country->id]);
-        $city = \App\Core\User\Entities\City::create(['name' => 'Test City', 'province_id' => $province->id]);
+        $city     = \App\Core\User\Entities\City::factory()->create();
+        $province = $city->province;
+        $country  = $province->country;
 
         $dto = new AddressDTO(
             cityId: $city->id,
@@ -181,27 +162,22 @@ class AddressServiceTest extends IntegrationTestBase
         $this->assertEquals($country->id, $updatedAddress->country_id);
     }
 
-    public function testDelete(): void
+    public function test_delete(): void
     {
-        $user = \App\Core\User\Entities\User::create([
-            'first_name' => 'John',
-            'last_name' => 'Doe',
+        $user = User::factory()->create([
+            'email'  => 'john@example.com',
             'mobile' => '09123456789',
-            'email' => 'john@example.com',
-            'password' => 'password',
-            'user_type' => \App\Core\User\Enums\UserTypeEnum::Customer,
-            'is_active' => true,
         ]);
 
-        $address = \App\Core\User\Entities\Address::create([
-            'city_id' => 1,
-            'receiver_name' => 'John Doe',
+        $address = Address::factory()->create([
+            'city_id'         => 1,
+            'receiver_name'   => 'John Doe',
             'receiver_mobile' => '09123456789',
-            'address' => '123 Main St',
-            'postal_code' => '1234567890',
-            'latitude' => 35.0,
-            'longitude' => 51.0,
-            'user_id' => $user->id,
+            'address'         => '123 Main St',
+            'postal_code'     => '1234567890',
+            'latitude'        => 35.0,
+            'longitude'       => 51.0,
+            'user_id'         => $user->id,
         ]);
 
         $result = $this->service->delete($address);
