@@ -8,11 +8,7 @@ This document provides an overview of the admin-facing API endpoints available i
 
 ## Authentication
 
-Admin API endpoints require authentication using an **API key** with administrative privileges. The **API key** should be included in the request headers:
-
-```http
-Api-Key: {{admin-api-key}}
-```
+See [Authentication](./authentication.md) for authentication details. Admin API requires API keys with administrative privileges.
 
 ## Available Modules
 
@@ -32,20 +28,7 @@ Admin API endpoints require specific **permissions** based on the user's role. I
 
 ## Common Query Parameters
 
-Most Admin API endpoints support the following common query parameters:
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| includes | string | Related entities to include in the response |
-| field_sets | object | JSON object specifying which fields to include for each entity type |
-| excludes | string | Fields to exclude from the response |
-| search | string | Search terms with format `field:value` |
-| searchFields | string | Fields to search in |
-| searchJoin | string | How to join multiple search terms (`and` or `or`) |
-| per_page | integer | Number of items per page (default: 15) |
-| page | integer | Page number for pagination (default: 1) |
-| order_by | string | Field to order results by |
-| order_direction | string | Direction to order results (`asc` or `desc`) |
+See [Common Parameters](./common-parameters.md) for details on supported query parameters including pagination, filtering, includes, and field selection.
 
 ## Example Usage
 

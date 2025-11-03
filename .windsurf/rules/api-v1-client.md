@@ -8,7 +8,7 @@ This document provides an overview of the client-facing API endpoints available 
 
 ## Authentication
 
-See [API Basics](./api-v1-basics.md) for authentication details.
+See [Authentication](./authentication.md) for authentication details.
 
 ## Available Modules
 
@@ -22,19 +22,9 @@ The **User module** provides access to user-related features:
 - Cities - Retrieve city information
 - Location - General location-related endpoints
 
-## Rate Limiting
-
-Client API requests are subject to **rate limiting** to ensure fair usage and system stability. **Rate limit** information is included in the response headers:
-
-```http
-X-RateLimit-Limit: 60
-X-RateLimit-Remaining: 59
-X-RateLimit-Reset: 1625097600
-```
-
 ## Common Query Parameters
 
-See [API Basics](./api-v1-basics.md) for common query parameters including **pagination**, **filtering**, and **field selection**.
+See [Common Parameters](./common-parameters.md) for common query parameters including pagination, filtering, and field selection.
 
 ## Example Usage
 
