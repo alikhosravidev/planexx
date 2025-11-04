@@ -132,23 +132,23 @@ $this->assertEquals(30, $result);
 public function test_enrollment_log_creation()
 {
     $log1 = $this->service->createVisitedLog(...);
-    $this->assertDatabaseHas(..., ['type' => 'visited']);
+    $this->assertDatabaseHas(Model::class, ['type' => 'visited']);
     
     $log2 = $this->service->createPlayedLog(...);
-    $this->assertDatabaseHas(..., ['type' => 'played']);
+    $this->assertDatabaseHas(Model::class, ['type' => 'played']);
 }
 
 // ✅ Correct - Separate scenarios
 public function test_creates_visited_log_successfully()
 {
     $log = $this->service->createVisitedLog(...);
-    $this->assertDatabaseHas(..., ['type' => 'visited']);
+    $this->assertDatabaseHas(Model::class, ['type' => 'visited']);
 }
 
 public function test_creates_played_log_successfully()
 {
     $log = $this->service->createPlayedLog(...);
-    $this->assertDatabaseHas(..., ['type' => 'played']);
+    $this->assertDatabaseHas(Model::class, ['type' => 'played']);
 }
 ```
 

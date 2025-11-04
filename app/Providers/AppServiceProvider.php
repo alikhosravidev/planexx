@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Core\Organization\Providers\OrganizationServiceProvider;
 use App\Core\User\Providers\UserServiceProvider;
 use App\Services\ModuleManager;
 use Illuminate\Support\ServiceProvider;
@@ -28,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
     private function registerCoreProviders(): void
     {
         $this->app->register(UserServiceProvider::class);
+        $this->app->register(OrganizationServiceProvider::class);
     }
 
     private function registerModuleProviders(): void

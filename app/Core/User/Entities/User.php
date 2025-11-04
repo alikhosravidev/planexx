@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Core\User\Entities;
 
 use App\Contracts\Model\BaseModel;
+use App\Core\Organization\Traits\HasJobPosition;
 use App\Core\User\Database\Factories\UserFactory;
 use App\Core\User\Enums\CustomerTypeEnum;
 use App\Core\User\Enums\GenderEnum;
@@ -61,6 +62,7 @@ class User extends BaseModel implements
     use HasFactory;
     use HasRoles;
     use HasPermissions;
+    use HasJobPosition;
 
     protected $fillable = [
         'direct_manager_id',

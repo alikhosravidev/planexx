@@ -51,19 +51,11 @@ return new class () extends Migration {
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('last_login_at')->nullable();
 
-            $table->timestamps();
-            $table->softDeletes();
-
-            /*
-            $table->unsignedBigInteger('job_position_id')->nullable();
-            $table->foreign('job_position_id')
-                ->references('id')
-                ->on('job_positions')
-                ->onDelete('set null');
             $table->string('employee_code', 50)->nullable()->unique();
             $table->timestamp('employment_date')->nullable();
-            $table->index('job_position_id');
-            */
+
+            $table->timestamps();
+            $table->softDeletes();
 
             $table->index('mobile');
             $table->index('email');

@@ -13,9 +13,9 @@ enum UserTypeEnum: int
     public function label(): string
     {
         return match ($this) {
-            self::User     => 'user',
-            self::Employee => 'employee',
-            self::Customer => 'customer',
+            self::User     => 'کاربر',
+            self::Employee => 'کارمند',
+            self::Customer => 'مشتری',
         };
     }
 }
