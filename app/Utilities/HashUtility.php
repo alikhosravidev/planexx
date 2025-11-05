@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Utilities;
 
-class HashUtilities
+class HashUtility
 {
     public static function isBcryptHash(string $hash): bool
     {
