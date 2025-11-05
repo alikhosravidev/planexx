@@ -57,9 +57,6 @@ return new class () extends Migration {
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index('mobile');
-            $table->index('email');
-            $table->index('national_code');
             $table->index('user_type');
             $table->index('customer_type');
             $table->index('direct_manager_id');

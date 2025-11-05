@@ -46,7 +46,7 @@ class JobPositionServiceTest extends IntegrationTestBase
             'id'        => $jobPosition->id,
             'title'     => 'Senior Developer',
             'code'      => 'SD001',
-            'tier'      => 1, // TierEnum::SENIOR_MANAGEMENT->value
+            'tier'      => TierEnum::SENIOR_MANAGEMENT,
             'is_active' => true,
         ]);
     }
@@ -83,7 +83,7 @@ class JobPositionServiceTest extends IntegrationTestBase
             'id'        => $existingJobPosition->id,
             'title'     => 'Updated Position',
             'code'      => 'UPD',
-            'tier'      => 2, // TierEnum::MIDDLE_MANAGEMENT->value
+            'tier'      => TierEnum::MIDDLE_MANAGEMENT,
             'is_active' => true,
         ]);
     }

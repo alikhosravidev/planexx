@@ -52,13 +52,13 @@ class AuthResponseTest extends PureUnitTestBase
         );
 
         $response = new AuthResponse(
-            message: $message,
-            identifier: $identifier,
-            token: $token,
-            user: $user,
-            isRegistered: $isRegistered,
-            nextStep: $nextStep,
-            otpData: $otpData
+            message     : $message,
+            identifier  : $identifier,
+            token       : $token,
+            user        : $user,
+            nextStep    : $nextStep,
+            otpData     : $otpData,
+            isRegistered: $isRegistered
         );
 
         $this->assertSame($message, $response->message);

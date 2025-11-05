@@ -50,62 +50,84 @@ class AddressMapperTest extends UnitTestBase
 
     public function test_from_request_creates_dto(): void
     {
+        $cityId         = 1;
+        $receiverName   = 'John Doe';
+        $receiverMobile = '09123456789';
+        $address        = '123 Main St';
+        $postalCode     = '1234567890';
+        $latitude       = 35.6892;
+        $longitude      = 51.3890;
+        $userId         = 10;
+
         $requestData = [
-            'city_id'         => 1,
-            'receiver_name'   => 'John Doe',
-            'receiver_mobile' => '09123456789',
-            'address'         => '123 Main St',
-            'postal_code'     => '1234567890',
-            'latitude'        => '35.6892',
-            'longitude'       => '51.3890',
+            'city_id'         => $cityId,
+            'receiver_name'   => $receiverName,
+            'receiver_mobile' => $receiverMobile,
+            'address'         => $address,
+            'postal_code'     => $postalCode,
+            'latitude'        => (string) $latitude,
+            'longitude'       => (string) $longitude,
         ];
 
-        $request = $this->makeRequestWithUser($requestData, 10);
+        $request = $this->makeRequestWithUser($requestData, $userId);
 
         $dto = $this->mapper->fromRequest($request);
 
         $this->assertInstanceOf(AddressDTO::class, $dto);
-        $this->assertSame(1, $dto->cityId);
-        $this->assertSame('John Doe', $dto->receiverName);
-        $this->assertSame('09123456789', $dto->receiverMobile);
-        $this->assertSame('123 Main St', $dto->address);
-        $this->assertSame('1234567890', $dto->postalCode);
-        $this->assertEquals(35.6892, $dto->latitude);
-        $this->assertEquals(51.3890, $dto->longitude);
-        $this->assertSame(10, $dto->userId);
+        $this->assertSame($cityId, $dto->cityId);
+        $this->assertSame($receiverName, $dto->receiverName);
+        $this->assertSame($receiverMobile, $dto->receiverMobile);
+        $this->assertSame($address, $dto->address);
+        $this->assertSame($postalCode, $dto->postalCode);
+        $this->assertEquals($latitude, $dto->latitude);
+        $this->assertEquals($longitude, $dto->longitude);
+        $this->assertSame($userId, $dto->userId);
     }
 
     public function test_from_request_for_update_creates_dto_with_defaults(): void
     {
+        $updatedReceiverName  = 'Jane Doe';
+        $updatedAddress       = '456 Elm St';
+        $entityId             = 5;
+        $entityCityId         = 2;
+        $entityReceiverName   = 'Old Name';
+        $entityReceiverMobile = '09876543210';
+        $entityAddress        = 'Old Address';
+        $entityPostalCode     = '0987654321';
+        $entityLatitude       = 36.0;
+        $entityLongitude      = 52.0;
+        $entityUserId         = 20;
+        $ignoredUserId        = 999; // userId is ignored in update
+
         $requestData = [
-            'receiver_name' => 'Jane Doe',
-            'address'       => '456 Elm St',
+            'receiver_name' => $updatedReceiverName,
+            'address'       => $updatedAddress,
         ];
 
-        $request = $this->makeRequestWithUser($requestData, 999); // userId is ignored in update
+        $request = $this->makeRequestWithUser($requestData, $ignoredUserId);
 
         $address = new Address([
-            'id'              => 5,
-            'city_id'         => 2,
-            'receiver_name'   => 'Old Name',
-            'receiver_mobile' => '09876543210',
-            'address'         => 'Old Address',
-            'postal_code'     => '0987654321',
-            'latitude'        => 36.0,
-            'longitude'       => 52.0,
-            'user_id'         => 20,
+            'id'              => $entityId,
+            'city_id'         => $entityCityId,
+            'receiver_name'   => $entityReceiverName,
+            'receiver_mobile' => $entityReceiverMobile,
+            'address'         => $entityAddress,
+            'postal_code'     => $entityPostalCode,
+            'latitude'        => $entityLatitude,
+            'longitude'       => $entityLongitude,
+            'user_id'         => $entityUserId,
         ]);
 
         $dto = $this->mapper->fromRequestForUpdate($request, $address);
 
         $this->assertInstanceOf(AddressDTO::class, $dto);
-        $this->assertSame(2, $dto->cityId); // from address
-        $this->assertSame('Jane Doe', $dto->receiverName); // from request
-        $this->assertSame('09876543210', $dto->receiverMobile); // from address
-        $this->assertSame('456 Elm St', $dto->address); // from request
-        $this->assertSame('0987654321', $dto->postalCode); // from address
-        $this->assertEquals(36.0, $dto->latitude); // from address
-        $this->assertEquals(52.0, $dto->longitude); // from address
-        $this->assertSame(20, $dto->userId); // from address
+        $this->assertSame($entityCityId, $dto->cityId); // from address
+        $this->assertSame($updatedReceiverName, $dto->receiverName); // from request
+        $this->assertSame($entityReceiverMobile, $dto->receiverMobile); // from address
+        $this->assertSame($updatedAddress, $dto->address); // from request
+        $this->assertSame($entityPostalCode, $dto->postalCode); // from address
+        $this->assertEquals($entityLatitude, $dto->latitude); // from address
+        $this->assertEquals($entityLongitude, $dto->longitude); // from address
+        $this->assertSame($entityUserId, $dto->userId); // from address
     }
 }

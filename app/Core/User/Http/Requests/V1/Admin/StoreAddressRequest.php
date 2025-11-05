@@ -4,7 +4,7 @@ namespace App\Core\User\Http\Requests\V1\Admin;
 
 use App\Contracts\Requests\BaseRequest;
 
-class CreateAddressRequest extends BaseRequest
+class StoreAddressRequest extends BaseRequest
 {
     public function authorize(): bool
     {

@@ -23,4 +23,37 @@ class UserFactory extends Factory
             'password'           => 'password',
         ];
     }
+
+    public function verified(): Factory
+    {
+        return $this->state(
+            [
+                'email_verified_at'  => $this->faker->optional()->dateTime(),
+                'mobile_verified_at' => $this->faker->optional()->dateTime(),
+            ]
+        );
+    }
+
+    public function mobileVerified(): Factory
+    {
+        return $this->state(
+            [
+                'mobile_verified_at' => $this->faker->optional()->dateTime(),
+            ]
+        );
+    }
+
+    public function emailVerified(): Factory
+    {
+        return $this->state(
+            [
+                'email_verified_at' => $this->faker->optional()->dateTime(),
+            ]
+        );
+    }
+
+    public function withPosition(string $positionName): Factory
+    {
+        return $this;
+    }
 }

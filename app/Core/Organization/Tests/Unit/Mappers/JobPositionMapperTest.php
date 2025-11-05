@@ -24,13 +24,20 @@ class JobPositionMapperTest extends UnitTestBase
     public function test_from_request_maps_all_fields_correctly(): void
     {
         // Arrange
+        $title       = 'Senior Developer';
+        $code        = 'SD001';
+        $tier        = TierEnum::SENIOR_MANAGEMENT;
+        $imageUrl    = 'https://example.com/image.jpg';
+        $description = 'Handles senior development tasks';
+        $isActive    = true;
+
         $requestData = [
-            'title'       => 'Senior Developer',
-            'code'        => 'SD001',
-            'tier'        => 1, // TierEnum::SENIOR_MANAGEMENT
-            'image_url'   => 'https://example.com/image.jpg',
-            'description' => 'Handles senior development tasks',
-            'is_active'   => '1',
+            'title'       => $title,
+            'code'        => $code,
+            'tier'        => $tier->value,
+            'image_url'   => $imageUrl,
+            'description' => $description,
+            'is_active'   => $isActive ? '1' : '0',
         ];
         $request = Request::create('/', 'POST', $requestData);
 
@@ -38,20 +45,23 @@ class JobPositionMapperTest extends UnitTestBase
         $dto = $this->mapper->fromRequest($request);
 
         // Assert
-        $this->assertEquals('Senior Developer', $dto->title);
-        $this->assertEquals('SD001', $dto->code);
-        $this->assertEquals(TierEnum::SENIOR_MANAGEMENT, $dto->tier);
-        $this->assertEquals('https://example.com/image.jpg', $dto->imageUrl);
-        $this->assertEquals('Handles senior development tasks', $dto->description);
-        $this->assertTrue($dto->isActive);
+        $this->assertEquals($title, $dto->title);
+        $this->assertEquals($code, $dto->code);
+        $this->assertEquals($tier, $dto->tier);
+        $this->assertEquals($imageUrl, $dto->imageUrl);
+        $this->assertEquals($description, $dto->description);
+        $this->assertEquals($isActive, $dto->isActive);
     }
 
     public function test_from_request_handles_null_values(): void
     {
         // Arrange
+        $title    = 'Developer';
+        $isActive = false;
+
         $requestData = [
-            'title'     => 'Developer',
-            'is_active' => '0',
+            'title'     => $title,
+            'is_active' => $isActive ? '1' : '0',
         ];
         $request = Request::create('/', 'POST', $requestData);
 
@@ -63,61 +73,78 @@ class JobPositionMapperTest extends UnitTestBase
         $this->assertNull($dto->tier);
         $this->assertNull($dto->imageUrl);
         $this->assertNull($dto->description);
-        $this->assertFalse($dto->isActive);
+        $this->assertEquals($isActive, $dto->isActive);
     }
 
     public function test_from_request_for_update_uses_request_values_when_provided(): void
     {
         // Arrange
+        $updatedTitle    = 'Updated Position';
+        $updatedTier     = TierEnum::MIDDLE_MANAGEMENT;
+        $updatedIsActive = true;
+        $oldTitle        = 'Old Position';
+        $oldCode         = 'OLD';
+        $oldTier         = TierEnum::STAFF;
+        $oldImageUrl     = 'old.jpg';
+        $oldDescription  = 'Old description';
+        $oldIsActive     = false;
+
         $requestData = [
-            'title'     => 'Updated Position',
-            'tier'      => 2, // TierEnum::MIDDLE_MANAGEMENT
-            'is_active' => '1',
+            'title'     => $updatedTitle,
+            'tier'      => $updatedTier->value,
+            'is_active' => $updatedIsActive ? '1' : '0',
         ];
         $request                  = Request::create('/', 'PUT', $requestData);
         $jobPosition              = Mockery::mock(JobPosition::class)->makePartial();
-        $jobPosition->title       = 'Old Position';
-        $jobPosition->code        = 'OLD';
-        $jobPosition->tier        = TierEnum::STAFF;
-        $jobPosition->image_url   = 'old.jpg';
-        $jobPosition->description = 'Old description';
-        $jobPosition->is_active   = false;
+        $jobPosition->title       = $oldTitle;
+        $jobPosition->code        = $oldCode;
+        $jobPosition->tier        = $oldTier;
+        $jobPosition->image_url   = $oldImageUrl;
+        $jobPosition->description = $oldDescription;
+        $jobPosition->is_active   = $oldIsActive;
 
         // Act
         $dto = $this->mapper->fromRequestForUpdate($request, $jobPosition);
 
         // Assert
-        $this->assertEquals('Updated Position', $dto->title); // From request
-        $this->assertEquals('OLD', $dto->code); // From entity
-        $this->assertEquals(TierEnum::MIDDLE_MANAGEMENT, $dto->tier); // From request
-        $this->assertEquals('old.jpg', $dto->imageUrl); // From entity
-        $this->assertEquals('Old description', $dto->description); // From entity
-        $this->assertTrue($dto->isActive); // From request
+        $this->assertEquals($updatedTitle, $dto->title);
+        $this->assertEquals($oldCode, $dto->code);
+        $this->assertEquals($updatedTier, $dto->tier);
+        $this->assertEquals($oldImageUrl, $dto->imageUrl);
+        $this->assertEquals($oldDescription, $dto->description);
+        $this->assertEquals($updatedIsActive, $dto->isActive);
     }
 
     public function test_from_request_for_update_uses_entity_values_when_request_missing(): void
     {
         // Arrange
+        $entityTitle       = 'Existing Position';
+        $entityCode        = 'EXI';
+        $entityTier        = TierEnum::INVESTOR;
+        $entityImageUrl    = 'existing.jpg';
+        $entityDescription = 'Existing description';
+        $entityIsActive    = true;
+
         $requestData              = [];
         $request                  = Request::create('/', 'PUT', $requestData);
         $jobPosition              = Mockery::mock(JobPosition::class)->makePartial();
-        $jobPosition->title       = 'Existing Position';
-        $jobPosition->code        = 'EXI';
-        $jobPosition->tier        = TierEnum::INVESTOR;
-        $jobPosition->image_url   = 'existing.jpg';
-        $jobPosition->description = 'Existing description';
-        $jobPosition->is_active   = true;
+        $jobPosition->title       = $entityTitle;
+        $jobPosition->code        = $entityCode;
+        $jobPosition->tier        = $entityTier;
+        $jobPosition->image_url   = $entityImageUrl;
+        $jobPosition->description = $entityDescription;
+        $jobPosition->is_active   = $entityIsActive;
 
         // Act
         $dto = $this->mapper->fromRequestForUpdate($request, $jobPosition);
 
         // Assert
-        $this->assertEquals('Existing Position', $dto->title);
-        $this->assertEquals('EXI', $dto->code);
-        $this->assertEquals(TierEnum::INVESTOR, $dto->tier);
-        $this->assertEquals('existing.jpg', $dto->imageUrl);
-        $this->assertEquals('Existing description', $dto->description);
-        $this->assertTrue($dto->isActive);
+        $this->assertEquals($entityTitle, $dto->title);
+        $this->assertEquals($entityCode, $dto->code);
+        $this->assertEquals($entityTier, $dto->tier);
+        $this->assertEquals($entityImageUrl, $dto->imageUrl);
+        $this->assertEquals($entityDescription, $dto->description);
+        $this->assertEquals($entityIsActive, $dto->isActive);
     }
 
     protected function tearDown(): void

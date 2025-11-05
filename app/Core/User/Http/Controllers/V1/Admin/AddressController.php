@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Core\User\Http\Controllers\V1\Admin;
 
 use App\Contracts\Controller\BaseController;
-use App\Core\User\Http\Requests\V1\Admin\CreateAddressRequest;
+use App\Core\User\Http\Requests\V1\Admin\StoreAddressRequest;
 use App\Core\User\Http\Requests\V1\Admin\UpdateAddressRequest;
 use App\Core\User\Http\Transformers\V1\Admin\AddressTransformer;
 use App\Core\User\Mappers\AddressMapper;
@@ -25,7 +25,7 @@ class AddressController extends BaseController
     }
 
     // POST /location/addresses
-    public function store(CreateAddressRequest $request): JsonResponse
+    public function store(StoreAddressRequest $request): JsonResponse
     {
         $dto = $this->mapper->fromRequest($request);
 

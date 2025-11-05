@@ -14,10 +14,11 @@ use Illuminate\Pagination\LengthAwarePaginator;
 abstract class BaseRepository implements RepositoryInterface
 {
     protected BaseModel $model;
+    protected Builder $query;
     protected Collection $criteria;
 
     public array $fieldSearchable = [];
-    public array $sortableFields = [];
+    public array $sortableFields  = [];
 
     public function __construct()
     {
@@ -37,7 +38,10 @@ abstract class BaseRepository implements RepositoryInterface
             throw new Exception("Class {$this->model()} must be an instance of {$baseModelClass}");
         }
 
-        return $this->model = $model;
+        $this->model = $model;
+        $this->query = $this->model->newQuery();
+
+        return $this->model;
     }
 
     public function resetModel(): void
@@ -49,7 +53,7 @@ abstract class BaseRepository implements RepositoryInterface
     public function all(): Collection
     {
         $this->applyCriteria();
-        $result = $this->model->get();
+        $result = $this->query->get();
         $this->resetModel();
 
         return $result;
@@ -58,7 +62,7 @@ abstract class BaseRepository implements RepositoryInterface
     public function find(int $id): ?BaseModel
     {
         $this->applyCriteria();
-        $result = $this->model->find($id);
+        $result = $this->query->find($id);
         $this->resetModel();
 
         return $result;
@@ -67,7 +71,7 @@ abstract class BaseRepository implements RepositoryInterface
     public function first(): ?BaseModel
     {
         $this->applyCriteria();
-        $result = $this->model->first();
+        $result = $this->query->first();
         $this->resetModel();
 
         return $result;
@@ -76,7 +80,7 @@ abstract class BaseRepository implements RepositoryInterface
     public function findOrFail(int $id): ?BaseModel
     {
         $this->applyCriteria();
-        $result = $this->model->findOrFail($id);
+        $result = $this->query->findOrFail($id);
         $this->resetModel();
 
         return $result;
@@ -102,7 +106,7 @@ abstract class BaseRepository implements RepositoryInterface
     public function paginate(int $perPage = 15): LengthAwarePaginator
     {
         $this->applyCriteria();
-        $result = $this->model->paginate($perPage);
+        $result = $this->query->paginate($perPage);
         $this->resetModel();
 
         return $result;
@@ -122,7 +126,7 @@ abstract class BaseRepository implements RepositoryInterface
     public function count(): int
     {
         $this->applyCriteria();
-        $result = $this->model->count();
+        $result = $this->query->count();
         $this->resetModel();
 
         return $result;
@@ -138,11 +142,15 @@ abstract class BaseRepository implements RepositoryInterface
 
     public function applyCriteria(): self
     {
+        $this->query = $this->model->newQuery();
+
         foreach ($this->criteria as $criteria) {
             if ($criteria instanceof CriteriaInterface) {
-                $this->model = $criteria->apply($this->model->newQuery())->getModel();
+                $this->query = $criteria->apply($this->query);
             }
         }
+
+        $this->criteria = new Collection();
 
         return $this;
     }
@@ -153,7 +161,7 @@ abstract class BaseRepository implements RepositoryInterface
     {
         $this->applyCriteria();
 
-        return $this->model->newQuery();
+        return $this->query;
     }
 
     public function query(): Builder

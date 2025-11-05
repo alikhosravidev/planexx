@@ -15,9 +15,9 @@ final class AuthResponse
         public readonly ?Identifier $identifier = null,
         public readonly ?AuthToken $token = null,
         public readonly ?User $user = null,
-        public readonly bool $isRegistered = false,
         public readonly ?string $nextStep = null,
         public readonly ?OTPResponse $otpData = null,
+        public readonly bool $isRegistered = false,
     ) {
     }
 }

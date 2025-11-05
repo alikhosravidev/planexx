@@ -58,7 +58,7 @@ class JobPositionDTOTest extends UnitTestBase
         $expected = [
             'title'       => 'Senior Developer',
             'code'        => 'SD001',
-            'tier'        => 1, // TierEnum::SENIOR_MANAGEMENT->value
+            'tier'        => TierEnum::SENIOR_MANAGEMENT->value,
             'image_url'   => 'https://example.com/image.jpg',
             'description' => 'Handles senior development tasks',
             'is_active'   => true,

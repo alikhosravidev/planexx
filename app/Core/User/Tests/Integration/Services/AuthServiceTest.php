@@ -25,14 +25,15 @@ class AuthServiceTest extends IntegrationTestBase
 
     public function test_auth_successfully_authenticates_existing_user(): void
     {
-        $user = User::factory()->create([
-            'email'    => 'test@example.com',
-            'password' => 'password123',
+        $email    = 'email@email.com';
+        $password = 'password123';
+        $user     = User::factory()->create([
+            'email'    => $email,
+            'password' => $password,
         ]);
-
-        $identifier     = new Identifier('test@example.com', app(AuthConfig::class));
+        $identifier     = new Identifier($email, app(AuthConfig::class));
         $clientMetadata = new ClientMetadataDto('ip', 'user_agent');
-        $authRequestDto = new AuthRequestDto($identifier, 'password123', $clientMetadata, 'password');
+        $authRequestDto = new AuthRequestDto($identifier, $password, $clientMetadata, 'password');
 
         $response = $this->authService->auth($authRequestDto);
 

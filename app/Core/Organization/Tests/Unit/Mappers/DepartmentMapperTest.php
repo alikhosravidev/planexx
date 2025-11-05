@@ -23,14 +23,22 @@ class DepartmentMapperTest extends UnitTestBase
     public function test_from_request_maps_all_fields_correctly(): void
     {
         // Arrange
+        $parentId    = 1;
+        $name        = 'Engineering Department';
+        $code        = 'ENG';
+        $managerId   = 2;
+        $imageUrl    = 'https://example.com/image.jpg';
+        $description = 'Handles engineering tasks';
+        $isActive    = true;
+
         $requestData = [
-            'parent_id'   => 1,
-            'name'        => 'Engineering Department',
-            'code'        => 'ENG',
-            'manager_id'  => 2,
-            'image_url'   => 'https://example.com/image.jpg',
-            'description' => 'Handles engineering tasks',
-            'is_active'   => '1',
+            'parent_id'   => $parentId,
+            'name'        => $name,
+            'code'        => $code,
+            'manager_id'  => $managerId,
+            'image_url'   => $imageUrl,
+            'description' => $description,
+            'is_active'   => $isActive ? '1' : '0',
         ];
         $request = Request::create('/', 'POST', $requestData);
 
@@ -38,21 +46,24 @@ class DepartmentMapperTest extends UnitTestBase
         $dto = $this->mapper->fromRequest($request);
 
         // Assert
-        $this->assertEquals(1, $dto->parentId);
-        $this->assertEquals('Engineering Department', $dto->name);
-        $this->assertEquals('ENG', $dto->code);
-        $this->assertEquals(2, $dto->managerId);
-        $this->assertEquals('https://example.com/image.jpg', $dto->imageUrl);
-        $this->assertEquals('Handles engineering tasks', $dto->description);
-        $this->assertTrue($dto->isActive);
+        $this->assertEquals($parentId, $dto->parentId);
+        $this->assertEquals($name, $dto->name);
+        $this->assertEquals($code, $dto->code);
+        $this->assertEquals($managerId, $dto->managerId);
+        $this->assertEquals($imageUrl, $dto->imageUrl);
+        $this->assertEquals($description, $dto->description);
+        $this->assertEquals($isActive, $dto->isActive);
     }
 
     public function test_from_request_handles_null_values(): void
     {
         // Arrange
+        $name     = 'Test Department';
+        $isActive = false;
+
         $requestData = [
-            'name'      => 'Test Department',
-            'is_active' => '0',
+            'name'      => $name,
+            'is_active' => $isActive ? '1' : '0',
         ];
         $request = Request::create('/', 'POST', $requestData);
 
@@ -65,64 +76,82 @@ class DepartmentMapperTest extends UnitTestBase
         $this->assertNull($dto->managerId);
         $this->assertNull($dto->imageUrl);
         $this->assertNull($dto->description);
-        $this->assertFalse($dto->isActive);
+        $this->assertEquals($isActive, $dto->isActive);
     }
 
     public function test_from_request_for_update_uses_request_values_when_provided(): void
     {
         // Arrange
+        $updatedName       = 'Updated Department';
+        $updatedIsActive   = true;
+        $entityParentId    = 1;
+        $entityName        = 'Old Department';
+        $entityCode        = 'OLD';
+        $entityManagerId   = 2;
+        $entityImageUrl    = 'old.jpg';
+        $entityDescription = 'Old description';
+        $entityIsActive    = false;
+
         $requestData = [
-            'name'      => 'Updated Department',
-            'is_active' => '1',
+            'name'      => $updatedName,
+            'is_active' => $updatedIsActive ? '1' : '0',
         ];
         $request                 = Request::create('/', 'PUT', $requestData);
         $department              = Mockery::mock(Department::class)->makePartial();
-        $department->parent_id   = 1;
-        $department->name        = 'Old Department';
-        $department->code        = 'OLD';
-        $department->manager_id  = 2;
-        $department->image_url   = 'old.jpg';
-        $department->description = 'Old description';
-        $department->is_active   = false;
+        $department->parent_id   = $entityParentId;
+        $department->name        = $entityName;
+        $department->code        = $entityCode;
+        $department->manager_id  = $entityManagerId;
+        $department->image_url   = $entityImageUrl;
+        $department->description = $entityDescription;
+        $department->is_active   = $entityIsActive;
 
         // Act
         $dto = $this->mapper->fromRequestForUpdate($request, $department);
 
         // Assert
-        $this->assertEquals(1, $dto->parentId); // From entity
-        $this->assertEquals('Updated Department', $dto->name); // From request
-        $this->assertEquals('OLD', $dto->code); // From entity
-        $this->assertEquals(2, $dto->managerId); // From entity
-        $this->assertEquals('old.jpg', $dto->imageUrl); // From entity
-        $this->assertEquals('Old description', $dto->description); // From entity
-        $this->assertTrue($dto->isActive); // From request
+        $this->assertEquals($entityParentId, $dto->parentId); // From entity
+        $this->assertEquals($updatedName, $dto->name); // From request
+        $this->assertEquals($entityCode, $dto->code); // From entity
+        $this->assertEquals($entityManagerId, $dto->managerId); // From entity
+        $this->assertEquals($entityImageUrl, $dto->imageUrl); // From entity
+        $this->assertEquals($entityDescription, $dto->description); // From entity
+        $this->assertEquals($updatedIsActive, $dto->isActive); // From request
     }
 
     public function test_from_request_for_update_uses_entity_values_when_request_missing(): void
     {
         // Arrange
+        $entityParentId    = 1;
+        $entityName        = 'Existing Department';
+        $entityCode        = 'EXI';
+        $entityManagerId   = 2;
+        $entityImageUrl    = 'existing.jpg';
+        $entityDescription = 'Existing description';
+        $entityIsActive    = true;
+
         $requestData             = [];
         $request                 = Request::create('/', 'PUT', $requestData);
         $department              = Mockery::mock(Department::class)->makePartial();
-        $department->parent_id   = 1;
-        $department->name        = 'Existing Department';
-        $department->code        = 'EXI';
-        $department->manager_id  = 2;
-        $department->image_url   = 'existing.jpg';
-        $department->description = 'Existing description';
-        $department->is_active   = true;
+        $department->parent_id   = $entityParentId;
+        $department->name        = $entityName;
+        $department->code        = $entityCode;
+        $department->manager_id  = $entityManagerId;
+        $department->image_url   = $entityImageUrl;
+        $department->description = $entityDescription;
+        $department->is_active   = $entityIsActive;
 
         // Act
         $dto = $this->mapper->fromRequestForUpdate($request, $department);
 
         // Assert
-        $this->assertEquals(1, $dto->parentId);
-        $this->assertEquals('Existing Department', $dto->name);
-        $this->assertEquals('EXI', $dto->code);
-        $this->assertEquals(2, $dto->managerId);
-        $this->assertEquals('existing.jpg', $dto->imageUrl);
-        $this->assertEquals('Existing description', $dto->description);
-        $this->assertTrue($dto->isActive);
+        $this->assertEquals($entityParentId, $dto->parentId);
+        $this->assertEquals($entityName, $dto->name);
+        $this->assertEquals($entityCode, $dto->code);
+        $this->assertEquals($entityManagerId, $dto->managerId);
+        $this->assertEquals($entityImageUrl, $dto->imageUrl);
+        $this->assertEquals($entityDescription, $dto->description);
+        $this->assertEquals($entityIsActive, $dto->isActive);
     }
 
     protected function tearDown(): void

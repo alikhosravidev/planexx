@@ -16,6 +16,10 @@ class OrganizationServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        $this->loadRoutesFrom(
+            ProviderUtility::corePath('Organization/Routes/V1/admin.php')
+        );
+
         $this->loadMigrationsFrom(
             ProviderUtility::corePath('Organization/Database/Migrations')
         );

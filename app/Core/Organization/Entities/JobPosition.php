@@ -50,7 +50,7 @@ class JobPosition extends BaseModel
     public function tierLabel(): Attribute
     {
         return Attribute::make(
-            get: fn (self $jobPosition) => $this->tier?->label() ?? ''
+            get: fn () => $this->tier?->label() ?? ''
         );
     }
 
