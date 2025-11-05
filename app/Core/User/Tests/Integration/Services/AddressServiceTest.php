@@ -6,6 +6,7 @@ namespace App\Core\User\Tests\Integration\Services;
 
 use App\Core\User\DTOs\AddressDTO;
 use App\Core\User\Entities\Address;
+use App\Core\User\Entities\City;
 use App\Core\User\Entities\User;
 use App\Core\User\Repositories\AddressRepository;
 use App\Core\User\Repositories\CityRepository;
@@ -38,14 +39,13 @@ class AddressServiceTest extends IntegrationTestBase
         ]);
 
         $dto = new AddressDTO(
-            cityId: null,
-            receiverName: 'John Doe',
+            userId        : $user->id,
+            receiverName  : 'John Doe',
             receiverMobile: '09123456789',
-            address: '123 Main St',
-            postalCode: '1234567890',
-            latitude: 35.6892,
-            longitude: 51.3890,
-            userId: $user->id
+            address       : '123 Main St',
+            postalCode    : '1234567890',
+            latitude      : 35.6892,
+            longitude     : 51.3890,
         );
 
         $address = $this->service->create($dto);
@@ -64,19 +64,19 @@ class AddressServiceTest extends IntegrationTestBase
         ]);
 
         // Create city with related province and country via factories
-        $city     = \App\Core\User\Entities\City::factory()->create();
+        $city     = City::factory()->create();
         $province = $city->province;
         $country  = $province->country;
 
         $dto = new AddressDTO(
-            cityId: $city->id,
-            receiverName: 'John Doe',
+            userId        : $user->id,
+            receiverName  : 'John Doe',
             receiverMobile: '09123456789',
-            address: '123 Main St',
-            postalCode: '1234567890',
-            latitude: 35.6892,
-            longitude: 51.3890,
-            userId: $user->id
+            address       : '123 Main St',
+            postalCode    : '1234567890',
+            latitude      : 35.6892,
+            longitude     : 51.3890,
+            cityId        : $city->id
         );
 
         $address = $this->service->create($dto);
@@ -105,14 +105,13 @@ class AddressServiceTest extends IntegrationTestBase
         ]);
 
         $dto = new AddressDTO(
-            cityId: null,
-            receiverName: 'Updated Name',
+            userId        : $address->user_id,
+            receiverName  : 'Updated Name',
             receiverMobile: '09876543210',
-            address: 'Updated Address',
-            postalCode: '0987654321',
-            latitude: 36.0,
-            longitude: 52.0,
-            userId: $address->user_id
+            address       : 'Updated Address',
+            postalCode    : '0987654321',
+            latitude      : 36.0,
+            longitude     : 52.0,
         );
 
         $updatedAddress = $this->service->update($address, $dto);
@@ -140,19 +139,19 @@ class AddressServiceTest extends IntegrationTestBase
             'user_id'         => $user->id,
         ]);
 
-        $city     = \App\Core\User\Entities\City::factory()->create();
+        $city     = City::factory()->create();
         $province = $city->province;
         $country  = $province->country;
 
         $dto = new AddressDTO(
-            cityId: $city->id,
-            receiverName: 'Updated Name',
+            userId        : $address->user_id,
+            receiverName  : 'Updated Name',
             receiverMobile: '09876543210',
-            address: 'Updated Address',
-            postalCode: '0987654321',
-            latitude: 36.0,
-            longitude: 52.0,
-            userId: $address->user_id
+            address       : 'Updated Address',
+            postalCode    : '0987654321',
+            latitude      : 36.0,
+            longitude     : 52.0,
+            cityId        : $city->id
         );
 
         $updatedAddress = $this->service->update($address, $dto);

@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace App\Core\User\DTOs;
 
-final readonly class AddressDTO
+use Illuminate\Contracts\Support\Arrayable;
+
+final readonly class AddressDTO implements Arrayable
 {
     public function __construct(
-        public ?int    $cityId,
+        public int    $userId,
         public string $receiverName,
         public string $receiverMobile,
         public string $address,
         public string $postalCode,
         public float  $latitude,
         public float  $longitude,
-        public int    $userId,
+        public ?int   $cityId = null,
     ) {
     }
 

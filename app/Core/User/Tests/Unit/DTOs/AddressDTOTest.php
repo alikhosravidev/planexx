@@ -9,17 +9,17 @@ use Tests\UnitTestBase;
 
 class AddressDTOTest extends UnitTestBase
 {
-    public function testConstructorSetsProperties(): void
+    public function test_constructor_sets_properties(): void
     {
         $dto = new AddressDTO(
-            cityId: 1,
-            receiverName: 'John Doe',
+            userId        : 10,
+            receiverName  : 'John Doe',
             receiverMobile: '09123456789',
-            address: '123 Main St',
-            postalCode: '1234567890',
-            latitude: 35.6892,
-            longitude: 51.3890,
-            userId: 10
+            address       : '123 Main St',
+            postalCode    : '1234567890',
+            latitude      : 35.6892,
+            longitude     : 51.3890,
+            cityId        : 1
         );
 
         $this->assertEquals(1, $dto->cityId);
@@ -32,28 +32,28 @@ class AddressDTOTest extends UnitTestBase
         $this->assertEquals(10, $dto->userId);
     }
 
-    public function testToArrayReturnsCorrectArray(): void
+    public function test_to_array_returns_correct_array(): void
     {
         $dto = new AddressDTO(
-            cityId: 1,
-            receiverName: 'John Doe',
+            userId        : 10,
+            receiverName  : 'John Doe',
             receiverMobile: '09123456789',
-            address: '123 Main St',
-            postalCode: '1234567890',
-            latitude: 35.6892,
-            longitude: 51.3890,
-            userId: 10
+            address       : '123 Main St',
+            postalCode    : '1234567890',
+            latitude      : 35.6892,
+            longitude     : 51.3890,
+            cityId        : 1
         );
 
         $expected = [
-            'city_id' => 1,
-            'receiver_name' => 'John Doe',
+            'city_id'         => 1,
+            'receiver_name'   => 'John Doe',
             'receiver_mobile' => '09123456789',
-            'address' => '123 Main St',
-            'postal_code' => '1234567890',
-            'latitude' => 35.6892,
-            'longitude' => 51.3890,
-            'user_id' => 10,
+            'address'         => '123 Main St',
+            'postal_code'     => '1234567890',
+            'latitude'        => 35.6892,
+            'longitude'       => 51.3890,
+            'user_id'         => 10,
         ];
 
         $this->assertEquals($expected, $dto->toArray());

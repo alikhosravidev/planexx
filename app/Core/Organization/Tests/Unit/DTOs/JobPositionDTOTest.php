@@ -71,10 +71,6 @@ class JobPositionDTOTest extends UnitTestBase
         // Arrange
         $dto = new JobPositionDTO(
             title: 'Developer',
-            code: null,
-            tier: null,
-            imageUrl: null,
-            description: null,
             isActive: false,
         );
 
@@ -90,10 +86,6 @@ class JobPositionDTOTest extends UnitTestBase
         // Arrange
         $dto = new JobPositionDTO(
             title: 'Developer',
-            code: null,
-            tier: null,
-            imageUrl: null,
-            description: null,
             isActive: false,
         );
 

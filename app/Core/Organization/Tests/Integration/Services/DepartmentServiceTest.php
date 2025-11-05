@@ -23,13 +23,10 @@ class DepartmentServiceTest extends IntegrationTestBase
     {
         // Arrange
         $dto = new DepartmentDTO(
-            parentId: null,
-            name: 'Engineering Department',
-            code: 'ENG',
-            managerId: null,
-            imageUrl: null,
+            name       : 'Engineering Department',
+            code       : 'ENG',
             description: 'Handles engineering tasks',
-            isActive: true,
+            isActive   : true,
         );
 
         // Act
@@ -58,13 +55,10 @@ class DepartmentServiceTest extends IntegrationTestBase
             'is_active' => false,
         ]);
         $dto = new DepartmentDTO(
-            parentId: null,
-            name: 'Updated Department',
-            code: 'UPD',
-            managerId: null,
-            imageUrl: null,
+            name       : 'Updated Department',
+            code       : 'UPD',
             description: 'Updated description',
-            isActive: true,
+            isActive   : true,
         );
 
         // Act

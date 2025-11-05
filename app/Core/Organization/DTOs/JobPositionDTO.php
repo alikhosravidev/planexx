@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace App\Core\Organization\DTOs;
 
 use App\Core\Organization\Enums\TierEnum;
+use Illuminate\Contracts\Support\Arrayable;
 
-final readonly class JobPositionDTO
+final readonly class JobPositionDTO implements Arrayable
 {
     public function __construct(
-        public string     $title,
-        public ?string    $code,
-        public ?TierEnum  $tier,
-        public ?string    $imageUrl,
-        public ?string    $description,
-        public bool       $isActive,
+        public string    $title,
+        public ?string   $code = null,
+        public ?TierEnum $tier = null,
+        public ?string   $imageUrl = null,
+        public ?string   $description = null,
+        public bool      $isActive = true,
     ) {
     }
 

@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\DTOs;
 
-final readonly class DepartmentDTO
+use Illuminate\Contracts\Support\Arrayable;
+
+final readonly class DepartmentDTO implements Arrayable
 {
     public function __construct(
-        public ?int    $parentId,
-        public string $name,
-        public ?string $code,
-        public ?int    $managerId,
-        public ?string $imageUrl,
-        public ?string $description,
-        public bool   $isActive,
+        public string  $name,
+        public ?int    $parentId = null,
+        public ?string $code = null,
+        public ?int    $managerId = null,
+        public ?string $imageUrl = null,
+        public ?string $description = null,
+        public bool    $isActive = true,
     ) {
     }
 

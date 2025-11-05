@@ -13,26 +13,26 @@ class DepartmentMapper
     public function fromRequest(Request $request): DepartmentDTO
     {
         return new DepartmentDTO(
-            parentId: $request->input('parent_id'),
-            name: $request->input('name'),
-            code: $request->input('code'),
-            managerId: $request->input('manager_id'),
-            imageUrl: $request->input('image_url'),
+            name       : $request->input('name'),
+            parentId   : $request->input('parent_id'),
+            code       : $request->input('code'),
+            managerId  : $request->input('manager_id'),
+            imageUrl   : $request->input('image_url'),
             description: $request->input('description'),
-            isActive: $request->boolean('is_active', true),
+            isActive   : $request->boolean('is_active', true),
         );
     }
 
     public function fromRequestForUpdate(Request $request, Department $department): DepartmentDTO
     {
         return new DepartmentDTO(
-            parentId: $request->input('parent_id')      ?? $department->parent_id,
-            name: $request->input('name')               ?? $department->name,
-            code: $request->input('code')               ?? $department->code,
-            managerId: $request->input('manager_id')    ?? $department->manager_id,
-            imageUrl: $request->input('image_url')      ?? $department->image_url,
+            name       : $request->input('name')        ?? $department->name,
+            parentId   : $request->input('parent_id')   ?? $department->parent_id,
+            code       : $request->input('code')        ?? $department->code,
+            managerId  : $request->input('manager_id')  ?? $department->manager_id,
+            imageUrl   : $request->input('image_url')   ?? $department->image_url,
             description: $request->input('description') ?? $department->description,
-            isActive: $request->boolean('is_active', $department->is_active),
+            isActive   : $request->boolean('is_active', $department->is_active),
         );
     }
 }

@@ -22,13 +22,13 @@ class DepartmentDTOTest extends UnitTestBase
 
         // Act
         $dto = new DepartmentDTO(
-            parentId: $parentId,
-            name: $name,
-            code: $code,
-            managerId: $managerId,
-            imageUrl: $imageUrl,
+            name       : $name,
+            parentId   : $parentId,
+            code       : $code,
+            managerId  : $managerId,
+            imageUrl   : $imageUrl,
             description: $description,
-            isActive: $isActive,
+            isActive   : $isActive,
         );
 
         // Assert
@@ -45,13 +45,13 @@ class DepartmentDTOTest extends UnitTestBase
     {
         // Arrange
         $dto = new DepartmentDTO(
-            parentId: 1,
-            name: 'Engineering Department',
-            code: 'ENG',
-            managerId: 2,
-            imageUrl: 'https://example.com/image.jpg',
+            name       : 'Engineering Department',
+            parentId   : 1,
+            code       : 'ENG',
+            managerId  : 2,
+            imageUrl   : 'https://example.com/image.jpg',
             description: 'Handles engineering tasks',
-            isActive: true,
+            isActive   : true,
         );
 
         // Act
@@ -74,13 +74,8 @@ class DepartmentDTOTest extends UnitTestBase
     {
         // Arrange
         $dto = new DepartmentDTO(
-            parentId: null,
-            name: 'Test Department',
-            code: null,
-            managerId: null,
-            imageUrl: null,
-            description: null,
-            isActive: false,
+            name       : 'Test Department',
+            isActive   : false,
         );
 
         // Assert

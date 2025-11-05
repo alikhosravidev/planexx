@@ -27,7 +27,6 @@ class JobPositionServiceTest extends IntegrationTestBase
             title: 'Senior Developer',
             code: 'SD001',
             tier: TierEnum::SENIOR_MANAGEMENT,
-            imageUrl: null,
             description: 'Handles senior development tasks',
             isActive: true,
         );
@@ -64,7 +63,6 @@ class JobPositionServiceTest extends IntegrationTestBase
             title: 'Updated Position',
             code: 'UPD',
             tier: TierEnum::MIDDLE_MANAGEMENT,
-            imageUrl: null,
             description: 'Updated description',
             isActive: true,
         );
