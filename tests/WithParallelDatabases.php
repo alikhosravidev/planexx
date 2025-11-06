@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests;
 
-trait HasParaTest
+trait WithParallelDatabases
 {
-    private static $dbName;
+    private static string $dbName;
 
     private function updateDBNameForParaTest(): void
     {

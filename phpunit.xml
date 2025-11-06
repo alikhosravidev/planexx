@@ -5,39 +5,25 @@
          colors="true"
 >
     <testsuites>
-        <testsuite name="All">
-            <directory suffix="Test.php">./app/Tests</directory>
-
-            <directory suffix="Test.php">./Modules/*/Tests/Unit</directory>
-            <directory suffix="Test.php">./Modules/*/Tests/Feature</directory>
-            <directory suffix="Test.php">./Modules/*/Tests/Integration</directory>
-
-            <directory suffix="Test.php">./Core/*/Tests/Unit</directory>
-            <directory suffix="Test.php">./Core/*/Tests/Feature</directory>
-            <directory suffix="Test.php">./Core/*/Tests/Integration</directory>
-        </testsuite>
-
         <testsuite name="Unit">
+            <directory suffix="Test.php">./app/Tests/Unit</directory>
+            <directory suffix="Test.php">./app/Core/*/Tests/Unit</directory>
             <directory suffix="Test.php">./Modules/*/Tests/Unit</directory>
         </testsuite>
-        <testsuite name="Feature">
-            <directory suffix="Test.php">./Modules/*/Tests/Feature</directory>
-        </testsuite>
+
         <testsuite name="Integration">
+            <directory suffix="Test.php">./app/Tests/Integration</directory>
+            <directory suffix="Test.php">./app/Core/*/Tests/Integration</directory>
             <directory suffix="Test.php">./Modules/*/Tests/Integration</directory>
         </testsuite>
 
-        <testsuite name="CoreUnit">
-            <directory suffix="Test.php">./app/Core/*/Tests/Unit</directory>
-        </testsuite>
-        <testsuite name="CoreFeature">
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./app/Tests/Feature</directory>
             <directory suffix="Test.php">./app/Core/*/Tests/Feature</directory>
+            <directory suffix="Test.php">./Modules/*/Tests/Feature</directory>
         </testsuite>
-        <testsuite name="CoreIntegration">
-            <directory suffix="Test.php">./app/Core/*/Tests/Integration</directory>
-        </testsuite>
-
     </testsuites>
+
     <source>
         <include>
             <directory>app</directory>

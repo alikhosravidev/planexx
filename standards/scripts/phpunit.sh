@@ -5,6 +5,20 @@ set -e
 
 echo "🔧 Running phpunit tests..."
 
+# Track script start time and ensure duration is printed on both success and failure
+START_TIME=$(date +%s)
+
+print_duration() {
+    NOW=$(date +%s)
+    ELAPSED=$((NOW - START_TIME))
+    H=$((ELAPSED / 3600))
+    M=$(((ELAPSED % 3600) / 60))
+    S=$((ELAPSED % 60))
+    printf "⏱ Duration: %02d:%02d:%02d\n" "$H" "$M" "$S"
+}
+
+trap 'print_duration' EXIT
+
 # Configure safe directory for git
 git config --local --replace-all safe.directory /var/www 2>/dev/null || true
 
@@ -27,7 +41,15 @@ echo "  - Database: ${DB_DATABASE}"
 echo ""
 
 # Find all 'Tests' directories within the 'app' and 'Modules' directories
-TEST_DIRS=$(find ./app ./Modules -type d -name "Tests" 2>/dev/null || true)
+if [ -n "$1" ]; then
+    if [ ! -d "$1" ]; then
+        echo "❌ Directory '$1' does not exist!"
+        exit 1
+    fi
+    TEST_DIRS=$(find "$1" -type d -name "Tests" 2>/dev/null || true)
+else
+    TEST_DIRS=$(find ./app -type d -name "Tests" 2>/dev/null || true)
+fi
 
 if [ -z "$TEST_DIRS" ]; then
     echo "⚠️  No test directories found!"
@@ -46,25 +68,24 @@ echo "$TEST_DIRS" | while read -r test_dir; do
     if [ -z "$test_dir" ]; then
         continue
     fi
-    
+
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo "🧪 Running tests in: ${test_dir}"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    
+
     # Try to run in Docker first
-    EXIT_CODE=0
-    docker exec "${CONTAINER_NAME}_app" env DB_DATABASE="${DB_DATABASE}" vendor/bin/phpunit --configuration ./phpunit.xml "${test_dir}" 2>/dev/null || EXIT_CODE=$?
-    
-    if [ "$EXIT_CODE" -ne 0 ]; then
-        echo ""
-        echo "⚠️  Docker execution failed. Trying locally..."
-        DB_DATABASE="${DB_DATABASE}" vendor/bin/phpunit --configuration ./phpunit.xml "${test_dir}" || {
-            echo ""
+    if command -v docker >/dev/null 2>&1; then
+        if ! docker exec "${CONTAINER_NAME}_app" vendor/bin/phpunit --configuration ./phpunit.xml "${test_dir}"; then
             echo "❌ Tests failed in: ${test_dir}"
             exit 1
-        }
+        fi
+    else
+        if ! vendor/bin/phpunit --configuration ./phpunit.xml "${test_dir}"; then
+            echo "❌ Tests failed in: ${test_dir}"
+            exit 1
+        fi
     fi
-    
+
     echo ""
     echo "✅ Tests passed in: ${test_dir}"
     echo ""

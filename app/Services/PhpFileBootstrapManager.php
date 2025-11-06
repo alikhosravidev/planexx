@@ -27,7 +27,6 @@ readonly class PhpFileBootstrapManager implements BootstrapFileManagerInterface
             if (! $this->files->exists($this->bootstrapFile)) {
                 return [];
             }
-            /** @var mixed $data */
             $data = include $this->bootstrapFile;
 
             if (is_array($data)) {

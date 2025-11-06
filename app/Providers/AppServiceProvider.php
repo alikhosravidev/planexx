@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Commands\PrepareParallelTests;
 use App\Contracts\BootstrapFileManagerInterface;
 use App\Contracts\ModuleDiscoveryInterface;
 use App\Core\Organization\Providers\OrganizationServiceProvider;
@@ -65,6 +66,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        $this->commands(
+            PrepareParallelTests::class,
+        );
     }
 
     private function registerCoreProviders(): void

@@ -6,10 +6,10 @@ namespace App\Services;
 
 use Illuminate\Http\Client\Factory as HttpFactory;
 
-final class HttpClient
+final readonly class HttpClient
 {
     public function __construct(
-        private readonly HttpFactory $http
+        private HttpFactory $http
     ) {
     }
 
