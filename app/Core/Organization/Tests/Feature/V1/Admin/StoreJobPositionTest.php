@@ -42,12 +42,9 @@ class StoreJobPositionTest extends APITestBase
         $response->assertJson([
             'status' => true,
             'result' => [
-                'data' => [
-                    'title'       => $title,
-                    'code'        => $code,
-                    'description' => $description,
-                    'is_active'   => true,
-                ],
+                'title'     => $title,
+                'code'      => $code,
+                'is_active' => true,
             ],
         ]);
 

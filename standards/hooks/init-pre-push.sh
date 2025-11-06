@@ -21,7 +21,7 @@ WORKING_DIR="$(git rev-parse --show-toplevel)"
 # Run tests
 echo ""
 echo "🧪 Running tests..."
-sh ./standards/scripts/phpunit.sh || {
+sh ./standards/scripts/parallel.sh || {
     echo "❌ Tests failed!"
     exit 1
 }

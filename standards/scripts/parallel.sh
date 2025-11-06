@@ -80,11 +80,13 @@ echo "$TEST_DIRS" | while read -r test_dir; do
 
     # Run tests: use docker exec if available, otherwise run directly
     if command -v docker >/dev/null 2>&1; then
+        docker exec "${CONTAINER_NAME}_app" chmod +x vendor/bin/paratest 2>/dev/null || true
         if ! docker exec "${CONTAINER_NAME}_app" env DB_DATABASE="${DB_DATABASE}" vendor/bin/paratest -p "${PARALLEL_PROCESSES_COUNT}" --configuration ./phpunit.xml "${test_dir}"; then
             echo "❌ Tests failed in: ${test_dir}"
             exit 1
         fi
     else
+        chmod +x vendor/bin/paratest 2>/dev/null || true
         if ! env DB_DATABASE="${DB_DATABASE}" vendor/bin/paratest -p "${PARALLEL_PROCESSES_COUNT}" --configuration ./phpunit.xml "${test_dir}"; then
             echo "❌ Tests failed in: ${test_dir}"
             exit 1

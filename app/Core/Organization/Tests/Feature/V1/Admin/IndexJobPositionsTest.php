@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Organization\V1\Admin;
+namespace App\Core\Organization\Tests\Feature\V1\Admin;
 
 use App\Core\Organization\Entities\JobPosition;
 use Tests\APITestBase;

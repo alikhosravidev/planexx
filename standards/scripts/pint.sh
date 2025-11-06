@@ -41,28 +41,31 @@ echo ""
 echo "🎨 Formatting files with Laravel Pint..."
 
 # Try to run in Docker first
-EXIT_CODE=0
-if [ -n "$PINT_CONFIG" ]; then
-    docker exec "${CONTAINER_NAME}_app" bash -c "echo '$FILES_TO_PINT' | xargs -r ./vendor/bin/pint $PINT_CONFIG" 2>/dev/null || EXIT_CODE=$?
-else
-    docker exec "${CONTAINER_NAME}_app" bash -c "echo '$FILES_TO_PINT' | xargs -r ./vendor/bin/pint" 2>/dev/null || EXIT_CODE=$?
-fi
-
-if [ "$EXIT_CODE" -ne 0 ]; then
-    echo ""
-    echo "⚠️  Docker execution failed. Trying locally..."
+if command -v docker >/dev/null 2>&1; then
+    docker exec "${CONTAINER_NAME}_app" chmod +x vendor/bin/pint 2>/dev/null || true
     if [ -n "$PINT_CONFIG" ]; then
-        echo "$FILES_TO_PINT" | xargs -r ./vendor/bin/pint $PINT_CONFIG || {
-            echo ""
+        if ! docker exec "${CONTAINER_NAME}_app" bash -c "echo '$FILES_TO_PINT' | xargs -r ./vendor/bin/pint $PINT_CONFIG"; then
             echo "❌ Pint formatting failed!"
             exit 1
-        }
+        fi
     else
-        echo "$FILES_TO_PINT" | xargs -r ./vendor/bin/pint || {
-            echo ""
+        if ! docker exec "${CONTAINER_NAME}_app" bash -c "echo '$FILES_TO_PINT' | xargs -r ./vendor/bin/pint"; then
             echo "❌ Pint formatting failed!"
             exit 1
-        }
+        fi
+    fi
+else
+    chmod +x vendor/bin/pint 2>/dev/null || true
+    if [ -n "$PINT_CONFIG" ]; then
+        if ! echo "$FILES_TO_PINT" | xargs -r ./vendor/bin/pint $PINT_CONFIG; then
+            echo "❌ Pint formatting failed!"
+            exit 1
+        fi
+    else
+        if ! echo "$FILES_TO_PINT" | xargs -r ./vendor/bin/pint; then
+            echo "❌ Pint formatting failed!"
+            exit 1
+        fi
     fi
 fi
 

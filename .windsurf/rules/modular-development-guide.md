@@ -66,8 +66,8 @@ ModuleName/
 #### Database
 - **Task**: Manage database structure.
 - **Subsections**:
-  - **Factories**: Create test data with Faker.
-  - **Migrations**: Create and modify database tables.
+    - **Factories**: Create test data with Faker.
+    - **Migrations**: Create and modify database tables.
 - **Example**: `UserFactory` for creating test users, migrations for users table.
 
 #### Entities
@@ -86,10 +86,10 @@ ModuleName/
 #### Http
 - **Task**: Manage HTTP requests and responses.
 - **Subsections**:
-  - **Controllers**: API controllers that manage request logic.
-  - **Requests**: Request validation classes.
-  - **Rules**: Custom validation rules.
-  - **Transformers**: Transform data for API responses (like Fractal).
+    - **Controllers**: API controllers that manage request logic.
+    - **Requests**: Request validation classes.
+    - **Rules**: Custom validation rules.
+    - **Transformers**: Transform data for API responses (like Fractal).
 - **Example**: `UserController` in `V1/Admin/` and `V1/Client/`.
 
 #### Listeners
@@ -111,7 +111,7 @@ ModuleName/
 #### Repositories
 - **Task**: Data access layer, separate from business logic.
 - **Subsections**:
-  - **Criteria**: Classes for complex filtering (like advanced Repository Pattern).
+    - **Criteria**: Classes for complex filtering (like advanced Repository Pattern).
 - **Example**: `UserRepository` with methods like `findByMobile`.
 
 #### Resources
@@ -121,7 +121,7 @@ ModuleName/
 #### Routes
 - **Task**: Define API routes.
 - **Subsections**:
-  - **V1/**: API version 1.
+    - **V1/**: API version 1.
 - **Example**: `api.php` file for defining User routes.
 
 #### Services
@@ -131,8 +131,8 @@ ModuleName/
 #### Tests
 - **Task**: Unit and integration tests.
 - **Subsections**:
-  - **Unit**: Test classes in isolation.
-  - **Integration**: Test interaction between components.
+    - **Unit**: Test classes in isolation.
+    - **Integration**: Test interaction between components.
 - **Example**: Tests for UserRepository and UserController.
 
 #### Traits
@@ -152,6 +152,7 @@ ModuleName/
 ### 2. Create Folder Structure
 - Follow the structure above.
 - Only create folders you need.
+- **Important**: For empty directories that need to be tracked in Git, add a `.gitkeep` file to ensure the directory structure is maintained in version control. This is especially useful for directories like `Criteria/`, `Factories/`, or any other folder that might initially be empty but is part of the module architecture.
 
 ### 3. Create Main Entity
 - Create the Eloquent model in `Entities/`.

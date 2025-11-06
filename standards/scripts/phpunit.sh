@@ -75,11 +75,13 @@ echo "$TEST_DIRS" | while read -r test_dir; do
 
     # Try to run in Docker first
     if command -v docker >/dev/null 2>&1; then
+        docker exec "${CONTAINER_NAME}_app" chmod +x vendor/bin/phpunit 2>/dev/null || true
         if ! docker exec "${CONTAINER_NAME}_app" vendor/bin/phpunit --configuration ./phpunit.xml "${test_dir}"; then
             echo "❌ Tests failed in: ${test_dir}"
             exit 1
         fi
     else
+        chmod +x vendor/bin/phpunit 2>/dev/null || true
         if ! vendor/bin/phpunit --configuration ./phpunit.xml "${test_dir}"; then
             echo "❌ Tests failed in: ${test_dir}"
             exit 1

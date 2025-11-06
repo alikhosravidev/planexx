@@ -7,6 +7,7 @@ namespace App\Providers;
 use App\Commands\PrepareParallelTests;
 use App\Contracts\BootstrapFileManagerInterface;
 use App\Contracts\ModuleDiscoveryInterface;
+use App\Core\BPMS\Providers\BPMSServiceProvider;
 use App\Core\Organization\Providers\OrganizationServiceProvider;
 use App\Core\User\Providers\UserServiceProvider;
 use App\Services\AIImageService\AIImageService;
@@ -75,6 +76,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->register(UserServiceProvider::class);
         $this->app->register(OrganizationServiceProvider::class);
+        $this->app->register(BPMSServiceProvider::class);
     }
 
     private function registerModuleProviders(): void
@@ -82,10 +84,8 @@ class AppServiceProvider extends ServiceProvider
         /** @var ModuleManager $manager */
         $manager = $this->app->make(ModuleManager::class);
 
-        // Ensure bootstrap mapping is present/valid before reading enabled modules
         $manager->ensureBootstrapFile();
 
-        // Register enabled Feature module providers: Modules\\{Module}\\Providers\\{Module}ServiceProvider
         foreach ($manager->getEnabledModules() as $module) {
             $provider = "Modules\\{$module}\\Providers\\{$module}ServiceProvider";
 

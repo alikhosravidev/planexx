@@ -18,7 +18,14 @@ declare(strict_types=1);
 namespace App\Core\User\Http\Transformers\V1\Admin;
 
 use App\Contracts\Transformer\BaseTransformer;
+use App\Services\Transformer\FieldTransformers\DateTimeTransformer;
 
 class UserTransformer extends BaseTransformer
 {
+    protected array $fieldTransformers = [
+        'email_verified_at'  => DateTimeTransformer::class,
+        'mobile_verified_at' => DateTimeTransformer::class,
+        'last_login_at'      => DateTimeTransformer::class,
+        'employment_date'    => DateTimeTransformer::class,
+    ];
 }

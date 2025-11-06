@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\AIImageService\Tests\Unit\DTOs;
+namespace App\Tests\Unit\Services\ImageService\DTOs;
 
 use App\Services\AIImageService\DTOs\ImageResponse;
 use Tests\PureUnitTestBase;

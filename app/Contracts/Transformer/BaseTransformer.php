@@ -5,106 +5,217 @@ declare(strict_types=1);
 namespace App\Contracts\Transformer;
 
 use App\Contracts\Model\BaseModel;
-use Illuminate\Database\Eloquent\Model;
+use App\Services\Transformer\FieldTransformerRegistry;
+use App\Services\Transformer\ModelTransformationContext;
+use App\Services\Transformer\Steps\BlacklistFilterStep;
+use App\Services\Transformer\Steps\DataExtractionStep;
+use App\Services\Transformer\Steps\FieldTransformationStep;
+use App\Services\Transformer\TransformationPipeline;
+use App\Services\Transformer\TransformerConfig;
+use App\Services\Transformer\VirtualFieldResolver;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use League\Fractal\Manager;
 use League\Fractal\TransformerAbstract;
+use Psr\Log\LoggerInterface;
 
-abstract class BaseTransformer extends TransformerAbstract
+abstract class BaseTransformer extends TransformerAbstract implements TransformerInterface
 {
-    protected array $blackListFields   = [];
-    protected array $fieldTransformers = [];
-    protected array $availableIncludes = [];
-    protected array $defaultIncludes   = [];
-    protected bool $includeAccessors   = true;
-
-    private Manager $manager;
-
     public function __construct(
-        protected Request $request
+        protected readonly TransformerConfig $config,
+        protected readonly FieldTransformerRegistry $registry,
+        protected readonly DataExtractorInterface $extractor,
+        protected readonly Manager $manager,
+        protected readonly LoggerInterface $logger,
     ) {
-        $this->manager = new Manager();
-
-        // Parse includes and excludes from request
-        $this->manager->parseIncludes(
-            $request->get('includes') ?? $this->defaultIncludes
-        );
-        $this->manager->parseExcludes(
-            $request->get('excludes') ?? []
-        );
+        // Constructor is now empty - initialization moved to factory
     }
 
     /**
-     * Transform the model to array.
-     * By default, includes all fields except blacklisted ones.
-     * Applies field-specific transformers.
+     * Transform a single model to array format.
      *
-     * @param Model|array $model
-     * @return array|null
+     * @param BaseModel $model
+     * @return array
      */
-    public function transform($model): ?array
+    public function transformModel(BaseModel $model): array
     {
-        $data = $this->extractData($model);
-        $data = $this->applyBlacklist($data);
-
-        return $this->transformFields($model, $data);
+        return $this->transform($model);
     }
 
     /**
-     * Extract data from model (attributes + relations + accessors if enabled).
+     * Transform an array to array format.
+     *
+     * @param array $data
+     * @return array
      */
-    protected function extractData($model): array
+    public function transformArray(array $data): array
     {
-        if (!$model instanceof BaseModel) {
-            return is_array($model) ? $model : [$model];
+        return $this->transform($data);
+    }
+
+    /**
+     * Transform a collection of models to array format.
+     *
+     * @param Collection $models
+     * @return array
+     */
+    public function transformCollection(Collection $models): array
+    {
+        return $this->transformMany($models->toArray(), null);
+    }
+
+    /**
+     * Transform method required by Fractal.
+     *
+     * @param BaseModel $data
+     * @return array
+     */
+    public function transform(BaseModel $data): array
+    {
+        $pipeline = $this->buildPipeline();
+        $context  = new ModelTransformationContext([], $data);
+        $result   = $pipeline->process($context);
+
+        return $result->data;
+    }
+
+    /**
+     * Set includes for the Fractal manager.
+     *
+     * @param array $includes
+     * @return static
+     */
+    public function setIncludes(array $includes): static
+    {
+        $this->manager->parseIncludes($includes);
+
+        return $this;
+    }
+
+    /**
+     * Set excludes for the Fractal manager.
+     *
+     * @param array $excludes
+     * @return static
+     */
+    public function setExcludes(array $excludes): static
+    {
+        $this->manager->parseExcludes($excludes);
+
+        return $this;
+    }
+
+    /**
+     * Configure the transformer with request parameters.
+     *
+     * @param Request $request
+     * @return static
+     */
+    public function withRequest(Request $request): static
+    {
+        $includes = $request->get('includes');
+
+        if ($includes) {
+            $this->setIncludes(is_string($includes) ? explode(',', $includes) : $includes);
         }
 
-        $data = array_merge(
-            $model->attributesToArray(),
-            $model->relationsToArray()
+        $excludes = $request->get('excludes');
+
+        if ($excludes) {
+            $this->setExcludes(is_string($excludes) ? explode(',', $excludes) : $excludes);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Build the transformation pipeline with default steps.
+     *
+     * @return TransformationPipeline
+     */
+    protected function buildPipeline(): TransformationPipeline
+    {
+        return new TransformationPipeline([
+            $this->createDataExtractionStep(),
+            $this->createBlacklistFilterStep(),
+            $this->createFieldTransformationStep(),
+            $this->createVirtualFieldResolutionStep(),
+        ]);
+    }
+
+    /**
+     * Create the data extraction step.
+     *
+     * @return TransformationStepInterface
+     */
+    protected function createDataExtractionStep(): TransformationStepInterface
+    {
+        return new DataExtractionStep($this->extractor);
+    }
+
+    /**
+     * Create the blacklist filter step.
+     *
+     * @return TransformationStepInterface
+     */
+    protected function createBlacklistFilterStep(): TransformationStepInterface
+    {
+        return new BlacklistFilterStep($this->config);
+    }
+
+    /**
+     * Create the field transformation step.
+     *
+     * @return TransformationStepInterface
+     */
+    protected function createFieldTransformationStep(): TransformationStepInterface
+    {
+        return new FieldTransformationStep($this->registry);
+    }
+
+    /**
+     * Create the virtual field resolution step.
+     *
+     * @return TransformationStepInterface
+     */
+    protected function createVirtualFieldResolutionStep(): TransformationStepInterface
+    {
+        return new \App\Services\Transformer\Steps\VirtualFieldResolutionStep(
+            $this->createVirtualFieldResolver(),
+            $this->logger
         );
-
-        // Add accessors if enabled
-        if ($this->includeAccessors) {
-            foreach ($model->getAppends() as $accessor) {
-                if (isset($model->$accessor)) {
-                    $data[$accessor] = $model->$accessor;
-                }
-            }
-        }
-
-        return $data;
     }
 
     /**
-     * Apply blacklist to remove unwanted fields.
+     * Create the virtual field resolver.
+     *
+     * @return VirtualFieldResolverInterface
      */
-    protected function applyBlacklist(array $data): array
+    protected function createVirtualFieldResolver(): VirtualFieldResolverInterface
     {
-        return array_diff_key($data, array_flip($this->blackListFields));
+        return new VirtualFieldResolver($this->getVirtualFieldResolvers());
     }
 
     /**
-     * Transform individual fields using field transformers.
+     * Get virtual field resolvers for this transformer.
+     * Override in child classes to provide virtual fields.
+     *
+     * @return array<string, callable>
      */
-    protected function transformFields($model, array $data): array
+    protected function getVirtualFieldResolvers(): array
     {
-        foreach ($data as $field => $value) {
-            if (isset($this->fieldTransformers[$field])) {
-                $transformerClass = $this->fieldTransformers[$field];
-                $transformer      = new $transformerClass();
-                $data[$field]     = $transformer->transformOne($value);
-            }
-        }
-
-        return $data;
+        return [];
     }
 
     /**
      * Transform a single item.
      */
-    public function transformOne($model, ?string $resourceKey = null): mixed
+    public function transformOne($model, ?string $resourceKey = null): array
     {
+        if ($model instanceof BaseModel) {
+            return $this->transform($model);
+        }
+
         $resource = $this->item($model, $this, $resourceKey);
 
         return $this->manager->createData($resource)->toArray();
@@ -113,7 +224,7 @@ abstract class BaseTransformer extends TransformerAbstract
     /**
      * Transform a collection.
      */
-    public function transformMany($model, ?string $resourceKey = null): mixed
+    public function transformMany($model, ?string $resourceKey = null): array
     {
         $resource = $this->collection($model, $this, $resourceKey);
 
@@ -125,7 +236,11 @@ abstract class BaseTransformer extends TransformerAbstract
      */
     public function getAvailableIncludes(): array
     {
-        return $this->availableIncludes;
+        if (!empty($this->availableIncludes)) {
+            return $this->availableIncludes;
+        }
+
+        return $this->config->availableIncludes;
     }
 
     /**
@@ -133,14 +248,21 @@ abstract class BaseTransformer extends TransformerAbstract
      */
     public function getDefaultIncludes(): array
     {
-        return $this->defaultIncludes;
+        if (!empty($this->defaultIncludes)) {
+            return $this->defaultIncludes;
+        }
+
+        return $this->config->defaultIncludes;
     }
 
     /**
      * Include a relationship with optional transformer.
      */
-    protected function includeRelation(string $name, callable $callback, ?TransformerAbstract $transformer = null): callable
-    {
+    protected function includeRelation(
+        string $name,
+        callable $callback,
+        ?TransformerInterface $transformer = null
+    ): callable {
         return function ($model) use ($name, $callback, $transformer) {
             $relation = $callback($model);
 

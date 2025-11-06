@@ -18,25 +18,16 @@ declare(strict_types=1);
 namespace Tests;
 
 use App\Core\User\Entities\PersonalAccessToken;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Testing\TestResponse;
 
 abstract class APITestBase extends TestCase
 {
+    use DatabaseTransactions;
     use HasActor;
 
     protected PersonalAccessToken $accessToken;
 
-    /**
-     * Asserts that the API response is successful.
-     *
-     * This method performs the following checks:
-     * 1. The response status is 200.
-     * 2. The 'status' key exists and is true.
-     * 3. The 'result' key exists and is not empty.
-     * 4. The 'errors' key does not exist or is empty.
-     *
-     * @param TestResponse $response the response to assert
-     */
     protected function assertSuccessAPIResponse(TestResponse $response, ?string $action = null): void
     {
         // 1. Check if the response status is 200

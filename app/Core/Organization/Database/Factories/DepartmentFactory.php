@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Organization\Database\Factories;
 
 use App\Core\Organization\Entities\Department;
+use App\Core\User\Entities\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DepartmentFactory extends Factory
@@ -15,6 +16,7 @@ class DepartmentFactory extends Factory
     {
         return [
             'name'        => $this->faker->company(),
+            'manager_id'  => User::factory(),
             'code'        => $this->faker->unique()->regexify('[A-Z]{3}[0-9]{3}'),
             'image_url'   => $this->faker->optional()->imageUrl(),
             'description' => $this->faker->optional()->sentence(),

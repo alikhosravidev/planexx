@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\User\Tests\Unit\DTOs;
+namespace App\Tests\Unit\Services\ImageService\DTOs;
 
 use App\Services\AIImageService\DTOs\EditImageRequest;
 use InvalidArgumentException;

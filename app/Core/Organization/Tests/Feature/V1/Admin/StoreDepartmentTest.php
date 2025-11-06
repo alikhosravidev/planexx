@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Organization\V1\Admin;
+namespace App\Core\Organization\Tests\Feature\V1\Admin;
 
 use App\Core\Organization\Entities\Department;
 use Tests\APITestBase;
@@ -25,7 +25,7 @@ class StoreDepartmentTest extends APITestBase
     {
         $name        = 'IT Department';
         $code        = 'IT-' . uniqid();
-        $description = 'Information Technology Department';
+        $description = 'Information technology department';
 
         $data = [
             'name'        => $name,
@@ -40,12 +40,16 @@ class StoreDepartmentTest extends APITestBase
         $response->assertJson([
             'status' => true,
             'result' => [
-                'data' => [
-                    'name'        => $name,
-                    'code'        => $code,
-                    'description' => $description,
-                    'is_active'   => true,
+                'name'        => $name,
+                'code'        => $code,
+                'description' => [
+                    'full'       => $description,
+                    'short'      => $description,
+                    'lines'      => 1,
+                    'words'      => 3,
+                    'read_times' => 1,
                 ],
+                'is_active' => true,
             ],
         ]);
 
