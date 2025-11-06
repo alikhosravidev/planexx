@@ -4,17 +4,44 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Contracts\BootstrapFileManagerInterface;
+use App\Contracts\ModuleDiscoveryInterface;
 use App\Core\Organization\Providers\OrganizationServiceProvider;
 use App\Core\User\Providers\UserServiceProvider;
+use App\Services\FilesystemModuleDiscovery;
 use App\Services\ModuleManager;
+use App\Services\PhpFileBootstrapManager;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        // Bind ModuleManager
-        $this->app->singleton(ModuleManager::class, fn () => new ModuleManager());
+        // Production bindings for ModuleManager dependencies
+        $this->app->singleton(ModuleDiscoveryInterface::class, function ($app) {
+            /** @var Filesystem $fs */
+            $fs          = $app->make(Filesystem::class);
+            $modulesPath = base_path('Modules');
+
+            return new FilesystemModuleDiscovery($fs, $modulesPath);
+        });
+
+        $this->app->singleton(BootstrapFileManagerInterface::class, function ($app) {
+            /** @var Filesystem $fs */
+            $fs            = $app->make(Filesystem::class);
+            $bootstrapFile = base_path('bootstrap/modules.php');
+
+            return new PhpFileBootstrapManager($fs, $bootstrapFile);
+        });
+
+        // Bind ModuleManager with DI
+        $this->app->singleton(ModuleManager::class, function ($app) {
+            return new ModuleManager(
+                $app->make(ModuleDiscoveryInterface::class),
+                $app->make(BootstrapFileManagerInterface::class),
+            );
+        });
 
         $this->registerCoreProviders();
 
@@ -36,6 +63,9 @@ class AppServiceProvider extends ServiceProvider
     {
         /** @var ModuleManager $manager */
         $manager = $this->app->make(ModuleManager::class);
+
+        // Ensure bootstrap mapping is present/valid before reading enabled modules
+        $manager->ensureBootstrapFile();
 
         // Register enabled Feature module providers: Modules\\{Module}\\Providers\\{Module}ServiceProvider
         foreach ($manager->getEnabledModules() as $module) {
