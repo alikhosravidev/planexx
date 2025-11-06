@@ -8,31 +8,47 @@ use App\Contracts\BootstrapFileManagerInterface;
 use App\Contracts\ModuleDiscoveryInterface;
 use App\Core\Organization\Providers\OrganizationServiceProvider;
 use App\Core\User\Providers\UserServiceProvider;
+use App\Services\AIImageService\AIImageService;
+use App\Services\AIImageService\AIImageServiceFactory;
 use App\Services\FilesystemModuleDiscovery;
+use App\Services\HttpClient;
 use App\Services\ModuleManager;
 use App\Services\PhpFileBootstrapManager;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
+use Psr\Log\LoggerInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        // Production bindings for ModuleManager dependencies
         $this->app->singleton(ModuleDiscoveryInterface::class, function ($app) {
             /** @var Filesystem $fs */
-            $fs          = $app->make(Filesystem::class);
             $modulesPath = base_path('Modules');
 
-            return new FilesystemModuleDiscovery($fs, $modulesPath);
+            return new FilesystemModuleDiscovery(
+                $app->make(Filesystem::class),
+                $modulesPath
+            );
         });
 
         $this->app->singleton(BootstrapFileManagerInterface::class, function ($app) {
             /** @var Filesystem $fs */
-            $fs            = $app->make(Filesystem::class);
             $bootstrapFile = base_path('bootstrap/modules.php');
 
-            return new PhpFileBootstrapManager($fs, $bootstrapFile);
+            return new PhpFileBootstrapManager(
+                $app->make(Filesystem::class),
+                $bootstrapFile
+            );
+        });
+
+        // Bind AI Image Service Factory
+        $this->app->singleton('ai_image_service_factory', function ($app) {
+            return new AIImageServiceFactory(
+                $app->make(AIImageService::class),
+                $app->make(LoggerInterface::class),
+                $app->make(HttpClient::class)
+            );
         });
 
         // Bind ModuleManager with DI
@@ -44,13 +60,11 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->registerCoreProviders();
-
         $this->registerModuleProviders();
     }
 
     public function boot(): void
     {
-        // Nothing required here for now
     }
 
     private function registerCoreProviders(): void
