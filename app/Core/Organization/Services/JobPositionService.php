@@ -9,25 +9,21 @@ use App\Core\Organization\DTOs\JobPositionDTO;
 use App\Core\Organization\Entities\JobPosition;
 use App\Core\Organization\Repositories\JobPositionRepository;
 
-class JobPositionService implements JobPositionServiceInterface
+readonly class JobPositionService implements JobPositionServiceInterface
 {
     public function __construct(
-        private readonly JobPositionRepository $jobPositionRepository,
+        private JobPositionRepository $jobPositionRepository,
     ) {
     }
 
     public function create(JobPositionDTO $dto): JobPosition
     {
-        $data = $dto->toArray();
-
-        return $this->jobPositionRepository->create($data);
+        return $this->jobPositionRepository->create($dto->toArray());
     }
 
     public function update(JobPosition $jobPosition, JobPositionDTO $dto): JobPosition
     {
-        $data = $dto->toArray();
-
-        return $this->jobPositionRepository->update($jobPosition->id, $data);
+        return $this->jobPositionRepository->update($jobPosition->id, $dto->toArray());
     }
 
     public function delete(JobPosition $jobPosition): bool

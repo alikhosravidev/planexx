@@ -9,10 +9,10 @@ use App\Core\Organization\DTOs\DepartmentDTO;
 use App\Core\Organization\Entities\Department;
 use App\Core\Organization\Repositories\DepartmentRepository;
 
-class DepartmentService implements DepartmentServiceInterface
+readonly class DepartmentService implements DepartmentServiceInterface
 {
     public function __construct(
-        private readonly DepartmentRepository $departmentRepository,
+        private DepartmentRepository $departmentRepository,
     ) {
     }
 

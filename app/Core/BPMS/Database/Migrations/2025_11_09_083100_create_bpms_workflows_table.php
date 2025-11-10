@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
@@ -34,8 +33,6 @@ return new class () extends Migration {
             $table->index('is_active', 'idx_active');
             $table->index('deleted_at', 'idx_deleted');
         });
-
-        DB::statement('ALTER TABLE bpms_workflows ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci');
     }
 
     public function down(): void

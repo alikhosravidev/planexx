@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Core\BPMS\Providers;
 
+use App\Core\BPMS\Entities\WorkflowState;
+use App\Observers\GlobalRecordsOrderingObserver;
 use App\Utilities\ProviderUtility;
 use Illuminate\Support\ServiceProvider;
 
@@ -23,5 +25,7 @@ class BPMSServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(
             ProviderUtility::corePath('BPMS/Database/Migrations')
         );
+
+        WorkflowState::observe(GlobalRecordsOrderingObserver::class);
     }
 }

@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Core\BPMS\Entities;
 
 use App\Contracts\Model\BaseModel;
+use App\Contracts\Sorting\SortableEntity;
 use App\Core\BPMS\Database\Factories\WorkflowStateFactory;
 use App\Core\BPMS\Enums\WorkflowStatePosition;
 use App\Core\User\Entities\User;
+use App\Traits\Sorting\HasSorting;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -33,10 +35,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property User|null                    $defaultAssignee
  * @property \Illuminate\Database\Eloquent\Collection<int, Task> $tasks
  */
-class WorkflowState extends BaseModel
+class WorkflowState extends BaseModel implements SortableEntity
 {
     use HasFactory;
     use SoftDeletes;
+    use HasSorting;
 
     protected $table = 'bpms_workflow_states';
 
@@ -56,6 +59,16 @@ class WorkflowState extends BaseModel
         'position'  => WorkflowStatePosition::class,
         'is_active' => 'boolean',
     ];
+
+    public function sortingColumnName(): string
+    {
+        return 'order';
+    }
+
+    public function baseSortQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return static::query()->where('workflow_id', $this->workflow_id);
+    }
 
     public function workflow(): BelongsTo
     {

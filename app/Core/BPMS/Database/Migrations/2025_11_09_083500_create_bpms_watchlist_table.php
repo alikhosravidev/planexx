@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
@@ -30,8 +29,6 @@ return new class () extends Migration {
             $table->index('watcher_id', 'idx_watcher');
             $table->index('watch_status', 'idx_status');
         });
-
-        DB::statement('ALTER TABLE bpms_watchlist ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci');
     }
 
     public function down(): void
