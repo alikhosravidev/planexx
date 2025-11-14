@@ -8,7 +8,7 @@ use App\Bus\Contracts\UserProvider;
 use App\Commands\PrepareParallelTests;
 use App\Contracts\BootstrapFileManagerInterface;
 use App\Contracts\ModuleDiscoveryInterface;
-use App\Core\FormWizard\Providers\FormWizardServiceProvider;
+use App\Core\FormEngine\Providers\FormEngineServiceProvider;
 use App\Core\Organization\Providers\OrganizationServiceProvider;
 use App\Core\User\Providers\UserServiceProvider;
 use App\Core\User\Repositories\UserRepository;
@@ -81,7 +81,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->register(UserServiceProvider::class);
         $this->app->register(OrganizationServiceProvider::class);
-        $this->app->register(FormWizardServiceProvider::class);
+        $this->app->register(FormEngineServiceProvider::class);
     }
 
     private function registerModuleProviders(): void

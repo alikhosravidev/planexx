@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Core\FormWizard\Database\Factories;
+namespace App\Core\FormEngine\Database\Factories;
 
-use App\Core\FormWizard\Entities\SubmissionFieldValue;
+use App\Core\FormEngine\Entities\SubmissionFieldValue;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Core\FormWizard\Entities\SubmissionFieldValue>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Core\FormEngine\Entities\SubmissionFieldValue>
  */
 class SubmissionValueFactory extends Factory
 {
@@ -17,8 +17,8 @@ class SubmissionValueFactory extends Factory
     public function definition(): array
     {
         return [
-            'submission_id' => \App\Core\FormWizard\Entities\Submission::factory(),
-            'field_id'      => \App\Core\FormWizard\Entities\FormField::factory(),
+            'submission_id' => \App\Core\FormEngine\Entities\Submission::factory(),
+            'field_id'      => \App\Core\FormEngine\Entities\FormField::factory(),
             'value'         => $this->faker->optional()->word(),
             'file_url'      => $this->faker->optional()->url(),
             'file_metadata' => $this->faker->optional()->randomElements(['size' => 1234], 2),

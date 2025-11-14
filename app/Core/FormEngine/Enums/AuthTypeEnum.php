@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\FormWizard\Enums;
+namespace App\Core\FormEngine\Enums;
 
 enum AuthTypeEnum: int
 {

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Core\FormWizard\Providers;
+namespace App\Core\FormEngine\Providers;
 
 use App\Utilities\ProviderUtility;
 use Illuminate\Support\ServiceProvider;
 
-class FormWizardServiceProvider extends ServiceProvider
+class FormEngineServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
@@ -17,11 +17,11 @@ class FormWizardServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //$this->loadRoutesFrom(
-        //    ProviderUtility::corePath('FormWizard/Routes/V1/admin.php')
+        //    ProviderUtility::corePath('FormEngine/Routes/V1/admin.php')
         //);
 
         $this->loadMigrationsFrom(
-            ProviderUtility::corePath('FormWizard/Database/Migrations')
+            ProviderUtility::corePath('FormEngine/Database/Migrations')
         );
     }
 }

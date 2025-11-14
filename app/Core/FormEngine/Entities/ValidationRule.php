@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\FormWizard\Entities;
+namespace App\Core\FormEngine\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  *
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Core\FormWizard\Entities\FieldValidation> $fieldValidations
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Core\FormEngine\Entities\FieldValidation> $fieldValidations
  */
 class ValidationRule extends Model
 {

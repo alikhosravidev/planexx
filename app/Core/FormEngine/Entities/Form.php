@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Core\FormWizard\Entities;
+namespace App\Core\FormEngine\Entities;
 
-use App\Core\FormWizard\Enums\AuthTypeEnum;
-use App\Core\FormWizard\Enums\DisplayModeEnum;
+use App\Core\FormEngine\Enums\AuthTypeEnum;
+use App\Core\FormEngine\Enums\DisplayModeEnum;
 use App\Core\User\Entities\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -29,9 +30,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon|null $deleted_at
  *
- * @property-read \App\Core\User\Entities\User|null $creator
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Core\FormWizard\Entities\FormField> $fields
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Core\FormWizard\Entities\Submission> $submissions
+ * @property-read User|null $creator
+ * @property-read Collection<int, FormField> $fields
+ * @property-read Collection<int, Submission> $submissions
  */
 class Form extends Model
 {

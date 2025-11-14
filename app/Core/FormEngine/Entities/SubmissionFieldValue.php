@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\FormWizard\Entities;
+namespace App\Core\FormEngine\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,8 +17,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  *
- * @property-read \App\Core\FormWizard\Entities\Submission $submission
- * @property-read \App\Core\FormWizard\Entities\FormField $field
+ * @property-read \App\Core\FormEngine\Entities\Submission $submission
+ * @property-read \App\Core\FormEngine\Entities\FormField $field
  */
 class SubmissionFieldValue extends Model
 {

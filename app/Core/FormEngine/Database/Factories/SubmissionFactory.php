@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Core\FormWizard\Database\Factories;
+namespace App\Core\FormEngine\Database\Factories;
 
-use App\Core\FormWizard\Entities\Submission;
+use App\Core\FormEngine\Entities\Submission;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Core\FormWizard\Entities\Submission>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Core\FormEngine\Entities\Submission>
  */
 class SubmissionFactory extends Factory
 {
@@ -17,7 +17,7 @@ class SubmissionFactory extends Factory
     public function definition(): array
     {
         return [
-            'form_id'      => \App\Core\FormWizard\Entities\Form::factory(),
+            'form_id'      => \App\Core\FormEngine\Entities\Form::factory(),
             'user_id'      => null, // or User::factory()
             'user_name'    => $this->faker->optional()->name(),
             'user_mobile'  => $this->faker->optional()->phoneNumber(),

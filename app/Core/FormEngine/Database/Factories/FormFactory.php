@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Core\FormWizard\Database\Factories;
+namespace App\Core\FormEngine\Database\Factories;
 
-use App\Core\FormWizard\Entities\Form;
-use App\Core\FormWizard\Enums\AuthTypeEnum;
-use App\Core\FormWizard\Enums\DisplayModeEnum;
+use App\Core\FormEngine\Entities\Form;
+use App\Core\FormEngine\Enums\AuthTypeEnum;
+use App\Core\FormEngine\Enums\DisplayModeEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Core\FormWizard\Entities\Form>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Core\FormEngine\Entities\Form>
  */
 class FormFactory extends Factory
 {

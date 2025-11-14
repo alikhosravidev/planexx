@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\FormWizard\Providers;
+namespace App\Core\FormEngine\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 

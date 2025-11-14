@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Core\FormWizard\Database\Factories;
+namespace App\Core\FormEngine\Database\Factories;
 
-use App\Core\FormWizard\Entities\FormField;
-use App\Core\FormWizard\Enums\FieldTypeEnum;
+use App\Core\FormEngine\Entities\FormField;
+use App\Core\FormEngine\Enums\FieldTypeEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Core\FormWizard\Entities\FormField>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Core\FormEngine\Entities\FormField>
  */
 class FormFieldFactory extends Factory
 {
@@ -18,7 +18,7 @@ class FormFieldFactory extends Factory
     public function definition(): array
     {
         return [
-            'form_id'       => \App\Core\FormWizard\Entities\Form::factory(),
+            'form_id'       => \App\Core\FormEngine\Entities\Form::factory(),
             'field_key'     => $this->faker->unique()->word(),
             'field_type'    => $this->faker->randomElement(FieldTypeEnum::cases()),
             'label'         => $this->faker->sentence(),

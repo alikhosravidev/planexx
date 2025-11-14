@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Core\FormWizard\Database\Factories;
+namespace App\Core\FormEngine\Database\Factories;
 
-use App\Core\FormWizard\Entities\ValidationRule;
+use App\Core\FormEngine\Entities\ValidationRule;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Core\FormWizard\Entities\ValidationRule>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Core\FormEngine\Entities\ValidationRule>
  */
 class ValidationRuleFactory extends Factory
 {

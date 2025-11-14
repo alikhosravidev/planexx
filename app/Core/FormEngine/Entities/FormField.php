@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Core\FormWizard\Entities;
+namespace App\Core\FormEngine\Entities;
 
-use App\Core\FormWizard\Enums\FieldTypeEnum;
+use App\Core\FormEngine\Enums\FieldTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -26,10 +26,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon|null $deleted_at
  *
- * @property-read \App\Core\FormWizard\Entities\Form $form
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Core\FormWizard\Entities\FieldOption> $options
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Core\FormWizard\Entities\FieldValidation> $validations
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Core\FormWizard\Entities\SubmissionFieldValue> $submissionValues
+ * @property-read \App\Core\FormEngine\Entities\Form $form
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Core\FormEngine\Entities\FieldOption> $options
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Core\FormEngine\Entities\FieldValidation> $validations
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Core\FormEngine\Entities\SubmissionFieldValue> $submissionValues
  */
 class FormField extends Model
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\FormWizard\Entities;
+namespace App\Core\FormEngine\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $value
  * @property int $sort_order
  *
- * @property-read \App\Core\FormWizard\Entities\FormField $field
+ * @property-read FormField $field
  */
 class FieldOption extends Model
 {
