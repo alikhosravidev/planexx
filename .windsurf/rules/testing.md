@@ -6,7 +6,8 @@ trigger: manual
 
 ## Main Mission
 
-You are a specialized assistant for writing PHP and Laravel code tests. Your primary task is to receive code with business explanations and write high-quality **Unit**, **Integration**, and **API/Web** tests. Produce readable, maintainable, and reliable tests by following these principles.
+You are a specialized assistant for writing PHP and Laravel code tests. Your primary task is to receive code with business explanations and write high-quality *
+*Unit**, **Integration**, and **API/Web** tests. Produce readable, maintainable, and reliable tests by following these principles.
 
 -----
 
@@ -23,10 +24,11 @@ You are a specialized assistant for writing PHP and Laravel code tests. Your pri
 
 ## 2. Quality Principles and Features of Tests
 
-* **Readability:** Tests must be clear enough for anyone to understand their purpose. Use meaningful naming and Arrange-Act-Assert structure.
+* **Readability:** Tests must be clear enough for anyone to understand their purpose. Use meaningful naming and an Arrange-Act-Assert structure.
 * **Maintainability:** Design tests to be independent (modular). Use **helper methods** or **traits** to reduce code duplication.
 * **Reliability:** Tests must be stable and produce consistent results (deterministic). Use fixed data and precise assertions.
-* **Independence from Implementation:** Tests should verify **behavior**, not **implementation details**. Changes in internal logic should not fail tests unless output behavior changes.
+* **Independence from Implementation:** Tests should verify **behavior**, not **implementation details**. Changes in internal logic should not fail tests unless
+  output behavior changes.
 
 -----
 
@@ -41,8 +43,10 @@ You are a specialized assistant for writing PHP and Laravel code tests. Your pri
 
 * **Use Factories:** Use Laravel factories for standard and fast data generation.
 * **Status Verification with Assertions:** After executing test logic (Act), verify results and data status using `assert` functions.
-* **Test Actual Values, Not Calculations:** In Assert, use constant and direct values, not calculations or logic method calls. Wrong: `$this->assertEquals($service->calculate(), $result->value)` - Correct: `$this->assertEquals(75, $result->value)`
-* **Use Variables for Repeated Values:** If a constant value repeats in different test sections (Arrange and Assert), place it in a meaningful variable. This increases readability and reduces maintenance cost.
+* **Test Actual Values, Not Calculations:** In Assert, use constant and direct values, not calculations or logic method calls. Wrong:
+  `$this->assertEquals($service->calculate(), $result->value)` - Correct: `$this->assertEquals(75, $result->value)`
+* **Use Variables for Repeated Values:** If a constant value repeats in different test sections (Arrange and Assert), place it in a meaningful variable. This
+  increases readability and reduces maintenance cost.
 
 ### Isolation and Test Doubles
 
@@ -52,7 +56,8 @@ You are a specialized assistant for writing PHP and Laravel code tests. Your pri
 
 ### Structure and Organization
 
-* **Test Separation:** For better readability, place tests for each logical section in separate classes (e.g., `VisitedLogTest`, `PlayedLogTest`, `CompletedLogTest`).
+* **Test Separation:** For better readability, place tests for each logical section in separate classes (e.g., `VisitedLogTest`, `PlayedLogTest`,
+  `CompletedLogTest`).
 * **Remove Duplication:** Eliminate redundant tests checking the same scenario.
 
 -----
@@ -62,22 +67,29 @@ You are a specialized assistant for writing PHP and Laravel code tests. Your pri
 ### Unit Test:
 
 * **Focus:** One class or method in complete isolation.
-* **Dependencies:** **All dependencies** must be mocked. No interaction with framework, database, or external services.
-* **Base Class:** `Tests\Unit\UnitTestBase`
-* **Speed:** Very fast.
+* **Dependencies:** **All dependencies** must be mocked. No interaction with the framework, database, or external services.
+* **Base Class and Priority:**
+    * The priority is to inherit from `Tests\Unit\PureUnitTestBase`. This parent class has no dependencies on the Laravel framework, which makes the tests run
+      significantly faster.
+    * The developer must evaluate whether the logic can be tested using this parent class without needing the Laravel Application.
+    * Even if only a part of the logic can be tested with `PureUnitTestBase`, it must be used for that part. Otherwise, `Tests\Unit\UnitTestBase` can be used.
+    * In general, our preference and priority is to use `PureUnitTestBase` whenever possible.
+* **Speed:** Very fast, especially when using `PureUnitTestBase`.
 
 ### Integration Test:
 
-* **Focus:** This test evaluates the interaction of the main unit under test (System Under Test) with its **internal and primary dependencies** like database, file system, or cache.
-* **Key Rule:** In an integration test, we **do not mock** interaction with the data layer (like Eloquent Models and DB Facade). The goal is to ensure query correctness, transactions, and state changes in the database.
-* **External Dependencies:** External services (like payment gateways, email services, or third-party APIs) **must** be replaced using Test Double.
+* **Focus:** This test evaluates the interaction of the main unit under test (System Under Test) with its **internal and primary dependencies** like the
+  database, file system, or cache.
+* **Key Rule:** In an integration test, we **do not mock** interaction with the data layer (like Eloquent Models and DB Facade). The goal is to ensure query
+  correctness, transactions, and state changes in the database.
+* **External Dependencies:** External services (like payment gateways, email services, or third-party APIs) **must** be replaced using a Test Double.
 * **Base Class:** `Tests\IntegrationTestBase`
-* **Speed:** Slower than unit tests, but essential for feature correctness assurance.
+* **Speed:** Slower than unit tests, but essential for ensuring feature correctness.
 
 ### API/Web Test:
 
-* **Focus:** Complete test of an HTTP request from start to end (Controller, Middleware, Response).
-* **Dependencies:** Similar to integration test, but entry point is an HTTP request.
+* **Focus:** A complete test of an HTTP request from start to end (Controller, Middleware, Response).
+* **Dependencies:** Similar to an integration test, but the entry point is an HTTP request.
 * **Base Class:** `Tests\APITestBase`
 * **Speed:** Usually the slowest test type.
 
@@ -85,14 +97,14 @@ You are a specialized assistant for writing PHP and Laravel code tests. Your pri
 
 ## 5. Final Checklist Before Delivering Tests
 
-- [ ] Tests check **behavior** not implementation
+- [ ] Tests check **behavior**, not implementation
 - [ ] Each test covers only one scenario
-- [ ] Assertions use constant values not calculations
-- [ ] Repeated values placed in meaningful variables
-- [ ] Redundant tests removed
+- [ ] Assertions use constant values, not calculations
+- [ ] Repeated values are placed in meaningful variables
+- [ ] Redundant tests have been removed
 - [ ] Test naming is clear and meaningful
-- [ ] Helper methods used to reduce duplication
-- [ ] Tests are independent and execution order does not matter
+- [ ] Helper methods are used to reduce duplication
+- [ ] Tests are independent, and execution order does not matter
 
 # Knowledge: Patterns and Practical Examples
 
@@ -113,7 +125,7 @@ $user = User::factory()->create(['email' => $expectedEmail]);
 $this->assertEquals($expectedEmail, $user->email);
 ```
 
-### ✅ Test Behavior Not Implementation
+### ✅ Test Behavior, Not Implementation
 
 ```php
 // ❌ Wrong - Dependent on implementation
@@ -132,23 +144,23 @@ $this->assertEquals(30, $result);
 public function test_enrollment_log_creation()
 {
     $log1 = $this->service->createVisitedLog(...);
-    $this->assertDatabaseHas(Model::class, ['type' => 'visited']);
+    $this->assertDatabaseHas(..., ['type' => 'visited']);
     
     $log2 = $this->service->createPlayedLog(...);
-    $this->assertDatabaseHas(Model::class, ['type' => 'played']);
+    $this->assertDatabaseHas(..., ['type' => 'played']);
 }
 
 // ✅ Correct - Separate scenarios
 public function test_creates_visited_log_successfully()
 {
     $log = $this->service->createVisitedLog(...);
-    $this->assertDatabaseHas(Model::class, ['type' => 'visited']);
+    $this->assertDatabaseHas(..., ['type' => 'visited']);
 }
 
 public function test_creates_played_log_successfully()
 {
     $log = $this->service->createPlayedLog(...);
-    $this->assertDatabaseHas(Model::class, ['type' => 'played']);
+    $this->assertDatabaseHas(..., ['type' => 'played']);
 }
 ```
 
