@@ -15,11 +15,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 trait HasJobPosition
 {
-    public function getFillable(): array
-    {
-        return array_merge($this->fillable, ['job_position_id']);
-    }
-
     public function jobPosition(): BelongsTo
     {
         return $this->belongsTo(JobPosition::class);

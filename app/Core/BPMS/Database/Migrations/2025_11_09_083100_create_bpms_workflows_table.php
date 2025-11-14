@@ -16,7 +16,7 @@ return new class () extends Migration {
             $table->text('description')->nullable();
 
             $table->unsignedBigInteger('department_id')->nullable();
-            $table->unsignedBigInteger('workflow_owner_id')->nullable();
+            $table->unsignedBigInteger('owner_id')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
 
             $table->boolean('is_active')->default(true);
@@ -24,11 +24,11 @@ return new class () extends Migration {
             $table->softDeletes();
 
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('set null');
-            $table->foreign('workflow_owner_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('owner_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
 
             $table->index('department_id', 'idx_department');
-            $table->index('workflow_owner_id', 'idx_process_manager');
+            $table->index('owner_id', 'idx_process_manager');
             $table->index('created_by', 'idx_creator');
             $table->index('is_active', 'idx_active');
             $table->index('deleted_at', 'idx_deleted');

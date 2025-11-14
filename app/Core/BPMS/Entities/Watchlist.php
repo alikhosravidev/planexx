@@ -12,12 +12,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property int                  $id
- * @property int                  $task_id
- * @property int                  $watcher_id
- * @property WatchStatus          $watch_status
- * @property string|null          $watch_reason
- * @property string|null          $comment
+ * @property int                 $id
+ * @property int                 $task_id
+ * @property int                 $watcher_id
+ * @property WatchStatus         $watch_status
+ * @property string|null         $watch_reason
+ * @property string|null         $comment
  * @property \Carbon\Carbon      $created_at
  * @property \Carbon\Carbon      $updated_at
  *

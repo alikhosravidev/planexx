@@ -8,6 +8,7 @@ use App\Contracts\Model\BaseModel;
 use App\Core\BPMS\Database\Factories\FollowUpFactory;
 use App\Core\BPMS\Enums\FollowUpType;
 use App\Core\User\Entities\User;
+use App\Core\User\Traits\HasCreator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -25,7 +26,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * Relations:
  * @property Task                 $task
- * @property User                 $creator
  * @property User|null            $previousAssignee
  * @property User|null            $newAssignee
  * @property WorkflowState|null   $previousState
@@ -34,6 +34,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class FollowUp extends BaseModel
 {
     use HasFactory;
+    use HasCreator;
 
     public $timestamps = false;
 
@@ -59,11 +60,6 @@ class FollowUp extends BaseModel
     public function task(): BelongsTo
     {
         return $this->belongsTo(Task::class, 'task_id');
-    }
-
-    public function creator(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function previousAssignee(): BelongsTo

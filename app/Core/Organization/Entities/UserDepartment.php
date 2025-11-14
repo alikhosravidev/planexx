@@ -6,25 +6,24 @@ namespace App\Core\Organization\Entities;
 
 use App\Contracts\Model\BaseModel;
 use App\Core\Organization\Database\Factories\UserDepartmentFactory;
-use App\Core\User\Entities\User;
+use App\Core\User\Traits\HasUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property int                          $id
- * @property int                          $user_id
- * @property int                          $department_id
- * @property bool                         $is_primary
+ * @property int                         $id
+ * @property int                         $department_id
+ * @property bool                        $is_primary
  * @property \Carbon\Carbon              $created_at
  * @property \Carbon\Carbon              $updated_at
  *
  * Relations:
- * @property User                         $user
  * @property Department                   $department
  */
 class UserDepartment extends BaseModel
 {
     use HasFactory;
+    use HasUser;
 
     protected $fillable = [
         'user_id',
@@ -37,11 +36,6 @@ class UserDepartment extends BaseModel
     ];
 
     public $incrementing = true;
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function department(): BelongsTo
     {

@@ -8,6 +8,8 @@ use App\Contracts\Model\BaseModel;
 use App\Core\BPMS\Database\Factories\WorkflowFactory;
 use App\Core\Organization\Entities\Department;
 use App\Core\User\Entities\User;
+use App\Core\User\Traits\HasCreator;
+use App\Core\User\Traits\HasOwner;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -21,8 +23,6 @@ use Spatie\Permission\Models\Role;
  * @property string|null                 $slug
  * @property string|null                 $description
  * @property int|null                    $department_id
- * @property int|null                    $workflow_owner_id
- * @property int|null                    $created_by
  * @property bool                        $is_active
  * @property \Carbon\Carbon              $created_at
  * @property \Carbon\Carbon              $updated_at
@@ -30,8 +30,6 @@ use Spatie\Permission\Models\Role;
  *
  * Relations:
  * @property Department|null             $department
- * @property User|null                   $owner
- * @property User|null                   $creator
  * @property \Illuminate\Database\Eloquent\Collection<int, WorkflowState> $states
  * @property \Illuminate\Database\Eloquent\Collection<int, Role> $allowedRoles
  */
@@ -39,6 +37,8 @@ class Workflow extends BaseModel
 {
     use HasFactory;
     use SoftDeletes;
+    use HasCreator;
+    use HasOwner;
 
     protected $table = 'bpms_workflows';
 
@@ -47,7 +47,7 @@ class Workflow extends BaseModel
         'slug',
         'description',
         'department_id',
-        'workflow_owner_id',
+        'owner_id',
         'created_by',
         'is_active',
     ];
@@ -63,12 +63,7 @@ class Workflow extends BaseModel
 
     public function owner(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'workflow_owner_id');
-    }
-
-    public function creator(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(User::class, 'owner_id');
     }
 
     public function states(): HasMany

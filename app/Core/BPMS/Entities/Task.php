@@ -8,6 +8,7 @@ use App\Contracts\Model\BaseModel;
 use App\Core\BPMS\Database\Factories\TaskFactory;
 use App\Core\BPMS\Enums\TaskPriority;
 use App\Core\User\Entities\User;
+use App\Core\User\Traits\HasCreator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -15,16 +16,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @property int                          $id
- * @property string|null                  $slug
- * @property string                       $title
- * @property string|null                  $description
- * @property int                          $workflow_id
- * @property int                          $current_state_id
- * @property int                          $assignee_id
- * @property int                          $created_by
- * @property TaskPriority                 $priority
- * @property string|null                  $estimated_hours
+ * @property int                         $id
+ * @property string|null                 $slug
+ * @property string                      $title
+ * @property string|null                 $description
+ * @property int                         $workflow_id
+ * @property int                         $current_state_id
+ * @property int                         $assignee_id
+ * @property TaskPriority                $priority
+ * @property string|null                 $estimated_hours
  * @property \Carbon\Carbon|null         $due_date
  * @property \Carbon\Carbon|null         $next_follow_up_date
  * @property \Carbon\Carbon|null         $completed_at
@@ -36,7 +36,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Workflow                     $workflow
  * @property WorkflowState                $currentState
  * @property User                         $assignee
- * @property User                         $creator
  * @property \Illuminate\Database\Eloquent\Collection<int, FollowUp> $followUps
  * @property \Illuminate\Database\Eloquent\Collection<int, User> $watchers
  */
@@ -44,6 +43,7 @@ class Task extends BaseModel
 {
     use HasFactory;
     use SoftDeletes;
+    use HasCreator;
 
     protected $table = 'bpms_tasks';
 
@@ -82,11 +82,6 @@ class Task extends BaseModel
     public function assignee(): BelongsTo
     {
         return $this->belongsTo(User::class, 'assignee_id');
-    }
-
-    public function creator(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function followUps(): HasMany

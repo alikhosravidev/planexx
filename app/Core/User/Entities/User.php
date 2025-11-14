@@ -66,6 +66,8 @@ class User extends BaseModel implements
 
     protected $fillable = [
         'direct_manager_id',
+        'job_position_id',
+        'address_id',
         'first_name',
         'last_name',
         'mobile',
@@ -75,7 +77,6 @@ class User extends BaseModel implements
         'national_code',
         'gender',
         'image_url',
-        'address_id',
         'is_active',
         'birth_date',
         'mobile_verified_at',

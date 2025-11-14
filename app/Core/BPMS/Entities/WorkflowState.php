@@ -10,22 +10,23 @@ use App\Core\BPMS\Database\Factories\WorkflowStateFactory;
 use App\Core\BPMS\Enums\WorkflowStatePosition;
 use App\Core\User\Entities\User;
 use App\Traits\Sorting\HasSorting;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @property int                          $id
- * @property int                          $workflow_id
- * @property string                       $name
- * @property string|null                  $slug
- * @property string|null                  $description
- * @property string|null                  $color
- * @property int                          $order
- * @property WorkflowStatePosition        $position
- * @property int|null                     $default_assignee_id
- * @property bool                         $is_active
+ * @property int                         $id
+ * @property int                         $workflow_id
+ * @property string                      $name
+ * @property string|null                 $slug
+ * @property string|null                 $description
+ * @property string|null                 $color
+ * @property int                         $order
+ * @property WorkflowStatePosition       $position
+ * @property int|null                    $default_assignee_id
+ * @property bool                        $is_active
  * @property \Carbon\Carbon              $created_at
  * @property \Carbon\Carbon              $updated_at
  * @property \Carbon\Carbon|null         $deleted_at
@@ -65,7 +66,7 @@ class WorkflowState extends BaseModel implements SortableEntity
         return 'order';
     }
 
-    public function baseSortQuery(): \Illuminate\Database\Eloquent\Builder
+    public function baseSortQuery(): Builder
     {
         return static::query()->where('workflow_id', $this->workflow_id);
     }

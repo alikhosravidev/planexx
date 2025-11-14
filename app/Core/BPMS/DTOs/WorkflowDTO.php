@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Core\BPMS\DTOs;
 
-use App\Domain\ValueObjects\DepartmentId;
-use App\Domain\ValueObjects\Slug;
-use App\Domain\ValueObjects\UserId;
+use App\Bus\ValueObjects\DepartmentId;
+use App\Bus\ValueObjects\Slug;
+use App\Bus\ValueObjects\UserId;
 use Illuminate\Contracts\Support\Arrayable;
 
 final readonly class WorkflowDTO implements Arrayable
@@ -16,7 +16,7 @@ final readonly class WorkflowDTO implements Arrayable
         public ?Slug $slug = null,
         public ?string $description = null,
         public ?DepartmentId $departmentId = null,
-        public ?UserId $workflowOwnerId = null,
+        public ?UserId $ownerId = null,
         public ?UserId $createdBy = null,
         public bool $isActive = true,
     ) {
@@ -25,13 +25,13 @@ final readonly class WorkflowDTO implements Arrayable
     public function toArray(): array
     {
         return [
-            'name'              => $this->name,
-            'slug'              => $this->slug?->__toString(),
-            'description'       => $this->description,
-            'department_id'     => $this->departmentId?->value,
-            'workflow_owner_id' => $this->workflowOwnerId?->value,
-            'created_by'        => $this->createdBy?->value,
-            'is_active'         => $this->isActive,
+            'name'          => $this->name,
+            'slug'          => $this->slug?->__toString(),
+            'description'   => $this->description,
+            'department_id' => $this->departmentId?->value,
+            'owner_id'      => $this->ownerId?->value,
+            'created_by'    => $this->createdBy?->value,
+            'is_active'     => $this->isActive,
         ];
     }
 }
