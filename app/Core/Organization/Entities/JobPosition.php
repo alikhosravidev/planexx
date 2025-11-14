@@ -12,13 +12,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @property int                          $id
- * @property string                       $title
- * @property string|null                  $code
- * @property TierEnum|null                $tier
- * @property string|null                  $image_url
- * @property string|null                  $description
- * @property bool                         $is_active
+ * @property int                         $id
+ * @property string                      $title
+ * @property string|null                 $code
+ * @property TierEnum|null               $tier
+ * @property string|null                 $image_url
+ * @property string|null                 $description
+ * @property bool                        $is_active
  * @property \Carbon\Carbon              $created_at
  * @property \Carbon\Carbon              $updated_at
  * @property \Carbon\Carbon|null         $deleted_at

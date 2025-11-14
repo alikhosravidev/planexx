@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Bus\Contracts\UserProvider;
 use App\Commands\PrepareParallelTests;
 use App\Contracts\BootstrapFileManagerInterface;
 use App\Contracts\ModuleDiscoveryInterface;
-use App\Core\BPMS\Providers\BPMSServiceProvider;
+use App\Core\FormWizard\Providers\FormWizardServiceProvider;
 use App\Core\Organization\Providers\OrganizationServiceProvider;
 use App\Core\User\Providers\UserServiceProvider;
+use App\Core\User\Repositories\UserRepository;
 use App\Services\AIImageService\AIImageService;
 use App\Services\AIImageService\AIImageServiceFactory;
 use App\Services\FilesystemModuleDiscovery;
@@ -70,13 +72,16 @@ class AppServiceProvider extends ServiceProvider
         $this->commands(
             PrepareParallelTests::class,
         );
+        $this->app->bind(UserProvider::class, function ($app) {
+            return resolve(UserRepository::class);
+        });
     }
 
     private function registerCoreProviders(): void
     {
         $this->app->register(UserServiceProvider::class);
         $this->app->register(OrganizationServiceProvider::class);
-        $this->app->register(BPMSServiceProvider::class);
+        $this->app->register(FormWizardServiceProvider::class);
     }
 
     private function registerModuleProviders(): void
