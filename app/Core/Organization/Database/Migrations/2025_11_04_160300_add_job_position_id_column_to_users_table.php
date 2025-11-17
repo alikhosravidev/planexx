@@ -10,7 +10,8 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('job_position_id')->nullable()->index();
+            $table->unsignedBigInteger('job_position_id')->nullable()
+                ->after('direct_manager_id')->index();
         });
     }
 

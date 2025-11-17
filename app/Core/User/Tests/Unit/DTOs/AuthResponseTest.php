@@ -12,6 +12,7 @@ use App\Core\User\Services\Auth\DTOs\PasswordConfig;
 use App\Core\User\Services\Auth\ValueObjects\Identifier;
 use App\Core\User\Services\OTPService\OTPConfig;
 use App\Core\User\Services\OTPService\OTPResponse;
+use App\Query\ValueObjects\Email;
 use Tests\PureUnitTestBase;
 
 class AuthResponseTest extends PureUnitTestBase
@@ -41,7 +42,7 @@ class AuthResponseTest extends PureUnitTestBase
         );
         $user = new User([
             'id'    => 1,
-            'email' => 'test@example.com',
+            'email' => new Email('test@example.com'),
             'name'  => 'Test User',
         ]);
         $isRegistered = true;

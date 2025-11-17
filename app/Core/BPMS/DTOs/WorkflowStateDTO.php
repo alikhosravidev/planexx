@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Core\BPMS\DTOs;
 
-use App\Bus\ValueObjects\ColorHex;
-use App\Bus\ValueObjects\Slug;
-use App\Bus\ValueObjects\UserId;
-use App\Bus\ValueObjects\WorkflowId;
 use App\Core\BPMS\Enums\WorkflowStatePosition;
+use App\Query\Domains\User\UserId;
+use App\Query\Domains\Workflow\WorkflowId;
+use App\Query\ValueObjects\ColorHex;
+use App\Query\ValueObjects\Slug;
 use Illuminate\Contracts\Support\Arrayable;
 
 final readonly class WorkflowStateDTO implements Arrayable

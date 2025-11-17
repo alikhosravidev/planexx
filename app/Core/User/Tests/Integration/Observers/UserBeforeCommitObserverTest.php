@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Core\User\Tests\Integration\Observers;
 
 use App\Core\User\Entities\User;
+use App\Query\ValueObjects\Email;
+use App\Query\ValueObjects\Mobile;
 use Illuminate\Support\Facades\Hash;
 use Tests\IntegrationTestBase;
 
@@ -12,11 +14,13 @@ class UserBeforeCommitObserverTest extends IntegrationTestBase
 {
     public function test_password_is_hashed_when_dirty_and_not_already_hashed(): void
     {
-        $user = User::factory()->create([
-            'email'    => 'john@example.com',
-            'mobile'   => '09123456789',
-            'password' => 'plaintextpassword',
-        ]);
+        $user = User::factory()->create(
+            [
+                'email'    => new Email('john@example.com'),
+                'mobile'   => new Mobile('09123456789'),
+                'password' => 'plaintextpassword',
+            ]
+        );
 
         // The observer should have hashed the password on creation
         $this->assertTrue(Hash::check('plaintextpassword', $user->fresh()->password));
@@ -26,11 +30,13 @@ class UserBeforeCommitObserverTest extends IntegrationTestBase
     {
         $hashedPassword = Hash::make('plaintextpassword');
 
-        $user = User::factory()->create([
-            'email'    => 'john@example.com',
-            'mobile'   => '09123456789',
-            'password' => $hashedPassword,
-        ]);
+        $user = User::factory()->create(
+            [
+                'email'    => new Email('john@example.com'),
+                'mobile'   => new Mobile('09123456789'),
+                'password' => $hashedPassword,
+            ]
+        );
 
         // Password should remain the same since it's already hashed
         $this->assertEquals($hashedPassword, $user->fresh()->password);
@@ -38,11 +44,13 @@ class UserBeforeCommitObserverTest extends IntegrationTestBase
 
     public function test_password_is_not_hashed_when_not_dirty(): void
     {
-        $user = User::factory()->create([
-            'email'    => 'john@example.com',
-            'mobile'   => '09123456789',
-            'password' => 'plaintextpassword',
-        ]);
+        $user = User::factory()->create(
+            [
+                'email'    => new Email('john@example.com'),
+                'mobile'   => new Mobile('09123456789'),
+                'password' => 'plaintextpassword',
+            ]
+        );
 
         $originalPassword = $user->password;
 
@@ -56,11 +64,13 @@ class UserBeforeCommitObserverTest extends IntegrationTestBase
 
     public function test_password_is_hashed_on_update_when_dirty(): void
     {
-        $user = User::factory()->create([
-            'email'    => 'john@example.com',
-            'mobile'   => '09123456789',
-            'password' => 'oldpassword',
-        ]);
+        $user = User::factory()->create(
+            [
+                'email'    => new Email('john@example.com'),
+                'mobile'   => new Mobile('09123456789'),
+                'password' => 'oldpassword',
+            ]
+        );
 
         $user->changePassword('newplaintextpassword');
         $user->save();

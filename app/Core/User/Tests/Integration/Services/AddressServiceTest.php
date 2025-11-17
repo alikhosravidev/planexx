@@ -11,6 +11,8 @@ use App\Core\User\Entities\User;
 use App\Core\User\Repositories\AddressRepository;
 use App\Core\User\Repositories\CityRepository;
 use App\Core\User\Services\AddressService;
+use App\Query\ValueObjects\Email;
+use App\Query\ValueObjects\Mobile;
 use Tests\IntegrationTestBase;
 
 class AddressServiceTest extends IntegrationTestBase
@@ -33,10 +35,12 @@ class AddressServiceTest extends IntegrationTestBase
 
     public function test_create_without_city_id(): void
     {
-        $user = User::factory()->create([
-            'email'  => 'john@example.com',
-            'mobile' => '09123456789',
-        ]);
+        $user = User::factory()->create(
+            [
+                'email'  => new Email('john@example.com'),
+                'mobile' => new Mobile('09123456789'),
+            ]
+        );
 
         $dto = new AddressDTO(
             userId        : $user->id,
@@ -59,8 +63,8 @@ class AddressServiceTest extends IntegrationTestBase
     public function test_create_with_city_id_sets_province_and_country(): void
     {
         $user = User::factory()->create([
-            'email'  => 'john@example.com',
-            'mobile' => '09123456789',
+            'email'  => new Email('john@example.com'),
+            'mobile' => new Mobile('09123456789'),
         ]);
 
         // Create city with related province and country via factories
@@ -89,8 +93,8 @@ class AddressServiceTest extends IntegrationTestBase
     public function test_update_without_city_id(): void
     {
         $user = User::factory()->create([
-            'email'  => 'john@example.com',
-            'mobile' => '09123456789',
+            'email'  => new Email('john@example.com'),
+            'mobile' => new Mobile('09123456789'),
         ]);
 
         $address = Address::factory()->create([
@@ -124,8 +128,8 @@ class AddressServiceTest extends IntegrationTestBase
     public function test_update_with_city_id_sets_province_and_country(): void
     {
         $user = User::factory()->create([
-            'email'  => 'john@example.com',
-            'mobile' => '09123456789',
+            'email'  => new Email('john@example.com'),
+            'mobile' => new Mobile('09123456789'),
         ]);
 
         $address = Address::factory()->create([
@@ -164,8 +168,8 @@ class AddressServiceTest extends IntegrationTestBase
     public function test_delete(): void
     {
         $user = User::factory()->create([
-            'email'  => 'john@example.com',
-            'mobile' => '09123456789',
+            'email'  => new Email('john@example.com'),
+            'mobile' => new Mobile('09123456789'),
         ]);
 
         $address = Address::factory()->create([

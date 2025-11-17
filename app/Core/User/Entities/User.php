@@ -11,12 +11,15 @@ use App\Core\User\Enums\CustomerTypeEnum;
 use App\Core\User\Enums\GenderEnum;
 use App\Core\User\Enums\UserTypeEnum;
 use App\Core\User\Traits\HasApiTokens;
+use App\Query\ValueObjects\Email;
+use App\Query\ValueObjects\Mobile;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\Access\Authorizable;
@@ -29,10 +32,10 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string                       $full_name
  * @property string                       $first_name
  * @property string                       $last_name
- * @property string                       $mobile
+ * @property Mobile                       $mobile
  * @property UserTypeEnum                 $user_type
  * @property CustomerTypeEnum|null        $customer_type
- * @property string|null                  $email
+ * @property Email|null                   $email
  * @property string|null                  $national_code
  * @property GenderEnum|null              $gender
  * @property string|null                  $image_url
@@ -114,6 +117,22 @@ class User extends BaseModel implements
     public function addresses(): HasMany
     {
         return $this->hasMany(Address::class);
+    }
+
+    public function mobile(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => new Mobile($value),
+            set: fn (Mobile $value) => $value->value,
+        );
+    }
+
+    public function email(): Attribute
+    {
+        return Attribute::make(
+            get: fn (?string $value) => $value ? new Email($value) : null,
+            set: fn (?Email $value) => $value?->value,
+        );
     }
 
     protected static function newFactory(): UserFactory

@@ -10,6 +10,7 @@ use App\Core\User\Services\Auth\DTOs\AuthConfig;
 use App\Core\User\Services\Auth\DTOs\AuthRequestDto;
 use App\Core\User\Services\Auth\DTOs\ClientMetadataDto;
 use App\Core\User\Services\Auth\ValueObjects\Identifier;
+use App\Query\ValueObjects\Email;
 use Tests\IntegrationTestBase;
 
 class AuthServiceTest extends IntegrationTestBase
@@ -28,7 +29,7 @@ class AuthServiceTest extends IntegrationTestBase
         $email    = 'email@email.com';
         $password = 'password123';
         $user     = User::factory()->create([
-            'email'    => $email,
+            'email'    => new Email($email),
             'password' => $password,
         ]);
         $identifier     = new Identifier($email, app(AuthConfig::class));

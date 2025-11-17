@@ -13,12 +13,12 @@ Arrays in PHP are flexible but lack type safety, which can lead to hidden bugs i
 
 Avoid using arrays unless required by frameworks or external contracts.
 
-## Implementation with BaseCustomCollection
+## Implementation with BaseCollection
 
-Custom collections should extend `BaseCustomCollection` and implement the `setExpectedClass()` method to specify the expected class type.
+Custom collections should extend `BaseCollection` and implement the `setExpectedClass()` method to specify the expected class type.
 
 ```php
-abstract class BaseCustomCollection
+abstract class BaseCollection
 {
     protected string $expectedClass;
 
@@ -34,7 +34,7 @@ abstract class BaseCustomCollection
 ## Example: PipelinePayloadCollection
 
 ```php
-class PipelinePayloadCollection extends BaseCustomCollection
+class PipelinePayloadCollection extends BaseCollection
 {
     protected function setExpectedClass(): void
     {

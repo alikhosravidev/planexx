@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Bus\Contracts\UserProvider;
 use App\Commands\PrepareParallelTests;
 use App\Contracts\BootstrapFileManagerInterface;
 use App\Contracts\ModuleDiscoveryInterface;
 use App\Core\FormEngine\Providers\FormEngineServiceProvider;
 use App\Core\Organization\Providers\OrganizationServiceProvider;
 use App\Core\User\Providers\UserServiceProvider;
-use App\Core\User\Repositories\UserRepository;
 use App\Services\AIImageService\AIImageService;
 use App\Services\AIImageService\AIImageServiceFactory;
 use App\Services\FilesystemModuleDiscovery;
@@ -26,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->register(QueryServiceProvider::class);
         $this->app->singleton(ModuleDiscoveryInterface::class, function ($app) {
             /** @var Filesystem $fs */
             $modulesPath = base_path('Modules');
@@ -72,9 +71,6 @@ class AppServiceProvider extends ServiceProvider
         $this->commands(
             PrepareParallelTests::class,
         );
-        $this->app->bind(UserProvider::class, function ($app) {
-            return resolve(UserRepository::class);
-        });
     }
 
     private function registerCoreProviders(): void

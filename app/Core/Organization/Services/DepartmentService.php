@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Core\Organization\Services;
 
 use App\Core\Organization\Contracts\DepartmentServiceInterface;
-use App\Core\Organization\DTOs\DepartmentDTO;
 use App\Core\Organization\Entities\Department;
 use App\Core\Organization\Repositories\DepartmentRepository;
+use App\Query\Domains\Department\DepartmentDTO;
 
 readonly class DepartmentService implements DepartmentServiceInterface
 {

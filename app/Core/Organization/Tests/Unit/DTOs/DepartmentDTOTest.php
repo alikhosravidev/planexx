@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Tests\Unit\DTOs;
 
-use App\Core\Organization\DTOs\DepartmentDTO;
+use App\Query\Domains\Department\DepartmentDTO;
 use Tests\UnitTestBase;
 
 class DepartmentDTOTest extends UnitTestBase

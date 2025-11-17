@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Tests\Integration\Services;
 
-use App\Core\Organization\DTOs\DepartmentDTO;
 use App\Core\Organization\Entities\Department;
 use App\Core\Organization\Services\DepartmentService;
+use App\Query\Domains\Department\DepartmentDTO;
 use Tests\IntegrationTestBase;
 
 class DepartmentServiceTest extends IntegrationTestBase

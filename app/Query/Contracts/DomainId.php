@@ -2,12 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Contracts;
+namespace App\Query\Contracts;
 
-abstract class EntityId
+use InvalidArgumentException;
+use Stringable;
+
+abstract class DomainId implements Stringable
 {
     public function __construct(
-        public readonly int $value
+        public readonly int|string $value
     ) {
         $this->validate($value);
     }
@@ -15,7 +18,13 @@ abstract class EntityId
     protected function validate(int $value): void
     {
         if ($value <= 0) {
-            throw new \InvalidArgumentException(static::class . ' expects a positive integer id. Given: ' . $value);
+            throw new InvalidArgumentException(
+                sprintf(
+                    '%s expects a positive integer id. Given: %d',
+                    static::class,
+                    $value
+                )
+            );
         }
     }
 

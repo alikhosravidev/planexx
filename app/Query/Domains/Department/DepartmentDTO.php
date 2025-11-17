@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Organization\DTOs;
+namespace App\Query\Domains\Department;
 
-use Illuminate\Contracts\Support\Arrayable;
+use App\Query\Contracts\DataTransferObject;
 
-final readonly class DepartmentDTO implements Arrayable
+final readonly class DepartmentDTO implements DataTransferObject
 {
     public function __construct(
         public string  $name,

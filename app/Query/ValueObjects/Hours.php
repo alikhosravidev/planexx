@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Bus\ValueObjects;
+namespace App\Query\ValueObjects;
 
-final class Hours
+final readonly class Hours
 {
-    public function __construct(public readonly int $value)
+    public function __construct(public int $value)
     {
         if ($this->value < 0) {
             throw new \InvalidArgumentException('Invalid hours.');

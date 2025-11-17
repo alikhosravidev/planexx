@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Core\BPMS\DTOs;
 
-use App\Bus\ValueObjects\Hours;
-use App\Bus\ValueObjects\Slug;
-use App\Bus\ValueObjects\UserId;
-use App\Bus\ValueObjects\WorkflowId;
-use App\Bus\ValueObjects\WorkflowStateId;
 use App\Core\BPMS\Enums\TaskPriority;
+use App\Query\Domains\User\UserId;
+use App\Query\Domains\Workflow\WorkflowId;
+use App\Query\Domains\WorkflowState\WorkflowStateId;
+use App\Query\ValueObjects\Hours;
+use App\Query\ValueObjects\Slug;
 use Illuminate\Contracts\Support\Arrayable;
 
 final readonly class TaskDTO implements Arrayable

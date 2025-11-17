@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Bus\ValueObjects;
+namespace App\Query\ValueObjects;
 
-final class Slug
+final readonly class Slug
 {
-    public function __construct(public readonly string $value)
+    public function __construct(public string $value)
     {
         if ($this->value === '' || !preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $this->value)) {
             throw new \InvalidArgumentException('Invalid slug.');

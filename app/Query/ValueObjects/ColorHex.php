@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Bus\ValueObjects;
+namespace App\Query\ValueObjects;
 
-final class ColorHex
+final readonly class ColorHex
 {
-    public function __construct(public readonly string $value)
+    public function __construct(public string $value)
     {
         if (!preg_match('/^#?[0-9A-Fa-f]{6}$/', $this->value)) {
             throw new \InvalidArgumentException('Invalid color hex.');

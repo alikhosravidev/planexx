@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
-use Exception;
-
-class SortOrderException extends Exception
+class SortOrderException extends TechnicalException
 {
     public static function currentOrderNotAvailable(int $id): self
     {
