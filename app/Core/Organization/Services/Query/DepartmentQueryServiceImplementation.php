@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Organization\Services\Adaptor;
+namespace App\Core\Organization\Services\Query;
 
 use App\Core\Organization\Repositories\DepartmentRepository;
 use App\Query\Domains\Department\DepartmentDTO;
