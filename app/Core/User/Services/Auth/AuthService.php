@@ -11,6 +11,7 @@ use App\Core\User\Services\Auth\DTOs\AuthResponse;
 use App\Core\User\Services\Auth\DTOs\ChangePasswordRequestDto;
 use App\Core\User\Services\Auth\DTOs\ResetPasswordRequestDto;
 use App\Core\User\Services\Auth\ValueObjects\Identifier;
+use LogicException;
 
 class AuthService
 {
@@ -47,7 +48,7 @@ class AuthService
         $provider = $this->getProvider($identifier, 'otp');
 
         if (! $provider instanceof PasswordResetable) {
-            throw new \LogicException('The selected provider does not support password reset.');
+            throw new LogicException('The selected provider does not support password reset.');
         }
 
         return $provider->initResetPassword($identifier);
@@ -58,7 +59,7 @@ class AuthService
         $provider = $this->getProvider($requestData->identifier, 'otp');
 
         if (! $provider instanceof PasswordResetable) {
-            throw new \LogicException('The selected provider does not support password reset.');
+            throw new LogicException('The selected provider does not support password reset.');
         }
 
         return $provider->resetPassword($requestData);

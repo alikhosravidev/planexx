@@ -1,0 +1,24 @@
+/* متغیرهای رنگ و فاصله مطابق سند UI */
+:root {
+  /* رنگ‌های اصلی */
+  --color-primary: #0f172a;
+  --color-secondary: #64748b;
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748b;
+  
+  /* رنگ‌های پس‌زمینه */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f8fafc;
+  --color-bg-tertiary: #fafbfc;
+  --color-bg-label: #f8fafc;
+  
+  /* Border */
+  --color-border-light: #f1f5f9;
+  --color-border-medium: #e2e8f0;
+  --color-border-dark: #cbd5e1;
+  
+  /* Transitions */
+  --transition-fast: all 0.2s ease;
+  --transition-normal: all 0.3s ease;
+}

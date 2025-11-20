@@ -47,6 +47,8 @@ composer test      # Run tests
 
 ### Presentation (`.claude/presentation/`)
 - **Controllers**: Thin, delegate to services
+- **BaseWebController**: API-FIRST foundation for admin panel controllers
+- **Web Panel Best Practices**: Rules and guidelines for panel development
 - **Transformers**: Pipeline-based with `getVirtualFieldResolvers()`
 - **Separation**: Rule of Three - max 3 lines of logic in presentation
 
@@ -122,6 +124,43 @@ $transformer = app(TransformerFactory::class)->makeFromRequest(UserTransformer::
 $result = $transformer->transformModel($user);
 ```
 
+### BaseWebController (API-FIRST Admin Panel)
+```php
+// PRIMARY: Use Axios for all CRUD operations
+// resources/js/admin/users.js
+axios.post('/users', formData)
+  .then(response => {
+    showNotification('User created successfully');
+    refreshTable();
+  })
+  .catch(error => {
+    if (error.response?.status === 422) {
+      displayValidationErrors(error.response.data.errors);
+    }
+  });
+
+// SECONDARY: BaseWebController only for view rendering
+class UserManagementController extends BaseWebController {
+    public function index(Request $request): View {
+        // Fetch data for initial page render
+        $response = $this->apiGet('users', [
+            'filter' => ['is_active' => 1],
+            'sort' => '-created_at',
+            'per_page' => 15,
+        ]);
+
+        return view('admin.users.index', ['users' => $response['data']]);
+    }
+    
+    public function create(): View {
+        $roles = $this->apiGet('roles');
+        return view('admin.users.create', ['roles' => $roles['data']]);
+    }
+    
+    // NO store/update/destroy methods - Axios handles these
+}
+```
+
 ## Critical Rules to Remember
 
 1. ✅ **Always use `$fillable`**, never `$guarded` in models
@@ -131,9 +170,13 @@ $result = $transformer->transformModel($user);
 5. ✅ **No intra-module event listeners** (only inter-module)
 6. ✅ **DTOs have no methods** except `toArray()` if Arrayable
 7. ✅ **Controllers delegate** to services, stay thin
-8. ✅ **Run commands inside Docker**: `docker exec planexx_app ...`
+8. ✅ **Admin panel:** Use Axios for CRUD operations, BaseWebController for view rendering only
+9. ✅ **Web panel:** All data access ONLY via API - ZERO direct DB access
+10. ✅ **Web panel:** NO Service/Repository/Eloquent calls - strictly forbidden
+11. ✅ **Run commands inside Docker**: `docker exec planexx_app ...`
 
 ## Recent Important Changes
+- **Implemented BaseWebController**: API-FIRST foundation for admin panel with internal API forwarding
 - **Refactored Transformer system**: No more magic methods, use `getVirtualFieldResolvers()`
 - **Moved ValueObjects**: From `app/Domain/` to `app/Bus/`
 - **Split HasJobPosition**: Into `HasCreator`, `HasManager`, `HasOwner`, `HasUser`
@@ -148,6 +191,8 @@ $result = $transformer->transformModel($user);
 | Creating DTOs | `.claude/application/dtos.md` |
 | Writing services | `.claude/application/services.md` |
 | Building APIs | `.claude/api/design.md` |
+| Building admin panel | `.claude/presentation/base-web-controller.md` |
+| Web panel guidelines | `.claude/presentation/web-panel-best-practices.md` |
 | Writing tests | `.claude/testing/guide.md` |
 | Database migrations | `.claude/infrastructure/database.md` |
 | Error handling | `.claude/error-handling.md` |
@@ -158,12 +203,13 @@ $result = $transformer->transformModel($user);
 - **Domain**: `.claude/domain/` (entities, value-objects, enums, collections)
 - **Application**: `.claude/application/` (dtos, mappers, services)
 - **Infrastructure**: `.claude/infrastructure/` (repositories, database, observers)
-- **Presentation**: `.claude/presentation/` (controllers, transformers, separation)
+- **Presentation**: `.claude/presentation/` (controllers, transformers, separation, base-web-controller, web-panel-best-practices)
 - **API**: `.claude/api/` (design, basics, authentication)
 - **Patterns**: `.claude/patterns/` (coding-standards, design-patterns)
 - **Testing**: `.claude/testing/` (guide, execution)
 - **Features**: `.claude/features/` (sorting)
 - **Guidelines**: `.claude/guidelines/` (comments, docker)
+- **Examples**: `.claude/examples/` (base-web-controller-usage)
 
 ## Original Documentation Sources
 - Detailed guides: `.windsurf/rules/`
