@@ -23,11 +23,42 @@ class UserServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->register(EventServiceProvider::class);
-        $this->app->register(EventServiceProvider::class);
 
         // Bind OTPGenerator
         $this->app->bind(OTPGenerator::class, RealGenerator::class);
 
+        $this->authenticationSetup();
+
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+    }
+
+    public function boot(): void
+    {
+        $this->loadRoutesFrom(
+            ProviderUtility::corePath('User/Routes/V1/Admin/routes.php')
+        );
+
+        $this->loadRoutesFrom(
+            ProviderUtility::corePath('User/Routes/V1/web.php')
+        );
+
+        $this->loadMigrationsFrom(
+            ProviderUtility::corePath('User/Database/Migrations')
+        );
+
+        $this->loadTranslationsFrom(
+            ProviderUtility::corePath('User/Resources/lang'),
+            'user'
+        );
+
+        $this->loadViewsFrom(
+            ProviderUtility::corePath('User/Resources/views'),
+            'user'
+        );
+    }
+
+    private function authenticationSetup(): void
+    {
         $this->app->singleton(OTP::class);
         $this->app->tag(OTP::class, self::AUTH_PROVIDER_TAG);
         $this->app->singleton(Password::class);
@@ -59,23 +90,5 @@ class UserServiceProvider extends ServiceProvider
                 usernameValidationMessage: config('services.auth.username_validation.error_message'),
             );
         });
-
-        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
-    }
-
-    public function boot(): void
-    {
-        $this->loadRoutesFrom(
-            ProviderUtility::corePath('User/Routes/V1/Admin/routes.php')
-        );
-
-        $this->loadMigrationsFrom(
-            ProviderUtility::corePath('User/Database/Migrations')
-        );
-
-        $this->loadTranslationsFrom(
-            ProviderUtility::corePath('User/Resources/lang'),
-            'user'
-        );
     }
 }

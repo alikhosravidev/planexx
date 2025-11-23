@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\User\Http\Controllers\V1\Client;
+namespace App\Core\User\Http\Controllers\V1\Admin;
 
 use App\Contracts\Controller\APIBaseController;
 use App\Contracts\User\UserRepositoryInterface;

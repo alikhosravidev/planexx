@@ -9,8 +9,9 @@ use App\Core\User\Services\Auth\Enums\IdentifierType;
 use App\Core\User\Services\Auth\Exceptions\IdentifierException;
 use App\Utilities\CustomValidator;
 use App\Utilities\StringUtility;
+use Stringable;
 
-final class Identifier implements \Stringable
+final class Identifier implements Stringable
 {
     public readonly IdentifierType $type;
 

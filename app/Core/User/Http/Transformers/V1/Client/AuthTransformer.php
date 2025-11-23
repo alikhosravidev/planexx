@@ -26,7 +26,7 @@ class AuthTransformer extends BaseTransformer
         'password',
     ];
 
-    public function transform($model): null|array
+    public function transform($model): array
     {
         /** @var \App\Core\User\Services\Auth\DTOs\AuthResponse $model */
         if (! empty($model->nextStep)) {
