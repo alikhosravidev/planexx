@@ -8,6 +8,7 @@ use App\Commands\PrepareParallelTests;
 use App\Contracts\BootstrapFileManagerInterface;
 use App\Contracts\ModuleDiscoveryInterface;
 use App\Core\FormEngine\Providers\FormEngineServiceProvider;
+use App\Core\Notify\Providers\NotifyServiceProvider;
 use App\Core\Organization\Providers\OrganizationServiceProvider;
 use App\Core\User\Providers\UserServiceProvider;
 use App\Services\AIImageService\AIImageService;
@@ -75,6 +76,7 @@ class AppServiceProvider extends ServiceProvider
 
     private function registerCoreProviders(): void
     {
+        $this->app->register(NotifyServiceProvider::class);
         $this->app->register(UserServiceProvider::class);
         $this->app->register(OrganizationServiceProvider::class);
         $this->app->register(FormEngineServiceProvider::class);

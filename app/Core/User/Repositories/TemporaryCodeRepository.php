@@ -33,7 +33,7 @@ class TemporaryCodeRepository extends BaseRepository
     {
         return $this
             ->newQuery()
-            ->where('channel', '=', $identifier->type->getChannel())
+            //->where('channel', '=', $identifier->type->getChannel())
             ->where('value', '=', $identifier->value)
             ->where('code', '=', $code)
             ->where('expires_at', '>', now())
@@ -44,7 +44,7 @@ class TemporaryCodeRepository extends BaseRepository
     {
         return $this
             ->newQuery()
-            ->where('channel', '=', $identifier->type->getChannel())
+            //->where('channel', '=', $identifier->type->getChannel())
             ->where('value', '=', $identifier->value)
             ->where('expires_at', '>', now())
             ->first();
@@ -59,7 +59,7 @@ class TemporaryCodeRepository extends BaseRepository
         return $this->newQuery()
             ->updateOrCreate(
                 [
-                    'channel' => $identifier->type->getChannel(),
+                    //'channel' => $identifier->type->getChannel(),
                     'value'   => $identifier->value,
                     'user_id' => $userId,
                 ],

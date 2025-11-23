@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\User\Services\OTPService;
 
+use App\Core\Notify\Services\SmsServiceProvider\SmsServiceProvider;
 use App\Core\User\Entities\TemporaryCode;
 use App\Core\User\Entities\User;
 use App\Core\User\Repositories\TemporaryCodeRepository;
@@ -18,6 +19,7 @@ class OTPService
         private readonly OTPGenerator $otpGenerator,
         private readonly TemporaryCodeRepository $temporaryCodeRepository,
         private readonly OTPConfig $otpConfig,
+        private readonly SmsServiceProvider $smsServiceProvider,
     ) {
         if (! $this->otpConfig->isEnabled) {
             throw TechOTPException::otpDisabled();
@@ -56,6 +58,15 @@ class OTPService
         ?User $user = null,
         ?string $signature = null
     ): OTPResponse {
-        return new OTPResponse();
+        $tempCode = $this->temporaryCodeRepository
+            ->updateOrCreateFor(
+                identifier: $identifier,
+                newCode: $this->otpGenerator->generate(),
+                expiresAt: now()->addMinutes($this->otpConfig->expiresInMinutes),
+                userId: $user?->id
+            );
+        $this->smsServiceProvider->send($identifier->value, $tempCode->code);
+
+        return new OTPResponse($identifier->value, 'sms');
     }
 }

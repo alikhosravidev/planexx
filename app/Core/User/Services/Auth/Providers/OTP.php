@@ -59,7 +59,7 @@ final class OTP extends AuthProviderAbstract implements AuthHandlerInterface, Pa
         $response = $this->otpService->send($identifier, $user);
 
         return new AuthResponse(
-            message: trans("user::success.channel_messages.{$response->channel->value}"),
+            message: trans("user::success.channel_messages.{$response->channel}"),
             identifier: $identifier,
             nextStep: 'otp',
             otpData: $response,

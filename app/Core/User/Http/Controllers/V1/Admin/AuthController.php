@@ -37,7 +37,7 @@ class AuthController extends APIBaseController
         $authResponse = $this->authService->init($identifier, $request->get('authType'));
 
         return $this->response->success(
-            $this->transformer->transformOne($authResponse)->toArray(),
+            $this->transformer->transformOne($authResponse),
             $authResponse->message
         );
     }

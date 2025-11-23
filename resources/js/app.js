@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Import core module assets dynamically
-const coreModules = ['User'];
+const coreModules = [];
 
 coreModules.forEach(module => {
     // Try to import module-specific CSS (silently skip if not found)
