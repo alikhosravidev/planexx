@@ -623,16 +623,3 @@ export const initializeAjaxHandler = () => {
 
 // Export built-in actions for reference
 export { builtInActions };
-
-// Make available globally for debugging
-window.__ajaxHandler = {
-    handleFormSubmit,
-    handleButtonClick,
-    getAjaxConfig,
-    registerAction,
-    getAction,
-    executeAction,
-    builtInActions,
-    isInitialized: () => isInitialized,
-    reset: () => { isInitialized = false; },
-};

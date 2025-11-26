@@ -100,6 +100,3 @@ export const cookieUtils = {
   set: setCookieValue,
   delete: deleteCookie,
 };
-
-// Make available globally for debugging
-window.__httpClient = httpClient;

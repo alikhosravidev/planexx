@@ -1,7 +1,7 @@
 /* Sahel Font - فونت اصلی پروژه */
 @font-face {
     font-family: 'Sahel';
-    src: url('/fonts/Sahel-Regular.woff2?v=3.4.0') format('woff2');
+    src: url('./Sahel-Regular.woff2') format('woff2');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -9,7 +9,7 @@
 
 @font-face {
     font-family: 'Sahel';
-    src: url('/fonts/Sahel-SemiBold.woff2?v=3.4.0') format('woff2');
+    src: url('./Sahel-SemiBold.woff2') format('woff2');
     font-weight: 600;
     font-style: normal;
     font-display: swap;
@@ -17,7 +17,7 @@
 
 @font-face {
     font-family: 'Sahel';
-    src: url('/fonts/Sahel-Bold.woff2?v=3.4.0') format('woff2');
+    src: url('./Sahel-Bold.woff2') format('woff2');
     font-weight: 700;
     font-style: normal;
     font-display: swap;

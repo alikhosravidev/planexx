@@ -51,13 +51,6 @@ export const initForms = () => {
     initSearch();
 };
 
-// ✅ Auto-initialize با once: true
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initForms, { once: true });
-} else {
-    initForms();
-}
-
 // ============================================
 // Exports
 // ============================================

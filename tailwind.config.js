@@ -4,8 +4,8 @@ export default {
     "./resources/**/*.blade.php",
     "./resources/**/*.js",
     "./resources/**/*.vue",
-    "./Modules/**/*.{js,blade.php}",
-    "./app/Core/User/Resources/views/**/*.{js,blade.php}",
+    "./Modules/**/*.{js,blade.php,vue}",
+    "./app/Core/**/Resources/views/**/*.{js,blade.php}",
     "./node_modules/@fortawesome/fontawesome-free/**/*.js",
   ],
   theme: {

@@ -291,6 +291,3 @@ class FormService {
 
 // Create singleton instance
 export const formService = new FormService();
-
-// Make available globally for debugging
-window.__formService = formService;

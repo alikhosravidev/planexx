@@ -3,10 +3,5 @@
 
 import { initializeAjaxHandler } from '@/api/ajax-handler.js';
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-    initializeAjaxHandler();
-  }, { once: true });
-} else {
-  initializeAjaxHandler();
-}
+document.addEventListener('DOMContentLoaded', initializeAjaxHandler, {once: true});
+

@@ -127,8 +127,4 @@ export const initOTPInputs = () => {
 };
 
 // Auto-initialize
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initOTPInputs, { once: true });
-} else {
-  initOTPInputs();
-}
+document.addEventListener('DOMContentLoaded', initOTPInputs, { once: true });

@@ -49,8 +49,4 @@ export const initBackButton = () => {
 };
 
 // Auto-initialize
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initBackButton, { once: true });
-} else {
-  initBackButton();
-}
+document.addEventListener('DOMContentLoaded', initBackButton, { once: true });
