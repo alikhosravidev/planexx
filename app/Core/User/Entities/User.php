@@ -10,6 +10,7 @@ use App\Core\User\Database\Factories\UserFactory;
 use App\Core\User\Enums\CustomerTypeEnum;
 use App\Core\User\Enums\GenderEnum;
 use App\Core\User\Enums\UserTypeEnum;
+use App\Core\User\Services\Auth\ValueObjects\Identifier;
 use App\Core\User\Traits\HasApiTokens;
 use App\Query\ValueObjects\Email;
 use App\Query\ValueObjects\Mobile;
@@ -123,7 +124,7 @@ class User extends BaseModel implements
     {
         return Attribute::make(
             get: fn (string $value) => new Mobile($value),
-            set: fn (Mobile $value) => $value->value,
+            set: fn (string|Mobile $value) => (string) $value,
         );
     }
 
@@ -131,8 +132,21 @@ class User extends BaseModel implements
     {
         return Attribute::make(
             get: fn (?string $value) => $value ? new Email($value) : null,
-            set: fn (?Email $value) => $value?->value,
+            set: fn (null|string|Email $value) => $value !== null ? (string) $value : null,
         );
+    }
+
+    public function verifyIdentifier(Identifier $identifier): self
+    {
+        if ($identifier->type->isMobile() && !$this->mobile_verified) {
+            $this->mobile_verified_at = now();
+        }
+
+        if ($identifier->type->isEmail() && !$this->email_verified) {
+            $this->email_verified_at = now();
+        }
+
+        return $this;
     }
 
     protected static function newFactory(): UserFactory

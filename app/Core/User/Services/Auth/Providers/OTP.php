@@ -17,6 +17,7 @@ use App\Core\User\Services\Auth\DTOs\ChangePasswordRequestDto;
 use App\Core\User\Services\Auth\DTOs\ResetPasswordRequestDto;
 use App\Core\User\Services\Auth\Exceptions\AuthException;
 use App\Core\User\Services\Auth\ValueObjects\Identifier;
+use App\Core\User\Services\OTPService\Exceptions\OTPException;
 use App\Core\User\Services\OTPService\OTPService;
 use App\Services\HttpRequestService;
 use App\Utilities\StringUtility;
@@ -69,7 +70,7 @@ final class OTP extends AuthProviderAbstract implements AuthHandlerInterface, Pa
     public function auth(AuthRequestDto $requestData): AuthResponse
     {
         if (! $this->otpService->check($requestData->identifier, $requestData->password)) {
-            throw AuthException::credentialsInvalid();
+            throw OTPException::incorrect();
         }
 
         $user         = $this->userRepository->findWithIdentifier($requestData->identifier);
@@ -97,7 +98,7 @@ final class OTP extends AuthProviderAbstract implements AuthHandlerInterface, Pa
         $pass = StringUtility::numberToEn($requestData->password);
 
         if (! $this->otpService->check($requestData->identifier, $pass)) {
-            throw AuthException::credentialsInvalid();
+            throw OTPException::incorrect();
         }
 
         $user = $this->userRepository->findWithIdentifier($requestData->identifier);
@@ -138,7 +139,7 @@ final class OTP extends AuthProviderAbstract implements AuthHandlerInterface, Pa
     public function resetPassword(ResetPasswordRequestDto $requestData): AuthResponse
     {
         if (! $this->otpService->check($requestData->identifier, $requestData->code)) {
-            throw AuthException::credentialsInvalid();
+            throw OTPException::incorrect();
         }
 
         if ($requestData->password !== $requestData->repeatPassword) {

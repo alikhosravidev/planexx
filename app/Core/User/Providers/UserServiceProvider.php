@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Core\User\Providers;
 
 use App\Contracts\User\UserRepositoryInterface;
+use App\Core\User\Http\Middlewares\CheckUserAccessToken;
 use App\Core\User\Repositories\UserRepository;
 use App\Core\User\Services\Auth\DTOs\AuthConfig;
 use App\Core\User\Services\Auth\DTOs\PasswordConfig;
@@ -15,6 +16,7 @@ use App\Core\User\Services\OTPService\Contracts\OTPGenerator;
 use App\Core\User\Services\OTPService\Generators\RealGenerator;
 use App\Core\User\Services\OTPService\OTPConfig;
 use App\Utilities\ProviderUtility;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class UserServiceProvider extends ServiceProvider
@@ -34,12 +36,14 @@ class UserServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        Route::pushMiddlewareToGroup('web', CheckUserAccessToken::class);
+
         $this->loadRoutesFrom(
-            ProviderUtility::corePath('User/Routes/V1/Admin/routes.php')
+            ProviderUtility::corePath('User/Routes/v1/api/admin.php')
         );
 
         $this->loadRoutesFrom(
-            ProviderUtility::corePath('User/Routes/V1/web.php')
+            ProviderUtility::corePath('User/Routes/v1/web.php')
         );
 
         $this->loadMigrationsFrom(

@@ -13,7 +13,8 @@ class UserFullNameObserver
         if (empty($user->full_name)) {
             $firstName       = $user->first_name ?? '';
             $lastName        = $user->last_name  ?? '';
-            $user->full_name = trim("$firstName $lastName");
+            $fullName        = trim("$firstName $lastName");
+            $user->full_name = !empty($fullName) ? $fullName : null;
         }
     }
 }

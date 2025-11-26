@@ -1,5 +1,13 @@
-import axios from 'axios';
+/**
+ * Bootstrap Application
+ * Initialize core services and AJAX handler
+ */
 
-window.axios = axios;
+// Import AJAX infrastructure (single entrypoint)
+import './api/index.js';
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+// Import Forms infrastructure (single entrypoint)
+import './forms/index.js';
+
+// Import Auth (single entrypoint: actions + otp + ui)
+import './auth/index.js';

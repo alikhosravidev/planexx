@@ -21,9 +21,9 @@ return new class () extends Migration {
                 ->on('users')
                 ->onDelete('set null');
 
-            $table->string('full_name', 200);
-            $table->string('first_name', 100);
-            $table->string('last_name', 100);
+            $table->string('full_name', 200)->nullable();
+            $table->string('first_name', 100)->nullable();
+            $table->string('last_name', 100)->nullable();
             $table->char('mobile', 15)->unique();
 
             //['employee', 'customer', 'user']

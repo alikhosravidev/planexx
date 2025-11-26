@@ -20,6 +20,7 @@ namespace App\Core\User\Services;
 use App\Core\User\Entities\PersonalAccessToken;
 use App\Core\User\Entities\User;
 use App\Services\HttpRequestService;
+use App\Utilities\Cookie;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -45,16 +46,6 @@ class AccessTokenService
             ->whereNull('logout_at')
             ->where('tokenable_type', '=', $user->getMorphClass())
             ->where('tokenable_id', '=', $user->id)
-            ->whereHas('tokenable', static function (Builder $query): void {
-                $query->where(static function (Builder $query): void {
-                    $query->doesntHave('employee')
-                        ->orWhereHas('employee', static function (Builder $query): void {
-                            $query->whereHas('position', static function (Builder $query): void {
-                                $query->whereIn('name_en', ['user', 'employee']);
-                            });
-                        });
-                });
-            })
             ->when($fingerprint !== null, static function (Builder $query) use ($fingerprint): void {
                 $query->where('fingerprint', '!=', $fingerprint);
             })
@@ -82,7 +73,7 @@ class AccessTokenService
         }
 
         if ($this->requestService->isWebRequest() && $this->request->session()) {
-            deleteCookieFromAllDomains('token');
+            Cookie::deleteFromAllDomains('token');
             $this->request->session()->invalidate();
         }
 

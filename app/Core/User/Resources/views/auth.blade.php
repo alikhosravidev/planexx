@@ -1,4 +1,4 @@
-@extends('user::layout')
+@extends('layouts.base')
 
 @section('title', trans('user::auth.login_title'))
 
@@ -22,7 +22,8 @@
 
         <!-- Back Button (Outside Card) -->
         <div id="back-button-container" class="hidden mb-3 pr-5">
-            <button id="back-button"
+            <button type="button"
+                    id="back-button"
                     class="flex items-center gap-1.5 text-text-muted hover:text-text-primary transition-all duration-200 text-sm leading-normal">
                 <i class="fa-solid fa-arrow-right text-xs"></i>
                 <span>{{ trans('user::auth.back') }}</span>
@@ -35,20 +36,21 @@
             <!-- Step 1: Mobile Input -->
             <div id="step-mobile" class="p-10 md:p-5xl">
                 <form id="mobile-form"
-                      data-validate
-                      data-route="{{ route('user.initiate.auth') }}"
-                      data-method="get"
-                      data-success-action="show-otp-step">
+                      data-ajax
+                      action="{{ route('user.initiate.auth') }}"
+                      data-method="GET"
+                      data-on-success="custom"
+                      data-after-success="show-otp-step"
+                      data-loading-class="opacity-50 pointer-events-none">
 
                     <!-- Mobile Input -->
                     <div class="mb-3xl">
                         <input type="tel"
                                id="mobile-input"
                                name="identifier"
-                               data-validate="mobile"
                                required
                                maxlength="11"
-                               placeholder="۰۹۱۲۳۴۵۶۷۸۹"
+                               placeholder="09112345678"
                                autocomplete="off"
                                class="w-full text-center text-2xl font-semibold text-text-primary bg-transparent border-2 border-border-medium rounded-2xl px-6 py-4 outline-none focus:border-primary focus:shadow-focus transition-all duration-200 leading-normal"
                                dir="ltr">
@@ -60,9 +62,11 @@
 
                     <!-- Submit Button -->
                     <button type="submit"
+                            id="mobile-submit-btn"
                             class="w-full bg-primary text-white text-base font-medium rounded-xl py-4 hover:bg-gray-800 hover:-translate-y-0.5 hover:shadow-button transition-all duration-200 flex items-center justify-center gap-2 leading-normal">
-                        <span>{{ trans('user::auth.get_verification_code') }}</span>
-                        <i class="fa-solid fa-arrow-left"></i>
+                        <span class="btn-text">{{ trans('user::auth.get_verification_code') }}</span>
+                        <i class="fa-solid fa-arrow-left btn-icon"></i>
+                        <i class="fa-solid fa-spinner fa-spin btn-loading hidden"></i>
                     </button>
 
                 </form>
@@ -72,14 +76,19 @@
             <div id="step-otp" class="p-10 md:p-5xl hidden">
 
                 <form id="otp-form"
-                      data-route="{{ route('user.auth') }}"
-                      data-method="post"
-                      data-success-action="login-success">
+                      data-ajax
+                      action="{{ route('user.auth') }}"
+                      data-method="POST"
+                      data-on-success="custom"
+                      data-after-success="login-success"
+                      data-loading-class="opacity-50 pointer-events-none">
+                    @csrf
 
                     <!-- Info Text -->
                     <div class="text-center mb-4">
                         <p class="text-base text-text-secondary leading-relaxed">
-                            {{ trans('user::auth.otp_sent_to') }} <strong id="mobile-display" class="text-text-primary" dir="ltr">09123456789</strong>
+                            {{ trans('user::auth.otp_sent_to') }}
+                            <strong id="mobile-display" class="text-text-primary" dir="ltr"></strong>
                         </p>
                     </div>
 
@@ -90,34 +99,15 @@
 
                     <!-- OTP Inputs -->
                     <div class="flex items-center justify-center gap-3 mb-3xl" dir="ltr">
-                        <input type="text"
-                               maxlength="1"
-                               autocomplete="off"
-                               class="otp-input w-16 h-16 text-center text-2xl font-bold text-text-primary bg-bg-secondary border-2 border-border-medium rounded-xl outline-none focus:border-primary focus:bg-bg-primary focus:shadow-focus transition-all duration-200"
-                               data-index="0"
-                               inputmode="numeric"
-                               pattern="[0-9]">
-                        <input type="text"
-                               maxlength="1"
-                               autocomplete="off"
-                               class="otp-input w-16 h-16 text-center text-2xl font-bold text-text-primary bg-bg-secondary border-2 border-border-medium rounded-xl outline-none focus:border-primary focus:bg-bg-primary focus:shadow-focus transition-all duration-200"
-                               data-index="1"
-                               inputmode="numeric"
-                               pattern="[0-9]">
-                        <input type="text"
-                               maxlength="1"
-                               autocomplete="off"
-                               class="otp-input w-16 h-16 text-center text-2xl font-bold text-text-primary bg-bg-secondary border-2 border-border-medium rounded-xl outline-none focus:border-primary focus:bg-bg-primary focus:shadow-focus transition-all duration-200"
-                               data-index="2"
-                               inputmode="numeric"
-                               pattern="[0-9]">
-                        <input type="text"
-                               maxlength="1"
-                               autocomplete="off"
-                               class="otp-input w-16 h-16 text-center text-2xl font-bold text-text-primary bg-bg-secondary border-2 border-border-medium rounded-xl outline-none focus:border-primary focus:bg-bg-primary focus:shadow-focus transition-all duration-200"
-                               data-index="3"
-                               inputmode="numeric"
-                               pattern="[0-9]">
+                        @for($i = 0; $i < 4; $i++)
+                            <input type="text"
+                                   maxlength="1"
+                                   autocomplete="off"
+                                   class="otp-input w-16 h-16 text-center text-2xl font-bold text-text-primary bg-bg-secondary border-2 border-border-medium rounded-xl outline-none focus:border-primary focus:bg-bg-primary focus:shadow-focus transition-all duration-200"
+                                   data-index="{{ $i }}"
+                                   inputmode="numeric"
+                                   pattern="[0-9]">
+                        @endfor
                     </div>
 
                     <!-- Resend Timer -->
@@ -127,13 +117,19 @@
                         </p>
                         <button type="button"
                                 id="resend-button"
+                                data-ajax
+                                data-action="{{ route('user.initiate.auth') }}"
+                                data-method="GET"
+                                data-on-success="custom"
+                                data-after-success="resend-success"
+                                data-show-message="true"
                                 disabled
-                                class="text-sm font-medium text-text-muted mt-1 leading-normal disabled:opacity-50">
+                                class="text-sm font-medium text-text-muted mt-1 leading-normal transition-colors disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:text-primary enabled:cursor-pointer">
                             {{ trans('user::auth.resend') }} (<span id="timer">60</span>)
                         </button>
                     </div>
 
-                    <!-- Submit Button (Hidden - Auto Submit) -->
+                    <!-- Submit Button -->
                     <button type="submit"
                             id="otp-submit"
                             class="w-full bg-primary text-white text-base font-medium rounded-xl py-4 hover:bg-gray-800 hover:-translate-y-0.5 hover:shadow-button transition-all duration-200 leading-normal">

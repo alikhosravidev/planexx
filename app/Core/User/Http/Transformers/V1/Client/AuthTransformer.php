@@ -38,7 +38,7 @@ class AuthTransformer extends BaseTransformer
         }
 
         return [
-            'user'            => (new UserTransformer($this->request))->transformOne($model->user)->toArray(),
+            'user'            => resolve(UserTransformer::class)->transform($model->user),
             'identifier'      => $model->identifier?->value,
             'identifier_type' => $model->identifier?->type->value,
             'auth'            => $model->token ?? null,

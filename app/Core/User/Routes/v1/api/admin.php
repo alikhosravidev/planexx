@@ -15,19 +15,26 @@ Route::middleware('auth:sanctum')->prefix('location')->group(function () {
     Route::get('cities/{city}', [CityController::class, 'show'])->name('cities.show');
 });
 
-Route::middleware([StartSession::class, 'throttle:' . config('authService.auth_max_attempts')])
+Route::middleware(
+    [
+        StartSession::class,
+        'throttle:' . config('authService.auth_max_attempts'),
+    ]
+)
     ->name('user.')
     ->group(static function (): void {
-        Route::get('auth', [AuthController::class, 'initiateAuth'])->name('initiate.auth');
-        Route::post('auth', [AuthController::class, 'auth'])->name('auth');
+        Route::get('auth', [AuthController::class, 'initiateAuth'])
+            ->middleware('guest')->name('initiate.auth');
+        Route::post('auth', [AuthController::class, 'auth'])
+            ->middleware('guest')->name('auth');
 
         Route::get('reset-password', [AuthController::class, 'initiateResetPassword'])
-            ->name('initiate.resetPassword');
+            ->middleware('guest')->name('initiate.resetPassword');
         Route::put('reset-password', [AuthController::class, 'resetPassword'])
-            ->name('resetPassword');
+            ->middleware('guest')->name('resetPassword');
 
         Route::middleware(['auth:sanctum', 'throttle:20'])
             ->group(static function (): void {
-                Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+                Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
             });
     });

@@ -37,7 +37,7 @@ class AuthController extends APIBaseController
         $authResponse = $this->authService->init($identifier, $request->get('authType'));
 
         return $this->response->success(
-            $this->transformer->transformOne($authResponse),
+            $this->transformer->transform($authResponse),
             $authResponse->message
         );
     }
@@ -59,7 +59,7 @@ class AuthController extends APIBaseController
         );
 
         return $this->response->success(
-            $this->transformer->transformOne($authResponse)->toArray(),
+            $this->transformer->transform($authResponse),
             $authResponse->message
         );
     }
@@ -70,7 +70,7 @@ class AuthController extends APIBaseController
         $authResponse = $this->authService->initResetPassword($identifier);
 
         return $this->response->success(
-            $this->transformer->transformOne($authResponse)->toArray(),
+            $this->transformer->transform($authResponse),
             $authResponse->message
         );
     }
@@ -93,7 +93,7 @@ class AuthController extends APIBaseController
         );
 
         return $this->response->success(
-            $this->transformer->transformOne($authResponse)->toArray(),
+            $this->transformer->transform($authResponse),
             $authResponse->message
         );
     }
@@ -112,7 +112,7 @@ class AuthController extends APIBaseController
         }
 
         return $this->response->success(
-            [],
+            ['redirect_url' => route('login')],
             trans('user::success.logout')
         );
     }

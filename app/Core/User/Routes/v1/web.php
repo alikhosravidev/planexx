@@ -12,6 +12,6 @@ use Illuminate\Support\Facades\Route;
  */
 
 // Public authentication pages
-Route::middleware(['web'])->group(static function (): void {
+Route::middleware(['web', 'guest'])->group(static function (): void {
     Route::get('login', [AuthWebController::class, 'login'])->name('login');
 });

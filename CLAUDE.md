@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+**Language Rule: All documentation must be in English. No Persian/Farsi in documentation files.**
+
 This file provides quick guidance to Claude Code when working with this repository. For detailed documentation, see `.claude/` directory.
 
 ## Quick Start
@@ -176,16 +178,55 @@ class UserManagementController extends BaseWebController {
 11. ✅ **Run commands inside Docker**: `docker exec planexx_app ...`
 
 ## Recent Important Changes
+- **New AJAX System**: Declarative HTML-based AJAX (zero JavaScript for standard forms)
+  - 14 built-in actions for DOM manipulation
+  - Custom action registry for complex scenarios
+  - Automatic validation and error handling
+  - Full documentation in `.claude/ajax-*.md` files
 - **Implemented BaseWebController**: API-FIRST foundation for admin panel with internal API forwarding
 - **Refactored Transformer system**: No more magic methods, use `getVirtualFieldResolvers()`
 - **Moved ValueObjects**: From `app/Domain/` to `app/Bus/`
 - **Split HasJobPosition**: Into `HasCreator`, `HasManager`, `HasOwner`, `HasUser`
 - **Renamed FormWizard**: To `FormEngine`
 
+## Frontend Development
+
+### AJAX System
+**For ALL new form submissions and AJAX requests:**
+- Declarative HTML-based AJAX system - zero JavaScript for standard forms
+- 14 built-in actions for DOM manipulation
+- Custom action registry for complex scenarios
+- Automatic validation and error handling
+- Ziggy route integration, CSRF protection, token auto-injection
+
+**Quick Example:**
+```html
+<form
+  data-ajax
+  action="{{ route('users.store') }}"
+  data-on-success="prepend"
+  data-target="#users-list"
+>
+  @csrf
+  <input type="text" name="name" required />
+  <button>Save</button>
+</form>
+```
+
+**Documentation:**
+1. **Start here:** `.claude/ajax-system-overview.md` - What and why
+2. **Attributes:** `.claude/ajax/attributes.md` - All available attributes
+3. **Actions:** `.claude/ajax/actions.md` - 14 built-in actions
+4. **Examples:** `.claude/ajax/examples.md` - Real-world use cases
+5. **Advanced:** `.claude/ajax/advanced.md` - Custom actions, events
+
+---
+
 ## When Working on Specific Tasks
 
 | Task | Read This |
 |------|-----------|
+| **New forms/AJAX requests** | **`.claude/ajax-system.md`** |
 | Creating new module | `.claude/architecture.md` |
 | Working with models | `.claude/domain/entities.md` |
 | Creating DTOs | `.claude/application/dtos.md` |
@@ -198,6 +239,16 @@ class UserManagementController extends BaseWebController {
 | Error handling | `.claude/error-handling.md` |
 
 ## Documentation Index
+
+### Frontend - AJAX System (NEW)
+- **Overview**: `.claude/ajax-system-overview.md` - Core concepts and usage levels
+- **Reference**: `.claude/ajax/` - Complete AJAX documentation
+  - `attributes.md` - All HTML attributes
+  - `actions.md` - 14 built-in actions
+  - `examples.md` - Real-world examples
+  - `advanced.md` - Custom actions, events, debugging
+
+### Backend - Architecture & Patterns
 - **Quick Start**: `.claude/quick-start.md`
 - **Architecture**: `.claude/architecture.md`
 - **Domain**: `.claude/domain/` (entities, value-objects, enums, collections)
