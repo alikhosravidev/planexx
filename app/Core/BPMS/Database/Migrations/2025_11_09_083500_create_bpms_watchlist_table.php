@@ -22,7 +22,7 @@ return new class () extends Migration {
             $table->timestamps();
 
             $table->foreign('task_id')->references('id')->on('bpms_tasks')->onDelete('cascade');
-            $table->foreign('watcher_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('watcher_id')->references('id')->on('core_org_users')->onDelete('cascade');
 
             $table->unique(['task_id', 'watcher_id'], 'unique_task_watcher');
             $table->index('task_id', 'idx_task');

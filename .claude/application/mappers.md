@@ -86,6 +86,7 @@ class AddressController extends Controller
 ```
 
 ## Complete Example
+
 ```php
 <?php
 
@@ -93,9 +94,7 @@ declare(strict_types=1);
 
 namespace App\Core\User\Mappers;
 
-use App\Core\User\DTOs\AddressDTO;
-use App\Core\User\Entities\Address;
-use Illuminate\Http\Request;
+use App\Core\Organization\DTOs\AddressDTO;use App\Core\Organization\Entities\Address;use Illuminate\Http\Request;
 
 class AddressMapper
 {

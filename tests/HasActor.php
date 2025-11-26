@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use App\Core\User\Entities\User;
+use App\Core\Organization\Entities\User;
 use Illuminate\Support\Facades\DB;
 
 trait HasActor

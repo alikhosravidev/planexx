@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Core\Organization\Database\Factories;
 
 use App\Core\Organization\Entities\Department;
+use App\Core\Organization\Entities\User;
 use App\Core\Organization\Entities\UserDepartment;
-use App\Core\User\Entities\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class UserDepartmentFactory extends Factory

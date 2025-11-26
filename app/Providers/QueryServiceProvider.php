@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Core\Organization\Services\Query\DepartmentQueryServiceImplementation;
-use App\Core\User\Services\Query\UserQueryServiceImplementation;
+use App\Core\Organization\Services\Query\UserQueryServiceImplementation;
 use App\Query\Domains\Department\DepartmentQueryService;
 use App\Query\Domains\User\UserQueryService;
 use App\Query\Services\QueryServiceLocator;

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Schema;
 return new class () extends Migration {
     public function up(): void
     {
-        Schema::create('job_positions', function (Blueprint $table) {
+        Schema::create('core_org_job_positions', function (Blueprint $table) {
             $table->id();
             $table->string('title', 100);
             $table->string('code', 50)->nullable()->unique();
@@ -28,6 +28,6 @@ return new class () extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('job_positions');
+        Schema::dropIfExists('core_org_job_positions');
     }
 };

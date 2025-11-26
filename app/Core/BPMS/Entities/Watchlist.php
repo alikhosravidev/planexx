@@ -7,7 +7,7 @@ namespace App\Core\BPMS\Entities;
 use App\Contracts\Model\BaseModel;
 use App\Core\BPMS\Database\Factories\WatchlistFactory;
 use App\Core\BPMS\Enums\WatchStatus;
-use App\Core\User\Entities\User;
+use App\Core\Organization\Entities\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 

@@ -8,7 +8,7 @@ use App\Core\BPMS\Entities\FollowUp;
 use App\Core\BPMS\Entities\Task;
 use App\Core\BPMS\Entities\WorkflowState;
 use App\Core\BPMS\Enums\FollowUpType;
-use App\Core\User\Entities\User;
+use App\Core\Organization\Entities\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FollowUpFactory extends Factory

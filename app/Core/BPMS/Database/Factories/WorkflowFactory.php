@@ -6,7 +6,7 @@ namespace App\Core\BPMS\Database\Factories;
 
 use App\Core\BPMS\Entities\Workflow;
 use App\Core\Organization\Entities\Department;
-use App\Core\User\Entities\User;
+use App\Core\Organization\Entities\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class WorkflowFactory extends Factory

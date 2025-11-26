@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Schema;
 return new class () extends Migration {
     public function up(): void
     {
-        Schema::create('user_departments', function (Blueprint $table) {
+        Schema::create('core_org_user_departments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('department_id')->constrained('departments')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('core_org_users')->cascadeOnDelete();
+            $table->foreignId('department_id')->constrained('core_org_departments')->cascadeOnDelete();
             $table->boolean('is_primary')->default(false);
             $table->timestamps();
 
@@ -25,6 +25,6 @@ return new class () extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('user_departments');
+        Schema::dropIfExists('core_org_user_departments');
     }
 };

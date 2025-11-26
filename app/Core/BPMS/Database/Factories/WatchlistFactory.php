@@ -7,7 +7,7 @@ namespace App\Core\BPMS\Database\Factories;
 use App\Core\BPMS\Entities\Task;
 use App\Core\BPMS\Entities\Watchlist;
 use App\Core\BPMS\Enums\WatchStatus;
-use App\Core\User\Entities\User;
+use App\Core\Organization\Entities\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class WatchlistFactory extends Factory

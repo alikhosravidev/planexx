@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\FormEngine\Entities;
 
-use App\Core\User\Entities\User;
+use App\Core\Organization\Entities\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;

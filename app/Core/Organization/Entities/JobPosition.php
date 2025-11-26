@@ -31,6 +31,8 @@ class JobPosition extends BaseModel
     use HasFactory;
     use SoftDeletes;
 
+    protected $table = 'core_org_job_positions';
+
     protected $fillable = [
         'title',
         'code',

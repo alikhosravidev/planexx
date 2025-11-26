@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Schema;
 return new class () extends Migration {
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('core_org_users', function (Blueprint $table) {
             $table->unsignedBigInteger('job_position_id')->nullable()
                 ->after('direct_manager_id')->index();
         });
@@ -17,7 +17,7 @@ return new class () extends Migration {
 
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('core_org_users', function (Blueprint $table) {
             $table->dropIndex(['job_position_id']);
             $table->dropColumn('job_position_id');
         });

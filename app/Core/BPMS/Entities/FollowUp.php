@@ -7,8 +7,8 @@ namespace App\Core\BPMS\Entities;
 use App\Contracts\Model\BaseModel;
 use App\Core\BPMS\Database\Factories\FollowUpFactory;
 use App\Core\BPMS\Enums\FollowUpType;
-use App\Core\User\Entities\User;
-use App\Core\User\Traits\HasCreator;
+use App\Core\Organization\Entities\User;
+use App\Core\Organization\Traits\HasCreator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 

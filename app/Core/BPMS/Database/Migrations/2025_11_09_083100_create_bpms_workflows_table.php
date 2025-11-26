@@ -24,8 +24,8 @@ return new class () extends Migration {
             $table->softDeletes();
 
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('set null');
-            $table->foreign('owner_id')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('owner_id')->references('id')->on('core_org_users')->onDelete('set null');
+            $table->foreign('created_by')->references('id')->on('core_org_users')->onDelete('set null');
 
             $table->index('department_id', 'idx_department');
             $table->index('owner_id', 'idx_process_manager');

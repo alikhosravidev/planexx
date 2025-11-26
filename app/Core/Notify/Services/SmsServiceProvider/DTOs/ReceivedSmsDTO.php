@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Notify\Services\SmsServiceProvider\DTOs;
 
-use App\Core\General\Utilities\StringUtility;
+use App\Utilities\StringUtility;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Carbon;
 

@@ -8,7 +8,7 @@ use App\Contracts\Model\BaseModel;
 use App\Contracts\Sorting\SortableEntity;
 use App\Core\BPMS\Database\Factories\WorkflowStateFactory;
 use App\Core\BPMS\Enums\WorkflowStatePosition;
-use App\Core\User\Entities\User;
+use App\Core\Organization\Entities\User;
 use App\Traits\Sorting\HasSorting;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

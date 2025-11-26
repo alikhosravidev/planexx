@@ -27,7 +27,7 @@ return new class () extends Migration {
             $table->softDeletes();
 
             $table->foreign('workflow_id')->references('id')->on('bpms_workflows')->onDelete('cascade');
-            $table->foreign('default_assignee_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('default_assignee_id')->references('id')->on('core_org_users')->onDelete('set null');
 
             $table->unique(['workflow_id', 'slug']);
 

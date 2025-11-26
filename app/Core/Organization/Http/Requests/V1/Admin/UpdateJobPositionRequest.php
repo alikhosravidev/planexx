@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Organization\Http\Requests\V1\Admin;
 
 use App\Contracts\Requests\BaseRequest;
+use App\Core\Organization\Entities\JobPosition;
 use App\Core\Organization\Enums\TierEnum;
 use Illuminate\Validation\Rule;
 
@@ -23,7 +24,8 @@ class UpdateJobPositionRequest extends BaseRequest
                 'nullable',
                 'string',
                 'max:50',
-                Rule::unique('job_positions', 'code')->ignore($this->route('jobPosition')),
+                Rule::unique(JobPosition::class, 'code')
+                    ->ignore($this->route('jobPosition')),
             ],
             'tier'        => ['nullable', 'integer', Rule::enum(TierEnum::class)],
             'image_url'   => 'nullable|url',

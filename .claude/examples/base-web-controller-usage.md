@@ -401,8 +401,7 @@ For this project: `$apiPrefix = ''` (without prefix)
 
 namespace Tests\Feature\Web;
 
-use Tests\TestCase;
-use App\Core\User\Entities\User;
+use App\Core\Organization\Entities\User;use Tests\TestCase;
 
 class UserManagementControllerTest extends TestCase
 {

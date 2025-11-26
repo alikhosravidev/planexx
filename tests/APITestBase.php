@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use App\Core\User\Entities\PersonalAccessToken;
+use App\Core\Organization\Entities\PersonalAccessToken;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Testing\TestResponse;
 

@@ -6,7 +6,7 @@ namespace App\Core\Organization\Entities;
 
 use App\Contracts\Model\BaseModel;
 use App\Core\Organization\Database\Factories\UserDepartmentFactory;
-use App\Core\User\Traits\HasUser;
+use App\Core\Organization\Traits\HasUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -24,6 +24,8 @@ class UserDepartment extends BaseModel
 {
     use HasFactory;
     use HasUser;
+
+    protected $table = 'core_org_user_departments';
 
     protected $fillable = [
         'user_id',

@@ -6,8 +6,7 @@ namespace App\Core\Organization\Entities;
 
 use App\Contracts\Model\BaseModel;
 use App\Core\Organization\Database\Factories\DepartmentFactory;
-use App\Core\User\Entities\User;
-use App\Core\User\Traits\HasManager;
+use App\Core\Organization\Traits\HasManager;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -29,13 +28,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Relations:
  * @property Department|null              $parent
  * @property \Illuminate\Database\Eloquent\Collection<int, Department> $children
- * @property \Illuminate\Database\Eloquent\Collection<int, \App\Core\User\Entities\User> $users
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Core\Organization\Entities\User> $users
  */
 class Department extends BaseModel
 {
     use HasFactory;
     use SoftDeletes;
     use HasManager;
+
+    protected $table = 'core_org_departments';
 
     protected $fillable = [
         'parent_id',

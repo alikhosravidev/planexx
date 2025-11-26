@@ -6,7 +6,7 @@ namespace App\Core\FormEngine\Entities;
 
 use App\Core\FormEngine\Enums\AuthTypeEnum;
 use App\Core\FormEngine\Enums\DisplayModeEnum;
-use App\Core\User\Entities\User;
+use App\Core\Organization\Entities\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

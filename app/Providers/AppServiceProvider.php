@@ -7,10 +7,10 @@ namespace App\Providers;
 use App\Commands\PrepareParallelTests;
 use App\Contracts\BootstrapFileManagerInterface;
 use App\Contracts\ModuleDiscoveryInterface;
+use App\Core\BPMS\Providers\BPMSServiceProvider;
 use App\Core\FormEngine\Providers\FormEngineServiceProvider;
 use App\Core\Notify\Providers\NotifyServiceProvider;
 use App\Core\Organization\Providers\OrganizationServiceProvider;
-use App\Core\User\Providers\UserServiceProvider;
 use App\Services\AIImageService\AIImageService;
 use App\Services\AIImageService\AIImageServiceFactory;
 use App\Services\FilesystemModuleDiscovery;
@@ -76,10 +76,10 @@ class AppServiceProvider extends ServiceProvider
 
     private function registerCoreProviders(): void
     {
-        $this->app->register(NotifyServiceProvider::class);
-        $this->app->register(UserServiceProvider::class);
         $this->app->register(OrganizationServiceProvider::class);
         $this->app->register(FormEngineServiceProvider::class);
+        $this->app->register(BPMSServiceProvider::class);
+        $this->app->register(NotifyServiceProvider::class);
     }
 
     private function registerModuleProviders(): void

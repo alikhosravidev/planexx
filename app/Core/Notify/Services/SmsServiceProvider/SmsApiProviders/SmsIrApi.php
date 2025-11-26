@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of the LSP API and Panels projects
@@ -65,7 +65,7 @@ class SmsIrApi implements SmsApiInterface
     }
 
     /**
-     * @throws \HttpException
+     * @throws HttpException
      * @throws GuzzleException
      * @throws \JsonException
      */

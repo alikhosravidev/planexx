@@ -7,7 +7,7 @@ namespace App\Core\BPMS\Database\Factories;
 use App\Core\BPMS\Entities\Workflow;
 use App\Core\BPMS\Entities\WorkflowState;
 use App\Core\BPMS\Enums\WorkflowStatePosition;
-use App\Core\User\Entities\User;
+use App\Core\Organization\Entities\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class WorkflowStateFactory extends Factory

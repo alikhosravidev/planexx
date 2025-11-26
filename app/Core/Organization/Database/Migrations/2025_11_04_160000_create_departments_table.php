@@ -9,12 +9,13 @@ use Illuminate\Support\Facades\Schema;
 return new class () extends Migration {
     public function up(): void
     {
-        Schema::create('departments', function (Blueprint $table) {
+        Schema::create('core_org_departments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('parent_id')->nullable()->constrained('departments')->nullOnDelete();
+            $table->foreignId('parent_id')->nullable()
+                ->constrained('core_org_departments')->nullOnDelete();
             $table->string('name', 100);
             $table->string('code', 50)->nullable()->unique();
-            $table->foreignId('manager_id')->nullable()->constrained('users');
+            $table->foreignId('manager_id')->nullable()->constrained('core_org_users');
             $table->string('image_url', 255)->nullable();
             $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);
@@ -30,6 +31,6 @@ return new class () extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('core_org_departments');
     }
 };

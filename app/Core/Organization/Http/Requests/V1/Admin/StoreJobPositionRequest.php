@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Organization\Http\Requests\V1\Admin;
 
 use App\Contracts\Requests\BaseRequest;
+use App\Core\Organization\Entities\JobPosition;
 use App\Core\Organization\Enums\TierEnum;
 use Illuminate\Validation\Rule;
 
@@ -19,7 +20,7 @@ class StoreJobPositionRequest extends BaseRequest
     {
         return [
             'title'       => 'required|string|max:255',
-            'code'        => 'nullable|string|max:50|unique:job_positions,code',
+            'code'        => ['nullable', 'string', 'max:50', Rule::unique(JobPosition::class, 'code')],
             'tier'        => ['nullable', 'integer', Rule::enum(TierEnum::class)],
             'image_url'   => 'nullable|url',
             'description' => 'nullable|string',

@@ -28,9 +28,9 @@ return new class () extends Migration {
             $table->timestamp('created_at')->useCurrent();
 
             $table->foreign('task_id')->references('id')->on('bpms_tasks')->onDelete('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('restrict');
-            $table->foreign('previous_assignee_id')->references('id')->on('users')->onDelete('restrict');
-            $table->foreign('new_assignee_id')->references('id')->on('users')->onDelete('restrict');
+            $table->foreign('created_by')->references('id')->on('core_org_users')->onDelete('restrict');
+            $table->foreign('previous_assignee_id')->references('id')->on('core_org_users')->onDelete('restrict');
+            $table->foreign('new_assignee_id')->references('id')->on('core_org_users')->onDelete('restrict');
             $table->foreign('previous_state_id')->references('id')->on('bpms_workflow_states')->onDelete('restrict');
             $table->foreign('new_state_id')->references('id')->on('bpms_workflow_states')->onDelete('restrict');
 

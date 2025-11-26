@@ -9,17 +9,17 @@ use Illuminate\Support\Facades\Schema;
 return new class () extends Migration {
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('core_org_users', function (Blueprint $table) {
             $table->foreign('job_position_id')
                 ->references('id')
-                ->on('job_positions')
+                ->on('core_org_job_positions')
                 ->onDelete('set null');
         });
     }
 
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('core_org_users', function (Blueprint $table) {
             $table->dropForeign(['job_position_id']);
         });
     }

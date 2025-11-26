@@ -34,8 +34,8 @@ return new class () extends Migration {
 
             $table->foreign('workflow_id')->references('id')->on('bpms_workflows')->onDelete('restrict');
             $table->foreign('current_state_id')->references('id')->on('bpms_workflow_states')->onDelete('restrict');
-            $table->foreign('assignee_id')->references('id')->on('users')->onDelete('restrict');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('restrict');
+            $table->foreign('assignee_id')->references('id')->on('core_org_users')->onDelete('restrict');
+            $table->foreign('created_by')->references('id')->on('core_org_users')->onDelete('restrict');
 
             $table->index('workflow_id', 'idx_workflow');
             $table->index('current_state_id', 'idx_current_state');

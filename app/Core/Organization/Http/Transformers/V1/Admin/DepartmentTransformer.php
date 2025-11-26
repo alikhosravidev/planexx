@@ -6,7 +6,6 @@ namespace App\Core\Organization\Http\Transformers\V1\Admin;
 
 use App\Contracts\Transformer\BaseTransformer;
 use App\Core\Organization\Entities\Department;
-use App\Core\User\Http\Transformers\V1\Admin\UserTransformer;
 
 class DepartmentTransformer extends BaseTransformer
 {
