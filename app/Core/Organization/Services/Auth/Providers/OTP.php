@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Services\Auth\Providers;
 
-use App\Contracts\User\UserRepositoryInterface;
+use App\Core\Organization\Repositories\UserRepository;
 use App\Core\Organization\Services\AccessTokenService;
 use App\Core\Organization\Services\Auth\Contracts\AuthHandlerInterface;
 use App\Core\Organization\Services\Auth\Contracts\AuthProviderAbstract;
@@ -27,7 +27,7 @@ final class OTP extends AuthProviderAbstract implements AuthHandlerInterface, Pa
     public function __construct(
         private readonly OTPService $otpService,
         AccessTokenService $accessToken,
-        UserRepositoryInterface $userRepository,
+        UserRepository $userRepository,
         HttpRequestService $requestService,
         AuthConfig $authConfig,
     ) {

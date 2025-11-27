@@ -18,9 +18,9 @@ use App\Core\BPMS\Events\TaskReferred;
 use App\Core\BPMS\Events\TaskStateChanged;
 use App\Core\BPMS\Repositories\TaskRepository;
 use App\Core\BPMS\Repositories\WorkflowStateRepository;
-use App\Query\Domains\Task\TaskId;
-use App\Query\Domains\User\UserId;
-use App\Query\Domains\WorkflowState\WorkflowStateId;
+use App\Domains\Task\TaskId;
+use App\Domains\User\UserId;
+use App\Domains\WorkflowState\WorkflowStateId;
 
 readonly class TaskService implements TaskServiceInterface
 {

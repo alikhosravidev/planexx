@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Organization\Mappers;
 
 use App\Core\Organization\Entities\Department;
-use App\Query\Domains\Department\DepartmentDTO;
+use App\Domains\Department\DepartmentDTO;
 use Illuminate\Http\Request;
 
 class DepartmentMapper

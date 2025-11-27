@@ -6,7 +6,7 @@ namespace App\Core\Organization\Tests\Integration\Services;
 
 use App\Core\Organization\Entities\Department;
 use App\Core\Organization\Services\DepartmentService;
-use App\Query\Domains\Department\DepartmentDTO;
+use App\Domains\Department\DepartmentDTO;
 use Tests\IntegrationTestBase;
 
 class DepartmentServiceTest extends IntegrationTestBase

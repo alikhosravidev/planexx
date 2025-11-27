@@ -18,12 +18,11 @@ declare(strict_types=1);
 namespace App\Core\Organization\Repositories;
 
 use App\Contracts\Repository\BaseRepository;
-use App\Contracts\User\UserRepositoryInterface;
 use App\Core\Organization\Entities\User;
 use App\Core\Organization\Repositories\Criteria\UserIdentifierCriteria;
 use App\Core\Organization\Services\Auth\ValueObjects\Identifier;
 
-class UserRepository extends BaseRepository implements UserRepositoryInterface
+class UserRepository extends BaseRepository
 {
     public array $fieldSearchable = [
         'id'        => '=',
@@ -63,11 +62,11 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
         return $this->create(
             [
-                'mobile'    => $mobile,
-                'full_name' => $fullName,
+                'mobile'     => $mobile,
+                'full_name'  => $fullName,
                 'first_name' => $nameParts[0],
-                'last_name' => $nameParts[1] ?? '',
-                'meta'      => [
+                'last_name'  => $nameParts[1] ?? '',
+                'meta'       => [
                     'mobile_verified' => true,
                 ],
             ]

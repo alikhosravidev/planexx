@@ -11,8 +11,8 @@ use App\Core\Organization\Entities\User;
 use App\Core\Organization\Repositories\AddressRepository;
 use App\Core\Organization\Repositories\CityRepository;
 use App\Core\Organization\Services\AddressService;
-use App\Query\ValueObjects\Email;
-use App\Query\ValueObjects\Mobile;
+use App\ValueObjects\Email;
+use App\ValueObjects\Mobile;
 use Tests\IntegrationTestBase;
 
 class AddressServiceTest extends IntegrationTestBase

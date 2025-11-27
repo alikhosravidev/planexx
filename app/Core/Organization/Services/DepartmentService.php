@@ -7,7 +7,7 @@ namespace App\Core\Organization\Services;
 use App\Core\Organization\Contracts\DepartmentServiceInterface;
 use App\Core\Organization\Entities\Department;
 use App\Core\Organization\Repositories\DepartmentRepository;
-use App\Query\Domains\Department\DepartmentDTO;
+use App\Domains\Department\DepartmentDTO;
 
 readonly class DepartmentService implements DepartmentServiceInterface
 {

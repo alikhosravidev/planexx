@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Services\Auth\Contracts;
 
-use App\Contracts\User\UserRepositoryInterface;
 use App\Core\Organization\Entities\User;
 use App\Core\Organization\events\UserRegistered;
+use App\Core\Organization\Repositories\UserRepository;
 use App\Core\Organization\Services\AccessTokenService;
 use App\Core\Organization\Services\Auth\DTOs\AuthConfig;
 use App\Core\Organization\Services\Auth\DTOs\AuthToken;
@@ -24,7 +24,7 @@ abstract class AuthProviderAbstract
 
     public function __construct(
         protected readonly AccessTokenService $accessToken,
-        protected readonly UserRepositoryInterface $userRepository,
+        protected readonly UserRepository $userRepository,
         protected readonly HttpRequestService $requestService,
         protected readonly AuthConfig $authConfig,
     ) {

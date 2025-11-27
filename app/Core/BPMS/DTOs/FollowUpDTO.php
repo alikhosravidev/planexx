@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Core\BPMS\DTOs;
 
 use App\Core\BPMS\Enums\FollowUpType;
-use App\Query\Domains\Task\TaskId;
-use App\Query\Domains\User\UserId;
-use App\Query\Domains\WorkflowState\WorkflowStateId;
+use App\Domains\Task\TaskId;
+use App\Domains\User\UserId;
+use App\Domains\WorkflowState\WorkflowStateId;
 use Illuminate\Contracts\Support\Arrayable;
 
 final readonly class FollowUpDTO implements Arrayable

@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Providers;
 
-use App\Contracts\User\UserRepositoryInterface;
 use App\Core\Organization\Entities\PersonalAccessToken;
 use App\Core\Organization\Http\Middlewares\CheckUserAccessToken;
-use App\Core\Organization\Repositories\UserRepository;
 use App\Utilities\ProviderUtility;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -19,8 +17,6 @@ class OrganizationServiceProvider extends ServiceProvider
     {
         $this->app->register(EventServiceProvider::class);
         $this->app->register(AuthServiceProvider::class);
-
-        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
     }
 
     public function boot(): void

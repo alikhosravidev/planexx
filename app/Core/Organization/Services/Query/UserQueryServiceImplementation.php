@@ -6,18 +6,18 @@ namespace App\Core\Organization\Services\Query;
 
 use App\Core\Organization\Entities\User;
 use App\Core\Organization\Repositories\UserRepository;
-use App\Query\Domains\Department\DepartmentId;
-use App\Query\Domains\User\UserDTO;
-use App\Query\Domains\User\UserDTOCollection;
-use App\Query\Domains\User\UserId;
-use App\Query\Domains\User\UserIdCollection;
-use App\Query\Domains\User\UserQueryService;
-use App\Query\Exceptions\EntityNotFoundException;
-use App\Query\ValueObjects\Email;
-use App\Query\ValueObjects\Mobile;
-use App\Query\ValueObjects\NationalCode;
+use App\Domains\Department\DepartmentId;
+use App\Domains\User\UserDTO;
+use App\Domains\User\UserDTOCollection;
+use App\Domains\User\UserId;
+use App\Domains\User\UserIdCollection;
+use App\Domains\User\UserQuery;
+use App\Exceptions\EntityNotFoundException;
+use App\ValueObjects\Email;
+use App\ValueObjects\Mobile;
+use App\ValueObjects\NationalCode;
 
-readonly class UserQueryServiceImplementation implements UserQueryService
+readonly class UserQueryServiceImplementation implements UserQuery
 {
     public function __construct(
         private UserRepository $repository

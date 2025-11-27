@@ -6,21 +6,21 @@ namespace App\Providers;
 
 use App\Core\Organization\Services\Query\DepartmentQueryServiceImplementation;
 use App\Core\Organization\Services\Query\UserQueryServiceImplementation;
-use App\Query\Domains\Department\DepartmentQueryService;
-use App\Query\Domains\User\UserQueryService;
-use App\Query\Services\QueryServiceLocator;
+use App\Domains\Department\DepartmentQuery;
+use App\Domains\User\UserQuery;
+use App\Services\QueryServiceLocator;
 use Illuminate\Support\ServiceProvider;
 
 class QueryServiceProvider extends ServiceProvider
 {
     private array $queryServices = [
-        'users'       => UserQueryService::class,
-        'departments' => DepartmentQueryService::class,
+        'users'       => UserQuery::class,
+        'departments' => DepartmentQuery::class,
     ];
 
     private array $implementations = [
-        UserQueryService::class       => UserQueryServiceImplementation::class,
-        DepartmentQueryService::class => DepartmentQueryServiceImplementation::class,
+        UserQuery::class       => UserQueryServiceImplementation::class,
+        DepartmentQuery::class => DepartmentQueryServiceImplementation::class,
     ];
 
     public function register(): void

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Core\Organization\Database\Factories;
 
 use App\Core\Organization\Entities\User;
-use App\Query\ValueObjects\Email;
-use App\Query\ValueObjects\Mobile;
+use App\ValueObjects\Email;
+use App\ValueObjects\Mobile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class UserFactory extends Factory

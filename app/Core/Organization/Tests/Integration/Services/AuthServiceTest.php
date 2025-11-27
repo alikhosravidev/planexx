@@ -10,11 +10,10 @@ use App\Core\Organization\Services\Auth\DTOs\AuthConfig;
 use App\Core\Organization\Services\Auth\DTOs\AuthRequestDto;
 use App\Core\Organization\Services\Auth\DTOs\ClientMetadataDto;
 use App\Core\Organization\Services\Auth\ValueObjects\Identifier;
-use App\Query\ValueObjects\Email;
+use App\ValueObjects\Email;
 use Tests\IntegrationTestBase;
 
-class
-AuthServiceTest extends IntegrationTestBase
+class AuthServiceTest extends IntegrationTestBase
 {
     private AuthService $authService;
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Organization\Contracts;
 
 use App\Core\Organization\Entities\Department;
-use App\Query\Domains\Department\DepartmentDTO;
+use App\Domains\Department\DepartmentDTO;
 
 interface DepartmentServiceInterface
 {

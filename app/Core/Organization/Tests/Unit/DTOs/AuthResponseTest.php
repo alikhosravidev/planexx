@@ -12,7 +12,7 @@ use App\Core\Organization\Services\Auth\DTOs\PasswordConfig;
 use App\Core\Organization\Services\Auth\ValueObjects\Identifier;
 use App\Core\Organization\Services\OTPService\OTPConfig;
 use App\Core\Organization\Services\OTPService\OTPResponse;
-use App\Query\ValueObjects\Email;
+use App\ValueObjects\Email;
 use Tests\PureUnitTestBase;
 
 class AuthResponseTest extends PureUnitTestBase

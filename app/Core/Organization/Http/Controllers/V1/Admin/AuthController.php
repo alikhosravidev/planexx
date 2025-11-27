@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Core\Organization\Http\Controllers\V1\Admin;
 
 use App\Contracts\Controller\APIBaseController;
-use App\Contracts\User\UserRepositoryInterface;
 use App\Core\Organization\Http\Requests\V1\Admin\AuthInitiateRequest;
 use App\Core\Organization\Http\Requests\V1\Admin\AuthRequest;
 use App\Core\Organization\Http\Requests\V1\Admin\InitiateResetPasswordRequest;
 use App\Core\Organization\Http\Requests\V1\Admin\ResetPasswordRequest;
 use App\Core\Organization\Http\Transformers\V1\Admin\AuthTransformer;
+use App\Core\Organization\Repositories\UserRepository;
 use App\Core\Organization\Services\Auth\AuthService;
 use App\Core\Organization\Services\Auth\DTOs\AuthRequestDto;
 use App\Core\Organization\Services\Auth\DTOs\ClientMetadataDto;
@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 class AuthController extends APIBaseController
 {
     public function __construct(
-        UserRepositoryInterface $userRepository,
+        UserRepository $userRepository,
         AuthTransformer $authTransformer,
         private readonly AuthService $authService,
         private readonly HttpRequestService $requestService,

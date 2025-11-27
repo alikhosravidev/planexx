@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Core\BPMS\DTOs;
 
-use App\Query\Domains\Department\DepartmentId;
-use App\Query\Domains\User\UserId;
-use App\Query\ValueObjects\Slug;
+use App\Domains\Department\DepartmentId;
+use App\Domains\User\UserId;
+use App\ValueObjects\Slug;
 use Illuminate\Contracts\Support\Arrayable;
 
 final readonly class WorkflowDTO implements Arrayable
