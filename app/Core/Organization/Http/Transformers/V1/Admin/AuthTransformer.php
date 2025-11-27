@@ -33,6 +33,7 @@ class AuthTransformer extends BaseTransformer
                 'next_step'       => $model->nextStep,
                 'identifier'      => $model->identifier?->value,
                 'identifier_type' => $model->identifier?->type->value,
+                'redirect_url'    => route('dashboard'),
             ];
         }
 
@@ -40,8 +41,11 @@ class AuthTransformer extends BaseTransformer
             'user'            => resolve(UserTransformer::class)->transform($model->user),
             'identifier'      => $model->identifier?->value,
             'identifier_type' => $model->identifier?->type->value,
-            'auth'            => $model->token ?? null,
+            'token'           => $model->token?->value,
+            'token_type'      => $model->token?->type,
+            'success'         => $model->token !== null,
             'is_registered'   => $model->isRegistered,
+            'redirect_url'    => route('dashboard'),
         ];
     }
 }

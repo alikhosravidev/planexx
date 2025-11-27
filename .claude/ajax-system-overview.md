@@ -1,8 +1,16 @@
-# AJAX System - Overview
+# AJAX System - Overview (v2.0)
 
 ## What Is It?
 
 Declarative AJAX system that requires **zero JavaScript** for standard forms. All configuration via HTML attributes.
+
+**Version 2.0 Improvements:**
+- ✅ **Secure**: HttpOnly cookie authentication, no client-side token storage
+- ✅ **Modular**: Separated into focused modules (actions, handlers, utils)
+- ✅ **Testable**: DI container for dependency injection and mocking
+- ✅ **Maintainable**: Reduced from 626-line God Module to clean architecture
+- ✅ **Validated**: Centralized validation rules
+- ✅ **Clean**: Event management with automatic cleanup
 
 ## Core Concept
 
@@ -97,68 +105,105 @@ form.addEventListener('ajax:success', (event) => {
 });
 ```
 
-## File Structure
+## File Structure (v2.0)
 
 ```
 resources/js/
 ├── api/
-│   ├── ajax-handler.js       # Core AJAX handler
-│   ├── http-client.js        # Axios configuration
-│   └── request.js            # Request builder (for advanced use)
-├── auth/
-│   ├── actions.js            # Auth custom actions (login-success, etc.)
-│   ├── otp.js                # OTP inputs handling
-│   └── ui.js                 # Auth UI helpers (back button, step switch)
+│   ├── actions/
+│   │   ├── registry.js       # Custom action registration
+│   │   ├── built-in.js       # 14 built-in actions
+│   │   ├── executor.js       # Action execution logic
+│   │   └── index.js          # Central export
+│   ├── handlers/
+│   │   ├── form-handler.js   # Form submission logic
+│   │   ├── button-handler.js # Button click logic
+│   │   └── index.js          # Central export
+│   ├── ajax-handler.js       # Orchestrator (60 lines)
+│   ├── http-client.js        # Axios with Sanctum CSRF
+│   └── request.js            # Request builder
+├── utils/
+│   ├── di-container.js       # Dependency injection
+│   ├── dom.js                # DOM manipulation helpers
+│   └── event-manager.js      # Event cleanup tracking
 ├── services/
 │   └── form-service.js       # Form validation & submission
-└── bootstrap.js              # Initialization
+├── auth/
+│   ├── actions.js            # Auth custom actions
+│   ├── otp.js                # OTP inputs handling
+│   └── ui.js                 # Auth UI helpers
+├── bootstrap-di.js           # DI container setup
+└── bootstrap.js              # Application initialization
 ```
 
 ## Key Features
 
+### Core Features
 - ✅ Zero JavaScript for standard forms
-- ✅ Automatic validation
+- ✅ Automatic validation with centralized rules
 - ✅ Automatic error handling
 - ✅ 14 built-in actions
 - ✅ Custom action registry
-- ✅ Ziggy route integration
-- ✅ CSRF protection
-- ✅ Token auto-injection
+- ✅ Ziggy route integration (`window.route()`)
+- ✅ CSRF protection (Sanctum)
 - ✅ Loading state support
 - ✅ Multiple actions support
 
+### v2.0 Enhancements
+- ✅ **Security**: HttpOnly cookie auth, no client-side token storage
+- ✅ **Testability**: DI container for mocking dependencies
+- ✅ **Modularity**: Separated concerns (SRP, OCP)
+- ✅ **DOM Utilities**: Centralized DOM manipulation
+- ✅ **Event Management**: Automatic cleanup tracking
+- ✅ **Validation**: Single source of truth for rules
+
 ## Entrypoints (Single Responsibility)
 
-- `resources/js/api/index.js` – Initializes the declarative AJAX handler once on page load (no manual calls needed).
-- `resources/js/forms/index.js` – Initializes generic form utilities (e.g., search).
-- `resources/js/auth/index.js` – Registers auth custom actions and auto-initializes OTP/UI behavior.
+- `resources/js/bootstrap-di.js` – Registers services in DI container (first)
+- `resources/js/api/index.js` – Initializes the declarative AJAX handler
+- `resources/js/forms/index.js` – Initializes generic form utilities
+- `resources/js/auth/index.js` – Registers auth custom actions
 
-Bootstrap only wires these entrypoints:
+Bootstrap wires these in order:
 
 ```javascript
 // resources/js/bootstrap.js
+import './bootstrap-di.js';  // DI container first
 import './api/index.js';
 import './forms/index.js';
 import './auth/index.js';
 ```
 
-## Auth Flow Note
+## Auth Flow (v2.0 - Secure)
 
-- `login-success` action redirects only when a valid token is present in the response (e.g., `data.auth` or `data.auth.token`).
-- If OTP is invalid or token is missing, no redirect occurs; the user stays on the OTP step and sees the error.
+### Token Management
+- ✅ **Server-side only**: Token is set by backend in HttpOnly cookie
+- ✅ **No client storage**: JavaScript never touches the token
+- ✅ **Automatic**: Browser sends cookie with every request
+- ❌ **Never use**: `cookieUtils.set('token', ...)` (removed in v2.0)
+
+### Login Flow
+- `login-success` action redirects when `data.auth` or `data.success` is present
+- Server must set HttpOnly cookie before response
+- If OTP is invalid, no redirect occurs; user stays on OTP step
 
 ## Ziggy Route Usage (Important)
 
-When generating URLs in JavaScript (custom actions, event listeners, or manual API calls), always use Ziggy with an explicit import:
+**Always use `window.route()` in JavaScript:**
 
 ```javascript
-import { route } from 'ziggy-js';
+// ✅ Correct
+const url = window.route('users.store');
+const dashboardUrl = window.route('dashboard');
 
+// ❌ Wrong - will cause ReferenceError
 const url = route('users.store');
 ```
 
-- In Blade templates (HTML attributes like `action="{{ route('...') }}"`) use Laravel's `route()` as usual.
-- In JavaScript files, do not hardcode paths; use `route()` from Ziggy to keep URLs in sync with backend routes.
+- Ziggy is loaded via `@routes` directive in Blade templates
+- Makes `route` function available on `window` object
+- In Blade templates: use Laravel's `route()` as usual
+- In JavaScript: always use `window.route()`
 
 ## When to Use
 
@@ -167,6 +212,22 @@ const url = route('users.store');
 - **Filters/Search:** Use `replace` action
 - **CRUD operations:** Use appropriate actions
 - **Complex logic:** Register custom actions
+- **Testing:** Use DI container to mock dependencies
+
+## Testing Support (v2.0)
+
+```javascript
+// Mock dependencies for testing
+import { container } from '@/utils/di-container.js';
+
+container.override('httpClient', mockHttpClient);
+container.override('notifications', mockNotifications);
+
+// Your test code here
+
+// Cleanup
+container.clearSingletons();
+```
 
 ## Next Steps
 

@@ -155,7 +155,7 @@
   action="{{ route('cart.add') }}"
   method="POST"
   data-on-success="custom"
-  data-after-success="updateCart"
+  custom-action="updateCart"
   data-show-message="false"
 >
   @csrf
@@ -186,7 +186,7 @@ registerAction('updateCart', (data) => {
   action="{{ route('cart.add') }}"
   data-method="POST"
   data-on-success="custom"
-  data-after-success="updateCart"
+  custom-action="updateCart"
   data-show-message="false"
   class="btn btn-primary"
 >
@@ -210,7 +210,7 @@ Works the same way as form example above.
     action="{{ route('user.initiate.auth') }}"
     method="GET"
     data-on-success="custom"
-    data-after-success="show-otp-step"
+    custom-action="show-otp-step"
   >
     <input type="tel" name="identifier" required />
     <input type="hidden" name="authType" value="otp">
@@ -225,7 +225,7 @@ Works the same way as form example above.
     action="{{ route('user.auth') }}"
     method="POST"
     data-on-success="custom"
-    data-after-success="login-success"
+    custom-action="login-success"
   >
     @csrf
     <input type="hidden" name="identifier" id="otp-identifier">
@@ -242,7 +242,7 @@ Works the same way as form example above.
     action="{{ route('user.initiate.auth') }}"
     data-method="GET"
     data-on-success="custom"
-    data-after-success="show-otp-step"
+    custom-action="show-otp-step"
     data-show-message="false"
   >
     Resend Code

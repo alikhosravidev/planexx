@@ -112,7 +112,7 @@ class AuthController extends APIBaseController
         }
 
         return $this->response->success(
-            ['redirect_url' => route('login')],
+            [],
             trans('Organization::success.logout')
         );
     }

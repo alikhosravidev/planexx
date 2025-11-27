@@ -17,7 +17,7 @@ class AuthTokenTest extends PureUnitTestBase
 
         $authToken = new AuthToken($token, $type, $refreshToken);
 
-        $this->assertSame($token, $authToken->token);
+        $this->assertSame($token, $authToken->value);
         $this->assertSame($type, $authToken->type);
         $this->assertSame($refreshToken, $authToken->refreshToken);
     }
@@ -29,7 +29,7 @@ class AuthTokenTest extends PureUnitTestBase
 
         $authToken = new AuthToken($token, $type);
 
-        $this->assertSame($token, $authToken->token);
+        $this->assertSame($token, $authToken->value);
         $this->assertSame($type, $authToken->type);
         $this->assertNull($authToken->refreshToken);
     }

@@ -37,8 +37,8 @@ class AuthResponseTest extends PureUnitTestBase
         $message    = 'Success';
         $identifier = new Identifier('test@example.com', $authConfig);
         $token      = new AuthToken(
-            token: 'test-token',
-            type: 'Bearer'
+            value: 'test-token',
+            type : 'Bearer'
         );
         $user = new User([
             'id'    => 1,

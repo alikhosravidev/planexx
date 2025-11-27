@@ -179,18 +179,18 @@ Close modal. Requires `data-modal`.
 ## Custom Actions
 
 ### `custom`
-Execute registered custom action. Requires `data-after-success`.
+Execute registered custom action. Requires `custom-action`.
 
 ```html
 <form
   data-on-success="custom"
-  data-after-success="updateCart"
+  custom-action="updateCart"
 >...</form>
 
 <button
   data-ajax
   data-on-success="custom"
-  data-after-success="updateCart"
+  custom-action="updateCart"
 >Add to Cart</button>
 ```
 

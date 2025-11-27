@@ -178,10 +178,15 @@ class UserManagementController extends BaseWebController {
 11. ✅ **Run commands inside Docker**: `docker exec planexx_app ...`
 
 ## Recent Important Changes
-- **New AJAX System**: Declarative HTML-based AJAX (zero JavaScript for standard forms)
+- **Refactored AJAX System (v2.0)**: Modular, testable, secure architecture
+  - **Security**: HttpOnly cookie authentication, CSRF protection
+  - **Architecture**: Separated into actions/, handlers/, utils/ modules
+  - **Testability**: DI container for dependency injection
+  - **Maintainability**: Reduced from 626-line God Module to focused modules
   - 14 built-in actions for DOM manipulation
   - Custom action registry for complex scenarios
-  - Automatic validation and error handling
+  - Automatic validation with centralized rules
+  - Event management with cleanup tracking
   - Full documentation in `.claude/ajax-*.md` files
 - **Implemented BaseWebController**: API-FIRST foundation for admin panel with internal API forwarding
 - **Refactored Transformer system**: No more magic methods, use `getVirtualFieldResolvers()`
@@ -191,13 +196,18 @@ class UserManagementController extends BaseWebController {
 
 ## Frontend Development
 
-### AJAX System
+### AJAX System (v2.0 - Refactored)
 **For ALL new form submissions and AJAX requests:**
 - Declarative HTML-based AJAX system - zero JavaScript for standard forms
+- **Modular Architecture**: Separated concerns (actions, handlers, utilities)
+- **Secure by Default**: HttpOnly cookies, CSRF protection, no client-side token storage
+- **Testable**: DI container for mocking dependencies
+- **Maintainable**: Clean, focused modules following SOLID principles
 - 14 built-in actions for DOM manipulation
 - Custom action registry for complex scenarios
-- Automatic validation and error handling
-- Ziggy route integration, CSRF protection, token auto-injection
+- Centralized validation rules
+- Event management with automatic cleanup
+- Ziggy route integration
 
 **Quick Example:**
 ```html
@@ -213,12 +223,26 @@ class UserManagementController extends BaseWebController {
 </form>
 ```
 
+**Architecture:**
+```
+resources/js/
+├── api/
+│   ├── actions/          # Action registry & execution
+│   ├── handlers/         # Form & button handlers
+│   └── ajax-handler.js   # Orchestrator (60 lines)
+├── utils/
+│   ├── di-container.js   # Dependency injection
+│   ├── dom.js            # DOM utilities
+│   └── event-manager.js  # Event cleanup
+└── bootstrap-di.js       # Service registration
+```
+
 **Documentation:**
 1. **Start here:** `.claude/ajax-system-overview.md` - What and why
 2. **Attributes:** `.claude/ajax/attributes.md` - All available attributes
 3. **Actions:** `.claude/ajax/actions.md` - 14 built-in actions
 4. **Examples:** `.claude/ajax/examples.md` - Real-world use cases
-5. **Advanced:** `.claude/ajax/advanced.md` - Custom actions, events
+5. **Advanced:** `.claude/ajax/advanced.md` - Custom actions, events, testing
 
 ---
 

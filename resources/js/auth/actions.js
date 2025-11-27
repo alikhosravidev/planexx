@@ -4,33 +4,18 @@
  * Register these actions once on app init
  */
 
-import { registerAction } from '../api/ajax-handler.js';
+import { registerAction } from '../api/actions/registry.js';
 import { notifications } from '../notifications.js';
-import { route } from 'ziggy-js';
-import { cookieUtils } from '../api/http-client.js';
-import { initOTPInputs } from './otp.js';
+import { clearOTPInputs, initOTPInputs } from './otp.js';
 
 const CONFIG = {
   RESEND_TIMER_SECONDS: 60,
   OTP_LENGTH: 4,
   AUTO_SUBMIT_DELAY: 300,
   REDIRECT_DELAY: 1000,
-  get DASHBOARD_URL() {
-    return route('dashboard');
-  },
 };
 
 let resendTimerInterval = null;
-
-/**
- * Clear all OTP inputs
- */
-const clearOTPInputs = () => {
-  document.querySelectorAll('.otp-input').forEach((input) => {
-    input.value = '';
-    input.classList.remove('border-danger', 'border-success');
-  });
-};
 
 /**
  * Focus first OTP input
@@ -133,39 +118,4 @@ registerAction('resend-success', (data) => {
   clearOTPInputs();
   focusFirstOTPInput();
   startResendTimer();
-});
-
-/**
- * Handle login success
- * CRITICAL: Token MUST be saved before redirect
- */
-registerAction('login-success', (data) => {
-  const authData = data?.auth;
-  const token = typeof authData === 'string' ? authData : authData?.token;
-
-  // ✅ MUST save token before redirect
-  if (token) {
-    cookieUtils.set('token', token, 30);
-    const redirectUrl = data?.redirect_url || CONFIG.DASHBOARD_URL;
-    setTimeout(() => {
-      window.location.href = redirectUrl;
-    }, CONFIG.REDIRECT_DELAY);
-  } else {
-    console.error('❌ No token in login response:', data);
-    // Do NOT redirect when token is missing (e.g., invalid OTP)
-    return;
-  }
-});
-
-/**
- * Handle logout - Backend handles token clearing, JS only redirects
- */
-registerAction('logout', async (data, button) => {
-  // Token is cleared by the backend - do NOT clear here
-  // Just redirect to login page
-  const redirectUrl = data?.result?.redirect_url || route('login');
-
-  setTimeout(() => {
-    window.location.href = redirectUrl;
-  }, CONFIG.REDIRECT_DELAY);
 });

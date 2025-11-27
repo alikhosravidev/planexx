@@ -61,12 +61,12 @@ What to do if submission fails.
 <form data-on-error="show-modal" data-modal="#errorModal">...</form>
 ```
 
-### `data-after-success`
+### `custom-action`
 Custom action name (used with `data-on-success="custom"`). Specifies which registered custom action to execute.
 
 ```html
-<form data-on-success="custom" data-after-success="updateCart">...</form>
-<button data-ajax data-on-success="custom" data-after-success="loginSuccess">Login</button>
+<form data-on-success="custom" custom-action="updateCart">...</form>
+<button data-ajax data-on-success="custom" custom-action="loginSuccess">Login</button>
 ```
 
 ---
@@ -180,7 +180,7 @@ CSS class to add during request. Useful for disabling buttons/forms.
   data-ajax
   action="{{ route('cart.add') }}"
   data-on-success="custom"
-  data-after-success="updateCart"
+  custom-action="updateCart"
   data-show-message="false"
   class="btn btn-primary"
 >

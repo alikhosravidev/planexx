@@ -5,6 +5,7 @@
 
 import { post, get, put, patch, del, getValidationErrors } from '../api/request.js';
 import { notifications } from '../notifications.js';
+import { validation, validationRules } from '../validation.js';
 
 class FormService {
   /**
@@ -229,16 +230,24 @@ class FormService {
         let isFieldValid = true;
         let errorMessage = 'فیلد نامعتبر است';
 
-        // Built-in validations
+        // Built-in validations using centralized validation module
         switch (validateType) {
           case 'email':
-            isFieldValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value);
+            isFieldValid = validation.validateEmail(field.value);
             errorMessage = 'ایمیل معتبر نیست';
             break;
           case 'phone':
           case 'mobile':
-            isFieldValid = /^(\+98|0)?9[0-9]{9}$/.test(field.value);
-            errorMessage = 'شماره موبایل معتبر نیست';
+            isFieldValid = validation.validateMobile(field.value);
+            errorMessage = 'شماره موبایل معتبر نیست (فرمت: 09XXXXXXXXX)';
+            break;
+          case 'otp':
+            isFieldValid = validation.validateOTP(field.value);
+            errorMessage = 'کد تایید باید ۴ رقم باشد';
+            break;
+          case 'digits':
+            isFieldValid = validation.validateDigitsOnly(field.value);
+            errorMessage = 'فقط اعداد مجاز است';
             break;
           case 'url':
             isFieldValid = /^https?:\/\/.+/.test(field.value);

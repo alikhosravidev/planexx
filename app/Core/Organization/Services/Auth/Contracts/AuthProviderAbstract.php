@@ -74,7 +74,7 @@ abstract class AuthProviderAbstract
         $user->updateLastLogin()->save();
 
         return new AuthToken(
-            token: $token->plainTextToken,
+            value: $token->plainTextToken,
             type : 'Bearer'
         );
     }

@@ -37,10 +37,10 @@
             <div id="step-mobile" class="p-10 md:p-5xl">
                 <form id="mobile-form"
                       data-ajax
-                      action="{{ route('user.initiate.auth') }}"
+                      action="{{ route('api.user.initiate.auth') }}"
                       data-method="GET"
                       data-on-success="custom"
-                      data-after-success="show-otp-step"
+                      custom-action="show-otp-step"
                       data-loading-class="opacity-50 pointer-events-none">
 
                     <!-- Mobile Input -->
@@ -77,10 +77,9 @@
 
                 <form id="otp-form"
                       data-ajax
-                      action="{{ route('user.auth') }}"
+                      action="{{ route('web.auth') }}"
                       data-method="POST"
-                      data-on-success="custom"
-                      data-after-success="login-success"
+                      data-on-success="redirect"
                       data-loading-class="opacity-50 pointer-events-none">
                     @csrf
 
@@ -118,10 +117,10 @@
                         <button type="button"
                                 id="resend-button"
                                 data-ajax
-                                data-action="{{ route('user.initiate.auth') }}"
+                                data-action="{{ route('api.user.initiate.auth') }}"
                                 data-method="GET"
                                 data-on-success="custom"
-                                data-after-success="resend-success"
+                                custom-action="resend-success"
                                 data-show-message="true"
                                 disabled
                                 class="text-sm font-medium text-text-muted mt-1 leading-normal transition-colors disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:text-primary enabled:cursor-pointer">

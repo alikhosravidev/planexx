@@ -1,13 +1,12 @@
 /**
  * Bootstrap Application
- * Initialize core services and AJAX handler
+ * Initialize core services and utilities
  */
 
-// Import AJAX infrastructure (single entrypoint)
+// Initialize DI container first
+import './bootstrap-di.js';
+
+// Then initialize modules
 import './api/index.js';
-
-// Import Forms infrastructure (single entrypoint)
 import './forms/index.js';
-
-// Import Auth (single entrypoint: actions + otp + ui)
 import './auth/index.js';

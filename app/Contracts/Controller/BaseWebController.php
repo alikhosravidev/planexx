@@ -6,9 +6,11 @@ namespace App\Contracts\Controller;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\Sanctum;
+use RuntimeException;
 
 /**
  * BaseWebController
@@ -30,162 +32,62 @@ use Laravel\Sanctum\Sanctum;
 abstract class BaseWebController
 {
     /**
-     * API prefix for internal requests
+     * Forward a request to the internal API using route name
      *
-     * In this project, API routes are registered WITHOUT the /api prefix.
-     * Routes are directly accessible like: /location/addresses, /organization/departments
+     * This method calls the API controller directly by route name,
+     * ensuring all API middleware, validation, and transformations are applied.
      *
-     * If your project uses /api prefix, change this to '/api'
-     */
-    protected string $apiPrefix = '';
-
-    /**
-     * Forwards an internal request to the application's API.
-     *
-     * This method creates a complete request simulation that passes through
-     * the entire HTTP kernel, ensuring all middleware (auth, validation, etc.)
-     * is properly executed.
-     *
-     * @param  string  $method  HTTP Method (GET, POST, PUT, PATCH, DELETE)
-     * @param  string  $endpoint  The API endpoint (e.g., '/location/addresses', '/organization/departments/1')
-     * @param  array  $data  Data payload for the request
-     * @param  array  $headers  Additional headers (optional)
+     * @param  string  $routeName  API route name (e.g., 'user.auth', 'user.logout')
+     * @param  array  $data  Request data
+     * @param  string  $method  HTTP method (default: POST)
      * @return mixed Decoded JSON response from the API
      *
-     * @throws ValidationException|\Exception When API returns 422 validation errors
      */
     protected function forwardToApi(
-        string $method,
-        string $endpoint,
+        string $routeName,
         array $data = [],
-        array $headers = []
+        string $method = 'POST'
     ): mixed {
-        // 1. Create a new request object with proper URI structure
-        $uri = $this->buildApiUri($endpoint);
+        // 1. Get the route by name
+        $route = Route::getRoutes()->getByName($routeName);
 
-        $request = Request::create(
-            uri: $uri,
-            method: $method,
-            parameters: $data,
-            server: request()->server->all() // Forward server variables
-        );
-
-        // 2. Set headers to simulate a real API client
-        $request->headers->set('Accept', 'application/json');
-
-        // Add any additional custom headers
-        foreach ($headers as $key => $value) {
-            $request->headers->set($key, $value);
+        if (!$route) {
+            throw new RuntimeException("API route '{$routeName}' not found");
         }
 
-        // 3. --- CRITICAL: Authentication Forwarding ---
-        // Get the currently logged-in user from the 'web' guard (session)
+        // 2. Create a sub-request for this specific route
+        $subRequest = Request::create(
+            uri: $route->uri(),
+            method: $method,
+            parameters: $data,
+            server: request()->server->all()
+        );
+
+        // 3. Set headers
+        $subRequest->headers->set('Accept', 'application/json');
+
+        // 4. Authentication forwarding
         $webUser = auth('web')->user();
 
         if ($webUser instanceof Authenticatable) {
-            // Tell Sanctum to "act as" this user for this internal request.
-            // This bridges the gap between session-based 'web' auth and token-based 'api' auth.
             Sanctum::actingAs($webUser, abilities: ['*'], guard: 'sanctum');
         }
 
-        // 4. --- CRITICAL: Dispatch Request via HTTP Kernel ---
-        // We use app()->handle() to send the request through the *entire*
-        // HTTP Kernel, including all global and route-specific middleware.
-        // This is a full simulation of an external HTTP request.
-        $response = app()->handle($request);
+        // 5. Bind route to request and run
+        $subRequest->setRouteResolver(fn () => $route);
+        $response = $route->bind($subRequest)->run();
 
-        // 5. Clean up authentication state (optional but good practice)
-        if ($webUser instanceof Authenticatable) {
-            Sanctum::actingAs(null, guard: 'sanctum');
-        }
-
-        // 6. Decode the JSON response
+        // 6. Decode response
         $decodedResponse = json_decode($response->getContent(), true);
 
-        // 7. --- Automatic Validation Error Handling ---
-        // If the API returns a 422 (Validation Failed),
-        // automatically re-throw it as a web ValidationException
-        // to redirect back to the form with errors.
+        // 7. Handle validation errors
         if ($response->getStatusCode() === 422) {
-            // Flash old input to the session so users don't lose their data
             Session::flashInput($data);
 
             throw ValidationException::withMessages($decodedResponse['errors'] ?? []);
         }
 
-        // 8. Handle other error status codes if needed
-        // You can add more status code handling here based on your needs
-        // For example: 401, 403, 404, 500, etc.
-
         return $decodedResponse;
     }
 
-    /**
-     * Build the complete API URI with proper prefix
-     *
-     * @param  string  $endpoint  The endpoint path
-     * @return string Complete URI
-     */
-    protected function buildApiUri(string $endpoint): string
-    {
-        $endpoint = ltrim($endpoint, '/');
-
-        if (empty($this->apiPrefix)) {
-            return '/' . $endpoint;
-        }
-
-        return '/' . trim($this->apiPrefix, '/') . '/' . $endpoint;
-    }
-
-    /**
-     * Helper method for GET requests
-     *
-     * @param  array  $params  Query parameters
-     *
-     * @throws ValidationException|\Exception
-     */
-    protected function apiGet(string $endpoint, array $params = [], array $headers = []): mixed
-    {
-        return $this->forwardToApi('GET', $endpoint, $params, $headers);
-    }
-
-    /**
-     * Helper method for POST requests
-     *
-     * @throws ValidationException|\Exception
-     */
-    protected function apiPost(string $endpoint, array $data = [], array $headers = []): mixed
-    {
-        return $this->forwardToApi('POST', $endpoint, $data, $headers);
-    }
-
-    /**
-     * Helper method for PUT requests
-     *
-     * @throws ValidationException|\Exception
-     */
-    protected function apiPut(string $endpoint, array $data = [], array $headers = []): mixed
-    {
-        return $this->forwardToApi('PUT', $endpoint, $data, $headers);
-    }
-
-    /**
-     * Helper method for PATCH requests
-     *
-     * @throws ValidationException|\Exception
-     */
-    protected function apiPatch(string $endpoint, array $data = [], array $headers = []): mixed
-    {
-        return $this->forwardToApi('PATCH', $endpoint, $data, $headers);
-    }
-
-    /**
-     * Helper method for DELETE requests
-     *
-     * @throws ValidationException|\Exception
-     */
-    protected function apiDelete(string $endpoint, array $data = [], array $headers = []): mixed
-    {
-        return $this->forwardToApi('DELETE', $endpoint, $data, $headers);
-    }
 }

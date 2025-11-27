@@ -7,11 +7,15 @@ use Illuminate\Support\Facades\Route;
 
 /**
  * Web Routes for Authentication Pages
- * These routes display the UI for authentication
- * The actual API calls are handled by the frontend using Axios
+ * These routes handle both UI rendering and cookie management
+ * The Web controller forwards requests to API and manages cookies
  */
 
-// Public authentication pages
 Route::middleware(['web', 'guest'])->group(static function (): void {
     Route::get('login', [AuthWebController::class, 'login'])->name('login');
+    Route::post('auth', [AuthWebController::class, 'auth'])->name('web.auth');
+});
+
+Route::middleware(['web', 'auth'])->group(static function (): void {
+    Route::post('logout', [AuthWebController::class, 'logout'])->name('web.logout');
 });
