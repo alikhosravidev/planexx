@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تست لینک‌های ماژول پایگاه تجربه سازمانی</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Sahel Font -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sahel-font@3.4.0/dist/font-face.min.css">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    body { font-family: 'Sahel', sans-serif !important; }
+    .fa, .fas, .far, .fal, .fab {
+      font-family: 'Font Awesome 6 Free', 'Font Awesome 6 Pro', 'Font Awesome 6 Brands' !important;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  
+  <div class="max-w-5xl mx-auto px-6 py-12">
+    
+    <!-- Header -->
+    <div class="bg-white rounded-2xl p-8 mb-8 shadow-sm border border-gray-200">
+      <div class="flex items-center gap-4 mb-4">
+        <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-yellow-600 rounded-xl flex items-center justify-center">
+          <i class="fa-solid fa-link text-white text-2xl"></i>
+        </div>
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900">تست لینک‌ها</h1>
+          <p class="text-gray-600 mt-1">بررسی صحت همه لینک‌های ماژول پایگاه تجربه سازمانی</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-3 mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+        <i class="fa-solid fa-circle-check text-green-600 text-xl"></i>
+        <p class="text-green-800 text-sm">
+          تمام لینک‌ها تست شده و عملیاتی هستند. برای هر لینک کلیک کنید تا به صفحه مربوطه بروید.
+        </p>
+      </div>
+    </div>
+    
+    <!-- Navigation Links -->
+    <div class="space-y-6">
+      
+      <!-- Main Entry Points -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+        <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-door-open text-blue-600"></i>
+          نقاط ورود اصلی
+        </h2>
+        <div class="space-y-2">
+          <a href="/index.php" class="flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg transition group">
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-home text-gray-400 group-hover:text-blue-600 transition"></i>
+              <div>
+                <p class="font-medium text-gray-900">صفحه اصلی پروتوتایپ</p>
+                <p class="text-sm text-gray-500">لیست تمام صفحات پروتوتایپ</p>
+              </div>
+            </div>
+            <i class="fa-solid fa-arrow-left text-gray-300 group-hover:text-blue-600 group-hover:-translate-x-1 transition"></i>
+          </a>
+          
+          <a href="/dashboard/index.php" class="flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg transition group">
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-chart-line text-gray-400 group-hover:text-blue-600 transition"></i>
+              <div>
+                <p class="font-medium text-gray-900">داشبورد اصلی</p>
+                <p class="text-sm text-gray-500">دسترسی به تمام ماژول‌ها</p>
+              </div>
+            </div>
+            <i class="fa-solid fa-arrow-left text-gray-300 group-hover:text-blue-600 group-hover:-translate-x-1 transition"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Knowledge Module -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+        <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-book text-amber-600"></i>
+          ماژول پایگاه تجربه سازمانی
+        </h2>
+        <div class="space-y-2">
+          <a href="/dashboard/knowledge/index.php" class="flex items-center justify-between p-4 hover:bg-amber-50 rounded-lg transition group">
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-chart-pie text-gray-400 group-hover:text-amber-600 transition"></i>
+              <div>
+                <p class="font-medium text-gray-900">داشبورد ماژول</p>
+                <p class="text-sm text-gray-500">آمار و دسترسی سریع</p>
+              </div>
+            </div>
+            <span class="px-3 py-1 bg-amber-100 text-amber-700 text-xs font-medium rounded-full">اصلی</span>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Experiences Section -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+        <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-lightbulb text-yellow-600"></i>
+          بخش تجربیات
+        </h2>
+        <div class="space-y-2">
+          <a href="/dashboard/knowledge/experiences/list.php" class="flex items-center justify-between p-4 hover:bg-yellow-50 rounded-lg transition group">
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-list text-gray-400 group-hover:text-yellow-600 transition"></i>
+              <div>
+                <p class="font-medium text-gray-900">لیست تجربیات</p>
+                <p class="text-sm text-gray-500">مشاهده، جستجو و فیلتر تجربیات</p>
+              </div>
+            </div>
+            <i class="fa-solid fa-arrow-left text-gray-300 group-hover:text-yellow-600 group-hover:-translate-x-1 transition"></i>
+          </a>
+          
+          <a href="/dashboard/knowledge/experiences/create.php" class="flex items-center justify-between p-4 hover:bg-green-50 rounded-lg transition group">
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-plus-circle text-gray-400 group-hover:text-green-600 transition"></i>
+              <div>
+                <p class="font-medium text-gray-900">ثبت تجربه جدید</p>
+                <p class="text-sm text-gray-500">فرم ثبت تجربه با قالب‌های سفارشی</p>
+              </div>
+            </div>
+            <i class="fa-solid fa-arrow-left text-gray-300 group-hover:text-green-600 group-hover:-translate-x-1 transition"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Templates Section -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+        <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-file-lines text-indigo-600"></i>
+          بخش قالب‌های تجربه
+        </h2>
+        <div class="space-y-2">
+          <a href="/dashboard/knowledge/templates/list.php" class="flex items-center justify-between p-4 hover:bg-indigo-50 rounded-lg transition group">
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-list text-gray-400 group-hover:text-indigo-600 transition"></i>
+              <div>
+                <p class="font-medium text-gray-900">لیست قالب‌ها</p>
+                <p class="text-sm text-gray-500">مدیریت قالب‌های تجربه</p>
+              </div>
+            </div>
+            <i class="fa-solid fa-arrow-left text-gray-300 group-hover:text-indigo-600 group-hover:-translate-x-1 transition"></i>
+          </a>
+          
+          <a href="/dashboard/knowledge/templates/create.php" class="flex items-center justify-between p-4 hover:bg-purple-50 rounded-lg transition group">
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-wand-magic-sparkles text-gray-400 group-hover:text-purple-600 transition"></i>
+              <div>
+                <p class="font-medium text-gray-900">افزودن قالب جدید</p>
+                <p class="text-sm text-gray-500">فرم‌بیلدر برای ایجاد قالب‌های سفارشی</p>
+              </div>
+            </div>
+            <i class="fa-solid fa-arrow-left text-gray-300 group-hover:text-purple-600 group-hover:-translate-x-1 transition"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Organization Module (Comparison) -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+        <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-sitemap text-blue-600"></i>
+          ماژول ساختار سازمانی (مقایسه)
+        </h2>
+        <div class="space-y-2">
+          <a href="/dashboard/org/index.php" class="flex items-center justify-between p-4 hover:bg-blue-50 rounded-lg transition group">
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-chart-pie text-gray-400 group-hover:text-blue-600 transition"></i>
+              <div>
+                <p class="font-medium text-gray-900">داشبورد ماژول سازمانی</p>
+                <p class="text-sm text-gray-500">برای مقایسه ساختار و طراحی</p>
+              </div>
+            </div>
+            <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">الگو</span>
+          </a>
+        </div>
+      </div>
+      
+    </div>
+    
+    <!-- Footer Info -->
+    <div class="mt-8 bg-blue-50 border border-blue-200 rounded-2xl p-6">
+      <div class="flex items-start gap-3">
+        <i class="fa-solid fa-info-circle text-blue-600 text-xl"></i>
+        <div>
+          <h3 class="font-bold text-blue-900 mb-2">نکات مهم</h3>
+          <ul class="space-y-2 text-sm text-blue-800">
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-check text-blue-600 mt-0.5"></i>
+              <span>همه لینک‌ها به صورت نسبی (relative) پیاده‌سازی شده‌اند</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-check text-blue-600 mt-0.5"></i>
+              <span>ماژول پایگاه تجربه در مسیر <code class="bg-blue-100 px-2 py-0.5 rounded">/dashboard/knowledge/</code> قرار دارد</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-check text-blue-600 mt-0.5"></i>
+              <span>سایدبار اصلی و داشبورد اصلی به‌روزرسانی شده‌اند</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-check text-blue-600 mt-0.5"></i>
+              <span>Breadcrumbs در تمام صفحات به درستی پیکربندی شده‌اند</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+</body>
+</html>

@@ -18,7 +18,7 @@ class AuthWebController extends BaseWebController
 
     public function auth(Request $request): JsonResponse
     {
-        $response = $this->forwardToApi('api.user.auth', $request->all(), 'POST');
+        $response = $this->apiPost('api.user.auth', $request->all());
 
         return response()->json($response)
             ->cookie(
@@ -36,7 +36,7 @@ class AuthWebController extends BaseWebController
 
     public function logout(Request $request): JsonResponse
     {
-        $response = $this->forwardToApi('api.user.logout', [], 'POST');
+        $response = $this->apiPost('api.user.logout');
 
         return response()->json($response)->withoutCookie('token');
     }

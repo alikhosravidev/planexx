@@ -23,7 +23,7 @@ return new class () extends Migration {
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('department_id')->references('id')->on('departments')->onDelete('set null');
+            $table->foreign('department_id')->references('id')->on('core_org_departments')->onDelete('set null');
             $table->foreign('owner_id')->references('id')->on('core_org_users')->onDelete('set null');
             $table->foreign('created_by')->references('id')->on('core_org_users')->onDelete('set null');
 

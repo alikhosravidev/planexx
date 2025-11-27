@@ -246,10 +246,36 @@ resources/js/
 
 ---
 
+## Prototype Implementation (NEW)
+
+**UI Prototypes Available**: Complete admin panel and mobile PWA designs in `docs/prototypes/`
+
+### 📋 Implementation Guides
+- **Start Here**: `.claude/prototypes/IMPLEMENTATION-SUMMARY.md` - Executive summary and overview
+- **Full Plan**: `.claude/prototypes/PROTOTYPE-IMPLEMENTATION-PLAN.md` - 16-week detailed roadmap
+- **Quick Start**: `.claude/prototypes/QUICK-START-IMPLEMENTATION.md` - 3-day foundation setup
+- **Analysis**: `.claude/prototypes/PROTOTYPE-ANALYSIS.md` - Complete component inventory
+
+### 🎨 What's Available
+- ✅ Authentication (Mobile OTP)
+- ✅ Dashboard & Navigation
+- ✅ Organization Module UI (Users, Departments, Positions, Roles)
+- ✅ Knowledge Base Module UI (Experiences, Templates)
+- ✅ Documents Module UI
+- ✅ Mobile PWA (Home, Personalized, Analytics, Profile)
+
+### 🚀 Getting Started
+1. Read `.claude/prototypes/IMPLEMENTATION-SUMMARY.md` for overview
+2. Follow `.claude/prototypes/QUICK-START-IMPLEMENTATION.md` for Phase 1 (3 days)
+3. Reference `.claude/prototypes/PROTOTYPE-IMPLEMENTATION-PLAN.md` for full roadmap
+
+---
+
 ## When Working on Specific Tasks
 
 | Task | Read This |
 |------|-----------|
+| **Implementing prototypes** | **`.claude/prototypes/IMPLEMENTATION-SUMMARY.md`** |
 | **New forms/AJAX requests** | **`.claude/ajax-system.md`** |
 | Creating new module | `.claude/architecture.md` |
 | Working with models | `.claude/domain/entities.md` |

@@ -1,0 +1,87 @@
+/* استایل‌های Global مطابق سند UI */
+
+/* Reset و Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Sahel', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-secondary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* فونت Sahel برای همه عناصر به جز آیکون‌ها */
+body, button, input, textarea, select, p, div, span, h1, h2, h3, h4, h5, h6 {
+  font-family: 'Sahel', sans-serif !important;
+}
+
+/* آیکون‌های Font Awesome نباید فونت Sahel داشته باشند */
+.fa, .fas, .far, .fal, .fab {
+  font-family: 'Font Awesome 6 Free', 'Font Awesome 6 Pro', 'Font Awesome 6 Brands' !important;
+}
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* لینک‌ها */
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition-fast);
+}
+
+/* دکمه‌ها */
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+/* Input‌ها */
+input, textarea, select {
+  font-family: 'Sahel', sans-serif;
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+/* تصاویر */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* لیست‌ها */
+ul, ol {
+  list-style: none;
+}
+
+/* Scrollbar سفارشی */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-dark);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}
