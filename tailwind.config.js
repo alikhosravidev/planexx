@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import defaultTheme from 'tailwindcss/defaultTheme'
 export default {
   content: [
     "./resources/**/*.blade.php",
@@ -8,21 +9,33 @@ export default {
     "./app/Core/**/Resources/views/**/*.{js,blade.php}",
     "./node_modules/@fortawesome/fontawesome-free/**/*.js",
   ],
+  safelist: [
+    { pattern: /text-(blue|green|purple|teal|orange|amber|indigo|stone|gray)-600/ },
+    { pattern: /bg-(blue|green|purple|teal|orange|amber|indigo|stone|gray)-50/ },
+    { pattern: /border-(blue|green|purple|teal|orange|amber|indigo|stone|gray)-300/, variants: ['hover'] },
+    { pattern: /from-(blue|green|purple|teal|orange|amber|indigo|stone|gray)-(300|400)\/(50|60)/ },
+  ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: [
+          'Sahel',
+          ...defaultTheme.fontFamily.sans,
+        ],
+      },
       colors: {
-        primary: '#0f172a',
-        secondary: '#64748b',
-        'text-primary': '#0f172a',
-        'text-secondary': '#475569',
-        'text-muted': '#64748b',
-        'bg-primary': '#ffffff',
-        'bg-secondary': '#f8fafc',
-        'bg-tertiary': '#fafbfc',
-        'bg-label': '#f8fafc',
-        'border-light': '#f1f5f9',
-        'border-medium': '#e2e8f0',
-        'border-dark': '#cbd5e1',
+        primary: 'var(--color-primary)',
+        secondary: 'var(--color-secondary)',
+        'text-primary': 'var(--color-text-primary)',
+        'text-secondary': 'var(--color-text-secondary)',
+        'text-muted': 'var(--color-text-muted)',
+        'bg-primary': 'var(--color-bg-primary)',
+        'bg-secondary': 'var(--color-bg-secondary)',
+        'bg-tertiary': 'var(--color-bg-tertiary)',
+        'bg-label': 'var(--color-bg-label)',
+        'border-light': 'var(--color-border-light)',
+        'border-medium': 'var(--color-border-medium)',
+        'border-dark': 'var(--color-border-dark)',
       },
       spacing: {
         'xs': '4px',

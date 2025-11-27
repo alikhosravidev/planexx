@@ -12,4 +12,8 @@ Route::middleware(['web'])->group(function () {
     Route::get('/dashboard', function () {
         return view('welcome');
     })->name('dashboard');
+
+    Route::get('/test-components', function () {
+        return view('test-components');
+    })->name('test.components');
 });
