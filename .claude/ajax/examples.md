@@ -224,8 +224,7 @@ Works the same way as form example above.
     data-ajax
     action="{{ route('user.auth') }}"
     method="POST"
-    data-on-success="custom"
-    custom-action="login-success"
+    data-on-success="redirect"
   >
     @csrf
     <input type="hidden" name="identifier" id="otp-identifier">
@@ -242,7 +241,7 @@ Works the same way as form example above.
     action="{{ route('user.initiate.auth') }}"
     data-method="GET"
     data-on-success="custom"
-    custom-action="show-otp-step"
+    custom-action="resend-success"
     data-show-message="false"
   >
     Resend Code
@@ -252,10 +251,8 @@ Works the same way as form example above.
 
 ```javascript
 import { registerAction } from './api/ajax-handler.js';
-import { cookieUtils } from '@resources/js/api/http-client.js';
-import { route } from 'ziggy-js';
 
-// Register custom actions for multi-step flow
+// Register custom action for multi-step flow
 registerAction('show-otp-step', (data) => {
   // Show OTP step, hide mobile step
   document.getElementById('step-mobile').classList.add('hidden');
@@ -269,15 +266,15 @@ registerAction('show-otp-step', (data) => {
   }
 });
 
-registerAction('login-success', (data) => {
-  // Save token and redirect
-  const token = typeof data.auth === 'string' ? data.auth : data.auth?.token;
-  if (token) {
-    cookieUtils.set('token', token, 30);
-  }
-  window.location.href = route('dashboard');
+registerAction('resend-success', (data) => {
+  // Show success message and clear OTP inputs
+  const otpInputs = document.querySelectorAll('.otp-input');
+  otpInputs.forEach(input => input.value = '');
+  otpInputs[0]?.focus();
 });
 ```
+
+**Note:** After successful login, the server sets an HttpOnly cookie and returns `redirect_url` in the response. The `redirect` action automatically handles the redirect. No client-side token storage is needed.
 
 ---
 

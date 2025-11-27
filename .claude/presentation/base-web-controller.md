@@ -136,14 +136,14 @@ public function store(Request $request): RedirectResponse
 ## Main Method: `forwardToApi`
 
 ```php
-$response = $this->forwardToApi(string $method, string $endpoint, array $data = [], array $headers = []);
+$response = $this->forwardToApi(string $routeName, array $data = [], string $method = 'POST', array $headers = []);
 ```
 
 **Parameters:**
-- `$method`: 'GET', 'POST', 'PUT', 'PATCH', 'DELETE'
-- `$endpoint`: API address without `/api` prefix (e.g.: `location/addresses` or `organization/departments/1`)
+- `$routeName`: API route name (e.g.: `'api.user.auth'`, `'api.users.index'`, `'api.departments.show'`)
 - `$data`: (optional) Array of data to send (for POST/PUT/PATCH or query params for GET)
-- `$headers`: (optional) Custom headers
+- `$method`: (optional) HTTP method - 'GET', 'POST', 'PUT', 'PATCH', 'DELETE' (default: 'POST')
+- `$headers`: (optional) Custom headers array
 
 **Automatic behavior:**
 - Automatically authenticates the logged-in user
@@ -170,8 +170,8 @@ class UserManagementController extends BaseWebController
 {
     public function index(Request $request): View
     {
-        // Request to internal API
-        $response = $this->forwardToApi('GET', 'location/addresses', $request->all());
+        // Request to internal API using route name
+        $response = $this->forwardToApi('api.addresses.index', $request->all(), 'GET');
 
         return view('admin.users.index', [
             'users' => $response['data'] ?? [],
@@ -188,7 +188,7 @@ class UserManagementController extends BaseWebController
         ]);
 
         // All API validation (FormRequest) is automatically handled
-        $response = $this->forwardToApi('POST', 'location/addresses', $validatedData);
+        $response = $this->forwardToApi('api.addresses.store', $validatedData, 'POST');
 
         return redirect()
             ->route('admin.users.index')
@@ -202,26 +202,34 @@ class UserManagementController extends BaseWebController
 
 ## Helper Methods
 
-If you want cleaner syntax, you can use helper methods:
+For cleaner syntax, you can use helper methods:
 
 ```php
 // GET request
-$response = $this->apiGet('location/addresses', $queryParams);
+$response = $this->apiGet('api.addresses.index', $queryParams);
 
 // POST request
-$response = $this->apiPost('location/addresses', $data);
+$response = $this->apiPost('api.addresses.store', $data);
 
 // PUT request (full update)
-$response = $this->apiPut('location/addresses/1', $data);
+$response = $this->apiPut('api.addresses.update', $data);
 
 // PATCH request (partial update)
-$response = $this->apiPatch('location/addresses/1', $data);
+$response = $this->apiPatch('api.addresses.update', $data);
 
 // DELETE request
-$response = $this->apiDelete('location/addresses/1');
+$response = $this->apiDelete('api.addresses.destroy');
 ```
 
-**But the `forwardToApi()` method is more transparent and recommended.**
+**With custom headers:**
+```php
+$response = $this->apiGet('api.users.index', $data, [
+    'X-Custom-Header' => 'value',
+    'X-Trace-Id' => request()->header('X-Trace-Id'),
+]);
+```
+
+**Both `forwardToApi()` and helper methods are equally recommended.**
 
 ## Features
 
@@ -233,7 +241,7 @@ public function store(Request $request)
     try {
         // No need to duplicate validation rules!
         // StoreAddressRequest (FormRequest) handles validation
-        $this->apiPost('location/addresses', $request->all());
+        $this->apiPost('api.addresses.store', $request->all());
     } catch (ValidationException $e) {
         // Auto-redirects back with errors
         throw $e;
@@ -247,7 +255,7 @@ public function store(Request $request)
 public function show(int $id): View
 {
     // Receives exact same transformed data as mobile app
-    $response = $this->apiGet("location/addresses/{$id}");
+    $response = $this->apiGet('api.addresses.show', ['id' => $id]);
 
     // Data is already transformed via AddressTransformer
     return view('admin.addresses.show', [
@@ -263,14 +271,14 @@ public function destroy(int $id)
 {
     // API Policy checks are enforced automatically
     // If user lacks permission, API returns 403
-    $this->apiDelete("location/addresses/{$id}");
+    $this->apiDelete('api.addresses.destroy', ['id' => $id]);
 }
 ```
 
 ### 4. Filter and Sort Support
 
 ```php
-$response = $this->apiGet('organization/departments', [
+$response = $this->apiGet('api.departments.index', [
     'filter' => [
         'name' => ['like' => '%engineering%'],
         'is_active' => 1,
@@ -309,15 +317,13 @@ protected function forwardToApi(...)
 
 ### API Prefix
 
-By default, routes are accessed without `/api` prefix (project-specific):
+The `$apiPrefix` property is available for future extensibility:
 
 ```php
-protected string $apiPrefix = ''; // Routes: /location/addresses
+protected string $apiPrefix = ''; // Default value
 ```
 
-If your project uses `/api` prefix, change it:
-protected string $apiPrefix = '/api'; // Routes: /api/location/addresses
-```
+**Note:** Currently, this property is reserved for future use. The system uses route names directly (e.g., `'api.users.index'`) which are resolved by Laravel's routing system.
 
 > 📖 **Configuration & troubleshooting**: See [BaseWebController Usage Examples](base-web-controller-usage.md#configuration)
 
@@ -328,7 +334,7 @@ protected string $apiPrefix = '/api'; // Routes: /api/location/addresses
 ```php
 public function index(Request $request): View
 {
-    $response = $this->apiGet('location/addresses', [
+    $response = $this->apiGet('api.addresses.index', [
         'per_page' => 15,
         'page' => $request->get('page', 1),
         'sort' => '-created_at',
@@ -346,7 +352,8 @@ public function index(Request $request): View
 ```php
 public function show(int $id): View
 {
-    $response = $this->apiGet("location/addresses/{$id}", [
+    $response = $this->apiGet('api.addresses.show', [
+        'id' => $id,
         'includes' => ['city', 'user'],
     ]);
 
@@ -362,7 +369,7 @@ public function show(int $id): View
 public function store(Request $request): RedirectResponse
 {
     try {
-        $this->apiPost('location/addresses', $request->all());
+        $this->apiPost('api.addresses.store', $request->all());
         return redirect()->route('admin.addresses.index')
             ->with('success', 'Address created successfully');
     } catch (ValidationException $e) {
@@ -377,7 +384,7 @@ public function store(Request $request): RedirectResponse
 public function update(Request $request, int $id): RedirectResponse
 {
     try {
-        $this->apiPatch("location/addresses/{$id}", $request->all());
+        $this->apiPatch('api.addresses.update', array_merge(['id' => $id], $request->all()));
         return redirect()->route('admin.addresses.show', $id)
             ->with('success', 'Address updated successfully');
     } catch (ValidationException $e) {
@@ -391,7 +398,7 @@ public function update(Request $request, int $id): RedirectResponse
 ```php
 public function destroy(int $id): RedirectResponse
 {
-    $this->apiDelete("location/addresses/{$id}");
+    $this->apiDelete('api.addresses.destroy', ['id' => $id]);
 
     return redirect()->route('admin.addresses.index')
         ->with('success', 'Address deleted successfully');
@@ -413,7 +420,7 @@ public function destroy(int $id): RedirectResponse
 // Index page with data
 public function index(Request $request): View
 {
-    $response = $this->apiGet('users', [
+    $response = $this->apiGet('api.users.index', [
         'filter' => $request->get('filter', []),
         'sort' => $request->get('sort', '-created_at'),
         'per_page' => 15,
@@ -428,7 +435,8 @@ public function index(Request $request): View
 // Show page
 public function show(int $id): View
 {
-    $response = $this->apiGet("users/{$id}", [
+    $response = $this->apiGet('api.users.show', [
+        'id' => $id,
         'includes' => ['department', 'jobPosition'],
     ]);
     
@@ -438,8 +446,8 @@ public function show(int $id): View
 // Create/Edit forms with initial data
 public function edit(int $id): View
 {
-    $user = $this->apiGet("users/{$id}");
-    $roles = $this->apiGet('roles');
+    $user = $this->apiGet('api.users.show', ['id' => $id]);
+    $roles = $this->apiGet('api.roles.index');
     
     return view('admin.users.edit', [
         'user' => $user['data'],
@@ -454,19 +462,19 @@ public function edit(int $id): View
 // ❌ WRONG: Don't use BaseWebController for CRUD actions
 public function store(Request $request): RedirectResponse
 {
-    $this->apiPost('users', $request->all());
+    $this->apiPost('api.users.store', $request->all());
     return redirect()->route('admin.users.index');
 }
 
 public function update(Request $request, int $id): RedirectResponse
 {
-    $this->apiPatch("users/{$id}", $request->all());
+    $this->apiPatch('api.users.update', array_merge(['id' => $id], $request->all()));
     return redirect()->route('admin.users.show', $id);
 }
 
 public function destroy(int $id): RedirectResponse
 {
-    $this->apiDelete("users/{$id}");
+    $this->apiDelete('api.users.destroy', ['id' => $id]);
     return redirect()->route('admin.users.index');
 }
 ```
@@ -536,7 +544,7 @@ axios.delete(`/users/${id}`);
 ```php
 // Only GET routes for rendering pages
 public function index(Request $request): View {
-    $response = $this->apiGet('users', $request->all());
+    $response = $this->apiGet('api.users.index', $request->all());
     return view('admin.users.index', ['users' => $response['data']]);
 }
 ```

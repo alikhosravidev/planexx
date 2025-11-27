@@ -222,11 +222,14 @@ form.addEventListener('submit', (event) => {
 
 ## Manual Configuration Access
 
+**Note:** Configuration parsing is handled internally by form and button handlers. For debugging purposes, you can access configuration through the handlers directly:
+
 ```javascript
-import { getAjaxConfig } from './api/ajax-handler.js';
+import { getFormConfig } from './api/handlers/form-handler.js';
+import { getButtonConfig } from './api/handlers/button-handler.js';
 
 const form = document.getElementById('myForm');
-const config = getAjaxConfig(form);
+const config = getFormConfig(form);
 
 console.log(config);
 // {
@@ -302,13 +305,12 @@ If you need more control:
 ```javascript
 import { formService } from './services/form-service.js';
 import { post } from './api/request.js';
-import { route } from 'ziggy-js';
 
 // Manual validation
 formService.validateForm(form);
 
 // Manual submission
-const result = await post(route('users.store'))
+const result = await post(window.route('users.store'))
   .withData(data)
   .execute();
 ```
@@ -347,22 +349,29 @@ Errors display automatically next to fields.
 ### Check Configuration
 
 ```javascript
+import { getFormConfig } from './api/handlers/form-handler.js';
+
 const form = document.getElementById('myForm');
-const config = window.__ajaxHandler.getAjaxConfig(form);
+const config = getFormConfig(form);
 console.log('Form config:', config);
 ```
 
 ### Check Registered Actions
 
 ```javascript
-const action = window.__ajaxHandler.getAction('myAction');
-console.log('Action exists:', !!action);
+import { hasAction, getRegisteredActions } from './api/ajax-handler.js';
+
+console.log('Action exists:', hasAction('myAction'));
+console.log('All registered actions:', getRegisteredActions());
 ```
 
 ### Manual Action Execution
 
 ```javascript
-window.__ajaxHandler.executeAction('reload', {}, form);
+import { executeAction } from './api/ajax-handler.js';
+
+const form = document.getElementById('myForm');
+executeAction('reload', {}, form);
 ```
 
 ---

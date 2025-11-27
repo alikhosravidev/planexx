@@ -223,7 +223,6 @@ foreach ($users as $user) {
     echo $user->jobPosition->name; // Query for each user!
 ### Correct
 
-```php
 public function index(Request $request): View
 {
     $response = $this->forwardToApi('GET', 'users', $request->all());

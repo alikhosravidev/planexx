@@ -65,8 +65,8 @@ class UserManagementController extends BaseWebController
      */
     public function index(Request $request): View
     {
-        // Fetch data for initial page render
-        $response = $this->forwardToApi('GET', 'users', $request->all());
+        // Fetch data for initial page render using route name
+        $response = $this->forwardToApi('api.users.index', $request->all(), 'GET');
 
         return view('admin.users.index', [
             'users' => $response['data'] ?? [],
@@ -80,7 +80,7 @@ class UserManagementController extends BaseWebController
     public function create(): View
     {
         // Fetch related data (e.g., roles)
-        $rolesResponse = $this->forwardToApi('GET', 'roles');
+        $rolesResponse = $this->forwardToApi('api.roles.index', [], 'GET');
 
         return view('admin.users.create', [
             'roles' => $rolesResponse['data'] ?? []
@@ -92,9 +92,10 @@ class UserManagementController extends BaseWebController
      */
     public function show(int $id): View
     {
-        $response = $this->forwardToApi('GET', "users/{$id}", [
+        $response = $this->forwardToApi('api.users.show', [
+            'id' => $id,
             'includes' => ['department', 'jobPosition'],
-        ]);
+        ], 'GET');
 
         return view('admin.users.show', [
             'user' => $response['data'] ?? [],
@@ -106,8 +107,8 @@ class UserManagementController extends BaseWebController
      */
     public function edit(int $id): View
     {
-        $user = $this->forwardToApi('GET', "users/{$id}");
-        $roles = $this->forwardToApi('GET', 'roles');
+        $user = $this->forwardToApi('api.users.show', ['id' => $id], 'GET');
+        $roles = $this->forwardToApi('api.roles.index', [], 'GET');
 
         return view('admin.users.edit', [
             'user' => $user['data'] ?? [],
@@ -217,16 +218,16 @@ function showNotification(message, type = 'info') {
 public function dashboard(): View
 {
     // Fetch multiple data sources for dashboard
-    $recentUsers = $this->forwardToApi('GET', 'users', [
+    $recentUsers = $this->forwardToApi('api.users.index', [
         'sort' => '-created_at',
         'per_page' => 5,
-    ]);
+    ], 'GET');
 
-    $departments = $this->forwardToApi('GET', 'departments', [
+    $departments = $this->forwardToApi('api.departments.index', [
         'per_page' => 5,
-    ]);
+    ], 'GET');
 
-    $statistics = $this->forwardToApi('GET', 'statistics/summary');
+    $statistics = $this->forwardToApi('api.statistics.summary', [], 'GET');
 
     return view('admin.dashboard', [
         'recent_users' => $recentUsers['data'] ?? [],
@@ -238,21 +239,25 @@ public function dashboard(): View
 
 ---
 
-## Example: Export (with custom headers)
+## Example: Custom Headers
 
 ```php
-public function export(Request $request): Response
+public function index(Request $request): View
 {
+    // Pass custom headers for tracing or other purposes
     $response = $this->forwardToApi(
+        'api.users.index',
+        $request->all(),
         'GET',
-        'users/export',
-        ['format' => 'csv'],
-        ['X-Export-Format' => 'csv']
+        [
+            'X-Trace-Id' => request()->header('X-Trace-Id'),
+            'X-Request-Source' => 'admin-panel',
+        ]
     );
 
-    return response($response['data'])
-        ->header('Content-Type', 'text/csv')
-        ->header('Content-Disposition', 'attachment; filename="users.csv"');
+    return view('admin.users.index', [
+        'users' => $response['data'] ?? [],
+    ]);
 }
 ```
 
@@ -264,7 +269,7 @@ public function export(Request $request): Response
 public function store(Request $request): RedirectResponse
 {
     // No try-catch needed for 422!
-    $response = $this->forwardToApi('POST', 'users', $request->all());
+    $response = $this->forwardToApi('api.users.store', $request->all(), 'POST');
 
     // If API returns validation error:
     // BaseWebController automatically redirects user
@@ -281,7 +286,7 @@ public function show(int $id): View
 {
     // Data you receive is **exactly** the same
     // that mobile client receives
-    $response = $this->forwardToApi('GET', "users/{$id}");
+    $response = $this->forwardToApi('api.users.show', ['id' => $id], 'GET');
 
     // $response['data'] has already been transformed by API Transformer
     // No manual transformation needed
@@ -299,7 +304,7 @@ public function sensitiveAction(int $id): RedirectResponse
 {
     try {
         // API Policy automatically checks
-        $response = $this->forwardToApi('POST', "users/{$id}/deactivate");
+        $response = $this->forwardToApi('api.users.deactivate', ['id' => $id], 'POST');
 
         return redirect()->back()->with('success', 'Done!');
 
@@ -352,26 +357,38 @@ app(UserRepository::class)->find($id);
 $user->update(['is_active' => true]);
 
 // ✅ Only correct way
-$this->forwardToApi('GET', "users/{$id}");
-$this->forwardToApi('GET', 'users');
-$this->forwardToApi('PATCH', "users/{$id}", ['is_active' => true]);
+$this->forwardToApi('api.users.show', ['id' => $id], 'GET');
+$this->forwardToApi('api.users.index', [], 'GET');
+$this->forwardToApi('api.users.update', ['id' => $id, 'is_active' => true], 'PATCH');
 ```
 
 > 📖 **More details**: [Web Panel Best Practices](web-panel-best-practices.md#1-absolute-prohibitions)
 
 ## Configuration
 
-If your API uses `/api` prefix, change it:
+### API Prefix
+
+The `$apiPrefix` property is available in `BaseWebController`:
 
 ```php
-// In BaseWebController
-abstract class BaseWebController extends BaseController
+abstract class BaseWebController
 {
-    protected string $apiPrefix = '/api'; // Change from ''
+    protected string $apiPrefix = ''; // Default value
 }
 ```
 
-For this project: `$apiPrefix = ''` (without prefix)
+**Note:** Currently reserved for future use. The system uses Laravel route names (e.g., `'api.users.index'`) which are resolved automatically.
+
+### Custom Headers
+
+You can pass custom headers to any API call:
+
+```php
+$response = $this->apiGet('api.users.index', $data, [
+    'X-Custom-Header' => 'value',
+    'X-Trace-Id' => request()->header('X-Trace-Id'),
+]);
+```
 
 ## Troubleshooting
 
@@ -390,9 +407,9 @@ For this project: `$apiPrefix = ''` (without prefix)
 @enderror
 ```
 
-### Issue: Wrong API address being called
+### Issue: Route not found error
 
-**Solution**: Check `$apiPrefix` value (for this project: `''`)
+**Solution**: Ensure the route name exists in your API routes file. Use `php artisan route:list` to verify route names.
 
 ## Testing
 

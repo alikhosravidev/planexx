@@ -32,21 +32,29 @@ use RuntimeException;
 abstract class BaseWebController
 {
     /**
+     * API prefix for route resolution
+     * Override in child classes if needed
+     */
+    protected string $apiPrefix = '';
+
+    /**
      * Forward a request to the internal API using route name
      *
      * This method calls the API controller directly by route name,
      * ensuring all API middleware, validation, and transformations are applied.
      *
-     * @param  string  $routeName  API route name (e.g., 'user.auth', 'user.logout')
+     * @param  string  $routeName  API route name (e.g., 'api.user.auth', 'api.user.logout')
      * @param  array  $data  Request data
      * @param  string  $method  HTTP method (default: POST)
+     * @param  array  $headers  Additional headers to send with the request
      * @return mixed Decoded JSON response from the API
      *
      */
     protected function forwardToApi(
         string $routeName,
         array $data = [],
-        string $method = 'POST'
+        string $method = 'POST',
+        array $headers = []
     ): mixed {
         // 1. Get the route by name
         $route = Route::getRoutes()->getByName($routeName);
@@ -65,6 +73,11 @@ abstract class BaseWebController
 
         // 3. Set headers
         $subRequest->headers->set('Accept', 'application/json');
+
+        // Add custom headers
+        foreach ($headers as $key => $value) {
+            $subRequest->headers->set($key, $value);
+        }
 
         // 4. Authentication forwarding
         $webUser = auth('web')->user();
@@ -88,6 +101,71 @@ abstract class BaseWebController
         }
 
         return $decodedResponse;
+    }
+
+    /**
+     * Helper: GET request to API
+     *
+     * @param  string  $routeName  API route name
+     * @param  array  $data  Query parameters
+     * @param  array  $headers  Additional headers
+     * @return mixed
+     */
+    protected function apiGet(string $routeName, array $data = [], array $headers = []): mixed
+    {
+        return $this->forwardToApi($routeName, $data, 'GET', $headers);
+    }
+
+    /**
+     * Helper: POST request to API
+     *
+     * @param  string  $routeName  API route name
+     * @param  array  $data  Request data
+     * @param  array  $headers  Additional headers
+     * @return mixed
+     */
+    protected function apiPost(string $routeName, array $data = [], array $headers = []): mixed
+    {
+        return $this->forwardToApi($routeName, $data, 'POST', $headers);
+    }
+
+    /**
+     * Helper: PUT request to API
+     *
+     * @param  string  $routeName  API route name
+     * @param  array  $data  Request data
+     * @param  array  $headers  Additional headers
+     * @return mixed
+     */
+    protected function apiPut(string $routeName, array $data = [], array $headers = []): mixed
+    {
+        return $this->forwardToApi($routeName, $data, 'PUT', $headers);
+    }
+
+    /**
+     * Helper: PATCH request to API
+     *
+     * @param  string  $routeName  API route name
+     * @param  array  $data  Request data
+     * @param  array  $headers  Additional headers
+     * @return mixed
+     */
+    protected function apiPatch(string $routeName, array $data = [], array $headers = []): mixed
+    {
+        return $this->forwardToApi($routeName, $data, 'PATCH', $headers);
+    }
+
+    /**
+     * Helper: DELETE request to API
+     *
+     * @param  string  $routeName  API route name
+     * @param  array  $data  Request data
+     * @param  array  $headers  Additional headers
+     * @return mixed
+     */
+    protected function apiDelete(string $routeName, array $data = [], array $headers = []): mixed
+    {
+        return $this->forwardToApi($routeName, $data, 'DELETE', $headers);
     }
 
 }

@@ -1,7 +1,8 @@
 /**
  * HTTP Client with Axios
  * Handles all HTTP requests with centralized interceptors
- * Supports Ziggy route integration
+ * Accepts URLs generated via window.route() (Ziggy)
+ * Configured for Laravel Sanctum with HttpOnly cookie authentication
  */
 
 import axios from 'axios';

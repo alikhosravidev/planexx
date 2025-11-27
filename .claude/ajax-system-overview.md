@@ -183,8 +183,9 @@ import './auth/index.js';
 - ❌ **Never use**: `cookieUtils.set('token', ...)` (removed in v2.0)
 
 ### Login Flow
-- `login-success` action redirects when `data.auth` or `data.success` is present
-- Server must set HttpOnly cookie before response
+- Server sets HttpOnly cookie and returns `redirect_url` in response
+- Built-in `redirect` action handles navigation to dashboard
+- Custom actions like `show-otp-step` and `resend-success` handle multi-step flows
 - If OTP is invalid, no redirect occurs; user stays on OTP step
 
 ## Ziggy Route Usage (Important)
