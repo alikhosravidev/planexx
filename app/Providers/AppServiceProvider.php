@@ -26,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->register(QueryServiceProvider::class);
+        $this->app->register(MenuServiceProvider::class);
         $this->app->singleton(ModuleDiscoveryInterface::class, function ($app) {
             /** @var Filesystem $fs */
             $modulesPath = base_path('Modules');
