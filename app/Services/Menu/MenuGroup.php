@@ -6,9 +6,13 @@ namespace App\Services\Menu;
 
 class MenuGroup extends MenuItem
 {
-    protected string $type      = 'group';
     protected bool $collapsible = true;
     protected bool $collapsed   = false;
+
+    protected function getDefaultType(): string
+    {
+        return 'group';
+    }
 
     public function collapsible(bool $collapsible = true): static
     {

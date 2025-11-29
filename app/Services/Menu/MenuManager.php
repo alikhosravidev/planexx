@@ -5,29 +5,27 @@ declare(strict_types=1);
 namespace App\Services\Menu;
 
 use App\Contracts\MenuRegistrar;
+use App\Contracts\Registry\RegistrarInterface;
+use App\Contracts\Registry\RegistryBuilderInterface;
+use App\Services\Registry\BaseRegistryManager;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
+use InvalidArgumentException;
 
-class MenuManager implements MenuRegistrar
+class MenuManager extends BaseRegistryManager
 {
-    protected array $pendingItems = [];
-    protected bool $cacheEnabled;
-    protected int $cacheTtl;
-    protected string $cachePrefix;
-
-    public function __construct()
+    protected function getConfigKey(): string
     {
-        $this->cacheEnabled = (bool) config('services.menu.cache_enabled', true);
-        $this->cacheTtl     = (int) config('services.menu.cache_ttl', 3600);
-        $this->cachePrefix  = (string) config('services.menu.cache_prefix', 'menu_');
+        return 'services.menu';
     }
 
-    public function register(string $menuName, callable $callback): static
+    protected function getDefaultCachePrefix(): string
     {
-        $this->pendingItems[$menuName][] = $callback;
+        return 'menu_';
+    }
 
-        return $this;
+    protected function createBuilder(): RegistryBuilderInterface
+    {
+        return new MenuBuilder();
     }
 
     public function extend(string $menuName, string $parentId, callable $callback): static
@@ -37,41 +35,11 @@ class MenuManager implements MenuRegistrar
         return $this;
     }
 
-    public function get(string $menuName): Collection
+    protected function build(string $registryName): Collection
     {
-        if ($this->cacheEnabled) {
-            $cacheKey = $this->getCacheKey($menuName);
-            $cached   = Cache::get($cacheKey);
+        $items = parent::build($registryName);
 
-            if ($cached) {
-                return collect($cached);
-            }
-        }
-
-        $items = $this->build($menuName);
-        $items = $this->filterByPermissions($items);
-
-        if ($this->cacheEnabled) {
-            $cacheKey = $cacheKey ?? $this->getCacheKey($menuName);
-            Cache::put($cacheKey, $items->all(), $this->cacheTtl);
-        }
-
-        return $items;
-    }
-
-    protected function build(string $menuName): Collection
-    {
-        $builder = new MenuBuilder();
-
-        foreach ($this->pendingItems[$menuName] ?? [] as $callback) {
-            $callback($builder);
-        }
-
-        $items = collect($builder->getItems());
-
-        $items = $this->applyExtensions($items, $menuName);
-
-        return $this->sortItems($items);
+        return $this->applyExtensions($items, $registryName);
     }
 
     protected function applyExtensions(Collection $items, string $menuName): Collection
@@ -143,80 +111,37 @@ class MenuManager implements MenuRegistrar
         })->values();
     }
 
-    protected function userHasPermission(string $permission): bool
+    public function registerBy(string $registrarClass): static
     {
-        $user = Auth::user();
+        $registrar = app($registrarClass);
 
-        if (! $user) {
-            return false;
+        if ($registrar instanceof RegistrarInterface) {
+            $registrar->register($this);
+        } elseif ($registrar instanceof MenuRegistrar) {
+            $registrar->register($this);
+        } else {
+            throw new InvalidArgumentException("{$registrarClass} must implement " . RegistrarInterface::class . ' or ' . MenuRegistrar::class);
         }
 
-        if (method_exists($user, 'hasPermissionTo')) {
-            return $user->hasPermissionTo($permission);
-        }
-
-        if (method_exists($user, 'can')) {
-            return $user->can($permission);
-        }
-
-        return true;
-    }
-
-    public function toArray(string $menuName): array
-    {
-        return $this->get($menuName)
-            ->map(fn ($item) => $item->toArray())
-            ->toArray();
-    }
-
-    public function toJson(string $menuName): string
-    {
-        return json_encode($this->toArray($menuName), JSON_UNESCAPED_UNICODE);
+        return $this;
     }
 
     public function clearCache(?string $menuName = null): void
     {
         if ($menuName) {
-            Cache::forget($this->getCacheKey($menuName));
+            parent::clearCache($menuName);
 
             return;
         }
 
         foreach ($this->getBaseMenuNames() as $name) {
-            Cache::forget($this->getCacheKey($name));
+            parent::clearCache($name);
         }
-    }
-
-    public function withoutCache(): static
-    {
-        $this->cacheEnabled = false;
-
-        return $this;
-    }
-
-    public function withCache(int $ttl = 3600): static
-    {
-        $this->cacheEnabled = true;
-        $this->cacheTtl     = $ttl;
-
-        return $this;
-    }
-
-    protected function getCacheKey(string $menuName): string
-    {
-        $userId = Auth::id() ?? 'guest';
-
-        return $this->cachePrefix . $menuName . '_' . $userId;
-    }
-
-    public function has(string $menuName): bool
-    {
-        return isset($this->pendingItems[$menuName]);
     }
 
     public function getMenuNames(): array
     {
-        return array_keys($this->pendingItems);
+        return $this->getRegistryNames();
     }
 
     protected function getBaseMenuNames(): array

@@ -73,4 +73,16 @@ return [
         'cache_prefix'  => env('MENU_CACHE_PREFIX', 'menu_'),
     ],
 
+    'stats' => [
+        'cache_enabled' => (bool) env('STATS_CACHE_ENABLED', true),
+        'cache_ttl'     => (int) env('STATS_CACHE_TTL', 300),
+        'cache_prefix'  => env('STATS_CACHE_PREFIX', 'stats_'),
+    ],
+
+    'quick_access' => [
+        'cache_enabled' => (bool) env('QUICK_ACCESS_CACHE_ENABLED', true),
+        'cache_ttl'     => (int) env('QUICK_ACCESS_CACHE_TTL', 3600),
+        'cache_prefix'  => env('QUICK_ACCESS_CACHE_PREFIX', 'quick_access_'),
+    ],
+
 ];

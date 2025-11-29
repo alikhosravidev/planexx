@@ -11,7 +11,7 @@ class IndexJobPositionsTest extends APITestBase
 {
     private function getRoute(): string
     {
-        return route('organization.job-positions.index');
+        return route('api.v1.admin.org.job-positions.index');
     }
 
     protected function setUp(): void

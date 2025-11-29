@@ -12,7 +12,7 @@ class IndexDepartmentsTest extends APITestBase
     private function getRoute(): string
     {
         return route(
-            'organization.departments.index',
+            'api.v1.admin.org.departments.index',
             ['includes' => 'manager']
         );
     }

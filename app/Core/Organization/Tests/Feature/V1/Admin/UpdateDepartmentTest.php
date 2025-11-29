@@ -13,7 +13,10 @@ class UpdateDepartmentTest extends APITestBase
 
     private function getRoute(): string
     {
-        return route('organization.departments.update', ['department' => $this->department->id]);
+        return route(
+            'api.v1.admin.org.departments.update',
+            ['department' => $this->department->id]
+        );
     }
 
     protected function setUp(): void

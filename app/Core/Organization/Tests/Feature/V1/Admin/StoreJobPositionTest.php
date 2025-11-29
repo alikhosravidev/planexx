@@ -12,7 +12,7 @@ class StoreJobPositionTest extends APITestBase
 {
     private function getRoute(): string
     {
-        return route('organization.job-positions.store');
+        return route('api.v1.admin.org.job-positions.store');
     }
 
     protected function setUp(): void

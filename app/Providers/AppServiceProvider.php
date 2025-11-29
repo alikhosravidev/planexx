@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use function app;
+
 use App\Commands\PrepareParallelTests;
 use App\Contracts\BootstrapFileManagerInterface;
 use App\Contracts\ModuleDiscoveryInterface;
@@ -11,8 +13,8 @@ use App\Core\BPMS\Providers\BPMSServiceProvider;
 use App\Core\FormEngine\Providers\FormEngineServiceProvider;
 use App\Core\Notify\Providers\NotifyServiceProvider;
 use App\Core\Organization\Providers\OrganizationServiceProvider;
+use App\Registrars\CoreDashboardMenuRegistrar;
 use App\Services\FilesystemModuleDiscovery;
-use App\Services\Menu\MenuBuilder;
 use App\Services\Menu\MenuManager;
 use App\Services\ModuleManager;
 use App\Services\PhpFileBootstrapManager;
@@ -45,17 +47,7 @@ class AppServiceProvider extends ServiceProvider
         $this->commands(
             PrepareParallelTests::class,
         );
-        $this->registerCoreMenu();
-    }
-
-    protected function registerCoreMenu(): void
-    {
-        app('menu')->register('dashboard.sidebar', function (MenuBuilder $menu) {
-            $menu->item('داشبورد', 'dashboard')
-                ->route('dashboard')
-                ->icon('fa-solid fa-chart-line')
-                ->order(1);
-        });
+        app('menu')->registerBy(CoreDashboardMenuRegistrar::class);
     }
 
     private function registerCoreProviders(): void

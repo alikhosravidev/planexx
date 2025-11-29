@@ -6,7 +6,7 @@ namespace App\Core\Organization\Providers;
 
 use App\Core\Organization\Entities\PersonalAccessToken;
 use App\Core\Organization\Http\Middlewares\CheckUserAccessToken;
-use App\Services\Menu\MenuBuilder;
+use App\Core\Organization\Registrars\OrganizationMenuRegistrar;
 use App\Utilities\ProviderUtility;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -51,43 +51,6 @@ class OrganizationServiceProvider extends ServiceProvider
 
     protected function registerMenu(): void
     {
-        app('menu')->register('dashboard.sidebar', function (MenuBuilder $menu) {
-            $menu->item('ساختار سازمانی', 'org')
-                ->route('org.dashboard')
-                ->icon('fa-solid fa-sitemap')
-                ->order(2);
-        });
-
-        app('menu')->register('org.sidebar', function (MenuBuilder $menu) {
-            $menu->item('داشبورد ماژول', 'org')
-                ->route('org.dashboard')
-                ->icon('fa-solid fa-chart-pie')
-                ->order(1);
-
-            $menu->item('کارکنان', 'org-employees')
-                ->route('org.users.index', ['type' => 'employee'])
-                ->icon('fa-solid fa-user-tie')
-                ->order(2);
-
-            $menu->item('مشتریان', 'org-customers')
-                ->route('org.users.index', ['type' => 'customer'])
-                ->icon('fa-solid fa-users')
-                ->order(3);
-
-            $menu->item('کاربران عادی', 'org-regular-users')
-                ->route('org.users.index', ['type' => 'user'])
-                ->icon('fa-solid fa-user')
-                ->order(4);
-
-            $menu->item('دپارتمان‌ها', 'org-departments')
-                ->url('/dashboard/org/departments/list.php')
-                ->icon('fa-solid fa-sitemap')
-                ->order(5);
-
-            $menu->item('نقش‌ها و دسترسی‌ها', 'org-roles')
-                ->url('/dashboard/org/roles-permissions/roles.php')
-                ->icon('fa-solid fa-shield-halved')
-                ->order(6);
-        });
+        app('menu')->registerBy(OrganizationMenuRegistrar::class);
     }
 }

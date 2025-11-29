@@ -11,7 +11,7 @@ class StoreDepartmentTest extends APITestBase
 {
     private function getRoute(): string
     {
-        return route('organization.departments.store');
+        return route('api.v1.admin.org.departments.store');
     }
 
     protected function setUp(): void

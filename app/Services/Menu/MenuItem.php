@@ -4,47 +4,30 @@ declare(strict_types=1);
 
 namespace App\Services\Menu;
 
-use Closure;
+use App\Services\Registry\BaseRegistryItem;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Throwable;
 
-class MenuItem implements Arrayable
+class MenuItem extends BaseRegistryItem
 {
-    protected string $id;
-    protected string $title;
-    protected ?string $url             = null;
-    protected ?string $route           = null;
-    protected array $routeParams       = [];
-    protected ?string $icon            = null;
-    protected ?string $color           = null;
-    protected ?string $badge           = null;
-    protected ?string $badgeColor      = null;
-    protected int $order               = 0;
-    protected bool $active             = true;
-    protected ?string $permission      = null;
-    protected array $children          = [];
-    protected ?string $target          = null;
-    protected array $attributes        = [];
-    protected string $type             = 'item';
-    protected ?Closure $activeResolver = null;
+    protected ?string $url        = null;
+    protected ?string $route      = null;
+    protected array $routeParams  = [];
+    protected ?string $icon       = null;
+    protected ?string $color      = null;
+    protected ?string $badge      = null;
+    protected ?string $badgeColor = null;
+    protected array $children     = [];
+    protected ?string $target     = null;
 
-    public function __construct(string $title, ?string $id = null)
+    protected function getDefaultType(): string
     {
-        $this->title = $title;
-
-        if ($id !== null) {
-            $this->id = $id;
-        } else {
-            $slug     = Str::slug($title);
-            $this->id = $slug !== '' ? $slug : 'item-' . Str::random(8);
-        }
+        return 'item';
     }
 
-    public static function make(string $title, ?string $id = null): static
+    protected function getIdPrefix(): string
     {
-        return new static($title, $id);
+        return 'item-';
     }
 
     public function url(string $url): static
@@ -84,44 +67,9 @@ class MenuItem implements Arrayable
         return $this;
     }
 
-    public function order(int $order): static
-    {
-        $this->order = $order;
-
-        return $this;
-    }
-
-    public function permission(string $permission): static
-    {
-        $this->permission = $permission;
-
-        return $this;
-    }
-
     public function target(string $target): static
     {
         $this->target = $target;
-
-        return $this;
-    }
-
-    public function active(bool $active = true): static
-    {
-        $this->active = $active;
-
-        return $this;
-    }
-
-    public function activeWhen(callable $callback): static
-    {
-        $this->activeResolver = $callback(...);
-
-        return $this;
-    }
-
-    public function attributes(array $attributes): static
-    {
-        $this->attributes = $attributes;
 
         return $this;
     }
@@ -146,32 +94,6 @@ class MenuItem implements Arrayable
         return $this;
     }
 
-    public function type(string $type): static
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
-    public function getOrder(): int
-    {
-        return $this->order;
-    }
-
-    public function getPermission(): ?string
-    {
-        return $this->permission;
-    }
 
     public function getChildren(): array
     {
@@ -181,15 +103,6 @@ class MenuItem implements Arrayable
     public function hasChildren(): bool
     {
         return !empty($this->children);
-    }
-
-    public function isActive(): bool
-    {
-        if ($this->activeResolver instanceof Closure) {
-            return (bool) ($this->activeResolver)(app(Request::class), $this);
-        }
-
-        return $this->active;
     }
 
     public function getUrl(): ?string
@@ -207,23 +120,16 @@ class MenuItem implements Arrayable
 
     public function toArray(): array
     {
-        return [
-            'id'          => $this->id,
-            'type'        => $this->type,
-            'title'       => $this->title,
+        return array_merge($this->getBaseArray(), [
             'url'         => $this->getUrl(),
             'icon'        => $this->icon,
             'color'       => $this->color,
             'badge'       => $this->badge,
             'badge_color' => $this->badgeColor,
-            'order'       => $this->order,
-            'active'      => $this->isActive(),
-            'permission'  => $this->permission,
             'target'      => $this->target,
-            'attributes'  => $this->attributes,
             'children'    => collect($this->children)
                 ->map(fn ($child) => $child instanceof Arrayable ? $child->toArray() : $child)
                 ->toArray(),
-        ];
+        ]);
     }
 }

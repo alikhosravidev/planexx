@@ -4,17 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services\Menu;
 
-class MenuBuilder
+use App\Services\Registry\BaseRegistryBuilder;
+
+class MenuBuilder extends BaseRegistryBuilder
 {
-    protected array $items = [];
-
-    public function add(MenuItem $item): static
-    {
-        $this->items[] = $item;
-
-        return $this;
-    }
-
     public function item(string $title, ?string $id = null): MenuItem
     {
         $item          = MenuItem::make($title, $id);
@@ -41,8 +34,4 @@ class MenuBuilder
         return $this;
     }
 
-    public function getItems(): array
-    {
-        return $this->items;
-    }
 }
