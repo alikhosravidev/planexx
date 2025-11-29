@@ -140,7 +140,7 @@ $response = $this->forwardToApi(string $routeName, array $data = [], string $met
 ```
 
 **Parameters:**
-- `$routeName`: API route name (e.g.: `'api.user.auth'`, `'api.users.index'`, `'api.departments.show'`)
+- `$routeName`: API route name (e.g.: `'api.v1.admin.user.auth'`, `'api.users.index'`, `'api.departments.show'`)
 - `$data`: (optional) Array of data to send (for POST/PUT/PATCH or query params for GET)
 - `$method`: (optional) HTTP method - 'GET', 'POST', 'PUT', 'PATCH', 'DELETE' (default: 'POST')
 - `$headers`: (optional) Custom headers array

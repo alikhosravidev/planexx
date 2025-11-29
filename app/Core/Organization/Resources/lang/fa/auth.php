@@ -15,7 +15,7 @@ return [
     'login'                 => 'ورود به سیستم',
     'login_disclaimer'      => 'با ورود به سیستم، ',
     'terms_and_conditions'  => 'قوانین و مقررات',
-    'را می‌پذیرید'          => 'را می‌پذیرید',
+    'accepted'              => 'را می‌پذیرید',
 
     'errors' => [
         'invalid_mobile'    => 'شماره موبایل نامعتبر است',

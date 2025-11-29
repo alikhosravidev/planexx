@@ -30,17 +30,17 @@
         </div>
 
         <div class="py-2">
-            <a href="{{ route('dashboard.profile') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-text-secondary hover:bg-bg-secondary hover:text-text-primary transition-colors leading-normal">
+            <a href="" class="flex items-center gap-3 px-4 py-2.5 text-sm text-text-secondary hover:bg-bg-secondary hover:text-text-primary transition-colors leading-normal">
                 <i class="fa-solid fa-user w-5 text-center"></i>
                 <span>پروفایل من</span>
             </a>
 
-            <a href="{{ route('dashboard.settings') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-text-secondary hover:bg-bg-secondary hover:text-text-primary transition-colors leading-normal">
+            <a href="" class="flex items-center gap-3 px-4 py-2.5 text-sm text-text-secondary hover:bg-bg-secondary hover:text-text-primary transition-colors leading-normal">
                 <i class="fa-solid fa-cog w-5 text-center"></i>
                 <span>تنظیمات</span>
             </a>
 
-            <a href="{{ route('dashboard.notifications') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-text-secondary hover:bg-bg-secondary hover:text-text-primary transition-colors leading-normal">
+            <a href="" class="flex items-center gap-3 px-4 py-2.5 text-sm text-text-secondary hover:bg-bg-secondary hover:text-text-primary transition-colors leading-normal">
                 <i class="fa-solid fa-bell w-5 text-center"></i>
                 <span>اعلان‌ها</span>
                 @if(isset($notificationCount) && $notificationCount > 0)
@@ -50,7 +50,7 @@
 
             <div class="border-t border-border-light my-2"></div>
 
-            <a href="{{ route('help') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-text-secondary hover:bg-bg-secondary hover:text-text-primary transition-colors leading-normal">
+            <a href="" class="flex items-center gap-3 px-4 py-2.5 text-sm text-text-secondary hover:bg-bg-secondary hover:text-text-primary transition-colors leading-normal">
                 <i class="fa-solid fa-question-circle w-5 text-center"></i>
                 <span>راهنما و پشتیبانی</span>
             </a>
@@ -67,27 +67,3 @@
         </div>
     </div>
 </div>
-
-@push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const toggleBtn = document.querySelector('[data-dropdown-toggle="user-menu"]');
-    const dropdown = document.querySelector('#user-menu');
-
-    if (toggleBtn && dropdown) {
-        toggleBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            dropdown.classList.toggle('hidden');
-        });
-
-        document.addEventListener('click', () => {
-            dropdown.classList.add('hidden');
-        });
-
-        dropdown.addEventListener('click', (e) => {
-            e.stopPropagation();
-        });
-    }
-});
-</script>
-@endpush

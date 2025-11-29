@@ -1,79 +1,105 @@
 @props(['title' => 'داشبورد', 'breadcrumbs' => null])
 
-<header class="bg-white border-b border-border-light px-6 py-4">
-    <div class="flex items-center justify-between">
-        <div>
-            <h1 class="text-2xl font-bold text-text-primary">{{ $title }}</h1>
+<header class="bg-bg-primary border-b border-border-light sticky top-0 z-30">
+    <div class="px-6 py-5">
+        <div class="flex items-center justify-between">
+            <div class="flex-1">
+                <h1 class="text-2xl font-bold text-text-primary leading-tight mb-2">{{ $title }}</h1>
 
-            @if($breadcrumbs)
-                <nav class="flex items-center gap-2 text-sm mt-1">
-                    @foreach($breadcrumbs as $index => $crumb)
-                        @if($index > 0)
-                            <i class="fa-solid fa-chevron-left text-gray-400 text-xs"></i>
-                        @endif
+                @if($breadcrumbs)
+                    <nav class="flex items-center gap-2 text-xs text-text-muted">
+                        @foreach($breadcrumbs as $index => $crumb)
+                            @if($index > 0)
+                                <i class="fa-solid fa-chevron-left text-[10px]"></i>
+                            @endif
 
-                        @if(isset($crumb['url']) && $index < count($breadcrumbs) - 1)
-                            <a href="{{ $crumb['url'] }}" class="text-text-secondary hover:text-text-primary">
-                                {{ $crumb['label'] }}
-                            </a>
-                        @else
-                            <span class="text-text-primary font-medium">{{ $crumb['label'] }}</span>
-                        @endif
-                    @endforeach
-                </nav>
-            @endif
-        </div>
-
-        <div class="flex items-center gap-4">
-            <div class="relative hidden md:block">
-                <input
-                    type="text"
-                    placeholder="جستجو..."
-                    class="w-64 px-4 py-2 pr-10 border border-border-light rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent"
-                >
-                <i class="fa-solid fa-search absolute right-3 top-1/2 -translate-y-1/2 text-text-muted"></i>
+                            @if(isset($crumb['url']) && $index < count($breadcrumbs) - 1)
+                                <a href="{{ $crumb['url'] }}" class="hover:text-primary transition-colors leading-normal">
+                                    {{ $crumb['label'] }}
+                                </a>
+                            @else
+                                <span class="text-text-primary font-medium leading-normal">{{ $crumb['label'] }}</span>
+                            @endif
+                        @endforeach
+                    </nav>
+                @endif
             </div>
 
-            <button class="relative p-2 hover:bg-gray-100 rounded-lg">
-                <i class="fa-solid fa-bell text-xl text-text-secondary"></i>
-                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
+            <div class="relative" data-dropdown-container>
+                @php
+                    $user = auth()->user();
+                    $userName = $user?->full_name ?? $user?->name ?? 'کاربر';
+                    $userRole = $user?->role_name ?? 'مدیر سیستم';
+                    $userAvatar = $user->avatar ?? null;
+                    $initial = function($name) { return mb_substr($name, 0, 1, 'UTF-8'); };
+                @endphp
+                <button
+                    data-dropdown-toggle="user-menu"
+                    class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-bg-secondary transition-all duration-200">
 
-            <div x-data="{ open: false }" class="relative">
-                <button @click="open = !open" class="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg">
-                    <img src="{{ auth()->user()->avatar ?? '/images/default-avatar.png' }}"
-                         alt="User"
-                         class="w-8 h-8 rounded-full">
-                    <span class="hidden md:block text-sm font-medium">{{ auth()->user()->full_name ?? 'کاربر' }}</span>
-                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-slate-700 rounded-full flex items-center justify-center">
+                        @if($userAvatar)
+                            <img src="{{ $userAvatar }}" alt="{{ $userName }}" class="w-full h-full rounded-full object-cover">
+                        @else
+                            <span class="text-white text-sm font-bold">{{ $initial($userName) }}</span>
+                        @endif
+                    </div>
+
+                    <div class="text-right hidden sm:block">
+                        <div class="text-sm font-medium text-text-primary leading-tight">{{ $userName }}</div>
+                        <div class="text-xs text-text-muted leading-tight">{{ $userRole }}</div>
+                    </div>
+
+                    <i class="fa-solid fa-chevron-down text-xs text-text-muted"></i>
                 </button>
 
-                <div x-show="open"
-                     @click.away="open = false"
-                     x-transition
-                     class="absolute left-0 mt-2 w-48 bg-white border border-border-light rounded-xl shadow-lg py-2 z-50">
-                    <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">
-                        <i class="fa-solid fa-user ml-2"></i>
-                        پروفایل
-                    </a>
-                    <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">
-                        <i class="fa-solid fa-cog ml-2"></i>
-                        تنظیمات
-                    </a>
-                    <hr class="my-2">
-                    <form method="POST" action="">
-                        @csrf
-                        <button type="submit" class="w-full text-right px-4 py-2 text-sm text-red-600 hover:bg-red-50">
-                            <i class="fa-solid fa-sign-out ml-2"></i>
-                            خروج
+                <div
+                    id="user-menu"
+                    data-dropdown
+                    class="hidden absolute top-full left-0 mt-2 w-56 bg-bg-primary border border-border-light rounded-xl shadow-lg overflow-hidden z-50">
+
+                    <div class="sm:hidden px-4 py-3 border-b border-border-light">
+                        <div class="text-sm font-medium text-text-primary leading-tight">{{ $userName }}</div>
+                        <div class="text-xs text-text-muted leading-tight mt-0.5">{{ $userRole }}</div>
+                    </div>
+
+                    <div class="py-2">
+                        <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-sm text-text-secondary hover:bg-bg-secondary hover:text-text-primary transition-colors leading-normal">
+                            <i class="fa-solid fa-user w-5 text-center"></i>
+                            <span>پروفایل من</span>
+                        </a>
+
+                        <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-sm text-text-secondary hover:bg-bg-secondary hover:text-text-primary transition-colors leading-normal">
+                            <i class="fa-solid fa-cog w-5 text-center"></i>
+                            <span>تنظیمات</span>
+                        </a>
+
+                        <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-sm text-text-secondary hover:bg-bg-secondary hover:text-text-primary transition-colors leading-normal">
+                            <i class="fa-solid fa-bell w-5 text-center"></i>
+                            <span>اعلان‌ها</span>
+                            <span class="mr-auto bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">3</span>
+                        </a>
+
+                        <div class="border-t border-border-light my-2"></div>
+
+                        <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-sm text-text-secondary hover:bg-bg-secondary hover:text-text-primary transition-colors leading-normal">
+                            <i class="fa-solid fa-question-circle w-5 text-center"></i>
+                            <span>راهنما و پشتیبانی</span>
+                        </a>
+
+                        <div class="border-t border-border-light my-2"></div>
+
+                        <button type="button"
+                                data-ajax
+                                data-action="{{ route('web.logout') }}"
+                                data-method="POST"
+                                data-on-success="reload"
+                                class="flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors leading-normal">
+                            <span>خروج از حساب کاربری</span>
                         </button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </header>
-
-@push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-@endpush

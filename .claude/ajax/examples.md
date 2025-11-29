@@ -207,7 +207,7 @@ Works the same way as form example above.
 <div id="step-mobile">
   <form
     data-ajax
-    action="{{ route('user.initiate.auth') }}"
+    action="{{ route('api.v1.admin.user.initiate.auth') }}"
     method="GET"
     data-on-success="custom"
     custom-action="show-otp-step"
@@ -222,7 +222,7 @@ Works the same way as form example above.
 <div id="step-otp" class="hidden">
   <form
     data-ajax
-    action="{{ route('user.auth') }}"
+    action="{{ route('api.v1.admin.user.auth') }}"
     method="POST"
     data-on-success="redirect"
   >
@@ -238,7 +238,7 @@ Works the same way as form example above.
   <button
     id="resend-button"
     data-ajax
-    action="{{ route('user.initiate.auth') }}"
+    action="{{ route('api.v1.admin.user.initiate.auth') }}"
     data-method="GET"
     data-on-success="custom"
     custom-action="resend-success"

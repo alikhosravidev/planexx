@@ -4,16 +4,24 @@ declare(strict_types=1);
 
 namespace App\Services\Menu;
 
+use App\Contracts\MenuRegistrar;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
-class MenuManager
+class MenuManager implements MenuRegistrar
 {
     protected array $pendingItems = [];
-    protected bool $cacheEnabled  = true;
-    protected int $cacheTtl       = 3600;
-    protected string $cachePrefix = 'menu_';
+    protected bool $cacheEnabled;
+    protected int $cacheTtl;
+    protected string $cachePrefix;
+
+    public function __construct()
+    {
+        $this->cacheEnabled = (bool) config('services.menu.cache_enabled', true);
+        $this->cacheTtl     = (int) config('services.menu.cache_ttl', 3600);
+        $this->cachePrefix  = (string) config('services.menu.cache_prefix', 'menu_');
+    }
 
     public function register(string $menuName, callable $callback): static
     {
@@ -112,13 +120,13 @@ class MenuManager
     protected function filterByPermissions(Collection $items): Collection
     {
         return $items->filter(function ($item) {
-            if (!$item->isActive()) {
+            if (! $item->isActive()) {
                 return false;
             }
 
             $permission = $item->getPermission();
 
-            if ($permission && !$this->userHasPermission($permission)) {
+            if ($permission && ! $this->userHasPermission($permission)) {
                 return false;
             }
 
@@ -126,7 +134,7 @@ class MenuManager
                 $filteredChildren = $this->filterByPermissions(collect($item->getChildren()));
                 $item->children($filteredChildren->all());
 
-                if ($item instanceof MenuGroup && !$filteredChildren->count()) {
+                if ($item instanceof MenuGroup && ! $filteredChildren->count()) {
                     return false;
                 }
             }
@@ -139,7 +147,7 @@ class MenuManager
     {
         $user = Auth::user();
 
-        if (!$user) {
+        if (! $user) {
             return false;
         }
 
@@ -216,7 +224,7 @@ class MenuManager
         $names = [];
 
         foreach (array_keys($this->pendingItems) as $name) {
-            if (!str_contains($name, '_extend_')) {
+            if (! str_contains($name, '_extend_')) {
                 $names[] = $name;
             }
         }

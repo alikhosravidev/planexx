@@ -18,6 +18,8 @@ document.addEventListener(
         uiComponents.initDropdowns();
         uiComponents.initAlerts();
         uiComponents.initMobileMenu();
+        uiComponents.initMobileSidebar();
+        uiComponents.initUserMenu();
 
         // Initialize form functionality
         forms.initForms();

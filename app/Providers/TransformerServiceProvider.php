@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Contracts\Transformer\DataExtractorInterface;
 use App\Contracts\Transformer\SerializerInterface;
+use App\Contracts\Transformer\TransformerInterface;
 use App\Services\Transformer\ArraySerializerAdapter;
 use App\Services\Transformer\FieldTransformerRegistry;
 use App\Services\Transformer\FractalManagerFactory;
@@ -57,7 +58,7 @@ class TransformerServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Bind all BaseTransformer subclasses to use factory
-        $this->app->resolving(\App\Contracts\Transformer\TransformerInterface::class, function ($transformer, $app) {
+        $this->app->resolving(TransformerInterface::class, function ($transformer, $app) {
             // Transformer is already constructed, but we need to ensure registry is populated
             $config   = $app->make(TransformerConfig::class);
             $registry = $app->make(FieldTransformerRegistry::class);

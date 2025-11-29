@@ -43,7 +43,7 @@ abstract class BaseWebController
      * This method calls the API controller directly by route name,
      * ensuring all API middleware, validation, and transformations are applied.
      *
-     * @param  string  $routeName  API route name (e.g., 'api.user.auth', 'api.user.logout')
+     * @param  string  $routeName  API route name (e.g., 'api.v1.admin.user.auth', 'api.v1.admin.user.logout')
      * @param  array  $data  Request data
      * @param  string  $method  HTTP method (default: POST)
      * @param  array  $headers  Additional headers to send with the request

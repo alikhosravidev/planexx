@@ -67,4 +67,10 @@ return [
 
     ],
 
+    'menu' => [
+        'cache_enabled' => (bool) env('MENU_CACHE_ENABLED', true),
+        'cache_ttl'     => (int) env('MENU_CACHE_TTL', 3600),
+        'cache_prefix'  => env('MENU_CACHE_PREFIX', 'menu_'),
+    ],
+
 ];

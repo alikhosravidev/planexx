@@ -11,58 +11,30 @@ use App\Core\BPMS\Providers\BPMSServiceProvider;
 use App\Core\FormEngine\Providers\FormEngineServiceProvider;
 use App\Core\Notify\Providers\NotifyServiceProvider;
 use App\Core\Organization\Providers\OrganizationServiceProvider;
-use App\Services\AIImageService\AIImageService;
-use App\Services\AIImageService\AIImageServiceFactory;
 use App\Services\FilesystemModuleDiscovery;
-use App\Services\HttpClient;
+use App\Services\Menu\MenuBuilder;
+use App\Services\Menu\MenuManager;
 use App\Services\ModuleManager;
 use App\Services\PhpFileBootstrapManager;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
-use Psr\Log\LoggerInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
         $this->app->register(QueryServiceProvider::class);
-        $this->app->register(MenuServiceProvider::class);
-        $this->app->singleton(ModuleDiscoveryInterface::class, function ($app) {
-            /** @var Filesystem $fs */
-            $modulesPath = base_path('Modules');
-
-            return new FilesystemModuleDiscovery(
-                $app->make(Filesystem::class),
-                $modulesPath
-            );
-        });
-
-        $this->app->singleton(BootstrapFileManagerInterface::class, function ($app) {
-            /** @var Filesystem $fs */
-            $bootstrapFile = base_path('bootstrap/modules.php');
-
-            return new PhpFileBootstrapManager(
-                $app->make(Filesystem::class),
-                $bootstrapFile
-            );
-        });
+        $this->moduleDiscovery();
+        $this->registerMenu();
 
         // Bind AI Image Service Factory
-        $this->app->singleton('ai_image_service_factory', function ($app) {
-            return new AIImageServiceFactory(
-                $app->make(AIImageService::class),
-                $app->make(LoggerInterface::class),
-                $app->make(HttpClient::class)
-            );
-        });
-
-        // Bind ModuleManager with DI
-        $this->app->singleton(ModuleManager::class, function ($app) {
-            return new ModuleManager(
-                $app->make(ModuleDiscoveryInterface::class),
-                $app->make(BootstrapFileManagerInterface::class),
-            );
-        });
+        //$this->app->singleton('ai_image_service_factory', function ($app) {
+        //    return new AIImageServiceFactory(
+        //        $app->make(AIImageService::class),
+        //        $app->make(LoggerInterface::class),
+        //        $app->make(HttpClient::class)
+        //    );
+        //});
 
         $this->registerCoreProviders();
         $this->registerModuleProviders();
@@ -73,6 +45,17 @@ class AppServiceProvider extends ServiceProvider
         $this->commands(
             PrepareParallelTests::class,
         );
+        $this->registerCoreMenu();
+    }
+
+    protected function registerCoreMenu(): void
+    {
+        app('menu')->register('dashboard.sidebar', function (MenuBuilder $menu) {
+            $menu->item('داشبورد', 'dashboard')
+                ->route('dashboard')
+                ->icon('fa-solid fa-chart-line')
+                ->order(1);
+        });
     }
 
     private function registerCoreProviders(): void
@@ -97,5 +80,44 @@ class AppServiceProvider extends ServiceProvider
                 $this->app->register($provider);
             }
         }
+    }
+
+    private function moduleDiscovery(): void
+    {
+        $this->app->singleton(ModuleDiscoveryInterface::class, function ($app) {
+            /** @var Filesystem $fs */
+            $modulesPath = base_path('Modules');
+
+            return new FilesystemModuleDiscovery(
+                $app->make(Filesystem::class),
+                $modulesPath
+            );
+        });
+
+        $this->app->singleton(BootstrapFileManagerInterface::class, function ($app) {
+            /** @var Filesystem $fs */
+            $bootstrapFile = base_path('bootstrap/modules.php');
+
+            return new PhpFileBootstrapManager(
+                $app->make(Filesystem::class),
+                $bootstrapFile
+            );
+        });
+
+        // Bind ModuleManager with DI
+        $this->app->singleton(ModuleManager::class, function ($app) {
+            return new ModuleManager(
+                $app->make(ModuleDiscoveryInterface::class),
+                $app->make(BootstrapFileManagerInterface::class),
+            );
+        });
+    }
+
+    private function registerMenu(): void
+    {
+        $this->app->singleton(MenuManager::class, function () {
+            return new MenuManager();
+        });
+        $this->app->alias(MenuManager::class, 'menu');
     }
 }
