@@ -9,7 +9,7 @@ use App\Contracts\Registry\RegistryManagerInterface;
 use App\Domains\User\UserQuery;
 use App\Services\Stats\StatBuilder;
 
-class OrgDashboardStatsRegistrar implements RegistrarInterface
+class OrganizationStatsRegistrar implements RegistrarInterface
 {
     public function __construct(
         private readonly UserQuery $userQuery,

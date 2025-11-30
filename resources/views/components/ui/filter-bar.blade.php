@@ -1,5 +1,6 @@
 @props([
     'filters' => [],
+    'resetUrl' => null,
 ])
 
 <div class="bg-bg-primary border border-border-light rounded-2xl p-6" {{ $attributes }}>
@@ -15,6 +16,7 @@
                         <input 
                             type="text" 
                             name="{{ $filter['name'] }}"
+                            value="{{ $filter['value'] ?? '' }}"
                             class="flex-1 px-4 py-3.5 text-base text-text-primary outline-none bg-transparent leading-normal"
                             placeholder="{{ $filter['placeholder'] ?? '' }}">
                     </div>
@@ -29,7 +31,7 @@
                             name="{{ $filter['name'] }}"
                             class="flex-1 px-4 py-3.5 text-base text-text-primary outline-none bg-transparent cursor-pointer leading-normal">
                             @foreach($filter['options'] as $value => $label)
-                                <option value="{{ $value }}">{{ $label }}</option>
+                                <option value="{{ $value }}" {{ ($filter['selected'] ?? '') == $value ? 'selected' : '' }}>{{ $label }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -42,10 +44,17 @@
                 <i class="fa-solid fa-search ml-2"></i>
                 <span>اعمال فیلتر</span>
             </button>
-            <button type="reset" class="bg-bg-secondary text-text-secondary border border-border-medium px-5 py-3.5 rounded-lg font-medium hover:bg-gray-100 transition-all duration-200 text-base leading-normal whitespace-nowrap">
-                <i class="fa-solid fa-rotate-right ml-2"></i>
-                <span>پاک کردن</span>
-            </button>
+            @if($resetUrl)
+                <a href="{{ $resetUrl }}" class="bg-bg-secondary text-text-secondary border border-border-medium px-5 py-3.5 rounded-lg font-medium hover:bg-gray-100 transition-all duration-200 text-base leading-normal whitespace-nowrap">
+                    <i class="fa-solid fa-rotate-right ml-2"></i>
+                    <span>پاک کردن</span>
+                </a>
+            @else
+                <button type="reset" class="bg-bg-secondary text-text-secondary border border-border-medium px-5 py-3.5 rounded-lg font-medium hover:bg-gray-100 transition-all duration-200 text-base leading-normal whitespace-nowrap">
+                    <i class="fa-solid fa-rotate-right ml-2"></i>
+                    <span>پاک کردن</span>
+                </button>
+            @endif
         </div>
         
     </div>

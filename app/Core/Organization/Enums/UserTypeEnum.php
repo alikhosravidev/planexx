@@ -18,4 +18,22 @@ enum UserTypeEnum: int
             self::Customer => 'مشتری',
         };
     }
+
+    public function plural(): string
+    {
+        return match ($this) {
+            self::User     => 'کاربران عادی',
+            self::Employee => 'کارکنان',
+            self::Customer => 'مشتریان',
+        };
+    }
+
+    public function icon(): string
+    {
+        return match ($this) {
+            self::User     => 'fa-user',
+            self::Employee => 'fa-user-tie',
+            self::Customer => 'fa-users',
+        };
+    }
 }

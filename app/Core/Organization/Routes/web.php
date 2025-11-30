@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Core\Organization\Http\Controllers\Web\AuthWebController;
-use App\Core\Organization\Http\Controllers\Web\OrgDashboardController;
+use App\Core\Organization\Http\Controllers\Web\OrganizationDashboardController;
 use App\Core\Organization\Http\Controllers\Web\UsersWebController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,8 +22,10 @@ Route::middleware(['web', 'guest'])
     });
 
 Route::middleware(['web', 'auth'])
-    ->prefix('org')->name('web.org.')
+    ->prefix('org')
+    ->name('web.org.')
     ->group(static function (): void {
-        Route::get('dashboard', [OrgDashboardController::class, 'index'])->name('dashboard');
-        Route::get('users', [UsersWebController::class, 'index'])->name('users.index');
+        Route::get('dashboard', [OrganizationDashboardController::class, 'index'])->name('dashboard');
+
+        Route::resource('users', UsersWebController::class);
     });

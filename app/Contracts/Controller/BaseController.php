@@ -11,6 +11,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\Paginator;
+use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Response;
 
 abstract class BaseController
@@ -80,7 +83,7 @@ abstract class BaseController
                 [],
                 'NOT_FOUND'
             );
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             return $this->response->error(
                 $e->getMessage(),
                 Response::HTTP_BAD_REQUEST,
@@ -95,6 +98,30 @@ abstract class BaseController
                 'INTERNAL_ERROR'
             );
         }
+    }
+
+    public function keyValList(Request $request, string $field, string $key = 'id'): JsonResponse
+    {
+        $includes   = $this->parseIncludes($request);
+        $filters    = $this->parseFilters($request);
+        $sorts      = $this->parseSort($request);
+        $pagination = $this->parsePagination($request);
+
+        $query = $this->repository->newQuery();
+        $query = $this->applyEagerLoading($query, $includes);
+        $query = $this->applyFiltersToQuery($query, $filters);
+        $query = $this->applySortToQuery($query, $sorts);
+        $query = $this->customizeQuery($query, $request);
+
+
+        $results = $query->simplePaginate($pagination['per_page'], [$key, $field]);
+        $transformed = $this->transformer->transformMany($results);
+
+        return $this->response->success(
+            $transformed['data'] ?? $transformed,
+            null,
+            $this->buildPaginationMeta($results)
+        );
     }
 
     protected function parseIncludes(Request $request): array
@@ -129,7 +156,7 @@ abstract class BaseController
         }
 
         if (!empty($invalidIncludes)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf(
                     'Invalid includes: %s. Available: %s',
                     implode(', ', $invalidIncludes),
@@ -284,7 +311,7 @@ abstract class BaseController
         }
 
         if (!empty($invalidFields)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf(
                     'Invalid sort fields: %s. Available: %s',
                     implode(', ', $invalidFields),
@@ -373,24 +400,44 @@ abstract class BaseController
         return $query;
     }
 
-    protected function buildPaginationMeta($paginator): array
+    protected function buildPaginationMeta(LengthAwarePaginator|Paginator $paginator): array
     {
-        return [
+        $meta = [
             'pagination' => [
                 'current_page' => $paginator->currentPage(),
                 'per_page'     => $paginator->perPage(),
-                'total'        => $paginator->total(),
-                'last_page'    => $paginator->lastPage(),
-                'from'         => $paginator->firstItem(),
-                'to'           => $paginator->lastItem(),
             ],
             'links' => [
-                'first' => $paginator->url(1),
-                'last'  => $paginator->url($paginator->lastPage()),
-                'prev'  => $paginator->previousPageUrl(),
-                'next'  => $paginator->nextPageUrl(),
+                'prev' => $paginator->previousPageUrl(),
+                'next' => $paginator->nextPageUrl(),
             ],
         ];
+
+        if ($paginator instanceof LengthAwarePaginator) {
+            $meta['pagination']['total']     = $paginator->total();
+            $meta['pagination']['last_page'] = $paginator->lastPage();
+            $meta['pagination']['from']      = $paginator->firstItem();
+            $meta['pagination']['to']        = $paginator->lastItem();
+
+            $meta['links']['first'] = $paginator->url(1);
+            $meta['links']['last']  = $paginator->url($paginator->lastPage());
+
+            return $meta;
+        }
+
+        $count = $paginator->count();
+        $from  = $count ? (($paginator->currentPage() - 1) * $paginator->perPage()) + 1 : null;
+        $to    = $count && $from !== null ? $from + $count - 1 : null;
+
+        $meta['pagination']['total']     = null;
+        $meta['pagination']['last_page'] = null;
+        $meta['pagination']['from']      = $from;
+        $meta['pagination']['to']        = $to;
+
+        $meta['links']['first'] = $paginator->url(1);
+        $meta['links']['last']  = null;
+
+        return $meta;
     }
 
     protected function beforeIndex(Request $request): void

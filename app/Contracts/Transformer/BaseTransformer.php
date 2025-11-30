@@ -22,6 +22,8 @@ use Psr\Log\LoggerInterface;
 
 abstract class BaseTransformer extends TransformerAbstract implements TransformerInterface
 {
+    protected array $fieldTransformers = [];
+
     public function __construct(
         protected readonly TransformerConfig $config,
         protected readonly FieldTransformerRegistry $registry,
@@ -29,7 +31,14 @@ abstract class BaseTransformer extends TransformerAbstract implements Transforme
         protected readonly Manager $manager,
         protected readonly LoggerInterface $logger,
     ) {
-        // Constructor is now empty - initialization moved to factory
+        $this->registerFieldTransformers();
+    }
+
+    protected function registerFieldTransformers(): void
+    {
+        foreach ($this->fieldTransformers as $field => $transformerClass) {
+            $this->registry->register($field, $transformerClass);
+        }
     }
 
     /**

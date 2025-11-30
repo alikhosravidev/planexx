@@ -40,6 +40,15 @@ export const utilities = {
       console.error('Error loading data:', error);
       return null;
     }
+  },
+
+  /**
+   * Show confirmation dialog
+   * @param {string} message - Confirmation message
+   * @returns {boolean} User's choice
+   */
+  confirm(message) {
+    return window.confirm(message);
   }
 
 };

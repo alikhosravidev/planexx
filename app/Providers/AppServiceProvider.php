@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use function app;
-
 use App\Commands\FetchEntitiesCommand;
 use App\Commands\FetchEnumsCommand;
 use App\Commands\FetchEventsCommand;
@@ -25,22 +23,34 @@ use App\Services\Menu\MenuManager;
 use App\Services\ModuleManager;
 use App\Services\PhpFileBootstrapManager;
 use App\Services\QuickAccess\QuickAccessManager;
+use App\Services\ResourceRegistrar;
 use App\Services\Stats\StatManager;
-use BeyondCode\QueryDetector\QueryDetectorServiceProvider;
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Routing\ResourceRegistrar as BaseResourceRegistrar;
 use Illuminate\Support\ServiceProvider;
+use function app;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->bind(BaseResourceRegistrar::class, ResourceRegistrar::class);
         $this->app->register(QueryServiceProvider::class);
+
+        if (! $this->app->isProduction()) {
+            $this->app->register(TelescopeServiceProvider::class);
+            $this->app->register(IdeHelperServiceProvider::class);
+        }
+
         $this->moduleDiscovery();
+        $this->registerCoreProviders();
+        $this->registerModuleProviders();
+
         $this->registerMenu();
         $this->registerStats();
         $this->registerQuickAccess();
         $this->registerDistribution();
-        $this->registerQueryDetectorService();
 
         // Bind AI Image Service Factory
         //$this->app->singleton('ai_image_service_factory', function ($app) {
@@ -51,8 +61,6 @@ class AppServiceProvider extends ServiceProvider
         //    );
         //});
 
-        $this->registerCoreProviders();
-        $this->registerModuleProviders();
     }
 
     public function boot(): void
@@ -153,18 +161,5 @@ class AppServiceProvider extends ServiceProvider
             return new DistributionManager();
         });
         $this->app->alias(DistributionManager::class, 'distribution');
-    }
-
-    private function registerQueryDetectorService(): void
-    {
-        if ($this->app->isProduction()) {
-            return;
-        }
-
-        if (! class_exists(QueryDetectorServiceProvider::class)) {
-            return;
-        }
-
-        $this->app->register(QueryDetectorServiceProvider::class);
     }
 }

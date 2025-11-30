@@ -8,7 +8,7 @@ use App\Contracts\Registry\RegistrarInterface;
 use App\Contracts\Registry\RegistryManagerInterface;
 use App\Services\QuickAccess\QuickAccessBuilder;
 
-class OrgDashboardQuickAccessRegistrar implements RegistrarInterface
+class OrganizationQuickAccessRegistrar implements RegistrarInterface
 {
     public function register(RegistryManagerInterface $manager): void
     {

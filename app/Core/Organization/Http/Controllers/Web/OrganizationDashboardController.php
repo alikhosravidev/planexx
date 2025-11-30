@@ -14,7 +14,7 @@ use App\Services\Transformer\TransformerFactory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Route;
 
-class OrgDashboardController extends BaseWebController
+class OrganizationDashboardController extends BaseWebController
 {
     public function __construct(
         private readonly StatManager $statManager,

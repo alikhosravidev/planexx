@@ -20,23 +20,23 @@ class OrganizationMenuRegistrar implements MenuRegistrar
         });
 
         $menu->register('org.sidebar', function (MenuBuilder $menu) {
-            $menu->item('داشبورد ماژول', 'org')
-                ->route('org.dashboard')
+            $menu->item('داشبورد ماژول', 'org/dashboard')
+                ->route('web.org.dashboard')
                 ->icon('fa-solid fa-chart-pie')
                 ->order(1);
 
             $menu->item('کارکنان', 'org-employees')
-                ->route('org.users.index', ['type' => 'employee'])
+                ->route('web.org.users.index', ['type' => 'employee'])
                 ->icon('fa-solid fa-user-tie')
                 ->order(2);
 
             $menu->item('مشتریان', 'org-customers')
-                ->route('org.users.index', ['type' => 'customer'])
+                ->route('web.org.users.index', ['type' => 'customer'])
                 ->icon('fa-solid fa-users')
                 ->order(3);
 
             $menu->item('کاربران عادی', 'org-regular-users')
-                ->route('org.users.index', ['type' => 'user'])
+                ->route('web.org.users.index', ['type' => 'user'])
                 ->icon('fa-solid fa-user')
                 ->order(4);
 

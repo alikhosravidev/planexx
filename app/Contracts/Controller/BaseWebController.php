@@ -63,11 +63,26 @@ abstract class BaseWebController
             throw new RuntimeException("API route '{$routeName}' not found");
         }
 
-        // 2. Create a sub-request for this specific route
+        // 2. Build URI with substituted route parameters and proper query string
+        $paramNames  = $route->parameterNames();
+        $routeParams = array_intersect_key($data, array_flip($paramNames));
+        $payload     = array_diff_key($data, $routeParams);
+
+        // Generate a relative URL with all parameters; extra params become query string
+        $generatedUrl = app('url')->route($routeName, $routeParams + $payload, false);
+
+        // Ensure we pass a path (with query) to Request::create
+        $uri         = parse_url($generatedUrl, PHP_URL_PATH) ?: $generatedUrl;
+        $queryString = parse_url($generatedUrl, PHP_URL_QUERY);
+        if ($queryString) {
+            $uri .= '?' . $queryString;
+        }
+
+        // Create a sub-request for this specific route
         $subRequest = Request::create(
-            uri: $route->uri(),
+            uri: $uri,
             method: $method,
-            parameters: $data,
+            parameters: in_array($method, ['GET', 'HEAD'], true) ? [] : $payload,
             server: request()->server->all()
         );
 

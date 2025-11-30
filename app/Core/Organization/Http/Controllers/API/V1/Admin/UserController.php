@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Http\Controllers\API\V1\Admin;
 
-use App\Contracts\Controller\BaseController;
+use App\Contracts\Controller\APIBaseController;
 use App\Core\Organization\Http\Requests\V1\Admin\StoreAddressRequest;
 use App\Core\Organization\Http\Requests\V1\Admin\UpdateAddressRequest;
 use App\Core\Organization\Http\Transformers\V1\Admin\UserTransformer;
 use App\Core\Organization\Repositories\UserRepository;
 use Illuminate\Http\JsonResponse;
 
-class UserController extends BaseController
+class UserController extends APIBaseController
 {
     public function __construct(
         UserRepository               $repository,

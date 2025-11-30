@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Transformer\Steps;
 
+use App\Contracts\Model\BaseModel;
 use App\Contracts\Transformer\TransformationStepInterface;
 use App\Services\Transformer\FieldTransformerRegistry;
 use App\Services\Transformer\TransformationContext;
@@ -31,6 +32,10 @@ readonly class FieldTransformationStep implements TransformationStepInterface
         foreach ($transformedData as $field => $value) {
             if (null === $value) {
                 continue;
+            }
+
+            if ($context->originalModel instanceof BaseModel) {
+                $value = $context->originalModel->{$field};
             }
 
             $transformer = $this->registry->resolve($field);

@@ -22,6 +22,8 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Spatie\Permission\Traits\HasPermissions;
@@ -120,6 +122,21 @@ class User extends BaseModel implements
     public function addresses(): HasMany
     {
         return $this->hasMany(Address::class);
+    }
+
+    public function directManager(): BelongsTo
+    {
+        return $this->belongsTo(self::class, 'direct_manager_id');
+    }
+
+    public function departments(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Department::class,
+            'core_org_user_departments',
+            'user_id',
+            'department_id'
+        )->withPivot('is_primary')->withTimestamps();
     }
 
     public function mobile(): Attribute

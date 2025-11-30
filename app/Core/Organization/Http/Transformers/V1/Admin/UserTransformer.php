@@ -18,14 +18,69 @@ declare(strict_types=1);
 namespace App\Core\Organization\Http\Transformers\V1\Admin;
 
 use App\Contracts\Transformer\BaseTransformer;
+use App\Core\Organization\Entities\User;
 use App\Services\Transformer\FieldTransformers\DateTimeTransformer;
+use App\Services\Transformer\FieldTransformers\EnumTransformer;
+use App\Services\Transformer\FieldTransformers\ValueObjectTransformer;
 
 class UserTransformer extends BaseTransformer
 {
     protected array $fieldTransformers = [
+        'mobile'             => ValueObjectTransformer::class,
+        'email'              => ValueObjectTransformer::class,
+        'user_type'          => EnumTransformer::class,
+        'customer_type'      => EnumTransformer::class,
+        'gender'             => EnumTransformer::class,
         'email_verified_at'  => DateTimeTransformer::class,
         'mobile_verified_at' => DateTimeTransformer::class,
         'last_login_at'      => DateTimeTransformer::class,
         'employment_date'    => DateTimeTransformer::class,
     ];
+
+    protected array $availableIncludes = ['directManager', 'jobPosition', 'departments'];
+
+    public function includeDirectManager(User $user)
+    {
+        if (!$user->direct_manager_id || !$user->relationLoaded('directManager')) {
+            return null;
+        }
+
+        return $this->item($user->directManager, new self(
+            $this->config,
+            $this->registry,
+            $this->extractor,
+            $this->manager,
+            $this->logger
+        ));
+    }
+
+    public function includeJobPosition(User $user)
+    {
+        if (!$user->job_position_id || !$user->relationLoaded('jobPosition')) {
+            return null;
+        }
+
+        return $this->item($user->jobPosition, new JobPositionTransformer(
+            $this->config,
+            $this->registry,
+            $this->extractor,
+            $this->manager,
+            $this->logger
+        ));
+    }
+
+    public function includeDepartments(User $user)
+    {
+        if (!$user->relationLoaded('departments')) {
+            return null;
+        }
+
+        return $this->collection($user->departments, new DepartmentTransformer(
+            $this->config,
+            $this->registry,
+            $this->extractor,
+            $this->manager,
+            $this->logger
+        ));
+    }
 }

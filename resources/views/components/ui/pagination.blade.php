@@ -10,7 +10,7 @@
     'hasNext' => false,
 ])
 
-<div class="px-6 py-4 border-t border-border-light flex items-center justify-between bg-white rounded-b-2xl">
+<div class="px-6 py-4 border-t border-border-light flex items-center justify-between bg-white">
     <div class="text-sm text-text-secondary leading-normal">
         @if($from !== null && $to !== null && $total !== null)
             نمایش <span class="font-semibold text-text-primary">{{ $from }}</span> تا <span class="font-semibold text-text-primary">{{ $to }}</span> از <span class="font-semibold text-text-primary">{{ $total }}</span> {{ $label }}

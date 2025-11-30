@@ -22,14 +22,34 @@ use BackedEnum;
 
 class EnumTransformer implements FieldTransformerInterface
 {
-    public function transform($enum): array
+    public function transform($enum): array|int|string|null
     {
+        if (!is_object($enum) || !$enum instanceof \BackedEnum) {
+            return $enum;
+        }
+
         return [
             'name'  => $enum->name,
             'value' => $enum->value,
             'label' => method_exists($enum, 'label') ? $enum->label() : null,
-            'cases' => $this->getCasesWithValues($enum::class),
+            ...$this->transformExtraMethods($enum),
+            'cases' => $this->getCasesWithValues(get_class($enum)),
         ];
+    }
+
+    /**
+     * Transform multiple enum cases.
+     *
+     * @param array $enums
+     * @return array
+     */
+    public function transformMany(array $enums): array
+    {
+        if (empty($enums)) {
+            return [];
+        }
+
+        return array_map(fn ($enum) => $this->transform($enum), $enums);
     }
 
     private function getCasesWithValues(string $enumClass): array
@@ -43,5 +63,15 @@ class EnumTransformer implements FieldTransformerInterface
             ])
             ->toArray()
         ;
+    }
+
+    private function transformExtraMethods($enum): array
+    {
+        return collect(get_class_methods($enum))
+            ->filter(static fn ($method) => ! in_array($method, ['from', 'tryFrom', 'cases', 'label']))
+            ->mapWithKeys(static fn ($method) => [
+                str($method)->snake()->value() => $enum->{$method}(),
+            ])
+            ->toArray();
     }
 }
