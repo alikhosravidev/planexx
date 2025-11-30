@@ -195,7 +195,7 @@ import './auth/index.js';
 ```javascript
 // ✅ Correct
 const url = window.route('users.store');
-const dashboardUrl = window.route('dashboard');
+const dashboardUrl = window.route('web.dashboard');
 
 // ❌ Wrong - will cause ReferenceError
 const url = route('users.store');

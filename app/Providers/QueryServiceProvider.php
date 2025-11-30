@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Core\Organization\Services\Query\DepartmentQueryServiceImplementation;
-use App\Core\Organization\Services\Query\UserQueryServiceImplementation;
+use App\Core\Organization\Services\Query\UserQueryImplementation;
 use App\Domains\Department\DepartmentQuery;
 use App\Domains\User\UserQuery;
 use App\Services\QueryServiceLocator;
@@ -19,7 +19,7 @@ class QueryServiceProvider extends ServiceProvider
     ];
 
     private array $implementations = [
-        UserQuery::class       => UserQueryServiceImplementation::class,
+        UserQuery::class       => UserQueryImplementation::class,
         DepartmentQuery::class => DepartmentQueryServiceImplementation::class,
     ];
 

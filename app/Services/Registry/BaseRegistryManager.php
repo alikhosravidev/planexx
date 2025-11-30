@@ -26,7 +26,7 @@ abstract class BaseRegistryManager implements RegistryManagerInterface
 
         $this->cacheEnabled = (bool) $this->getConfig("{$configKey}.cache_enabled", true);
         $this->cacheTtl     = (int) $this->getConfig("{$configKey}.cache_ttl", 3600);
-        $this->cachePrefix  = (string) $this->getConfig("{$configKey}.cache_prefix", $this->getDefaultCachePrefix());
+        $this->cachePrefix  = $this->getDefaultCachePrefix();
     }
 
     protected function getConfig(string $key, mixed $default = null): mixed

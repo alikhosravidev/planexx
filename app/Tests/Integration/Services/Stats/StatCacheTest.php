@@ -17,6 +17,7 @@ final class StatCacheTest extends IntegrationTestBase
     {
         parent::setUp();
         $this->manager = new StatManager();
+        $this->manager->withCache();
         Cache::flush();
     }
 

@@ -17,6 +17,7 @@ final class QuickAccessCacheTest extends IntegrationTestBase
     {
         parent::setUp();
         $this->manager = new QuickAccessManager();
+        $this->manager->withCache();
         Cache::flush();
     }
 

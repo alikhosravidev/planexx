@@ -187,7 +187,7 @@ $item = QuickAccessItem::make('عنوان', 'id')
 ```php
 $menu->register('dashboard.sidebar', function (MenuBuilder $menu) {
     $menu->item('داشبورد', 'dashboard')
-        ->route('dashboard')
+        ->route('web.dashboard')
         ->icon('fa-solid fa-chart-line')
         ->order(1);
 

@@ -15,7 +15,7 @@ class MenuManager extends BaseRegistryManager
 {
     protected function getConfigKey(): string
     {
-        return 'services.menu';
+        return 'services.registry';
     }
 
     protected function getDefaultCachePrefix(): string
@@ -155,5 +155,12 @@ class MenuManager extends BaseRegistryManager
         }
 
         return array_values(array_unique($names));
+    }
+
+    public function getTransformed(string $registryName): Collection
+    {
+        $items = $this->get($registryName);
+
+        return $items->map(fn ($item) => $item->toArray());
     }
 }

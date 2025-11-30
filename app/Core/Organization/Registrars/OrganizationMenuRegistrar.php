@@ -14,7 +14,7 @@ class OrganizationMenuRegistrar implements MenuRegistrar
     {
         $menu->register('dashboard.sidebar', function (MenuBuilder $menu) {
             $menu->item('ساختار سازمانی', 'org')
-                ->route('org.dashboard')
+                ->route('web.org.dashboard')
                 ->icon('fa-solid fa-sitemap')
                 ->order(2);
         });

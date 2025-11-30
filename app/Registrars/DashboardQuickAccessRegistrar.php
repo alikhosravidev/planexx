@@ -14,44 +14,44 @@ class DashboardQuickAccessRegistrar implements RegistrarInterface
     {
         $manager->register('dashboard.quick-access', function (QuickAccessBuilder $builder) {
             $builder->item('ساختار سازمانی', 'organization')
-                ->route('org.dashboard')
+                ->route('web.org.dashboard')
                 ->icon('fa-solid fa-sitemap')
                 ->color('blue')
-                ->enabled(true)
+                ->enabled()
                 ->order(1);
 
-            $builder->item('مدیریت کاربران', 'users')
-                ->route('org.users.index', ['type' => 'employee'])
-                ->icon('fa-solid fa-user-tie')
-                ->color('green')
-                ->enabled(true)
+            $builder->item('مدیریت اسناد و فایل‌ها', 'document')
+                ->route('#')
+                ->icon('fa-solid fa-folder-open')
+                ->color('amber')
+                ->enabled(false)
                 ->order(2);
 
-            $builder->item('دپارتمان‌ها', 'departments')
-                ->url('/dashboard/org/departments/list.php')
-                ->icon('fa-solid fa-building')
-                ->color('purple')
-                ->enabled(true)
+            $builder->item('مدیریت وظایف', 'task-manager')
+                ->url('#')
+                ->icon('fa-solid fa-list-check')
+                ->color('indigo')
+                ->enabled(false)
                 ->order(3);
 
-            $builder->item('گزارشات', 'reports')
+            $builder->item('پایگاه تجربه سازمانی', 'okb')
                 ->url('#')
-                ->icon('fa-solid fa-chart-bar')
-                ->color('orange')
+                ->icon('fa-solid fa-book')
+                ->color('teal')
                 ->enabled(false)
                 ->order(4);
 
-            $builder->item('تنظیمات', 'settings')
+            $builder->item('مالی و وصول مطالبات', 'receivable')
                 ->url('#')
-                ->icon('fa-solid fa-cog')
-                ->color('gray')
+                ->icon('fa-solid fa-coins')
+                ->color('green')
                 ->enabled(false)
                 ->order(5);
 
-            $builder->item('پشتیبانی', 'support')
+            $builder->item('CRM', 'crm')
                 ->url('#')
-                ->icon('fa-solid fa-headset')
-                ->color('teal')
+                ->icon('fa-solid fa-users-line')
+                ->color('purple')
                 ->enabled(false)
                 ->order(6);
         });

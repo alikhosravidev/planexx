@@ -1,11 +1,11 @@
 @props([
-    'menuName' => 'dashboard.sidebar',
+    'name',
     'currentPage' => null,
     'headerVariant' => 'brand', // 'brand' or 'back'
     'brandTitle' => config('app.name'),
     'brandSubtitle' => 'سیستم یکپارچه درون سازمانی',
     'brandIcon' => 'fa-solid fa-network-wired',
-    'backHref' => route('dashboard'),
+    'backHref' => route('web.dashboard'),
     'backPrefix' => 'بازگشت به',
     'backTitle' => 'داشبورد اصلی',
     'backIcon' => 'fa-solid fa-arrow-right',
@@ -14,7 +14,7 @@
 ])
 
 @php
-    $menuItems = app('menu')->get($menuName);
+    $menuItems = app('menu')->getTransformed($name);
 @endphp
 
 <aside class="hidden lg:flex flex-col w-[280px] bg-bg-primary border-l border-border-light h-screen sticky top-0">
@@ -31,7 +31,7 @@
                 </div>
             </a>
         @else
-            <a href="{{ route('dashboard') }}" class="flex items-center gap-3 mb-2">
+            <a href="{{ route('web.dashboard') }}" class="flex items-center gap-3 mb-2">
                 <div class="w-12 h-12 bg-gradient-to-br from-primary to-slate-700 rounded-lg flex items-center justify-center">
                     <i class="{{ $brandIcon }} text-white text-xl"></i>
                 </div>
@@ -55,15 +55,15 @@
     <nav class="flex-1 overflow-y-auto px-3 py-4">
         <div class="space-y-1">
             @foreach ($menuItems as $item)
-                <a href="{{ $item->getUrl() }}"
+                <a href="{{ $item['url'] }}"
                     @class([
                         'flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-all duration-200',
-                        'bg-primary text-white shadow-sm' => $currentPage === $item->getId(),
-                        'text-text-secondary hover:bg-bg-secondary hover:text-text-primary' => $currentPage !== $item->getId(),
+                        'bg-primary text-white shadow-sm' => $currentPage === $item['id'],
+                        'text-text-secondary hover:bg-bg-secondary hover:text-text-primary' => $currentPage !== $item['id'],
                     ])>
-                    <i class="{{ $item->toArray()['icon'] }} w-5 text-center text-lg"></i>
-                    <span class="leading-normal">{{ $item->toArray()['title'] }}</span>
-                    @if ($currentPage === $item->getId())
+                    <i class="{{ $item['icon'] }} w-5 text-center text-lg"></i>
+                    <span class="leading-normal">{{ $item['title'] }}</span>
+                    @if ($currentPage === $item['id'])
                         <div class="mr-auto w-1.5 h-1.5 bg-white rounded-full"></div>
                     @endif
                 </a>
@@ -108,14 +108,14 @@
     <nav class="overflow-y-auto px-3 py-4" style="height: calc(100vh - 150px);">
         <div class="space-y-1">
             @foreach ($menuItems as $item)
-                <a href="{{ $item->getUrl() }}"
+                <a href="{{ $item['url'] }}"
                     @class([
                         'flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-all duration-200',
-                        'bg-primary text-white shadow-sm' => $currentPage === $item->getId(),
-                        'text-text-secondary hover:bg-bg-secondary hover:text-text-primary' => $currentPage !== $item->getId(),
+                        'bg-primary text-white shadow-sm' => $currentPage === $item['id'],
+                        'text-text-secondary hover:bg-bg-secondary hover:text-text-primary' => $currentPage !== $item['id'],
                     ])>
-                    <i class="{{ $item->toArray()['icon'] }} w-5 text-center text-lg"></i>
-                    <span class="leading-normal">{{ $item->toArray()['title'] }}</span>
+                    <i class="{{ $item['icon'] }} w-5 text-center text-lg"></i>
+                    <span class="leading-normal">{{ $item['title'] }}</span>
                 </a>
             @endforeach
         </div>

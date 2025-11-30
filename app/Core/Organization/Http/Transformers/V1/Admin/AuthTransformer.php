@@ -33,7 +33,7 @@ class AuthTransformer extends BaseTransformer
                 'next_step'       => $model->nextStep,
                 'identifier'      => $model->identifier?->value,
                 'identifier_type' => $model->identifier?->type->value,
-                'redirect_url'    => route('dashboard'),
+                'redirect_url'    => route('web.dashboard'),
             ];
         }
 
@@ -45,7 +45,7 @@ class AuthTransformer extends BaseTransformer
             'token_type'      => $model->token?->type,
             'success'         => $model->token !== null,
             'is_registered'   => $model->isRegistered,
-            'redirect_url'    => route('dashboard'),
+            'redirect_url'    => route('web.dashboard'),
         ];
     }
 }

@@ -548,7 +548,7 @@ Create `resources/views/components/dashboard/sidebar.blade.php`:
 <aside class="w-64 bg-white border-l border-border-light flex flex-col">
     <!-- Logo -->
     <div class="p-6 border-b border-border-light">
-        <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
+        <a href="{{ route('web.dashboard') }}" class="flex items-center gap-3">
             <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
                 <i class="fa-solid fa-layer-group text-white text-xl"></i>
             </div>
@@ -560,7 +560,7 @@ Create `resources/views/components/dashboard/sidebar.blade.php`:
     <nav class="flex-1 p-4 overflow-y-auto">
         <div class="space-y-1">
             <!-- Dashboard -->
-            <a href="{{ route('dashboard') }}" 
+            <a href="{{ route('web.dashboard') }}" 
                @class([
                    'flex items-center gap-3 px-4 py-3 rounded-xl transition-colors',
                    'bg-primary text-white' => $currentPage === 'dashboard',

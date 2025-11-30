@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domains\User;
 
 use App\Contracts\QueryInterface;
+use App\Core\Organization\Enums\UserTypeEnum;
 use App\Domains\Department\DepartmentId;
 use App\ValueObjects\Email;
 use App\ValueObjects\Mobile;
@@ -33,4 +34,8 @@ interface UserQuery extends QueryInterface
     public function getUsersByDepartment(DepartmentId $departmentId): UserDTOCollection;
 
     public function countActiveUsers(): int;
+
+    public function countActiveUsersByType(UserTypeEnum $userType): int;
+
+    public function getActiveUserStats(): ActiveUserStatsDTO;
 }

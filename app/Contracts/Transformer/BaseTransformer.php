@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Contracts\Transformer;
 
 use App\Contracts\Model\BaseModel;
+use App\Contracts\Model\BaseModelContract;
 use App\Services\Transformer\FieldTransformerRegistry;
 use App\Services\Transformer\ModelTransformationContext;
 use App\Services\Transformer\Steps\BlacklistFilterStep;
@@ -212,7 +213,7 @@ abstract class BaseTransformer extends TransformerAbstract implements Transforme
      */
     public function transformOne($model, ?string $resourceKey = null): array
     {
-        if ($model instanceof BaseModel) {
+        if ($model instanceof BaseModelContract) {
             return $this->transform($model);
         }
 

@@ -28,20 +28,20 @@ use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * @property int                          $id
- * @property int|null                     $direct_manager_id
- * @property string                       $full_name
- * @property string                       $first_name
- * @property string                       $last_name
- * @property Mobile                       $mobile
- * @property UserTypeEnum                 $user_type
- * @property CustomerTypeEnum|null        $customer_type
- * @property Email|null                   $email
- * @property string|null                  $national_code
- * @property GenderEnum|null              $gender
- * @property string|null                  $image_url
- * @property int|null                     $address_id
- * @property bool                         $is_active
+ * @property int                         $id
+ * @property int|null                    $direct_manager_id
+ * @property string                      $full_name
+ * @property string                      $first_name
+ * @property string                      $last_name
+ * @property Mobile                      $mobile
+ * @property UserTypeEnum                $user_type
+ * @property CustomerTypeEnum|null       $customer_type
+ * @property Email|null                  $email
+ * @property string|null                 $national_code
+ * @property GenderEnum|null             $gender
+ * @property string|null                 $image_url
+ * @property int|null                    $address_id
+ * @property bool                        $is_active
  * @property \Carbon\Carbon|null         $birth_date
  * @property \Carbon\Carbon|null         $mobile_verified_at
  * @property \Carbon\Carbon|null         $email_verified_at

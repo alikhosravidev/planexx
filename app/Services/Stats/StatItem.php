@@ -26,7 +26,7 @@ class StatItem extends BaseRegistryItem
         return 'stat-';
     }
 
-    public function value(string|int|float|Closure $value): static
+    public function value(string|int|float $value): static
     {
         $this->value = $value;
 

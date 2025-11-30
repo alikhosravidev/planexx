@@ -37,7 +37,7 @@
 ```php
 app('menu')->register('dashboard.sidebar', function ($menu) {
     $menu->item('داشبورد', 'dashboard')
-        ->route('dashboard')
+        ->route('web.dashboard')
         ->icon('fa-solid fa-chart-line')
         ->order(1);
         

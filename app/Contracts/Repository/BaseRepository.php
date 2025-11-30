@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Contracts\Repository;
 
 use App\Contracts\Model\BaseModel;
+use App\Contracts\Model\BaseModelContract;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -13,7 +14,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 abstract class BaseRepository implements RepositoryInterface
 {
-    protected BaseModel $model;
+    protected BaseModelContract $model;
     protected Builder $query;
     protected Collection $criteria;
 
@@ -32,8 +33,8 @@ abstract class BaseRepository implements RepositoryInterface
     {
         $model = app($this->model());
 
-        if (!$model instanceof BaseModel) {
-            $baseModelClass = BaseModel::class;
+        if (!$model instanceof BaseModelContract) {
+            $baseModelClass = BaseModelContract::class;
 
             throw new Exception("Class {$this->model()} must be an instance of {$baseModelClass}");
         }

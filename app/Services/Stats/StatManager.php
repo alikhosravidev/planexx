@@ -6,12 +6,13 @@ namespace App\Services\Stats;
 
 use App\Contracts\Registry\RegistryBuilderInterface;
 use App\Services\Registry\BaseRegistryManager;
+use Illuminate\Support\Collection;
 
 class StatManager extends BaseRegistryManager
 {
     protected function getConfigKey(): string
     {
-        return 'services.stats';
+        return 'services.registry';
     }
 
     protected function getDefaultCachePrefix(): string
@@ -24,4 +25,10 @@ class StatManager extends BaseRegistryManager
         return new StatBuilder();
     }
 
+    public function getTransformed(string $registryName): Collection
+    {
+        $items = $this->get($registryName);
+
+        return $items->map(fn ($item) => $item->toArray());
+    }
 }

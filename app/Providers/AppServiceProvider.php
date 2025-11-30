@@ -6,6 +6,9 @@ namespace App\Providers;
 
 use function app;
 
+use App\Commands\FetchEntitiesCommand;
+use App\Commands\FetchEnumsCommand;
+use App\Commands\FetchEventsCommand;
 use App\Commands\PrepareParallelTests;
 use App\Contracts\BootstrapFileManagerInterface;
 use App\Contracts\ModuleDiscoveryInterface;
@@ -13,11 +16,17 @@ use App\Core\BPMS\Providers\BPMSServiceProvider;
 use App\Core\FormEngine\Providers\FormEngineServiceProvider;
 use App\Core\Notify\Providers\NotifyServiceProvider;
 use App\Core\Organization\Providers\OrganizationServiceProvider;
-use App\Registrars\CoreDashboardMenuRegistrar;
+use App\Registrars\DashboardMenuRegistrar;
+use App\Registrars\DashboardQuickAccessRegistrar;
+use App\Registrars\DashboardStatsRegistrar;
+use App\Services\Distribution\DistributionManager;
 use App\Services\FilesystemModuleDiscovery;
 use App\Services\Menu\MenuManager;
 use App\Services\ModuleManager;
 use App\Services\PhpFileBootstrapManager;
+use App\Services\QuickAccess\QuickAccessManager;
+use App\Services\Stats\StatManager;
+use BeyondCode\QueryDetector\QueryDetectorServiceProvider;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,6 +37,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(QueryServiceProvider::class);
         $this->moduleDiscovery();
         $this->registerMenu();
+        $this->registerStats();
+        $this->registerQuickAccess();
+        $this->registerDistribution();
+        $this->registerQueryDetectorService();
 
         // Bind AI Image Service Factory
         //$this->app->singleton('ai_image_service_factory', function ($app) {
@@ -46,8 +59,13 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->commands(
             PrepareParallelTests::class,
+            FetchEntitiesCommand::class,
+            FetchEnumsCommand::class,
+            FetchEventsCommand::class
         );
-        app('menu')->registerBy(CoreDashboardMenuRegistrar::class);
+        app('menu')->registerBy(DashboardMenuRegistrar::class);
+        app('stat')->registerBy(DashboardStatsRegistrar::class);
+        app('quick-access')->registerBy(DashboardQuickAccessRegistrar::class);
     }
 
     private function registerCoreProviders(): void
@@ -111,5 +129,42 @@ class AppServiceProvider extends ServiceProvider
             return new MenuManager();
         });
         $this->app->alias(MenuManager::class, 'menu');
+    }
+
+    private function registerStats(): void
+    {
+        $this->app->singleton(StatManager::class, function () {
+            return new StatManager();
+        });
+        $this->app->alias(StatManager::class, 'stat');
+    }
+
+    private function registerQuickAccess(): void
+    {
+        $this->app->singleton(QuickAccessManager::class, function () {
+            return new QuickAccessManager();
+        });
+        $this->app->alias(QuickAccessManager::class, 'quick-access');
+    }
+
+    private function registerDistribution(): void
+    {
+        $this->app->singleton(DistributionManager::class, function () {
+            return new DistributionManager();
+        });
+        $this->app->alias(DistributionManager::class, 'distribution');
+    }
+
+    private function registerQueryDetectorService(): void
+    {
+        if ($this->app->isProduction()) {
+            return;
+        }
+
+        if (! class_exists(QueryDetectorServiceProvider::class)) {
+            return;
+        }
+
+        $this->app->register(QueryDetectorServiceProvider::class);
     }
 }
