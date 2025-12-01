@@ -79,13 +79,13 @@
             'variant' => 'danger',
             'tooltip' => 'حذف',
             'data_attrs' => [
-                'data-action' => 'delete',
+                'data-ajax' => '',
                 'data-confirm' => 'آیا از حذف این مشتری اطمینان دارید؟',
-                'data-url' => function($row) {
+                'action' => function($row) {
                     return route('api.v1.admin.org.users.destroy', ['user' => $row['id']]);
                 },
                 'data-method' => 'DELETE',
-                'data-redirect' => 'reload'
+                'data-on-success' => 'reload'
             ],
         ],
     ];

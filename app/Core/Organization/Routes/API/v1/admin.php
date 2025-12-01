@@ -7,7 +7,7 @@ use App\Core\Organization\Http\Controllers\API\V1\Admin\AuthAPIController;
 use App\Core\Organization\Http\Controllers\API\V1\Admin\CityAPIController;
 use App\Core\Organization\Http\Controllers\API\V1\Admin\DepartmentAPIController;
 use App\Core\Organization\Http\Controllers\API\V1\Admin\JobPositionAPIController;
-use App\Core\Organization\Http\Controllers\API\V1\Admin\UserControllerAPI;
+use App\Core\Organization\Http\Controllers\API\V1\Admin\UserAPIController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('api/v1/admin')
@@ -17,7 +17,7 @@ Route::prefix('api/v1/admin')
             ->name('org.')
             ->prefix('org')
             ->group(function () {
-                Route::apiResource('users', UserControllerAPI::class);
+                Route::apiResource('users', UserAPIController::class);
                 Route::apiResource('departments', DepartmentAPIController::class);
 
                 Route::apiResource('addresses', AddressAPIController::class);

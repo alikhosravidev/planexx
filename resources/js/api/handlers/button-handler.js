@@ -23,6 +23,7 @@ export const getButtonConfig = (button) => {
   const loadingClass = button.getAttribute('data-loading-class') || '';
   const showMessage = button.getAttribute('data-show-message') !== 'false';
   const afterSuccessAction = button.getAttribute('custom-action');
+  const confirmMessage = button.getAttribute('data-confirm');
 
   const actions = actionsStr
     .split(/[,\s]+/)
@@ -36,6 +37,7 @@ export const getButtonConfig = (button) => {
     loadingClass,
     showMessage,
     afterSuccessAction,
+    confirmMessage,
   };
 };
 
@@ -104,7 +106,11 @@ export const handleButtonClick = async (event) => {
   const config = getButtonConfig(button);
 
   if (!config.action) {
-    console.error('Button action URL not found. Add data-action attribute.');
+    console.error('Button action URL not found. Add data-action or action attribute.');
+    return;
+  }
+
+  if (config.confirmMessage && !window.confirm(config.confirmMessage)) {
     return;
   }
 

@@ -127,13 +127,13 @@
             'variant' => 'danger',
             'tooltip' => 'حذف',
             'data_attrs' => [
-                'data-action' => 'delete',
+                'data-ajax' => '',
                 'data-confirm' => 'آیا از حذف این کارمند اطمینان دارید؟',
-                'data-url' => function($row) {
+                'data-action' => function($row) {
                     return route('api.v1.admin.org.users.destroy', ['user' => $row['id']]);
                 },
                 'data-method' => 'DELETE',
-                'data-redirect' => 'reload'
+                'data-on-success' => 'reload'
             ],
         ],
     ];

@@ -6,6 +6,7 @@
  */
 
 import axios from 'axios';
+import {getCookie} from "@/utils/cookie.js";
 
 /**
  * Get CSRF token from meta tag or cookie
@@ -53,6 +54,11 @@ const createHttpClient = () => {
         if (csrfToken) {
           config.headers['X-CSRF-TOKEN'] = csrfToken;
         }
+      }
+
+      const token = getCookie('token');
+      if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
       }
 
       // Token is automatically sent via HttpOnly cookie by the browser

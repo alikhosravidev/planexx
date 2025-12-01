@@ -15,8 +15,6 @@ document.addEventListener(
     () => {
         // Initialize global UI components
         uiComponents.initModals();
-        uiComponents.initModalForms();
-        uiComponents.initActionButtons();
         uiComponents.initDropdowns();
         uiComponents.initAlerts();
         uiComponents.initMobileMenu();
