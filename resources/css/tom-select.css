@@ -1,0 +1,166 @@
+/* Tom Select Custom Styles - مطابق با طراحی پروژه */
+
+.ts-wrapper {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+}
+
+/* استایل control مطابق با input فیلتر بار */
+.ts-wrapper .ts-control {
+    flex: 1;
+    padding: 0.875rem 1rem;
+    font-size: 0.9375rem;
+    color: var(--color-text-primary);
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+    line-height: normal;
+    border: none;
+    min-height: auto;
+    box-shadow: none;
+}
+
+.ts-wrapper.single .ts-control {
+    display: flex;
+    align-items: center;
+}
+
+/* مخفی کردن input جستجو */
+.ts-wrapper .ts-control input {
+    display: none !important;
+}
+
+/* نمایش آیتم انتخاب شده */
+.ts-wrapper .ts-control .item {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: 0.9375rem;
+}
+
+/* Placeholder */
+.ts-wrapper .ts-control::after {
+    content: attr(data-placeholder);
+    color: var(--color-text-secondary);
+    opacity: 0.7;
+}
+
+.ts-wrapper.has-items .ts-control::after {
+    display: none;
+}
+
+/* دراپ‌داون Tom Select */
+.ts-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: white;
+    border: 1px solid var(--color-border-medium);
+    border-radius: 0.75rem;
+    margin-top: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    max-height: 300px;
+    overflow-y: auto;
+    font-family: 'Sahel', sans-serif;
+}
+
+/* آیتم‌های دراپ‌داون */
+.ts-dropdown .option {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9375rem;
+    color: var(--color-text-primary);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.ts-dropdown .option:last-child {
+    border-bottom: none;
+}
+
+.ts-dropdown .option:hover,
+.ts-dropdown .option.active {
+    background-color: var(--color-bg-hover, #f3f4f6);
+}
+
+.ts-dropdown .option.selected {
+    background-color: var(--color-primary-light, #eff6ff);
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+/* حالت خالی */
+.ts-dropdown .no-results {
+    padding: 1rem;
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+}
+
+/* اسکرول‌بار دراپ‌داون */
+.ts-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.ts-dropdown::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+    border-radius: 0.75rem;
+}
+
+.ts-dropdown::-webkit-scrollbar-thumb {
+    background: var(--color-border-dark);
+    border-radius: 0.75rem;
+}
+
+.ts-dropdown::-webkit-scrollbar-thumb:hover {
+    background: var(--color-secondary);
+}
+
+/* حالت فوکوس */
+.ts-wrapper.focus .ts-control {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* حالت غیرفعال */
+.ts-wrapper.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* برای سلکت‌های داخل فیلتر بار */
+.ts-wrapper.in-filter-bar {
+    position: static;
+}
+
+.ts-wrapper.in-filter-bar .ts-dropdown {
+    min-width: 200px;
+}
+
+/* RTL Support */
+[dir="rtl"] .ts-dropdown {
+    text-align: right;
+}
+
+/* انیمیشن ظاهر شدن دراپ‌داون */
+.ts-dropdown {
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

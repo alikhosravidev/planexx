@@ -46,10 +46,25 @@
     }
 
     $quickActions = [
+        /*TODO: develop user actions */
         ['label' => 'بازنشانی رمز عبور', 'icon' => 'fa-solid fa-key', 'variant' => 'default'],
         ['label' => 'ارسال ایمیل', 'icon' => 'fa-solid fa-envelope', 'variant' => 'default'],
         ['label' => 'مسدود کردن کاربر', 'icon' => 'fa-solid fa-ban', 'variant' => 'default'],
-        ['label' => 'حذف کاربر', 'icon' => 'fa-solid fa-trash', 'variant' => 'danger'],
+        [
+            'label' => 'حذف کاربر',
+            'icon' => 'fa-solid fa-trash',
+            'type' => 'button',
+            'variant' => 'danger',
+            'data_attrs' => [
+                'data-action' => 'delete',
+                'data-confirm' => 'آیا از حذف این کارمند اطمینان دارید؟',
+                'data-url' => function($row) {
+                    return route('api.v1.admin.org.users.destroy', ['user' => $row['id']]);
+                },
+                'data-method' => 'DELETE',
+                'data-redirect' => 'reload'
+            ],
+        ],
     ];
 @endphp
 
@@ -103,6 +118,7 @@
                         <x-ui.quick-actions
                             title="عملیات سریع"
                             :actions="$quickActions"
+                            :row="$user"
                         />
                     </div>
 

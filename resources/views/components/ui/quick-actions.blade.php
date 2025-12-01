@@ -1,6 +1,7 @@
 @props([
     'title' => 'عملیات سریع',
     'actions' => [], // [['label' => '...', 'icon' => 'fa-solid fa-key', 'variant' => 'default'|'danger', 'href' => '#']]
+    'row' => null,
 ])
 
 @php
@@ -22,6 +23,11 @@
                 $variant = $action['variant'] ?? 'default';
                 $href = $action['href'] ?? null;
                 $classes = $variantClasses($variant);
+                $dataAttrs = $action['data_attrs'] ?? [];
+                $resolvedAttrs = [];
+                foreach ($dataAttrs as $attrKey => $attrVal) {
+                    $resolvedAttrs[$attrKey] = is_callable($attrVal) ? $attrVal($row) : $attrVal;
+                }
             @endphp
             @if($href)
                 <a href="{{ $href }}" class="{{ $classes }}">
@@ -31,7 +37,7 @@
                     <span>{{ $label }}</span>
                 </a>
             @else
-                <button type="button" class="{{ $classes }}">
+                <button type="button" class="{{ $classes }}" @foreach($resolvedAttrs as $k => $v) {{ $k }}="{{ $v }}" @endforeach>
                     @if($icon)
                         <i class="{{ $icon }}"></i>
                     @endif
@@ -41,3 +47,4 @@
         @endforeach
     </div>
 </div>
+
