@@ -12,7 +12,7 @@
     <div class="flex items-stretch">
         @if($label)
             <label for="{{ $name }}"
-                   class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal">
+                {{ $attributes->merge(['class' => 'bg-bg-label border-l border-border-light px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal']) }}>
                 {{ $label }}
                 @if($required)
                     <span class="text-red-500">*</span>

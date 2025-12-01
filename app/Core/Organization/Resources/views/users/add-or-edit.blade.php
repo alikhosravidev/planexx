@@ -18,10 +18,11 @@
         ['label' => $pageTitle],
     ];
 
-    $actionButtons = [
-        ['label' => 'مشاهده جزئیات', 'url' => route('web.org.users.show', ['user' => $user['id'] ?? null]), 'icon' => 'fa-solid fa-eye', 'type' => 'outline'],
-        ['label' => 'بازگشت', 'url' => $listUrl, 'icon' => 'fa-solid fa-arrow-right', 'type' => 'outline'],
-    ];
+    $actionButtons = [];
+    if (isset($user)) {
+        $actionButtons[] = ['label' => 'مشاهده جزئیات', 'url' => route('web.org.users.show', ['user' => $user['id'] ?? null]), 'icon' => 'fa-solid fa-eye', 'type' => 'outline'];
+    }
+    $actionButtons[] = ['label' => 'بازگشت', 'url' => $listUrl, 'icon' => 'fa-solid fa-arrow-right', 'type' => 'outline'];
 
     $genderValue = $user['gender']['value'] ?? null; // 1 => male, 2 => female (assumed)
     $isActive = !empty($user['is_active']);
@@ -38,33 +39,32 @@
         />
 
         <main class="flex-1 flex flex-col">
-            <x-dashboard.module-header
+            <x-dashboard.header
                 :page-title="$pageTitle"
                 :breadcrumbs="$breadcrumbs"
-                :action-buttons="$actionButtons"
+                :actions="$actionButtons"
             />
 
             <div class="flex-1 p-6 lg:p-8">
                 <form data-ajax
-                      data-method="PUT"
-                      action="{{ route('api.v1.admin.org.users.update', ['user' => $user['id'] ?? null]) }}"
+                      data-method="{{ isset($user) ? 'PUT' : 'POST' }}"
+                      action="{{ isset($user) ? route('api.v1.admin.org.users.update', ['user' => $user['id'] ?? null]) : route('api.v1.admin.org.users.store') }}"
                       data-on-success="redirect"
                       enctype="multipart/form-data"
                       class="space-y-6">
                     @csrf
-                    @method('PUT')
 
                     <div class="bg-bg-primary border border-border-light rounded-2xl p-6 mb-6">
                         <h2 class="text-lg font-semibold text-text-primary leading-snug mb-6">اطلاعات پایه</h2>
 
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            <x-forms.input name="full_name" :value="$user['full_name'] ?? ''" label="نام کامل" required />
-                            <x-forms.input name="first_name" :value="$user['first_name'] ?? ''" label="نام" />
-                            <x-forms.input name="last_name" :value="$user['last_name'] ?? ''" label="نام خانوادگی" />
-                            <x-forms.input name="mobile" type="tel" dir="ltr" :value="$user['mobile'] ?? ''" label="شماره موبایل" required />
-                            <x-forms.input name="email" type="email" dir="ltr" :value="$user['email'] ?? ''" label="ایمیل" />
-                            <x-forms.input name="national_code" maxlength="10" dir="ltr" :value="$user['national_code'] ?? ''" label="کد ملی" />
-                            <x-forms.select name="gender" label="جنسیت" :value="$genderValue" class="min-w-[140px]"
+                            <x-forms.input class="min-w-[140px]" name="full_name" :value="$user['full_name'] ?? ''" label="نام کامل" required />
+                            <x-forms.input class="min-w-[140px]" name="first_name" :value="$user['first_name'] ?? ''" label="نام" />
+                            <x-forms.input class="min-w-[140px]" name="last_name" :value="$user['last_name'] ?? ''" label="نام خانوادگی" />
+                            <x-forms.input class="min-w-[140px]" name="mobile" type="tel" :value="$user['mobile'] ?? ''" label="شماره موبایل" required />
+                            <x-forms.input class="min-w-[140px]" name="email" type="email" :value="$user['email'] ?? ''" label="ایمیل" />
+                            <x-forms.input class="min-w-[140px]" name="national_code" maxlength="10" :value="$user['national_code'] ?? ''" label="کد ملی" />
+                            <x-forms.select class="min-w-[140px]" name="gender" label="جنسیت" :value="$genderValue" class="min-w-[140px]"
                                 :options="[1 => 'مرد', 2 => 'زن']" />
                             <x-forms.date name="birth_date" :value="$user['birth_date'] ?? null" label="تاریخ تولد" />
                         </div>
@@ -75,12 +75,12 @@
 
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             @php
-                                $userTypeValue = $user['user_type']['name'] ?? 'User';
+                                $userTypeValue = $user['user_type']['name'] ?? ucfirst(request('user_type')) ?? 'User';
                             @endphp
                             <x-forms.select name="user_type" label="نوع کاربر" required :value="$userTypeValue" class="min-w-[140px]"
                                 :options="['User' => 'کاربر عادی', 'Customer' => 'مشتری', 'Employee' => 'کارمند']"/>
 
-                            <x-forms.input name="password" type="password" label="رمز عبور جدید" placeholder="خالی بگذارید اگر تغییری نمی‌خواهید" dir="ltr" />
+                            <x-forms.input class="min-w-[140px]" name="password" type="password" label="رمز عبور جدید" placeholder="خالی بگذارید اگر تغییری نمی‌خواهید" />
 
                             <div class="lg:col-span-2">
                                 <x-forms.radio name="is_active" label="وضعیت کاربر" :value="$isActive ? '1' : '0'"
@@ -89,12 +89,13 @@
                         </div>
                     </div>
 
+                    {{--TODO: store employee data--}}
                     @if($userType === 'Employee')
                         <div class="bg-bg-primary border border-border-light rounded-2xl p-6">
                             <h2 class="text-lg font-semibold text-text-primary leading-snug mb-6">اطلاعات استخدامی</h2>
 
                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                <x-forms.input name="employee_code" :value="$user['employee_code'] ?? ''" label="کد پرسنلی" />
+                                <x-forms.input class="min-w-[140px]" name="employee_code" :value="$user['employee_code'] ?? ''" label="کد پرسنلی" />
 
                                 @php
                                     $jobPositionId = $user['job_position']['id'] ?? null;
@@ -120,6 +121,7 @@
                         </div>
                     @endif
 
+                    {{--TODO: store user avatar--}}
                     <div class="bg-bg-primary border border-border-light rounded-2xl p-6">
                         <x-ui.profile-image-upload :value="$user['image_url'] ?? null" standalone/>
                     </div>

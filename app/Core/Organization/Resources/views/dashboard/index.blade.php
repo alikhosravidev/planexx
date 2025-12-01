@@ -13,7 +13,7 @@
         />
 
         <main class="flex-1 flex flex-col">
-            <x-dashboard.module-header :page-title="$title" :breadcrumbs="$breadcrumbs" />
+            <x-dashboard.header :page-title="$title" :breadcrumbs="$breadcrumbs" />
 
             <div class="flex-1 p-6 lg:p-8">
                 <x-dashboard.stats :items="$stats" />

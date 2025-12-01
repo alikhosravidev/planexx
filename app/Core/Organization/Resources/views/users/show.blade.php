@@ -19,7 +19,7 @@
     ];
 
     $actionButtons = [
-        ['label' => 'ویرایش', 'url' => '#', 'icon' => 'fa-solid fa-pen', 'type' => 'primary'],
+        ['label' => 'ویرایش', 'url' => route('web.org.users.edit', $user['id']), 'icon' => 'fa-solid fa-pen', 'type' => 'primary'],
         ['label' => 'بازگشت', 'url' => $listUrl, 'icon' => 'fa-solid fa-arrow-right', 'type' => 'outline'],
     ];
 
@@ -79,10 +79,10 @@
         />
 
         <main class="flex-1 flex flex-col">
-            <x-dashboard.module-header
+            <x-dashboard.header
                 :page-title="$pageTitle"
                 :breadcrumbs="$breadcrumbs"
-                :action-buttons="$actionButtons"
+                :actions="$actionButtons"
             />
 
             <div class="flex-1 p-6 lg:p-8">

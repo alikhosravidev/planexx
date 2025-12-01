@@ -8,16 +8,17 @@
 
         @foreach($filters as $filter)
             @if($filter['type'] === 'text')
-                <div class="flex-1 min-w-[250px]">
+                <div class="flex-1 min-w-[100px]">
                     <x-forms.input
                         :name="$filter['name']"
                         :label="$filter['label']"
                         :value="$filter['value'] ?? ''"
                         :placeholder="$filter['placeholder'] ?? ''"
+                        class="min-w-[100px]"
                     />
                 </div>
             @elseif($filter['type'] === 'select')
-                <div class="flex-1 min-w-[200px]">
+                <div class="flex-1 min-w-[100px]">
                     <x-forms.select
                         :name="$filter['name']"
                         :label="$filter['label']"

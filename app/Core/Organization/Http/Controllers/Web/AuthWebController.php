@@ -28,7 +28,7 @@ class AuthWebController extends BaseWebController
                 '/',
                 null,
                 config('session.secure', false),
-                true,
+                false,
                 false,
                 'strict'
             );

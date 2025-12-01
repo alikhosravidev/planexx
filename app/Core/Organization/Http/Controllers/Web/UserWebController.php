@@ -78,6 +78,11 @@ class UserWebController extends BaseWebController
         ]);
     }
 
+    public function create(User $user): View
+    {
+        return view('Organization::users.add-or-edit');
+    }
+
     public function edit(User $user): View
     {
         $response = $this->apiGet('api.v1.admin.org.users.show', [
@@ -85,7 +90,7 @@ class UserWebController extends BaseWebController
             'includes' => 'directManager,jobPosition,departments',
         ]);
 
-        return view('Organization::users.edit', [
+        return view('Organization::users.add-or-edit', [
             'user' => $response['result'] ?? [],
         ]);
     }

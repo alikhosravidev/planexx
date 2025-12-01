@@ -47,4 +47,9 @@ class CustomValidator
 
         return (bool) preg_match($pattern, $date);
     }
+
+    public static function isFullNameValid(string $fullName): bool
+    {
+        return str_contains(trim($fullName), ' ') && mb_strlen($fullName) > 6;
+    }
 }

@@ -1,10 +1,9 @@
 @php
     $title = $pageTitle ?? 'مدیریت کاربران';
     $currentPage = 'org-regular-users';
-    $createUrl = route('web.org.users.index') . '?type=user';
     $createLabel = 'افزودن کاربر جدید';
     $actionButtons = [
-        ['label' => $createLabel, 'url' => $createUrl, 'icon' => 'fa-solid fa-plus', 'type' => 'primary'],
+        ['label' => $createLabel, 'url' => route('web.org.users.create', ['user_type' => 'user']), 'icon' => 'fa-solid fa-plus', 'type' => 'primary'],
     ];
 
     $breadcrumbs = [
@@ -65,13 +64,17 @@
             'icon' => 'fa-eye',
             'type' => 'link',
             'tooltip' => 'مشاهده جزئیات',
-            'route' => '#',
+            'url' => function($row) {
+                return route('web.org.users.show', ['user' => $row['id']]);
+            },
         ],
         [
             'icon' => 'fa-pen',
             'type' => 'link',
             'tooltip' => 'ویرایش',
-            'route' => '#',
+            'url' => function($row) {
+                return route('web.org.users.edit', ['user' => $row['id']]);
+            },
         ],
         [
             'icon' => 'fa-trash',
@@ -80,7 +83,7 @@
             'tooltip' => 'حذف',
             'data_attrs' => [
                 'data-ajax' => '',
-                'data-confirm' => 'آیا از حذف این کاربر اطمینان دارید؟',
+                'data-confirm' => 'آیا از حذف این کارمند اطمینان دارید؟',
                 'data-action' => function($row) {
                     return route('api.v1.admin.org.users.destroy', ['user' => $row['id']]);
                 },
@@ -90,7 +93,7 @@
         ],
     ];
 
-    $resetUrl = route('web.org.users.index') . '?type=user';
+    $resetUrl = route('web.org.users.index') . '?user_type=user';
 @endphp
 
 <x-layouts.app :title="$title">
@@ -104,10 +107,10 @@
         />
 
         <main class="flex-1 flex flex-col">
-            <x-dashboard.module-header
+            <x-dashboard.header
                 :page-title="$title"
                 :breadcrumbs="$breadcrumbs"
-                :action-buttons="$actionButtons"
+                :actions="$actionButtons"
             />
 
             <div class="flex-1 p-6 lg:p-8">

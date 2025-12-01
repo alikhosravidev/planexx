@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use function app;
+
 use App\Commands\FetchEntitiesCommand;
 use App\Commands\FetchEnumsCommand;
 use App\Commands\FetchEventsCommand;
@@ -25,11 +27,11 @@ use App\Services\PhpFileBootstrapManager;
 use App\Services\QuickAccess\QuickAccessManager;
 use App\Services\ResourceRegistrar;
 use App\Services\Stats\StatManager;
+use App\Utilities\CustomRequestValidator;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\ResourceRegistrar as BaseResourceRegistrar;
 use Illuminate\Support\ServiceProvider;
-use function app;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -71,6 +73,7 @@ class AppServiceProvider extends ServiceProvider
             FetchEnumsCommand::class,
             FetchEventsCommand::class
         );
+        $this->registerCustomValidations();
         app('menu')->registerBy(DashboardMenuRegistrar::class);
         app('stat')->registerBy(DashboardStatsRegistrar::class);
         app('quick-access')->registerBy(DashboardQuickAccessRegistrar::class);
@@ -161,5 +164,13 @@ class AppServiceProvider extends ServiceProvider
             return new DistributionManager();
         });
         $this->app->alias(DistributionManager::class, 'distribution');
+    }
+
+    private function registerCustomValidations(): void
+    {
+        CustomRequestValidator::registerMobileValidation();
+        CustomRequestValidator::registerFullNameValidation();
+        CustomRequestValidator::registerTableNameValidator();
+        CustomRequestValidator::registerEntityValidator();
     }
 }

@@ -22,29 +22,29 @@ class OrganizationDistributionRegistrar implements RegistrarInterface
             $stats = $this->userQuery->getActiveUserStats();
 
             $employeesCount   = $stats->employeesCount;
-            $employeesPercent = $employeesCount !== 0 ? $stats->totalCount / $employeesCount * 100 : 0;
+            $employeesPercent = $employeesCount !== 0 ? $employeesCount / $stats->totalCount * 100 : 0;
             $value            = sprintf($this->getTemplate(), $employeesCount, trans('global.person'), $employeesPercent);
             $builder->segment('کارمندان')
                 ->value($value)
-                ->percent($employeesPercent)
+                ->percent((int) $employeesPercent)
                 ->color('green')
                 ->order(1);
 
             $customerCount   = $stats->customersCount;
-            $customerPercent = $customerCount !== 0 ? $stats->totalCount / $customerCount * 100 : 0;
+            $customerPercent = $customerCount !== 0 ? $customerCount / $stats->totalCount * 100 : 0;
             $value           = sprintf($this->getTemplate(), $customerCount, trans('global.person'), $customerPercent);
             $builder->segment('مشتریان')
                 ->value($value)
-                ->percent($customerPercent)
+                ->percent((int) $customerPercent)
                 ->color('blue')
                 ->order(2);
 
             $userCount   = $stats->usersCount;
-            $userPercent = $userCount !== 0 ? $stats->totalCount / $userCount * 100 : 0;
+            $userPercent = $userCount !== 0 ? $userCount / $stats->totalCount * 100 : 0;
             $value       = sprintf($this->getTemplate(), $userCount, trans('global.person'), $userPercent);
             $builder->segment('کاربران عادی')
                 ->value($value)
-                ->percent($userPercent)
+                ->percent((int) $userPercent)
                 ->color('gray')
                 ->order(3);
         });

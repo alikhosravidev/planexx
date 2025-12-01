@@ -1,10 +1,9 @@
 @php
     $title = $pageTitle ?? 'مدیریت کارکنان';
     $currentPage = 'org-employees';
-    $createUrl = route('web.org.users.index') . '?type=employee';
     $createLabel = 'افزودن کارمند جدید';
     $actionButtons = [
-        ['label' => $createLabel, 'url' => $createUrl, 'icon' => 'fa-solid fa-plus', 'type' => 'primary'],
+        ['label' => $createLabel, 'url' => route('web.org.users.create', ['user_type' => 'employee']), 'icon' => 'fa-solid fa-plus', 'type' => 'primary'],
     ];
 
     $breadcrumbs = [
@@ -49,7 +48,6 @@
         'selected' => request('status'),
     ];
 
-    $resetUrl = route('web.org.users.index') . '?type=employee';
 
     $columns = [
         [
@@ -137,6 +135,8 @@
             ],
         ],
     ];
+
+    $resetUrl = route('web.org.users.index') . '?user_type=employee';
 @endphp
 
 <x-layouts.app :title="$title">
@@ -150,10 +150,10 @@
         />
 
         <main class="flex-1 flex flex-col">
-            <x-dashboard.module-header
+            <x-dashboard.header
                     :page-title="$title"
                     :breadcrumbs="$breadcrumbs"
-                    :action-buttons="$actionButtons"
+                    :actions="$actionButtons"
             />
 
             <div class="flex-1 p-6 lg:p-8">

@@ -1,10 +1,13 @@
-@props(['title' => 'داشبورد', 'breadcrumbs' => null])
+@props(['title' => 'داشبورد', 'breadcrumbs' => null, 'description' => null, 'actions' => []])
 
 <header class="bg-bg-primary border-b border-border-light sticky top-0 z-30">
     <div class="px-6 py-5">
-        <div class="flex items-center justify-between">
-            <div class="flex-1">
+        <div class="flex items-center justify-between gap-6">
+            <div class="flex-1 min-w-0">
                 <h1 class="text-2xl font-bold text-text-primary leading-tight mb-2">{{ $title }}</h1>
+                @if($description)
+                    <p class="text-sm text-text-secondary leading-normal mb-2">{{ $description }}</p>
+                @endif
 
                 @if($breadcrumbs)
                     <nav class="flex items-center gap-2 text-xs text-text-muted">
@@ -25,7 +28,29 @@
                 @endif
             </div>
 
-            <div class="relative" data-dropdown-container>
+            @if(!empty($actions))
+                <div class="hidden lg:flex items-center gap-3">
+                    @foreach($actions as $button)
+                        @php
+                            $type = $button['type'] ?? 'secondary';
+                            $map = [
+                                'primary' => 'bg-primary text-white hover:bg-primary-dark',
+                                'secondary' => 'bg-bg-secondary text-text-primary hover:bg-slate-200',
+                                'outline' => 'border-2 border-border-light text-text-primary hover:border-primary hover:text-primary',
+                            ];
+                            $classes = $map[$type] ?? $map['secondary'];
+                        @endphp
+                        <a href="{{ $button['url'] ?? '#' }}" class="{{ $classes }} px-5 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 flex items-center gap-2 leading-normal shadow-sm hover:shadow">
+                            @if(!empty($button['icon']))
+                                <i class="{{ $button['icon'] }}"></i>
+                            @endif
+                            <span>{{ $button['label'] ?? '' }}</span>
+                        </a>
+                    @endforeach
+                </div>
+            @endif
+
+            <div class="relative flex-shrink-0" data-dropdown-container>
                 @php
                     $user = auth()->user();
                     $userName = $user?->full_name ?? $user?->name ?? 'کاربر';
@@ -101,5 +126,27 @@
                 </div>
             </div>
         </div>
+
+        @if(!empty($actions))
+            <div class="lg:hidden mt-4 flex items-center gap-2 overflow-x-auto pb-1">
+                @foreach($actions as $button)
+                    @php
+                        $type = $button['type'] ?? 'secondary';
+                        $map = [
+                            'primary' => 'bg-primary text-white',
+                            'secondary' => 'bg-bg-secondary text-text-primary',
+                            'outline' => 'border border-border-light text-text-primary',
+                        ];
+                        $classes = $map[$type] ?? $map['secondary'];
+                    @endphp
+                    <a href="{{ $button['url'] ?? '#' }}" class="{{ $classes }} px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 flex items-center gap-2 leading-normal whitespace-nowrap">
+                        @if(!empty($button['icon']))
+                            <i class="{{ $button['icon'] }}"></i>
+                        @endif
+                        <span>{{ $button['label'] ?? '' }}</span>
+                    </a>
+                @endforeach
+            </div>
+        @endif
     </div>
 </header>
