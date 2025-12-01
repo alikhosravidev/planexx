@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Contracts\Controller;
 
-use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
-use Laravel\Sanctum\Sanctum;
 use RuntimeException;
 
 /**
@@ -83,16 +82,15 @@ abstract class BaseWebController
             $subRequest->headers->set($key, $value);
         }
 
-        $webUser = auth('web')->user();
+        if (!$subRequest->headers->has('Authorization')) {
+            $token = request()->cookie('token') ?? request()->bearerToken();
 
-        if ($webUser instanceof Authenticatable) {
-            Sanctum::actingAs($webUser, abilities: ['*'], guard: 'sanctum');
+            if (!empty($token)) {
+                $subRequest->headers->set('Authorization', 'Bearer ' . $token);
+            }
         }
 
-        $subRequest->setRouteResolver(fn () => $route);
-        $response = $this->withRequest($subRequest, function () use ($route, $subRequest) {
-            return $route->bind($subRequest)->run();
-        });
+        $response = app(Kernel::class)->handle($subRequest);
 
         $decodedResponse = json_decode($response->getContent(), true);
 
@@ -103,22 +101,6 @@ abstract class BaseWebController
         }
 
         return $decodedResponse;
-    }
-
-    /**
-     * Execute a callback with a swapped request instance
-     */
-    protected function withRequest(Request $request, callable $callback): mixed
-    {
-        $original = app('request');
-
-        app()->instance('request', $request);
-
-        try {
-            return $callback();
-        } finally {
-            app()->instance('request', $original);
-        }
     }
 
     /**

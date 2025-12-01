@@ -8,7 +8,7 @@
     'max' => null,
 ])
 
-<div class="mb-4">
+<div class="">
     <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
         <div class="flex items-stretch">
             <label for="{{ $name }}" class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal">

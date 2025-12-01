@@ -177,9 +177,12 @@ import './auth/index.js';
 ## Auth Flow (v2.0 - Secure)
 
 ### Token Management
-- ✅ **Server-side only**: Token is set by backend in HttpOnly cookie
-- ✅ **No client storage**: JavaScript never touches the token
-- ✅ **Automatic**: Browser sends cookie with every request
+- ✅ **Server-side storage**: Token is set by backend in HttpOnly cookie (non-encrypted)
+- ✅ **Dual authentication**: 
+  - **API routes** (`/api/*`): Token sent via `Authorization: Bearer {token}` header
+  - **Web routes**: Session-based authentication
+- ✅ **Automatic detection**: `http-client.js` detects API routes and adds Authorization header
+- ✅ **Cookie reading**: JavaScript reads token from cookie for API requests only
 - ❌ **Never use**: `cookieUtils.set('token', ...)` (removed in v2.0)
 
 ### Login Flow
@@ -187,6 +190,12 @@ import './auth/index.js';
 - Built-in `redirect` action handles navigation to dashboard
 - Custom actions like `show-otp-step` and `resend-success` handle multi-step flows
 - If OTP is invalid, no redirect occurs; user stays on OTP step
+
+### How It Works
+1. User logs in → Server creates token and sets it in cookie
+2. JavaScript makes request to API route → `http-client.js` reads token from cookie
+3. Token is added to `Authorization: Bearer {token}` header automatically
+4. Laravel Sanctum validates the token via `auth:sanctum` middleware
 
 ## Ziggy Route Usage (Important)
 

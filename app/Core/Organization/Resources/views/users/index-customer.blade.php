@@ -34,6 +34,62 @@
         ]
     ];
 
+    $columns = [
+        [
+            'key' => 'full_name',
+            'label' => 'مشتری',
+            'component' => 'user',
+            'options' => [
+                'image_key' => 'image_url',
+            ],
+        ],
+        [
+            'key' => 'mobile',
+            'label' => 'شماره موبایل',
+            'component' => 'text',
+        ],
+        [
+            'key' => 'email',
+            'label' => 'ایمیل',
+            'component' => 'text',
+        ],
+        [
+            'key' => 'is_active',
+            'label' => 'وضعیت',
+            'component' => 'status',
+        ],
+    ];
+
+    $actions = [
+        [
+            'icon' => 'fa-eye',
+            'type' => 'link',
+            'tooltip' => 'مشاهده جزئیات',
+            'route' => '#',
+        ],
+        [
+            'icon' => 'fa-pen',
+            'type' => 'link',
+            'tooltip' => 'ویرایش',
+            'route' => '#',
+        ],
+        [
+            'icon' => 'fa-trash',
+            'type' => 'button',
+            'variant' => 'danger',
+            'tooltip' => 'حذف',
+            'data_attrs' => [
+                'data-action' => 'delete',
+                'data-confirm' => 'آیا از حذف این مشتری اطمینان دارید؟',
+                'data-url' => function($row) {
+                    return route('api.v1.admin.org.users.destroy', ['user' => $row['id']]);
+                },
+                'data-method' => 'DELETE',
+                'data-redirect' => 'reload'
+            ],
+        ],
+    ];
+
     $resetUrl = route('web.org.users.index') . '?type=customer';
 @endphp
 
@@ -60,66 +116,6 @@
                     <input type="hidden" name="type" value="customer">
                     <x-ui.filter-bar :filters="$filters" :resetUrl="$resetUrl" />
                 </form>
-
-                @php
-                    $columns = [
-                        [
-                            'key' => 'full_name',
-                            'label' => 'مشتری',
-                            'component' => 'user',
-                            'options' => [
-                                'image_key' => 'image_url',
-                            ],
-                        ],
-                        [
-                            'key' => 'mobile',
-                            'label' => 'شماره موبایل',
-                            'component' => 'text',
-                            'align' => 'left',
-                            'options' => ['dir' => 'ltr'],
-                        ],
-                        [
-                            'key' => 'email',
-                            'label' => 'ایمیل',
-                            'component' => 'text',
-                        ],
-                        [
-                            'key' => 'is_active',
-                            'label' => 'وضعیت',
-                            'component' => 'status',
-                        ],
-                    ];
-
-                    $actions = [
-                        [
-                            'icon' => 'fa-eye',
-                            'type' => 'link',
-                            'tooltip' => 'مشاهده جزئیات',
-                            'route' => '#',
-                        ],
-                        [
-                            'icon' => 'fa-pen',
-                            'type' => 'link',
-                            'tooltip' => 'ویرایش',
-                            'route' => '#',
-                        ],
-                        [
-                            'icon' => 'fa-trash',
-                            'type' => 'button',
-                            'variant' => 'danger',
-                            'tooltip' => 'حذف',
-                            'data_attrs' => [
-                                'data-action' => 'delete',
-                                'data-confirm' => 'آیا از حذف این مشتری اطمینان دارید؟',
-                                'data-url' => function($row) {
-                                    return route('api.v1.admin.org.users.destroy', ['user' => $row['id']]);
-                                },
-                                'data-method' => 'DELETE',
-                                'data-redirect' => 'reload'
-                            ],
-                        ],
-                    ];
-                @endphp
 
                 <div class="bg-white border border-border-light rounded-2xl overflow-hidden">
                     <x-ui.table.auto

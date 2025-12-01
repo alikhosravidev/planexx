@@ -35,9 +35,11 @@ class CheckUserAccessToken
 
     public function handle(Request $request, Closure $next)
     {
-        $this->authWithCookie($request);
-
         $user = $this->getAuthenticatedUser();
+
+        if (null === $user) {
+            $this->authWithCookie($request);
+        }
 
         if ($user === null) {
             return $next($request);
@@ -53,42 +55,22 @@ class CheckUserAccessToken
 
         $this->accessTokenService->logout($user);
 
-        if ($this->requestService->isWebRequest()) {
-            return redirect()->route('login');
-        }
-
-        return response()->json(
-            ['message' => trans('Organization::error-messages.session_expired')],
-            401
-        );
+        return redirect()->route('login');
     }
 
     private function getAuthenticatedUser(): ?User
     {
-        return Auth::guard('sanctum')->user();
+        return Auth::user();
     }
 
     private function authWithCookie(Request $request): void
     {
-        if (Auth::check()) {
-            return;
-        }
-
         // Try to get token from:
         // 1. Cookie (for browser-based requests)
         // 2. Authorization header (for API requests)
         $tokenString = $request->cookie('token');
 
-        if (!$tokenString) {
-            // Try Authorization: Bearer <token> header
-            $authHeader = $request->header('Authorization');
-
-            if ($authHeader && str_starts_with($authHeader, 'Bearer ')) {
-                $tokenString = substr($authHeader, 7);
-            }
-        }
-
-        if (!$tokenString) {
+        if (! $tokenString) {
             return;
         }
 

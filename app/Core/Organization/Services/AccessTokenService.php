@@ -72,10 +72,14 @@ class AccessTokenService
             );
         }
 
-        if ($this->requestService->isWebRequest() && $this->request->session()) {
+        if ($this->requestService->isWebRequest()) {
             Cookie::deleteFromAllDomains('token');
-            $this->request->session()->invalidate();
+
+            if ($this->request->hasSession()) {
+                $this->request->session()->invalidate();
+            }
         }
+
 
         return true;
     }

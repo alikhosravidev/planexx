@@ -9,6 +9,7 @@
 @php
 $variants = [
     'primary' => 'bg-slate-900 text-white hover:bg-slate-800',
+    'green' => 'bg-green-600 hover:bg-green-700 text-white',
     'secondary' => 'bg-white text-slate-900 border border-slate-300 hover:bg-slate-50',
     'danger' => 'bg-red-600 text-white hover:bg-red-700',
     'outline' => 'bg-transparent border-2 border-slate-900 text-slate-900 hover:bg-slate-900 hover:text-white',
@@ -24,7 +25,7 @@ $classes = $variants[$variant] . ' ' . $sizes[$size];
 $iconPrefix = ($icon && (strpos($icon, 'fa-solid') === false && strpos($icon, 'fa-regular') === false && strpos($icon, 'fa-brands') === false)) ? 'fa-solid ' : '';
 @endphp
 
-<button 
+<button
     type="{{ $type }}"
     {{ $attributes->merge(['class' => "inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed $classes"]) }}
     @if($loading) disabled @endif
@@ -34,6 +35,6 @@ $iconPrefix = ($icon && (strpos($icon, 'fa-solid') === false && strpos($icon, 'f
     @elseif($icon)
         <i class="{{ $iconPrefix }}{{ $icon }}"></i>
     @endif
-    
+
     {{ $slot }}
 </button>
