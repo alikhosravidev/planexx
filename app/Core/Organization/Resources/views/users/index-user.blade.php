@@ -108,7 +108,7 @@
 
         <main class="flex-1 flex flex-col">
             <x-dashboard.header
-                :page-title="$title"
+                :title="$title"
                 :breadcrumbs="$breadcrumbs"
                 :actions="$actionButtons"
             />

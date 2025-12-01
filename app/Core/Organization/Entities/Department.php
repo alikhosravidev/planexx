@@ -44,6 +44,8 @@ class Department extends BaseModel
         'code',
         'manager_id',
         'image_url',
+        'color',
+        'icon',
         'description',
         'is_active',
     ];
@@ -64,7 +66,7 @@ class Department extends BaseModel
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_departments')
+        return $this->belongsToMany(User::class, 'core_org_user_departments')
             ->withPivot('is_primary')
             ->withTimestamps();
     }

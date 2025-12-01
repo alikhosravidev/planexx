@@ -1,0 +1,312 @@
+@php
+    $pageTitle = isset($department) ? 'ویرایش دپارتمان' : 'افزودن دپارتمان جدید';
+    $listTitle = 'مدیریت دپارتمان‌ها';
+    $listUrl = route('web.org.departments.index');
+    $currentPage = 'org-departments';
+
+    $breadcrumbs = [
+        ['label' => 'خانه', 'url' => route('web.dashboard')],
+        ['label' => 'ساختار سازمانی', 'url' => route('web.org.dashboard')],
+        ['label' => $listTitle, 'url' => $listUrl],
+        ['label' => $pageTitle],
+    ];
+
+    $actionButtons = [
+        ['label' => 'بازگشت', 'url' => $listUrl, 'icon' => 'fa-solid fa-arrow-right', 'type' => 'outline'],
+    ];
+
+    $isActive = ! isset($department) || ! empty($department['is_active']);
+
+    $colors = [
+        'blue-500', 'blue-600', 'blue-700', 'sky-500', 'sky-600', 'cyan-500', 'cyan-600',
+        'teal-500', 'teal-600', 'green-500', 'green-600', 'emerald-500', 'emerald-600', 'lime-500',
+        'yellow-500', 'amber-500', 'amber-600', 'orange-500', 'orange-600',
+        'red-500', 'red-600', 'rose-500', 'rose-600', 'pink-500', 'pink-600', 'fuchsia-500',
+        'purple-500', 'purple-600', 'violet-500', 'violet-600', 'indigo-500', 'indigo-600',
+        'slate-500', 'slate-600', 'gray-500', 'gray-600', 'zinc-500', 'zinc-600', 'stone-500',
+    ];
+
+    $icons = [
+        'fa-building', 'fa-building-columns', 'fa-city', 'fa-landmark', 'fa-industry',
+        'fa-chart-line', 'fa-chart-bar', 'fa-chart-pie', 'fa-bullhorn', 'fa-rectangle-ad',
+        'fa-store', 'fa-shop', 'fa-cart-shopping', 'fa-basket-shopping', 'fa-tags',
+        'fa-coins', 'fa-money-bill-wave', 'fa-credit-card', 'fa-wallet', 'fa-piggy-bank',
+        'fa-calculator', 'fa-receipt', 'fa-file-invoice-dollar', 'fa-hand-holding-dollar', 'fa-sack-dollar',
+        'fa-code', 'fa-laptop-code', 'fa-server', 'fa-database', 'fa-network-wired',
+        'fa-microchip', 'fa-desktop', 'fa-cloud', 'fa-shield-halved', 'fa-bug',
+        'fa-users', 'fa-user-tie', 'fa-user-group', 'fa-people-group', 'fa-handshake',
+        'fa-id-card', 'fa-address-card', 'fa-clipboard-user', 'fa-user-plus', 'fa-users-gear',
+        'fa-gears', 'fa-wrench', 'fa-screwdriver-wrench', 'fa-hammer', 'fa-toolbox',
+        'fa-cogs', 'fa-robot', 'fa-warehouse', 'fa-boxes-stacked', 'fa-dolly',
+        'fa-graduation-cap', 'fa-book', 'fa-book-open', 'fa-chalkboard-user', 'fa-school',
+        'fa-user-graduate', 'fa-award', 'fa-certificate', 'fa-medal', 'fa-trophy',
+        'fa-headset', 'fa-phone', 'fa-comments', 'fa-envelope', 'fa-paper-plane',
+        'fa-life-ring', 'fa-circle-question', 'fa-message', 'fa-bell', 'fa-at',
+        'fa-file-contract', 'fa-file-signature', 'fa-scale-balanced', 'fa-gavel', 'fa-stamp',
+        'fa-pen-to-square', 'fa-file-pen', 'fa-clipboard-check', 'fa-folder-open', 'fa-briefcase',
+        'fa-flask', 'fa-microscope', 'fa-atom', 'fa-dna', 'fa-lightbulb',
+        'fa-magnifying-glass', 'fa-compass', 'fa-rocket', 'fa-satellite', 'fa-brain',
+        'fa-truck', 'fa-plane', 'fa-ship', 'fa-train', 'fa-car',
+        'fa-hospital', 'fa-house-medical', 'fa-heart-pulse', 'fa-stethoscope', 'fa-kit-medical',
+        'fa-leaf', 'fa-tree', 'fa-sun', 'fa-bolt', 'fa-wind',
+        'fa-star', 'fa-gem', 'fa-crown', 'fa-flag', 'fa-globe',
+        'fa-map-location-dot', 'fa-location-dot', 'fa-calendar-days',
+    ];
+
+    $selectedColor = $department['color'] ?? 'blue-500';
+    $selectedIcon = $department['icon'] ?? 'fa-building';
+@endphp
+
+<x-layouts.app :title="$pageTitle">
+    <div class="flex min-h-screen">
+        <x-dashboard.sidebar
+            name="org.sidebar"
+            :current-page="$currentPage"
+            header-variant="back"
+            module-title="ساختار سازمانی"
+            module-icon="fa-solid fa-sitemap"
+        />
+
+        <main class="flex-1 flex flex-col">
+            <x-dashboard.header
+                :title="$pageTitle"
+                :breadcrumbs="$breadcrumbs"
+                :actions="$actionButtons"
+            />
+
+            <div class="flex-1 p-6 lg:p-8">
+                <form data-ajax
+                      data-method="{{ isset($department) ? 'PUT' : 'POST' }}"
+                      action="{{ isset($department) ? route('api.v1.admin.org.departments.update', ['department' => $department['id'] ?? null]) : route('api.v1.admin.org.departments.store') }}"
+                      data-on-success="redirect"
+                      data-redirect-url="{{ $listUrl }}"
+                      enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                        <div class="lg:col-span-2 space-y-6">
+
+                            <div class="bg-bg-primary border border-border-light rounded-2xl p-6">
+                                <h2 class="text-lg font-semibold text-text-primary leading-snug mb-6">اطلاعات پایه</h2>
+
+                                <div class="space-y-4">
+                                    <x-forms.input
+                                        class="min-w-[140px]"
+                                        name="name"
+                                        :value="$department['name'] ?? ''"
+                                        label="نام دپارتمان"
+                                        placeholder="نام دپارتمان را وارد کنید"
+                                        required
+                                    />
+
+                                    <x-forms.input
+                                        class="min-w-[140px]"
+                                        name="code"
+                                        :value="$department['code'] ?? ''"
+                                        label="کد دپارتمان"
+                                        placeholder="مثال: SALES"
+                                    />
+
+                                    @php
+                                        $parentId = $department['parent']['id'] ?? null;
+                                        $parentName = $department['parent']['name'] ?? null;
+                                    @endphp
+
+                                    <x-forms.select
+                                        name="parent_id"
+                                        label="دپارتمان والد"
+                                        :value="$parentId"
+                                        class="min-w-[140px]"
+                                        placeholder="بدون والد (دپارتمان اصلی)"
+                                        :options="$parentDepartments"
+                                    />
+
+                                    @php
+                                        $managerId = $department['manager']['id'] ?? null;
+                                        $managerName = $department['manager']['full_name'] ?? null;
+                                    @endphp
+
+                                    <x-forms.select
+                                        name="manager_id"
+                                        label="مدیر دپارتمان"
+                                        :value="$managerId"
+                                        class="min-w-[140px]"
+                                        :options="$managers"
+                                    />
+
+                                    <x-forms.textarea
+                                        class="min-w-[140px]"
+                                        name="description"
+                                        :value="$department['description']['full'] ?? ''"
+                                        label="توضیحات"
+                                        placeholder="توضیحات دپارتمان را وارد کنید"
+                                        rows="4"
+                                    />
+
+                                    <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
+                                        <div class="flex">
+                                            <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-start leading-normal pt-4">
+                                                رنگ دپارتمان
+                                            </label>
+                                            <div class="flex-1 px-lg py-3.5 flex flex-wrap gap-2">
+                                                @foreach($colors as $color)
+                                                    <label class="cursor-pointer color-option">
+                                                        <input type="radio" name="color" value="{{ $color }}" class="peer hidden" {{ $color === $selectedColor ? 'checked' : '' }}>
+                                                        <div class="w-8 h-8 bg-{{ $color }} rounded-lg border-2 border-transparent peer-checked:border-gray-800 peer-checked:ring-2 peer-checked:ring-gray-300 transition-all flex items-center justify-center">
+                                                            <i class="fa-solid fa-check text-white text-xs opacity-0 peer-checked:opacity-100 check-icon"></i>
+                                                        </div>
+                                                    </label>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
+                                        <div class="flex">
+                                            <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-start leading-normal pt-4">
+                                                آیکون دپارتمان
+                                            </label>
+                                            <div class="flex-1 px-lg py-3.5">
+                                                <div class="flex flex-wrap gap-2">
+                                                    @foreach($icons as $icon)
+                                                        <label class="cursor-pointer icon-option">
+                                                            <input type="radio" name="icon" value="{{ $icon }}" class="peer hidden" {{ $icon === $selectedIcon ? 'checked' : '' }}>
+                                                            <div class="w-10 h-10 bg-bg-secondary rounded-lg border-2 border-transparent peer-checked:border-primary peer-checked:bg-primary/10 transition-all flex items-center justify-center hover:bg-gray-100">
+                                                                <i class="fa-solid {{ $icon }} text-lg text-text-secondary peer-checked:text-primary"></i>
+                                                            </div>
+                                                        </label>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center gap-6 px-lg py-3.5">
+                                        <label class="text-sm text-text-secondary leading-normal min-w-[140px]">
+                                            وضعیت
+                                        </label>
+                                        <x-forms.radio
+                                            name="is_active"
+                                            :value="$isActive ? '1' : '0'"
+                                            :options="['1' => 'فعال', '0' => 'غیرفعال']"
+                                        />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="space-y-6">
+
+                            <div class="bg-blue-50 border border-blue-200 rounded-2xl p-6">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                                        <i class="fa-solid fa-lightbulb text-white"></i>
+                                    </div>
+                                    <h3 class="text-base font-semibold text-blue-800 leading-normal">راهنما</h3>
+                                </div>
+                                <ul class="space-y-3">
+                                    <li class="flex items-start gap-2 text-sm text-blue-700 leading-relaxed">
+                                        <i class="fa-solid fa-check text-blue-600 mt-0.5"></i>
+                                        <span>نام دپارتمان باید واضح و مشخص باشد</span>
+                                    </li>
+                                    <li class="flex items-start gap-2 text-sm text-blue-700 leading-relaxed">
+                                        <i class="fa-solid fa-check text-blue-600 mt-0.5"></i>
+                                        <span>کد دپارتمان برای دسته‌بندی استفاده می‌شود</span>
+                                    </li>
+                                    <li class="flex items-start gap-2 text-sm text-blue-700 leading-relaxed">
+                                        <i class="fa-solid fa-check text-blue-600 mt-0.5"></i>
+                                        <span>دپارتمان والد برای ایجاد ساختار درختی استفاده می‌شود</span>
+                                    </li>
+                                    <li class="flex items-start gap-2 text-sm text-blue-700 leading-relaxed">
+                                        <i class="fa-solid fa-check text-blue-600 mt-0.5"></i>
+                                        <span>مدیر دپارتمان مسئول نظارت بر کارمندان است</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flex items-center gap-3 mt-6">
+                        <x-ui.button type="submit" variant="green" icon="fa-solid fa-check">
+                            ذخیره دپارتمان
+                        </x-ui.button>
+                        <a href="{{ $listUrl }}" class="inline-flex items-center gap-2 bg-bg-secondary text-text-secondary border border-border-medium px-xl py-md rounded-lg font-medium hover:bg-gray-100 transition-all duration-200 text-base leading-normal">
+                            <i class="fa-solid fa-times ml-2"></i>
+                            <span>انصراف</span>
+                        </a>
+                        @if(isset($department))
+                            <button type="button"
+                                    data-ajax
+                                    data-confirm="آیا از حذف این دپارتمان اطمینان دارید؟"
+                                    data-action="{{ route('api.v1.admin.org.departments.destroy', ['department' => $department['id']]) }}"
+                                    data-method="DELETE"
+                                    data-on-success="redirect"
+                                    data-redirect-url="{{ $listUrl }}"
+                                    class="inline-flex items-center gap-2 bg-red-600 text-white px-xl py-md rounded-lg font-medium hover:bg-red-700 transition-all duration-200 text-base leading-normal mr-auto">
+                                <i class="fa-solid fa-trash ml-2"></i>
+                                <span>حذف دپارتمان</span>
+                            </button>
+                        @endif
+                    </div>
+
+                </form>
+
+            </div>
+        </main>
+    </div>
+
+    @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.color-option input').forEach(input => {
+                input.addEventListener('change', function() {
+                    document.querySelectorAll('.color-option .check-icon').forEach(icon => {
+                        icon.classList.add('opacity-0');
+                        icon.classList.remove('opacity-100');
+                    });
+                    if (this.checked) {
+                        this.nextElementSibling.querySelector('.check-icon').classList.remove('opacity-0');
+                        this.nextElementSibling.querySelector('.check-icon').classList.add('opacity-100');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.icon-option input').forEach(input => {
+                input.addEventListener('change', function() {
+                    document.querySelectorAll('.icon-option > div').forEach(div => {
+                        div.classList.remove('border-primary', 'bg-primary/10');
+                        div.classList.add('border-transparent');
+                        div.querySelector('i').classList.remove('text-primary');
+                        div.querySelector('i').classList.add('text-text-secondary');
+                    });
+                    if (this.checked) {
+                        this.nextElementSibling.classList.add('border-primary', 'bg-primary/10');
+                        this.nextElementSibling.classList.remove('border-transparent');
+                        this.nextElementSibling.querySelector('i').classList.add('text-primary');
+                        this.nextElementSibling.querySelector('i').classList.remove('text-text-secondary');
+                    }
+                });
+            });
+
+            const checkedColor = document.querySelector('.color-option input:checked');
+            if (checkedColor) {
+                checkedColor.nextElementSibling.querySelector('.check-icon').classList.remove('opacity-0');
+                checkedColor.nextElementSibling.querySelector('.check-icon').classList.add('opacity-100');
+            }
+
+            const checkedIcon = document.querySelector('.icon-option input:checked');
+            if (checkedIcon) {
+                checkedIcon.nextElementSibling.classList.add('border-primary', 'bg-primary/10');
+                checkedIcon.nextElementSibling.classList.remove('border-transparent');
+                checkedIcon.nextElementSibling.querySelector('i').classList.add('text-primary');
+                checkedIcon.nextElementSibling.querySelector('i').classList.remove('text-text-secondary');
+            }
+        });
+    </script>
+    @endpush
+</x-layouts.app>

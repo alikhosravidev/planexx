@@ -19,6 +19,8 @@ class DepartmentFactory extends Factory
             'manager_id'  => User::factory(),
             'code'        => $this->faker->unique()->regexify('[A-Z]{3}[0-9]{3}'),
             'image_url'   => $this->faker->optional()->imageUrl(),
+            'color'       => $this->faker->optional()->safeHexColor(),
+            'icon'        => $this->faker->optional()->randomElement(['building', 'users', 'briefcase', 'layers', 'boxes']),
             'description' => $this->faker->optional()->sentence(),
             'is_active'   => $this->faker->boolean(90), // 90% active
         ];

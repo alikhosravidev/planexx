@@ -23,15 +23,11 @@
     ];
 
     if(!empty($departments)) {
-        $departmentOptions = ['' => 'همه دپارتمان‌ها'];
-        foreach($departments as $dept) {
-            $departmentOptions[$dept['id']] = $dept['name'];
-        }
         $filters[] = [
             'type' => 'select',
             'name' => 'department_id',
             'label' => 'دپارتمان',
-            'options' => $departmentOptions,
+            'options' => $departments,
             'selected' => request('department_id'),
         ];
     }
@@ -151,7 +147,7 @@
 
         <main class="flex-1 flex flex-col">
             <x-dashboard.header
-                    :page-title="$title"
+                    :title="$title"
                     :breadcrumbs="$breadcrumbs"
                     :actions="$actionButtons"
             />

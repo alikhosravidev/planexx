@@ -6,13 +6,14 @@ namespace App\Contracts\Controller;
 
 use App\Contracts\Repository\BaseRepository;
 use App\Contracts\Transformer\BaseTransformer;
+use App\Http\Transformers\API\V1\KeyValTransformer;
 use App\Services\ResponseBuilder;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Contracts\Pagination\Paginator;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -38,6 +39,7 @@ abstract class BaseAPIController
         $this->beforeIndex($request);
 
         $includes   = $this->parseIncludes($request);
+        $withCount  = $this->parseWithCount($request);
         $filters    = $this->parseFilters($request);
         $search     = $this->parseSearch($request);
         $sorts      = $this->parseSort($request);
@@ -45,6 +47,7 @@ abstract class BaseAPIController
 
         $query = $this->repository->newQuery();
         $query = $this->applyEagerLoading($query, $includes);
+        $query = $this->applyWithCount($query, $withCount);
         $query = $this->applyFiltersToQuery($query, $filters);
         $query = $this->applySearchToQuery($query, $search);
         $query = $this->applySortToQuery($query, $sorts);
@@ -67,9 +70,11 @@ abstract class BaseAPIController
         try {
             $this->beforeShow($id, $request);
 
-            $includes = $this->parseIncludes($request);
-            $query    = $this->repository->newQuery();
-            $query    = $this->applyEagerLoading($query, $includes);
+            $includes  = $this->parseIncludes($request);
+            $withCount = $this->parseWithCount($request);
+            $query     = $this->repository->newQuery();
+            $query     = $this->applyEagerLoading($query, $includes);
+            $query     = $this->applyWithCount($query, $withCount);
 
             $resource = $query->findOrFail($id);
             $this->authorizeShow($resource);
@@ -119,11 +124,13 @@ abstract class BaseAPIController
         $query = $this->customizeQuery($query, $request);
 
 
-        $results = $query->simplePaginate($pagination['per_page'], [$key, $field]);
-        $transformed = $this->transformer->transformMany($results);
+        $results     = $query->simplePaginate($pagination['per_page'], [$key, $field]);
+        $transformer = resolve(KeyValTransformer::class, ['field' => $field, 'key' => $key]);
+        $transformed = $transformer->transformMany($results);
+        $transformed = $transformed['data'] ?? $transformed;
 
         return $this->response->success(
-            $transformed['data'] ?? $transformed,
+            collect($transformed)->collapseWithKeys()->toArray(),
             null,
             $this->buildPaginationMeta($results)
         );
@@ -147,6 +154,47 @@ abstract class BaseAPIController
         $this->validateIncludes($requestedIncludes);
 
         return array_unique(array_merge($defaultIncludes, $requestedIncludes));
+    }
+
+    protected function parseWithCount(Request $request): array
+    {
+        $param = $request->query('withCount', '');
+
+        if (empty($param)) {
+            return ['root' => [], 'nested' => []];
+        }
+
+        $items = is_array($param) ? $param : explode(',', $param);
+        $items = array_values(array_filter(array_map('trim', $items)));
+
+        $root   = [];
+        $nested = [];
+
+        foreach ($items as $item) {
+            // Support alias via ':' -> convert to ' as '
+            $target = $item;
+            $alias  = null;
+
+            if (str_contains($item, ':')) {
+                [$target, $alias] = array_map('trim', explode(':', $item, 2));
+            }
+
+            if (str_contains($target, '.')) {
+                [$relation, $sub] = array_map('trim', explode('.', $target, 2));
+
+                if ($relation !== '' && $sub !== '') {
+                    $expr              = $alias ? ($sub . ' as ' . $alias) : $sub;
+                    $nested[$relation] = array_values(array_unique(array_merge($nested[$relation] ?? [], [$expr])));
+                }
+            } else {
+                $root[] = $alias ? ($target . ' as ' . $alias) : $target;
+            }
+        }
+
+        return [
+            'root'   => array_values(array_unique($root)),
+            'nested' => $nested,
+        ];
     }
 
     protected function validateIncludes(array $includes): void
@@ -179,9 +227,9 @@ abstract class BaseAPIController
             return [];
         }
 
-        $validFilters      = [];
-        $filterableFields  = $this->repository->filterableFields ?? [];
-        $searchableFields  = $this->repository->fieldSearchable ?? [];
+        $validFilters     = [];
+        $filterableFields = $this->repository->filterableFields ?? [];
+        $searchableFields = $this->repository->fieldSearchable  ?? [];
 
         foreach ($filters as $field => $value) {
             $baseField = explode('.', $field)[0];
@@ -233,12 +281,14 @@ abstract class BaseAPIController
         $fieldsParam = $request->query('searchFields', '');
 
         $fields = [];
+
         if (!empty($fieldsParam)) {
             $requested = is_array($fieldsParam) ? $fieldsParam : explode(',', $fieldsParam);
             $requested = array_values(array_filter(array_map('trim', $requested)));
 
             foreach ($requested as $f) {
                 $base = explode('.', $f)[0];
+
                 if (array_key_exists($f, $searchableFields) || array_key_exists($base, $searchableFields)) {
                     $fields[$f] = $searchableFields[$f] ?? $searchableFields[$base] ?? 'like';
                 }
@@ -405,6 +455,29 @@ abstract class BaseAPIController
         return $query;
     }
 
+    protected function applyWithCount(Builder $query, array $withCount): Builder
+    {
+        // Backward compatibility: if array is a flat list, treat as root counts
+        $root   = $withCount['root']   ?? (array_values(array_filter($withCount, 'is_string')) ?: []);
+        $nested = $withCount['nested'] ?? [];
+
+        if (!empty($root)) {
+            $query->withCount($root);
+        }
+
+        if (!empty($nested)) {
+            foreach ($nested as $relation => $counts) {
+                $query->with([
+                    $relation => function ($q) use ($counts) {
+                        $q->withCount($counts);
+                    },
+                ]);
+            }
+        }
+
+        return $query;
+    }
+
     protected function applyFiltersToQuery(Builder $query, array $filters): Builder
     {
         foreach ($filters as $filter) {
@@ -553,7 +626,7 @@ abstract class BaseAPIController
 
         $count = $paginator->count();
         $from  = $count ? (($paginator->currentPage() - 1) * $paginator->perPage()) + 1 : null;
-        $to    = $count && $from !== null ? $from + $count - 1 : null;
+        $to    = $count && $from !== null ? $from                                   + $count - 1 : null;
 
         $meta['pagination']['total']     = null;
         $meta['pagination']['last_page'] = null;

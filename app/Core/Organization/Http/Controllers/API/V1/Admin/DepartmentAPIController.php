@@ -32,7 +32,11 @@ class DepartmentAPIController extends BaseAPIController
         $model = $this->service->create($dto);
 
         return $this->response->created(
-            $this->transformer->transformOne($model)
+            array_merge(
+                $this->transformer->transformOne($model),
+                ['redirect_url' => route('web.org.departments.edit', ['department' => $model->id])]
+            ),
+            'دپارتمان مورد نظر ذخیره شد.'
         );
     }
 
@@ -45,7 +49,8 @@ class DepartmentAPIController extends BaseAPIController
         $updated = $this->service->update($department, $dto);
 
         return $this->response->success(
-            $this->transformer->transformOne($updated)
+            $this->transformer->transformOne($updated),
+            'دپارتمان مورد نظر بروزرسانی شد.'
         );
     }
 
@@ -55,6 +60,6 @@ class DepartmentAPIController extends BaseAPIController
         $department = $this->repository->findOrFail($id);
         $this->service->delete($department);
 
-        return $this->response->success([]);
+        return $this->response->success([], 'دپارتمان مورد نظر حذف شد.');
     }
 }

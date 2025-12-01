@@ -6,6 +6,7 @@ namespace App\Core\Organization\Http\Requests\V1\Admin;
 
 use App\Contracts\Requests\BaseRequest;
 use App\Core\Organization\Entities\Department;
+use App\Core\Organization\Entities\User;
 use Illuminate\Validation\Rule;
 
 class UpdateDepartmentRequest extends BaseRequest
@@ -26,8 +27,10 @@ class UpdateDepartmentRequest extends BaseRequest
                 'max:50',
                 Rule::unique(Department::class, 'code')->ignore($this->route('department')),
             ],
-            'manager_id'  => 'nullable|exists:users,id',
+            'manager_id'  => ['nullable', Rule::exists(User::class, 'id')],
             'image_url'   => 'nullable|url',
+            'color'       => 'nullable|string|max:20',
+            'icon'        => 'nullable|string|max:100',
             'description' => 'nullable|string',
             'is_active'   => 'required|boolean',
         ];

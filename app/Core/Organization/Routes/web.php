@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Core\Organization\Http\Controllers\Web\AuthWebController;
+use App\Core\Organization\Http\Controllers\Web\DepartmentWebController;
 use App\Core\Organization\Http\Controllers\Web\OrganizationDashboardController;
 use App\Core\Organization\Http\Controllers\Web\UserWebController;
 use Illuminate\Support\Facades\Route;
@@ -31,4 +32,5 @@ Route::middleware(['web', 'auth'])
         Route::get('dashboard', [OrganizationDashboardController::class, 'index'])->name('dashboard');
 
         Route::resource('users', UserWebController::class);
+        Route::resource('departments', DepartmentWebController::class);
     });

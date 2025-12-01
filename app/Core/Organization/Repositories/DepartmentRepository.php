@@ -10,11 +10,15 @@ use App\Core\Organization\Entities\Department;
 class DepartmentRepository extends BaseRepository
 {
     public array $fieldSearchable = [
-        'id'         => '=',
-        'name'       => 'like',
-        'code'       => 'like',
+        'id'   => '=',
+        'name' => 'like',
+        'code' => 'like',
+    ];
+
+    public array $filterableFields = [
         'manager_id' => '=',
         'is_active'  => '=',
+        'parent_id'  => '=',
     ];
 
     public array $sortableFields = [

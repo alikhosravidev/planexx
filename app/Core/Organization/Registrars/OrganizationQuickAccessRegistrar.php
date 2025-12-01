@@ -21,10 +21,10 @@ class OrganizationQuickAccessRegistrar implements RegistrarInterface
                 ->order(1);
 
             $builder->item('دپارتمان‌ها', 'org-departments')
-                ->url('#')
+                ->route('web.org.departments.index')
                 ->icon('fa-solid fa-sitemap')
                 ->color('purple')
-                ->enabled(false)
+                ->enabled()
                 ->order(2);
 
             $builder->item('موقعیت‌های شغلی', 'org-job-positions')

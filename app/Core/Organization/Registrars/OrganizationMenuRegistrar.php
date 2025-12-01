@@ -41,7 +41,7 @@ class OrganizationMenuRegistrar implements MenuRegistrar
                 ->order(4);
 
             $menu->item('دپارتمان‌ها', 'org-departments')
-                ->url('/dashboard/org/departments/list.php')
+                ->route('web.org.departments.index')
                 ->icon('fa-solid fa-sitemap')
                 ->order(5);
 

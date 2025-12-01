@@ -14,6 +14,8 @@ final readonly class DepartmentDTO implements DataTransferObject
         public ?string $code = null,
         public ?int    $managerId = null,
         public ?string $imageUrl = null,
+        public ?string $color = null,
+        public ?string $icon = null,
         public ?string $description = null,
         public bool    $isActive = true,
     ) {
@@ -27,6 +29,8 @@ final readonly class DepartmentDTO implements DataTransferObject
             'code'        => $this->code,
             'manager_id'  => $this->managerId,
             'image_url'   => $this->imageUrl,
+            'color'       => $this->color,
+            'icon'        => $this->icon,
             'description' => $this->description,
             'is_active'   => $this->isActive,
         ];

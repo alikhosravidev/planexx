@@ -45,13 +45,7 @@ class UserTransformer extends BaseTransformer
             return null;
         }
 
-        return $this->item($user->directManager, new self(
-            $this->config,
-            $this->registry,
-            $this->extractor,
-            $this->manager,
-            $this->logger
-        ));
+        return $this->item($user->directManager, resolve(self::class));
     }
 
     public function includeJobPosition(User $user)
@@ -60,13 +54,7 @@ class UserTransformer extends BaseTransformer
             return null;
         }
 
-        return $this->item($user->jobPosition, new JobPositionTransformer(
-            $this->config,
-            $this->registry,
-            $this->extractor,
-            $this->manager,
-            $this->logger
-        ));
+        return $this->item($user->jobPosition, resolve(JobPositionTransformer::class));
     }
 
     public function includeDepartments(User $user)
@@ -75,12 +63,6 @@ class UserTransformer extends BaseTransformer
             return null;
         }
 
-        return $this->collection($user->departments, new DepartmentTransformer(
-            $this->config,
-            $this->registry,
-            $this->extractor,
-            $this->manager,
-            $this->logger
-        ));
+        return $this->collection($user->departments, resolve(DepartmentTransformer::class));
     }
 }

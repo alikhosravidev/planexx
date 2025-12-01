@@ -40,7 +40,7 @@
 
         <main class="flex-1 flex flex-col">
             <x-dashboard.header
-                :page-title="$pageTitle"
+                :title="$pageTitle"
                 :breadcrumbs="$breadcrumbs"
                 :actions="$actionButtons"
             />

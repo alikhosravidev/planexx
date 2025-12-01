@@ -55,6 +55,6 @@ class UserAPIController extends BaseAPIController
         $user = $this->repository->findOrFail($id);
         $this->service->delete($user);
 
-        return $this->response->success();
+        return $this->response->success([], 'کاربر مورد نظر حذف شد.');
     }
 }

@@ -17,6 +17,8 @@ return new class () extends Migration {
             $table->string('code', 50)->nullable()->unique();
             $table->foreignId('manager_id')->nullable()->constrained('core_org_users');
             $table->string('image_url', 255)->nullable();
+            $table->string('color', 20)->nullable();
+            $table->string('icon', 100)->nullable();
             $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
