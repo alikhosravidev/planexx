@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Http\Controllers\API\V1\Admin;
 
-use App\Contracts\Controller\APIBaseController;
+use App\Contracts\Controller\BaseAPIController;
 use App\Core\Organization\Http\Requests\V1\Admin\StoreAddressRequest;
 use App\Core\Organization\Http\Requests\V1\Admin\UpdateAddressRequest;
 use App\Core\Organization\Http\Transformers\V1\Admin\AddressTransformer;
@@ -13,7 +13,7 @@ use App\Core\Organization\Repositories\AddressRepository;
 use App\Core\Organization\Services\AddressService;
 use Illuminate\Http\JsonResponse;
 
-class AddressController extends APIBaseController
+class AddressAPIController extends BaseAPIController
 {
     public function __construct(
         AddressRepository               $repository,

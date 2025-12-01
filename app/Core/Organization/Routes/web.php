@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Core\Organization\Http\Controllers\Web\AuthWebController;
 use App\Core\Organization\Http\Controllers\Web\OrganizationDashboardController;
-use App\Core\Organization\Http\Controllers\Web\UsersWebController;
+use App\Core\Organization\Http\Controllers\Web\UserWebController;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -14,10 +14,13 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::middleware(['web', 'guest'])
-    ->name('web.')
     ->group(static function (): void {
         Route::get('login', [AuthWebController::class, 'login'])->name('login');
         Route::post('auth', [AuthWebController::class, 'auth'])->name('auth');
+    });
+
+Route::middleware(['web', 'auth'])
+    ->group(static function (): void {
         Route::post('logout', [AuthWebController::class, 'logout'])->name('logout');
     });
 
@@ -27,5 +30,5 @@ Route::middleware(['web', 'auth'])
     ->group(static function (): void {
         Route::get('dashboard', [OrganizationDashboardController::class, 'index'])->name('dashboard');
 
-        Route::resource('users', UsersWebController::class);
+        Route::resource('users', UserWebController::class);
     });

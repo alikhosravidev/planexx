@@ -91,7 +91,7 @@
 
                         <button type="button"
                                 data-ajax
-                                data-action="{{ route('web.logout') }}"
+                                data-action="{{ route('logout') }}"
                                 data-method="POST"
                                 data-on-success="reload"
                                 class="flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors leading-normal">

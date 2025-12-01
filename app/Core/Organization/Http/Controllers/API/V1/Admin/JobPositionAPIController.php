@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Http\Controllers\API\V1\Admin;
 
-use App\Contracts\Controller\APIBaseController;
+use App\Contracts\Controller\BaseAPIController;
 use App\Core\Organization\Http\Requests\V1\Admin\StoreJobPositionRequest;
 use App\Core\Organization\Http\Requests\V1\Admin\UpdateJobPositionRequest;
 use App\Core\Organization\Http\Transformers\V1\Admin\JobPositionTransformer;
@@ -13,7 +13,7 @@ use App\Core\Organization\Repositories\JobPositionRepository;
 use App\Core\Organization\Services\JobPositionService;
 use Illuminate\Http\JsonResponse;
 
-class JobPositionController extends APIBaseController
+class JobPositionAPIController extends BaseAPIController
 {
     public function __construct(
         JobPositionRepository               $repository,

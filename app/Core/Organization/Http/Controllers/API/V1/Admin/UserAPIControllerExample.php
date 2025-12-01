@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Http\Controllers\API\V1\Admin;
 
-use App\Contracts\Controller\APIBaseController;
+use App\Contracts\Controller\BaseAPIController;
 use App\Core\Organization\Http\Transformers\V1\Admin\UserTransformer;
 use App\Core\Organization\Repositories\UserRepository;
 use App\Services\ResponseBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
-class UserControllerExample extends APIBaseController
+class UserAPIControllerExample extends BaseAPIController
 {
     public function __construct(
         UserRepository  $repository,

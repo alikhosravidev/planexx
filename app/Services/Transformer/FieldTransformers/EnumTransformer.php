@@ -20,6 +20,7 @@ namespace App\Services\Transformer\FieldTransformers;
 use App\Contracts\Transformer\FieldTransformerInterface;
 use BackedEnum;
 
+// TODO: add more tests
 class EnumTransformer implements FieldTransformerInterface
 {
     public function transform($enum): array|int|string|null
@@ -68,7 +69,7 @@ class EnumTransformer implements FieldTransformerInterface
     private function transformExtraMethods($enum): array
     {
         return collect(get_class_methods($enum))
-            ->filter(static fn ($method) => ! in_array($method, ['from', 'tryFrom', 'cases', 'label']))
+            ->filter(static fn ($method) => ! in_array($method, ['from', 'tryFrom', 'cases', 'label', 'fromName']))
             ->mapWithKeys(static fn ($method) => [
                 str($method)->snake()->value() => $enum->{$method}(),
             ])

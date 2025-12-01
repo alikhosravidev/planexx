@@ -54,7 +54,7 @@ class CheckUserAccessToken
         $this->accessTokenService->logout($user);
 
         if ($this->requestService->isWebRequest()) {
-            return redirect()->route('web.login');
+            return redirect()->route('login');
         }
 
         return response()->json(

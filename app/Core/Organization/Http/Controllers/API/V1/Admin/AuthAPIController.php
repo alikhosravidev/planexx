@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Http\Controllers\API\V1\Admin;
 
-use App\Contracts\Controller\APIBaseController;
+use App\Contracts\Controller\BaseAPIController;
 use App\Core\Organization\Http\Requests\V1\Admin\AuthInitiateRequest;
 use App\Core\Organization\Http\Requests\V1\Admin\AuthRequest;
 use App\Core\Organization\Http\Requests\V1\Admin\InitiateResetPasswordRequest;
@@ -20,7 +20,7 @@ use App\Services\HttpRequestService;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
-class AuthController extends APIBaseController
+class AuthAPIController extends BaseAPIController
 {
     public function __construct(
         UserRepository $userRepository,

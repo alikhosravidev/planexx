@@ -14,7 +14,7 @@ class OrganizationQuickAccessRegistrar implements RegistrarInterface
     {
         $manager->register('org.dashboard.quick-access', function (QuickAccessBuilder $builder) {
             $builder->item('مدیریت کاربران', 'org-user-management')
-                ->route('web.org.dashboard')
+                ->route('web.org.users.index')
                 ->icon('fa-solid fa-users')
                 ->color('blue')
                 ->enabled(true)

@@ -26,10 +26,15 @@ class UserRepository extends BaseRepository
 {
     public array $fieldSearchable = [
         'id'        => '=',
-        'slug'      => 'like',
         'full_name' => 'like',
         'mobile'    => '=',
         'email'     => '=',
+    ];
+
+    public array $filterableFields = [
+        'user_type'      => '=',
+        'is_active'      => '=',
+        'departments.id' => '=',
     ];
 
     public array $sortableFields = [

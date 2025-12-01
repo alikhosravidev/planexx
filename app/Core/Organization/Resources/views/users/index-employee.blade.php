@@ -7,6 +7,12 @@
         ['label' => $createLabel, 'url' => $createUrl, 'icon' => 'fa-solid fa-plus', 'type' => 'primary'],
     ];
 
+    $breadcrumbs = [
+        ['label' => 'خانه', 'url' => route('web.dashboard')],
+        ['label' => 'ساختار سازمانی', 'url' => route('web.org.dashboard')],
+        ['label' => $pageTitle],
+    ];
+
     $filters = [
         [
             'type' => 'text',
@@ -153,7 +159,7 @@
             <div class="flex-1 p-6 lg:p-8">
 
                 <form method="GET" action="{{ route('web.org.users.index') }}" class="mb-6">
-                    <input type="hidden" name="type" value="employee">
+                    <input type="hidden" name="user_type" value="employee">
                     <x-ui.filter-bar :filters="$filters" :resetUrl="$resetUrl"/>
                 </form>
 

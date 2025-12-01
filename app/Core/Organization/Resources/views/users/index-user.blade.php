@@ -7,6 +7,12 @@
         ['label' => $createLabel, 'url' => $createUrl, 'icon' => 'fa-solid fa-plus', 'type' => 'primary'],
     ];
 
+    $breadcrumbs = [
+        ['label' => 'خانه', 'url' => route('web.dashboard')],
+        ['label' => 'ساختار سازمانی', 'url' => route('web.org.dashboard')],
+        ['label' => $pageTitle],
+    ];
+
     $filters = [
         [
             'type' => 'text',

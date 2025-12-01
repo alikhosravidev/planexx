@@ -12,7 +12,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class UsersWebController extends BaseWebController
+class UserWebController extends BaseWebController
 {
     public function __construct(
         private readonly EnumTransformer $enumTransformer,
@@ -21,27 +21,18 @@ class UsersWebController extends BaseWebController
 
     public function index(Request $request): View
     {
-        $userType = Str::ucfirst($request->get('type') ?? UserTypeEnum::Employee->name);
+        $userType = Str::ucfirst($request->get('user_type') ?? UserTypeEnum::Employee->name);
         $lowerUserType = Str::lower($userType);
+        $userType = UserTypeEnum::fromName($userType);
 
         $userTypes = $this->apiGet('api.v1.admin.enums.show', ['enum' => 'UserTypeEnum']);
         $userTypes = collect($userTypes['result'])->keyBy('name');
-        $pageTitle = isset($userTypes[$userType]['plural']) ? $userTypes[$userType]['plural'] : 'مدیریت کاربران';
-
-        $breadcrumbs = [
-            ['label' => 'خانه', 'url' => route('web.dashboard')],
-            ['label' => 'ساختار سازمانی', 'url' => route('web.org.dashboard')],
-            ['label' => $pageTitle],
-        ];
-
-        $queryParams = $request->all();
-
-        if ($userType) {
-            $queryParams['filter']['user_type'] = $userType;
-        }
+        $pageTitle = isset($userTypes[$userType->name]['plural'])
+            ? $userTypes[$userType->name]['plural']
+            : 'مدیریت کاربران';
 
         $departments = [];
-        if ($userType === UserTypeEnum::Employee->name) {
+        if ($userType === UserTypeEnum::Employee) {
             $deptResponse = $this->apiGet(
                 'api.v1.admin.org.departments.keyValList',
                 ['per_page' => 100, 'field' => 'name']
@@ -49,13 +40,24 @@ class UsersWebController extends BaseWebController
             $departments  = $deptResponse['result'] ?? [];
         }
 
+        $filters = [];
+        $filters['user_type'] = $userType->value;
+        if ($request->filled('status')) {
+            $filters['is_active'] = $request->get('status') === 'active' ? 1 : 0;
+        }
+        if ($request->filled('department_id')) {
+            $filters['departments.id'] = $request->get('department_id');
+        }
+
+        $queryParams = $request->except('filter');
+        $queryParams['filter'] = $filters;
+
         $response = $this->apiGet('api.v1.admin.org.users.index', $queryParams);
 
         return view("Organization::users.index-{$lowerUserType}", [
             'users'       => $response['result'] ?? [],
             'pagination'  => $response['meta']['pagination'] ?? [],
             'pageTitle'   => $pageTitle,
-            'breadcrumbs' => $breadcrumbs,
             'userType'    => $userType,
             'departments' => $departments,
         ]);

@@ -28,6 +28,7 @@ use RuntimeException;
  * - Consistency: Admin panel receives the same transformed data as external clients
  * - Performance: No network overhead, everything happens via internal dispatch
  * - Maintainability: No code duplication between API and web layers
+ * TODO: test && refactor
  */
 abstract class BaseWebController
 {
@@ -56,59 +57,45 @@ abstract class BaseWebController
         string $method = 'POST',
         array $headers = []
     ): mixed {
-        // 1. Get the route by name
         $route = Route::getRoutes()->getByName($routeName);
 
         if (!$route) {
             throw new RuntimeException("API route '{$routeName}' not found");
         }
 
-        // 2. Build URI with substituted route parameters and proper query string
         $paramNames  = $route->parameterNames();
         $routeParams = array_intersect_key($data, array_flip($paramNames));
         $payload     = array_diff_key($data, $routeParams);
 
-        // Generate a relative URL with all parameters; extra params become query string
-        $generatedUrl = app('url')->route($routeName, $routeParams + $payload, false);
+        $generatedUrl = app('url')->route($routeName, $routeParams, false);
+        $uri          = parse_url($generatedUrl, PHP_URL_PATH) ?: $generatedUrl;
 
-        // Ensure we pass a path (with query) to Request::create
-        $uri         = parse_url($generatedUrl, PHP_URL_PATH) ?: $generatedUrl;
-        $queryString = parse_url($generatedUrl, PHP_URL_QUERY);
-        if ($queryString) {
-            $uri .= '?' . $queryString;
-        }
-
-        // Create a sub-request for this specific route
         $subRequest = Request::create(
             uri: $uri,
             method: $method,
-            parameters: in_array($method, ['GET', 'HEAD'], true) ? [] : $payload,
+            parameters: $payload,
             server: request()->server->all()
         );
 
-        // 3. Set headers
         $subRequest->headers->set('Accept', 'application/json');
 
-        // Add custom headers
         foreach ($headers as $key => $value) {
             $subRequest->headers->set($key, $value);
         }
 
-        // 4. Authentication forwarding
         $webUser = auth('web')->user();
 
         if ($webUser instanceof Authenticatable) {
             Sanctum::actingAs($webUser, abilities: ['*'], guard: 'sanctum');
         }
 
-        // 5. Bind route to request and run
         $subRequest->setRouteResolver(fn () => $route);
-        $response = $route->bind($subRequest)->run();
+        $response = $this->withRequest($subRequest, function () use ($route, $subRequest) {
+            return $route->bind($subRequest)->run();
+        });
 
-        // 6. Decode response
         $decodedResponse = json_decode($response->getContent(), true);
 
-        // 7. Handle validation errors
         if ($response->getStatusCode() === 422) {
             Session::flashInput($data);
 
@@ -116,6 +103,22 @@ abstract class BaseWebController
         }
 
         return $decodedResponse;
+    }
+
+    /**
+     * Execute a callback with a swapped request instance
+     */
+    protected function withRequest(Request $request, callable $callback): mixed
+    {
+        $original = app('request');
+
+        app()->instance('request', $request);
+
+        try {
+            return $callback();
+        } finally {
+            app()->instance('request', $original);
+        }
     }
 
     /**

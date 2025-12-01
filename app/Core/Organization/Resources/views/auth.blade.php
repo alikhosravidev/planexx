@@ -7,7 +7,7 @@
         <x-auth.mobile-step :action="route('api.v1.admin.user.initiate.auth')" />
 
         <x-auth.otp-step
-            :action="route('web.auth')"
+            :action="route('auth')"
             :resend-action="route('api.v1.admin.user.initiate.auth')"
         />
     </x-auth.card>

@@ -16,7 +16,8 @@ use Illuminate\Contracts\Pagination\Paginator;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Response;
 
-abstract class BaseController
+// TODO: test && refactor
+abstract class BaseAPIController
 {
     protected int $maxPerPage              = 100;
     protected int $defaultPerPage          = 15;
@@ -38,12 +39,14 @@ abstract class BaseController
 
         $includes   = $this->parseIncludes($request);
         $filters    = $this->parseFilters($request);
+        $search     = $this->parseSearch($request);
         $sorts      = $this->parseSort($request);
         $pagination = $this->parsePagination($request);
 
         $query = $this->repository->newQuery();
         $query = $this->applyEagerLoading($query, $includes);
         $query = $this->applyFiltersToQuery($query, $filters);
+        $query = $this->applySearchToQuery($query, $search);
         $query = $this->applySortToQuery($query, $sorts);
         $query = $this->customizeQuery($query, $request);
 
@@ -104,12 +107,14 @@ abstract class BaseController
     {
         $includes   = $this->parseIncludes($request);
         $filters    = $this->parseFilters($request);
+        $search     = $this->parseSearch($request);
         $sorts      = $this->parseSort($request);
         $pagination = $this->parsePagination($request);
 
         $query = $this->repository->newQuery();
         $query = $this->applyEagerLoading($query, $includes);
         $query = $this->applyFiltersToQuery($query, $filters);
+        $query = $this->applySearchToQuery($query, $search);
         $query = $this->applySortToQuery($query, $sorts);
         $query = $this->customizeQuery($query, $request);
 
@@ -174,17 +179,24 @@ abstract class BaseController
             return [];
         }
 
-        $validFilters     = [];
-        $searchableFields = $this->repository->fieldSearchable ?? [];
+        $validFilters      = [];
+        $filterableFields  = $this->repository->filterableFields ?? [];
+        $searchableFields  = $this->repository->fieldSearchable ?? [];
 
         foreach ($filters as $field => $value) {
             $baseField = explode('.', $field)[0];
 
-            if (!array_key_exists($field, $searchableFields) && !array_key_exists($baseField, $searchableFields)) {
+            $whitelist = !empty($filterableFields) ? $filterableFields : $searchableFields;
+
+            if (!array_key_exists($field, $whitelist) && !array_key_exists($baseField, $whitelist)) {
                 continue;
             }
 
-            $operator = $searchableFields[$field] ?? $searchableFields[$baseField] ?? '=';
+            $operator = $filterableFields[$field]
+                ?? $filterableFields[$baseField]
+                ?? $searchableFields[$field]
+                ?? $searchableFields[$baseField]
+                ?? '=';
 
             if (is_array($value)) {
                 $parsedFilter = $this->parseComplexFilter($field, $value, $operator);
@@ -202,6 +214,51 @@ abstract class BaseController
         }
 
         return $validFilters;
+    }
+
+    protected function parseSearch(Request $request): ?array
+    {
+        $term = $request->query('search');
+
+        if ($term === null || $term === '') {
+            return null;
+        }
+
+        $searchableFields = $this->repository->fieldSearchable ?? [];
+
+        if (empty($searchableFields)) {
+            return null;
+        }
+
+        $fieldsParam = $request->query('searchFields', '');
+
+        $fields = [];
+        if (!empty($fieldsParam)) {
+            $requested = is_array($fieldsParam) ? $fieldsParam : explode(',', $fieldsParam);
+            $requested = array_values(array_filter(array_map('trim', $requested)));
+
+            foreach ($requested as $f) {
+                $base = explode('.', $f)[0];
+                if (array_key_exists($f, $searchableFields) || array_key_exists($base, $searchableFields)) {
+                    $fields[$f] = $searchableFields[$f] ?? $searchableFields[$base] ?? 'like';
+                }
+            }
+        }
+
+        if (empty($fields)) {
+            foreach ($searchableFields as $f => $op) {
+                $fields[$f] = $op ?: 'like';
+            }
+        }
+
+        $join = strtolower((string) $request->query('searchJoin', 'or'));
+        $join = in_array($join, ['and', 'or'], true) ? $join : 'or';
+
+        return [
+            'term'   => $term,
+            'fields' => $fields,
+            'join'   => $join,
+        ];
     }
 
     protected function parseComplexFilter(string $field, array $value, string $defaultOperator): ?array
@@ -382,12 +439,81 @@ abstract class BaseController
         $relation      = $parts[0];
         $relationField = $parts[1];
 
-        return $query->whereHas($relation, function ($q) use ($relationField, $operator, $value) {
-            $this->applyFilter($q, $relationField, [
-                'field'    => $relationField,
-                'operator' => $operator,
-                'value'    => $value,
-            ]);
+        return $query->whereHas($relation, function (Builder $q) use ($relationField, $operator, $value) {
+            $qualifiedField = str_contains($relationField, '.')
+                ? $relationField
+                : $q->getModel()->qualifyColumn($relationField);
+
+            match ($operator) {
+                'in'      => $q->whereIn($qualifiedField, is_array($value) ? $value : [$value]),
+                'not_in'  => $q->whereNotIn($qualifiedField, is_array($value) ? $value : [$value]),
+                'between' => $q->whereBetween($qualifiedField, $value),
+                'like'    => $q->where($qualifiedField, 'like', $value),
+                '!=', '<>', '>', '>=', '<', '<=' => $q->where($qualifiedField, $operator, $value),
+                default => $q->where($qualifiedField, $value),
+            };
+        });
+    }
+
+    protected function applySearchToQuery(Builder $query, ?array $search): Builder
+    {
+        if (!$search) {
+            return $query;
+        }
+
+        $term   = $search['term'];
+        $fields = $search['fields'];
+        $join   = $search['join'];
+
+        return $query->where(function (Builder $q) use ($fields, $term, $join) {
+            $first = true;
+
+            foreach ($fields as $field => $operator) {
+                $value = $operator === 'like' ? ('%' . $term . '%') : $term;
+
+                if (str_contains($field, '.')) {
+                    [$relation, $relationField] = explode('.', $field, 2);
+
+                    $clause = function (Builder $rel) use ($relationField, $operator, $value) {
+                        $qualifiedField = str_contains($relationField, '.')
+                            ? $relationField
+                            : $rel->getModel()->qualifyColumn($relationField);
+
+                        match ($operator) {
+                            'in'      => $rel->whereIn($qualifiedField, is_array($value) ? $value : [$value]),
+                            'not_in'  => $rel->whereNotIn($qualifiedField, is_array($value) ? $value : [$value]),
+                            'between' => $rel->whereBetween($qualifiedField, $value),
+                            'like'    => $rel->where($qualifiedField, 'like', $value),
+                            '!=', '<>', '>', '>=', '<', '<=' => $rel->where($qualifiedField, $operator, $value),
+                            default => $rel->where($qualifiedField, $value),
+                        };
+                    };
+
+                    if ($first || $join === 'and') {
+                        $q->whereHas($relation, $clause);
+                    } else {
+                        $q->orWhereHas($relation, $clause);
+                    }
+                } else {
+                    if ($first || $join === 'and') {
+                        $this->applyFilter($q, $field, [
+                            'field'    => $field,
+                            'operator' => $operator,
+                            'value'    => $value,
+                        ]);
+                    } else {
+                        $q->orWhere(function (Builder $qq) use ($field, $operator, $value) {
+                            $this->applyFilter($qq, $field, [
+                                'field'    => $field,
+                                'operator' => $operator,
+                                'value'    => $value,
+                            ]);
+                        });
+                    }
+                }
+
+                $first = false;
+            }
         });
     }
 

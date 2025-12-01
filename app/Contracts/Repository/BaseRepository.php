@@ -12,14 +12,16 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
+// TODO: Add more test (filters and searches)
 abstract class BaseRepository implements RepositoryInterface
 {
     protected BaseModelContract $model;
     protected Builder $query;
     protected Collection $criteria;
 
-    public array $fieldSearchable = [];
-    public array $sortableFields  = [];
+    public array $fieldSearchable  = [];
+    public array $sortableFields   = [];
+    public array $filterableFields = [];
 
     public function __construct()
     {

@@ -36,4 +36,15 @@ enum UserTypeEnum: int
             self::Customer => 'fa-users',
         };
     }
+
+    public static function fromName(string $name): ?self
+    {
+        foreach (self::cases() as $case) {
+            if ($name === $case->name) {
+                return $case;
+            }
+        }
+
+        return null;
+    }
 }

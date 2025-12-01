@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Http\Controllers\API\V1\Admin;
 
-use App\Contracts\Controller\APIBaseController;
+use App\Contracts\Controller\BaseAPIController;
 use App\Core\Organization\Http\Requests\V1\Admin\StoreAddressRequest;
 use App\Core\Organization\Http\Requests\V1\Admin\UpdateAddressRequest;
 use App\Core\Organization\Http\Transformers\V1\Admin\UserTransformer;
 use App\Core\Organization\Repositories\UserRepository;
 use Illuminate\Http\JsonResponse;
 
-class UserController extends APIBaseController
+class UserControllerAPI extends BaseAPIController
 {
     public function __construct(
-        UserRepository               $repository,
-        UserTransformer              $transformer,
+        UserRepository  $repository,
+        UserTransformer $transformer,
     ) {
         parent::__construct($repository, $transformer);
     }
@@ -34,7 +34,7 @@ class UserController extends APIBaseController
     public function update(UpdateAddressRequest $request, int $id): JsonResponse
     {
         $address = $this->repository->findOrFail($id);
-        $dto     = $this->mapper->fromRequestForUpdate($request, $address);
+        $dto = $this->mapper->fromRequestForUpdate($request, $address);
 
         $updated = $this->service->update($address, $dto);
 

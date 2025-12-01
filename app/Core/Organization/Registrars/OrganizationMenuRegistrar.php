@@ -26,17 +26,17 @@ class OrganizationMenuRegistrar implements MenuRegistrar
                 ->order(1);
 
             $menu->item('کارکنان', 'org-employees')
-                ->route('web.org.users.index', ['type' => 'employee'])
+                ->route('web.org.users.index', ['user_type' => 'employee'])
                 ->icon('fa-solid fa-user-tie')
                 ->order(2);
 
             $menu->item('مشتریان', 'org-customers')
-                ->route('web.org.users.index', ['type' => 'customer'])
+                ->route('web.org.users.index', ['user_type' => 'customer'])
                 ->icon('fa-solid fa-users')
                 ->order(3);
 
             $menu->item('کاربران عادی', 'org-regular-users')
-                ->route('web.org.users.index', ['type' => 'user'])
+                ->route('web.org.users.index', ['user_type' => 'user'])
                 ->icon('fa-solid fa-user')
                 ->order(4);
 
