@@ -1,70 +1,63 @@
 @php
-    $title = $pageTitle ?? 'مدیریت کاربران';
-    $createLabel = 'افزودن کاربر جدید';
-    $actionButtons = [
-        ['label' => $createLabel, 'url' => route('web.org.users.create', ['user_type' => 'user']), 'icon' => 'fa-solid fa-plus', 'type' => 'primary'],
-    ];
+    $title = 'مدیریت نقش‌ها';
+    $currentPage = 'org-roles';
 
     $breadcrumbs = [
         ['label' => 'خانه', 'url' => route('web.dashboard')],
         ['label' => 'ساختار سازمانی', 'url' => route('web.org.dashboard')],
-        ['label' => $pageTitle],
+        ['label' => $title],
     ];
 
-    $filters = [
-        [
-            'type' => 'text',
-            'name' => 'search',
-            'label' => 'جستجو',
-            'placeholder' => 'نام، موبایل یا ایمیل',
-            'value' => request('search')
-        ],
-        [
-            'type' => 'select',
-            'name' => 'status',
-            'label' => 'وضعیت',
-            'options' => [
-                '' => 'همه',
-                'active' => 'فعال',
-                'inactive' => 'غیرفعال'
-            ],
-            'selected' => request('status')
-        ]
+    $actionButtons = [
+        ['label' => 'افزودن نقش جدید', 'url' => route('web.org.roles.create'), 'icon' => 'fa-solid fa-plus', 'type' => 'primary'],
     ];
 
     $columns = [
         [
-            'key' => 'full_name',
-            'label' => 'کاربر',
-            'component' => 'user',
+            'key' => 'name',
+            'label' => 'نام نقش',
+            'component' => 'text',
             'options' => [
-                'image_key' => 'image_url',
+                'icon' => 'fa-solid fa-shield-halved',
+                'icon_class' => 'text-primary',
             ],
         ],
         [
-            'key' => 'mobile',
-            'label' => 'شماره موبایل',
-            'component' => 'text',
+            'key' => 'users_count',
+            'label' => 'تعداد کاربران',
+            'component' => 'badge',
+            'options' => [
+                'variant' => 'info',
+                'size' => 'sm',
+                'icon' => 'fa-solid fa-users',
+                'suffix' => 'نفر',
+            ],
         ],
         [
-            'key' => 'email',
-            'label' => 'ایمیل',
-            'component' => 'text',
+            'key' => 'permissions_count',
+            'label' => 'تعداد دسترسی‌ها',
+            'component' => 'badge',
+            'options' => [
+                'variant' => 'success',
+                'size' => 'sm',
+                'icon' => 'fa-solid fa-key',
+                'suffix' => 'دسترسی',
+            ],
         ],
         [
-            'key' => 'is_active',
-            'label' => 'وضعیت',
-            'component' => 'status',
+            'key' => 'created_at.human.short',
+            'label' => 'تاریخ ایجاد',
+            'component' => 'text',
         ],
     ];
 
     $actions = [
         [
-            'icon' => 'fa-eye',
+            'icon' => 'fa-key',
             'type' => 'link',
-            'tooltip' => 'مشاهده جزئیات',
+            'tooltip' => 'مدیریت دسترسی‌ها',
             'url' => function($row) {
-                return route('web.org.users.show', ['user' => $row['id']]);
+                return route('web.org.roles.permissions', ['role' => $row['id']]);
             },
         ],
         [
@@ -72,7 +65,7 @@
             'type' => 'link',
             'tooltip' => 'ویرایش',
             'url' => function($row) {
-                return route('web.org.users.edit', ['user' => $row['id']]);
+                return route('web.org.roles.edit', ['role' => $row['id']]);
             },
         ],
         [
@@ -82,17 +75,15 @@
             'tooltip' => 'حذف',
             'data_attrs' => [
                 'data-ajax' => '',
-                'data-confirm' => 'آیا از حذف این کارمند اطمینان دارید؟',
+                'data-confirm' => 'آیا از حذف این نقش اطمینان دارید؟',
                 'data-action' => function($row) {
-                    return route('api.v1.admin.org.users.destroy', ['user' => $row['id']]);
+                    return route('api.v1.admin.org.roles.destroy', ['role' => $row['id']]);
                 },
                 'data-method' => 'DELETE',
                 'data-on-success' => 'reload'
             ],
         ],
     ];
-
-    $resetUrl = route('web.org.users.index') . '?user_type=user';
 @endphp
 
 <x-layouts.app :title="$title">
@@ -113,31 +104,25 @@
             />
 
             <div class="flex-1 p-6 lg:p-8">
-
-                <form method="GET" action="{{ route('web.org.users.index') }}" class="mb-6">
-                    <input type="hidden" name="type" value="user">
-                    <x-ui.filter-bar :filters="$filters" :resetUrl="$resetUrl" />
-                </form>
-
                 <div class="bg-white border border-border-light rounded-2xl overflow-hidden">
                     <x-ui.table.auto
                         :columns="$columns"
-                        :data="$users"
+                        :data="$roles"
                         :actions="$actions"
-                        empty-icon="fa-user"
-                        empty-message="کاربری یافت نشد"
+                        empty-icon="fa-shield-halved"
+                        empty-message="هیچ نقشی یافت نشد"
                     />
 
-                    @if(!empty($users) && !empty($pagination))
+                    @if(!empty($roles) && !empty($pagination))
                         @php
                             $currentPage = $pagination['current_page'] ?? 1;
                             $lastPage = $pagination['last_page'] ?? 1;
                         @endphp
                         <x-ui.pagination
                             :from="$pagination['from'] ?? 1"
-                            :to="$pagination['to'] ?? count($users)"
-                            :total="$pagination['total'] ?? count($users)"
-                            label="کاربر"
+                            :to="$pagination['to'] ?? count($roles)"
+                            :total="$pagination['total'] ?? count($roles)"
+                            label="نقش"
                             :current="$currentPage"
                             :prevUrl="request()->fullUrlWithQuery(['page' => $currentPage - 1])"
                             :nextUrl="request()->fullUrlWithQuery(['page' => $currentPage + 1])"
@@ -146,10 +131,7 @@
                         />
                     @endif
                 </div>
-
             </div>
-
         </main>
-
     </div>
 </x-layouts.app>

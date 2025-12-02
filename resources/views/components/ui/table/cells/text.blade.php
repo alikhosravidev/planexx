@@ -9,6 +9,11 @@
     $dir = $options['dir'] ?? null;
     $size = $options['size'] ?? 'base';
     $fallback = $options['fallback'] ?? '-';
+    $icon = $options['icon'] ?? null;
+    $iconClass = $options['icon_class'] ?? null;
+    if (!$iconClass && isset($options['icon_color']) && is_string($options['icon_color'])) {
+        $iconClass = 'text-' . $options['icon_color'] . '-600';
+    }
     
     // Normalize value into a safe string for Blade escaping
     $display = $value;
@@ -23,10 +28,23 @@
     }
 @endphp
 
-<span @class([
-    "text-{$size} leading-normal",
-    'text-text-secondary' => $muted,
-    'text-text-primary' => !$muted,
-]) @if($dir) dir="{{ $dir }}" @endif>
-    {{ $display }}
-</span>
+@if($icon)
+    <div class="flex items-center gap-2">
+        <i class="{{ $icon }} {{ $iconClass ?? 'text-text-muted' }}"></i>
+        <span @class([
+            "text-{$size} leading-normal",
+            'text-text-secondary' => $muted,
+            'text-text-primary' => !$muted,
+        ]) @if($dir) dir="{{ $dir }}" @endif>
+            {{ $display }}
+        </span>
+    </div>
+@else
+    <span @class([
+        "text-{$size} leading-normal",
+        'text-text-secondary' => $muted,
+        'text-text-primary' => !$muted,
+    ]) @if($dir) dir="{{ $dir }}" @endif>
+        {{ $display }}
+    </span>
+@endif

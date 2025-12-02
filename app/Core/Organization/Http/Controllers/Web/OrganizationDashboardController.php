@@ -12,7 +12,6 @@ use App\Services\QuickAccess\QuickAccessManager;
 use App\Services\Stats\StatManager;
 use App\Services\Transformer\TransformerFactory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Route;
 
 class OrganizationDashboardController extends BaseWebController
 {
@@ -29,7 +28,7 @@ class OrganizationDashboardController extends BaseWebController
     public function index(): View
     {
         $pageTitle   = 'ساختار سازمانی';
-        $currentPage = Route::current()->uri();
+        $currentPage = 'org-dashboard';
 
         $breadcrumbs = [
             ['label' => 'داشبورد', 'url' => route('web.dashboard')],

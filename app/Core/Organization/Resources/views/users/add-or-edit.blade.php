@@ -1,5 +1,6 @@
 @php
     $userType = $user['user_type']['name'] ?? 'User';
+    $userTypeLower = strtolower($userType);
     $typeLabels = [
         'Employee' => ['title' => 'کارکنان', 'singular' => 'کارمند', 'editTitle' => 'ویرایش کارمند'],
         'Customer' => ['title' => 'مشتریان', 'singular' => 'مشتری', 'editTitle' => 'ویرایش مشتری'],
@@ -9,7 +10,7 @@
     $pageTitle = isset($typeLabels[$userType]) ? $typeLabels[$userType]['editTitle'] : 'ویرایش کاربر';
     $listTitle = isset($typeLabels[$userType]) ? $typeLabels[$userType]['title'] : 'مدیریت کاربران';
     $listUrl = route('web.org.users.index', ['type' => strtolower($userType)]);
-    $currentPage = 'organizational-structure';
+    $currentPage = "org-{$userTypeLower}";
 
     $breadcrumbs = [
         ['label' => 'خانه', 'url' => route('web.dashboard')],

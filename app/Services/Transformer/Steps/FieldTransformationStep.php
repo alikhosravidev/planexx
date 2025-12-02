@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Transformer\Steps;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Model\BaseModelContract;
 use App\Contracts\Transformer\TransformationStepInterface;
 use App\Services\Transformer\FieldTransformerRegistry;
 use App\Services\Transformer\TransformationContext;
@@ -34,7 +34,7 @@ readonly class FieldTransformationStep implements TransformationStepInterface
                 continue;
             }
 
-            if ($context->originalModel instanceof BaseModel) {
+            if ($context->originalModel instanceof BaseModelContract) {
                 $value = $context->originalModel->{$field};
             }
 

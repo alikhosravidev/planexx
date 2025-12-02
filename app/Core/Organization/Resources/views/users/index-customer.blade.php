@@ -1,6 +1,5 @@
 @php
     $title = $pageTitle ?? 'مدیریت مشتریان';
-    $currentPage = 'org-customers';
     $createLabel = 'افزودن مشتری جدید';
     $actionButtons = [
         ['label' => $createLabel, 'url' => route('web.org.users.create', ['user_type' => 'customer']), 'icon' => 'fa-solid fa-plus', 'type' => 'primary'],

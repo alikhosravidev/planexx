@@ -35,10 +35,10 @@ class OrganizationQuickAccessRegistrar implements RegistrarInterface
                 ->order(3);
 
             $builder->item('نقش‌ها و دسترسی‌ها', 'org-roles-permissions')
-                ->url('#')
+                ->route('web.org.roles.index')
                 ->icon('fa-solid fa-shield-halved')
                 ->color('green')
-                ->enabled(false)
+                ->enabled()
                 ->order(4);
         });
     }

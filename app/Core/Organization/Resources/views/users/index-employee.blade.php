@@ -1,6 +1,5 @@
 @php
     $title = $pageTitle ?? 'مدیریت کارکنان';
-    $currentPage = 'org-employees';
     $createLabel = 'افزودن کارمند جدید';
     $actionButtons = [
         ['label' => $createLabel, 'url' => route('web.org.users.create', ['user_type' => 'employee']), 'icon' => 'fa-solid fa-plus', 'type' => 'primary'],

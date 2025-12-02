@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Contracts\Transformer;
 
 use App\Contracts\Model\BaseModel;
+use App\Contracts\Model\BaseModelContract;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,7 @@ interface TransformerInterface
      * @param BaseModel $model
      * @return array
      */
-    public function transformModel(BaseModel $model): array;
+    public function transformModel(BaseModelContract $model): array;
 
     /**
      * Transform an array to array format.

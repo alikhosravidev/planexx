@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Transformers\API\V1;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Model\BaseModelContract;
 use App\Contracts\Transformer\BaseTransformer;
 use App\Contracts\Transformer\DataExtractorInterface;
 use App\Services\Transformer\FieldTransformerRegistry;
@@ -26,7 +26,7 @@ class KeyValTransformer extends BaseTransformer
         parent::__construct($config, $registry, $extractor, $manager, $logger);
     }
 
-    public function transform(BaseModel $model): array
+    public function transform(BaseModelContract $model): array
     {
         return [
             $model->getAttribute($this->key) => $model->getAttribute($this->field),

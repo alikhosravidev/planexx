@@ -20,22 +20,22 @@ class OrganizationMenuRegistrar implements MenuRegistrar
         });
 
         $menu->register('org.sidebar', function (MenuBuilder $menu) {
-            $menu->item('داشبورد ماژول', 'org/dashboard')
+            $menu->item('داشبورد ماژول', 'org-dashboard')
                 ->route('web.org.dashboard')
                 ->icon('fa-solid fa-chart-pie')
                 ->order(1);
 
-            $menu->item('کارکنان', 'org-employees')
+            $menu->item('کارکنان', 'org-employee')
                 ->route('web.org.users.index', ['user_type' => 'employee'])
                 ->icon('fa-solid fa-user-tie')
                 ->order(2);
 
-            $menu->item('مشتریان', 'org-customers')
+            $menu->item('مشتریان', 'org-customer')
                 ->route('web.org.users.index', ['user_type' => 'customer'])
                 ->icon('fa-solid fa-users')
                 ->order(3);
 
-            $menu->item('کاربران عادی', 'org-regular-users')
+            $menu->item('کاربران عادی', 'org-user')
                 ->route('web.org.users.index', ['user_type' => 'user'])
                 ->icon('fa-solid fa-user')
                 ->order(4);
@@ -46,7 +46,7 @@ class OrganizationMenuRegistrar implements MenuRegistrar
                 ->order(5);
 
             $menu->item('نقش‌ها و دسترسی‌ها', 'org-roles')
-                ->url('/dashboard/org/roles-permissions/roles.php')
+                ->route('web.org.roles.index')
                 ->icon('fa-solid fa-shield-halved')
                 ->order(6);
         });

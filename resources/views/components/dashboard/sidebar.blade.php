@@ -55,6 +55,7 @@
     <nav class="flex-1 overflow-y-auto px-3 py-4">
         <div class="space-y-1">
             @foreach ($menuItems as $item)
+{{--                @dump($currentPage, $item)--}}
                 <a href="{{ $item['url'] }}"
                     @class([
                         'flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-all duration-200',
@@ -68,6 +69,7 @@
                     @endif
                 </a>
             @endforeach
+{{--            @dd('sdf')--}}
         </div>
     </nav>
     <div class="px-6 py-4 border-t border-border-light">

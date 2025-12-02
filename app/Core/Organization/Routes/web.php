@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Core\Organization\Http\Controllers\Web\AuthWebController;
 use App\Core\Organization\Http\Controllers\Web\DepartmentWebController;
 use App\Core\Organization\Http\Controllers\Web\OrganizationDashboardController;
+use App\Core\Organization\Http\Controllers\Web\RoleWebController;
 use App\Core\Organization\Http\Controllers\Web\UserWebController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,4 +34,6 @@ Route::middleware(['web', 'auth'])
 
         Route::resource('users', UserWebController::class);
         Route::resource('departments', DepartmentWebController::class);
+        Route::resource('roles', RoleWebController::class);
+        Route::get('roles/{role}/permissions', [RoleWebController::class, 'permissions'])->name('roles.permissions');
     });

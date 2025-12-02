@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Contracts\Repository;
 
-use App\Contracts\Model\BaseModel;
 use App\Contracts\Model\BaseModelContract;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -62,7 +61,7 @@ abstract class BaseRepository implements RepositoryInterface
         return $result;
     }
 
-    public function find(int $id): ?BaseModel
+    public function find(int $id): ?BaseModelContract
     {
         $this->applyCriteria();
         $result = $this->query->find($id);
@@ -71,7 +70,7 @@ abstract class BaseRepository implements RepositoryInterface
         return $result;
     }
 
-    public function first(): ?BaseModel
+    public function first(): ?BaseModelContract
     {
         $this->applyCriteria();
         $result = $this->query->first();
@@ -80,7 +79,7 @@ abstract class BaseRepository implements RepositoryInterface
         return $result;
     }
 
-    public function findOrFail(int $id): ?BaseModel
+    public function findOrFail(int $id): ?BaseModelContract
     {
         $this->applyCriteria();
         $result = $this->query->findOrFail($id);
@@ -89,12 +88,12 @@ abstract class BaseRepository implements RepositoryInterface
         return $result;
     }
 
-    public function create(array $data): BaseModel
+    public function create(array $data): BaseModelContract
     {
         return $this->model->create($data);
     }
 
-    public function update(int $id, array $data): BaseModel
+    public function update(int $id, array $data): BaseModelContract
     {
         $this->model->where('id', $id)->update($data);
 
@@ -121,7 +120,7 @@ abstract class BaseRepository implements RepositoryInterface
         return $this->model->where($field, $value)->get();
     }
 
-    public function findOneBy(string $field, $value): ?BaseModel
+    public function findOneBy(string $field, $value): ?BaseModelContract
     {
         return $this->model->where($field, $value)->first();
     }

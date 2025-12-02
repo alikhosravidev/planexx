@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Contracts\Transformer;
 
-use App\Contracts\Model\BaseModel;
 use App\Contracts\Model\BaseModelContract;
 use App\Services\Transformer\FieldTransformerRegistry;
 use App\Services\Transformer\ModelTransformationContext;
@@ -44,10 +43,10 @@ abstract class BaseTransformer extends TransformerAbstract implements Transforme
     /**
      * Transform a single model to array format.
      *
-     * @param BaseModel $model
+     * @param BaseModelContract $model
      * @return array
      */
-    public function transformModel(BaseModel $model): array
+    public function transformModel(BaseModelContract $model): array
     {
         return $this->transform($model);
     }
@@ -77,10 +76,10 @@ abstract class BaseTransformer extends TransformerAbstract implements Transforme
     /**
      * Transform method required by Fractal.
      *
-     * @param BaseModel $data
+     * @param BaseModelContract $data
      * @return array
      */
-    public function transform(BaseModel $data): array
+    public function transform(BaseModelContract $data): array
     {
         $pipeline = $this->buildPipeline();
         $context  = new ModelTransformationContext([], $data);

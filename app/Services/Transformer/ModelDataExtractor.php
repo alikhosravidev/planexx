@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Transformer;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Model\BaseModelContract;
 use App\Contracts\Transformer\DataExtractorInterface;
 
 /**
@@ -20,7 +20,7 @@ class ModelDataExtractor implements DataExtractorInterface
     /**
      * Extract data from a BaseModel.
      */
-    public function extract(BaseModel $model): array
+    public function extract(BaseModelContract $model): array
     {
         $data = array_merge(
             $model->attributesToArray(),
@@ -48,7 +48,7 @@ class ModelDataExtractor implements DataExtractorInterface
         $this->includeAccessors = $include;
     }
 
-    private function includeAccessors(array $appends, BaseModel $model, array $data): array
+    private function includeAccessors(array $appends, BaseModelContract $model, array $data): array
     {
         foreach ($appends as $accessor) {
             if (isset($model->$accessor)) {

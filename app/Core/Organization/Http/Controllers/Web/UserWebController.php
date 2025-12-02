@@ -63,6 +63,7 @@ class UserWebController extends BaseWebController
             'pageTitle'   => $pageTitle,
             'userType'    => $userType,
             'departments' => $departments,
+            'currentPage' => "org-{$lowerUserType}",
         ]);
     }
 

@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Services\Transformer;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Model\BaseModelContract;
 
 /**
  * Immutable DTO for model transformation pipeline context.
  */
 readonly class ModelTransformationContext extends TransformationContext
 {
-    public BaseModel $model;
+    public BaseModelContract $model;
 
     public function __construct(
         array $data,
-        BaseModel $model,
+        BaseModelContract $model,
         array $metadata = [],
     ) {
         parent::__construct($data, $model, $metadata);

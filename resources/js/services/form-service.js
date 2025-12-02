@@ -33,7 +33,23 @@ class FormService {
     try {
       // Get form data
       const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
+      const data = {};
+      formData.forEach((value, key) => {
+        if (key.endsWith('[]')) {
+          const cleanKey = key.slice(0, -2);
+          if (!Array.isArray(data[cleanKey])) {
+            data[cleanKey] = [];
+          }
+          data[cleanKey].push(value);
+        } else if (Object.prototype.hasOwnProperty.call(data, key)) {
+          if (!Array.isArray(data[key])) {
+            data[key] = [data[key]];
+          }
+          data[key].push(value);
+        } else {
+          data[key] = value;
+        }
+      });
 
       // Build and execute request
       let request;
@@ -181,7 +197,24 @@ class FormService {
    */
   getFormData(form) {
     const formData = new FormData(form);
-    return Object.fromEntries(formData.entries());
+    const data = {};
+    formData.forEach((value, key) => {
+      if (key.endsWith('[]')) {
+        const cleanKey = key.slice(0, -2);
+        if (!Array.isArray(data[cleanKey])) {
+          data[cleanKey] = [];
+        }
+        data[cleanKey].push(value);
+      } else if (Object.prototype.hasOwnProperty.call(data, key)) {
+        if (!Array.isArray(data[key])) {
+          data[key] = [data[key]];
+        }
+        data[key].push(value);
+      } else {
+        data[key] = value;
+      }
+    });
+    return data;
   }
 
   /**
