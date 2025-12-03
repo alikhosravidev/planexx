@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Transformer;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Entity\BaseEntity;
 use App\Contracts\Transformer\BaseTransformer;
 use App\Services\Transformer\TransformerFactory;
 use Tests\IntegrationTestBase;
@@ -24,7 +24,7 @@ class BaseTransformerTest extends IntegrationTestBase
 
     public function test_transforms_model_with_all_features(): void
     {
-        $user        = new TestModel();
+        $user        = new TestEntity();
         $transformer = resolve(TestTransformer::class);
         $result      = $transformer->transformModel($user);
 
@@ -45,7 +45,7 @@ class BaseTransformerTest extends IntegrationTestBase
 
     public function test_pipeline_processes_steps_correctly(): void
     {
-        $profile     = new ProfileModel();
+        $profile     = new ProfileEntity();
         $transformer = resolve(ProfileTransformer::class);
         $result      = $transformer->transformModel($profile);
 
@@ -60,7 +60,7 @@ class BaseTransformerTest extends IntegrationTestBase
     }
 }
 
-class TestModel extends BaseModel
+class TestEntity extends BaseEntity
 {
     protected $fillable = ['first_name', 'last_name', 'email', 'password', 'created_at'];
     protected $appends  = ['full_name'];
@@ -99,7 +99,7 @@ class TestTransformer extends BaseTransformer
     }
 }
 
-class ProfileModel extends BaseModel
+class ProfileEntity extends BaseEntity
 {
     protected $fillable = ['name', 'secret_field'];
     protected $appends  = ['computed_field'];

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Transformer\Steps;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Entity\BaseEntity;
 use App\Contracts\Transformer\DataExtractorInterface;
 use App\Services\Transformer\ModelTransformationContext;
 use App\Services\Transformer\Steps\DataExtractionStep;
@@ -29,7 +29,7 @@ class DataExtractionStepTest extends UnitTestBase
 
     public function test_extracts_data_from_model(): void
     {
-        $model = new class () extends BaseModel {
+        $model = new class () extends BaseEntity {
             protected $fillable = ['name', 'email'];
             public function getAppends(): array
             {

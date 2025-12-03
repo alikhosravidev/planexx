@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Transformer\Steps;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Entity\BaseEntity;
 use App\Contracts\Transformer\VirtualFieldResolverInterface;
 use App\Services\Transformer\ModelTransformationContext;
 use App\Services\Transformer\Steps\VirtualFieldResolutionStep;
@@ -32,7 +32,7 @@ class VirtualFieldResolutionStepTest extends UnitTestBase
 
     public function test_adds_virtual_fields(): void
     {
-        $employee = new EmployeeModel();
+        $employee = new EmployeeEntity();
 
         $this->resolver
             ->shouldReceive('getAvailableFields')
@@ -60,7 +60,7 @@ class VirtualFieldResolutionStepTest extends UnitTestBase
 
     public function test_handles_resolution_errors_gracefully(): void
     {
-        $contact = new ContactModel();
+        $contact = new ContactEntity();
 
         $this->resolver
             ->shouldReceive('getAvailableFields')
@@ -99,7 +99,7 @@ class VirtualFieldResolutionStepTest extends UnitTestBase
     }
 }
 
-class EmployeeModel extends BaseModel
+class EmployeeEntity extends BaseEntity
 {
     protected $fillable = ['first_name', 'last_name'];
 
@@ -117,7 +117,7 @@ class EmployeeModel extends BaseModel
     }
 }
 
-class ContactModel extends BaseModel
+class ContactEntity extends BaseEntity
 {
     protected $fillable = ['first_name'];
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Organization\Services;
 
 use App\Core\Organization\Entities\Role;
+use App\Core\Organization\Entities\User;
 use App\Core\Organization\Repositories\RoleRepository;
 use App\Domains\Role\RoleDTO;
 use Illuminate\Support\Facades\DB;
@@ -59,5 +60,30 @@ readonly class RoleService
         $role->syncPermissions($permissions);
 
         return $role->fresh(['permissions']);
+    }
+
+    public function updateUserRoles(User $user, ?int $primaryRoleId, array $secondaryRoleIds = []): User
+    {
+        return DB::transaction(function () use ($user, $primaryRoleId, $secondaryRoleIds) {
+            $roleIds = collect($secondaryRoleIds)
+                ->filter(fn ($id) => $id !== null)
+                ->map(fn ($id) => (int) $id)
+                ->values();
+
+            if ($primaryRoleId) {
+                $roleIds = $roleIds->prepend($primaryRoleId)->unique();
+            }
+
+            // Enforce correct guard to avoid sanctum mismatch
+            $guard = 'web';
+            $roles = Role::query()
+                ->where('guard_name', $guard)
+                ->whereIn('id', $roleIds->all())
+                ->get();
+
+            $user->syncRoles($roles);
+
+            return $user->fresh(['roles']);
+        });
     }
 }

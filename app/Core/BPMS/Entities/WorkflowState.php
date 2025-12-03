@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Core\BPMS\Entities;
 
-use App\Contracts\Model\BaseModel;
-use App\Contracts\Sorting\SortableEntity;
+use App\Contracts\Entity\BaseEntity;
+use App\Contracts\Entity\SortableEntity;
 use App\Core\BPMS\Database\Factories\WorkflowStateFactory;
 use App\Core\BPMS\Enums\WorkflowStatePosition;
 use App\Core\Organization\Entities\User;
@@ -36,7 +36,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property User|null                    $defaultAssignee
  * @property \Illuminate\Database\Eloquent\Collection<int, Task> $tasks
  */
-class WorkflowState extends BaseModel implements SortableEntity
+class WorkflowState extends BaseEntity implements SortableEntity
 {
     use HasFactory;
     use SoftDeletes;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Contracts\Transformer;
 
-use App\Contracts\Model\BaseModel;
-use App\Contracts\Model\BaseModelContract;
+use App\Contracts\Entity\BaseEntity;
+use App\Contracts\Entity\EntityInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
@@ -17,10 +17,10 @@ interface TransformerInterface
     /**
      * Transform a single model to array format.
      *
-     * @param BaseModel $model
+     * @param BaseEntity $model
      * @return array
      */
-    public function transformModel(BaseModelContract $model): array;
+    public function transformModel(EntityInterface $model): array;
 
     /**
      * Transform an array to array format.

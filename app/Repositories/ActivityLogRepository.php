@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Contracts\Entity\RoleableEntity;
 use App\Contracts\Repository\BaseRepository;
 use App\Entities\Activity;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class ActivityLogRepository extends BaseRepository
 {
@@ -32,9 +34,17 @@ class ActivityLogRepository extends BaseRepository
     public function getOrganizationActivities(int $limit = 10): Collection
     {
         return $this->newQuery()
-            ->with(['causer.roles', 'subject'])
-            ->whereIn('log_name', ['user', 'department', 'role', 'job_position'])
-            ->latest('created_at')
+            ->with([
+                'causer',
+                'subject' => function (MorphTo $morphTo) {
+                    $morphTo->morphWith([
+                        RoleableEntity::class => ['roles'],
+                    ]);
+                },
+            ])
+            ->where('log_name', '=', Activity::DEFAULT_LOG_NAME)
+            ->orderByDesc('created_at')
+            ->orderByDesc('id')
             ->limit($limit)
             ->get();
     }

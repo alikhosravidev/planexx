@@ -14,7 +14,7 @@
 
     $columns = [
         [
-            'key' => 'name',
+            'key' => 'title',
             'label' => 'نام نقش',
             'component' => 'text',
             'options' => [

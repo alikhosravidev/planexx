@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Entities;
 
-use App\Contracts\Model\BaseModelContract;
+use App\Contracts\Entity\EntityInterface;
 use App\Core\Organization\Database\Factories\PersonalAccessTokenFactory;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -43,7 +43,7 @@ use Laravel\Sanctum\PersonalAccessToken as PersonalAccessTokenModel;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
-class PersonalAccessToken extends PersonalAccessTokenModel implements BaseModelContract
+class PersonalAccessToken extends PersonalAccessTokenModel implements EntityInterface
 {
     use HasFactory;
 

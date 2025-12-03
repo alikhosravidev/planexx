@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Transformer;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Entity\BaseEntity;
 use App\Contracts\Transformer\TransformationStepInterface;
 use App\Services\Transformer\ModelTransformationContext;
 use App\Services\Transformer\TransformationContext;
@@ -34,7 +34,7 @@ class TransformationPipelineTest extends UnitTestBase
         ];
 
         $pipeline = new TransformationPipeline($steps);
-        $model    = new class () extends BaseModel {
+        $model    = new class () extends BaseEntity {
             public function getAppends(): array
             {
                 return [];
@@ -69,7 +69,7 @@ class TransformationPipelineTest extends UnitTestBase
         };
 
         $pipeline = new TransformationPipeline([$step1, $step2]);
-        $model    = new class () extends BaseModel {
+        $model    = new class () extends BaseEntity {
             public function getAppends(): array
             {
                 return [];
@@ -86,7 +86,7 @@ class TransformationPipelineTest extends UnitTestBase
     public function test_handles_empty_steps(): void
     {
         $pipeline = new TransformationPipeline([]);
-        $model    = new class () extends BaseModel {
+        $model    = new class () extends BaseEntity {
             public function getAppends(): array
             {
                 return [];

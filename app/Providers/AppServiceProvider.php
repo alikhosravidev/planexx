@@ -13,15 +13,18 @@ use App\Commands\PrepareParallelTests;
 use App\Contracts\BootstrapFileManagerInterface;
 use App\Contracts\ModuleDiscoveryInterface;
 use App\Core\BPMS\Providers\BPMSServiceProvider;
+use App\Core\FileManager\Providers\FileManagerServiceProvider;
 use App\Core\FormEngine\Providers\FormEngineServiceProvider;
 use App\Core\Notify\Providers\NotifyServiceProvider;
 use App\Core\Organization\Providers\OrganizationServiceProvider;
+use App\Macros\BlueprintMixin;
 use App\Registrars\DashboardMenuRegistrar;
 use App\Registrars\DashboardQuickAccessRegistrar;
 use App\Registrars\DashboardStatsRegistrar;
 use App\Services\Distribution\DistributionManager;
 use App\Services\FilesystemModuleDiscovery;
 use App\Services\Menu\MenuManager;
+use App\Services\MetadataMappers\MapEntityMetadata;
 use App\Services\ModuleManager;
 use App\Services\PhpFileBootstrapManager;
 use App\Services\QuickAccess\QuickAccessManager;
@@ -29,6 +32,7 @@ use App\Services\ResourceRegistrar;
 use App\Services\Stats\StatManager;
 use App\Utilities\CustomRequestValidator;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\ResourceRegistrar as BaseResourceRegistrar;
 use Illuminate\Support\ServiceProvider;
@@ -67,6 +71,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        MapEntityMetadata::enforceMorphMap();
         $this->commands(
             PrepareParallelTests::class,
             FetchEntitiesCommand::class,
@@ -74,6 +79,7 @@ class AppServiceProvider extends ServiceProvider
             FetchEventsCommand::class
         );
         $this->registerCustomValidations();
+        $this->loadMacro();
         app('menu')->registerBy(DashboardMenuRegistrar::class);
         app('stat')->registerBy(DashboardStatsRegistrar::class);
         app('quick-access')->registerBy(DashboardQuickAccessRegistrar::class);
@@ -82,6 +88,7 @@ class AppServiceProvider extends ServiceProvider
     private function registerCoreProviders(): void
     {
         $this->app->register(OrganizationServiceProvider::class);
+        $this->app->register(FileManagerServiceProvider::class);
         $this->app->register(FormEngineServiceProvider::class);
         $this->app->register(BPMSServiceProvider::class);
         $this->app->register(NotifyServiceProvider::class);
@@ -172,5 +179,10 @@ class AppServiceProvider extends ServiceProvider
         CustomRequestValidator::registerFullNameValidation();
         CustomRequestValidator::registerTableNameValidator();
         CustomRequestValidator::registerEntityValidator();
+    }
+
+    private function loadMacro(): void
+    {
+        Blueprint::mixin(new BlueprintMixin());
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
+use App\Entities\Activity;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -16,7 +17,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @see https://spatie.be/docs/laravel-activitylog/v4/introduction
  *
  */
-trait LogsModelActivity
+trait LogsEntityActivity
 {
     use LogsActivity;
 
@@ -33,7 +34,7 @@ trait LogsModelActivity
             ->dontSubmitEmptyLogs()
             ->dontLogIfAttributesChangedOnly($this->getGlobalBlacklist())
             ->logExcept($this->getGlobalBlacklist())
-            ->useLogName('model-events')
+            ->useLogName(Activity::DEFAULT_LOG_NAME)
         ;
     }
 
@@ -59,6 +60,12 @@ trait LogsModelActivity
 
     public function getGlobalBlacklist(): array
     {
-        return ['updated_at', 'cache'];
+        $blacklist = ['updated_at', 'cache'];
+
+        if (! isset($this->ignoreActivityLogAttributes)) {
+            return $blacklist;
+        }
+
+        return array_merge($blacklist, $this->ignoreActivityLogAttributes);
     }
 }

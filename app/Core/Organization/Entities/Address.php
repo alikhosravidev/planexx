@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Entities;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Entity\BaseEntity;
 use App\Core\Organization\Database\Factories\AddressFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,7 +31,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Province    $province
  * @property City        $city
  */
-class Address extends BaseModel
+class Address extends BaseEntity
 {
     use HasFactory;
 

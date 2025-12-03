@@ -29,6 +29,7 @@ final readonly class UserUpsertDTO implements DataTransferObject
         public ?int $directManagerId = null,
         public ?int $departmentId = null,
         public ?Carbon $employmentDate = null,
+        public ?string $employeeCode = null,
         public ?string $imageUrl = null,
     ) {
     }
@@ -49,6 +50,7 @@ final readonly class UserUpsertDTO implements DataTransferObject
             'direct_manager_id' => $this->directManagerId,
             'image_url'         => $this->imageUrl,
             'employment_date'   => $this->employmentDate?->format('Y-m-d H:i:s'),
+            'employee_code'     => $this->employeeCode,
         ];
     }
 }

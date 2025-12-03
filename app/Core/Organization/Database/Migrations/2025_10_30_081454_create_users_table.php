@@ -24,7 +24,7 @@ return new class () extends Migration {
             $table->string('full_name', 200)->nullable();
             $table->string('first_name', 100)->nullable();
             $table->string('last_name', 100)->nullable();
-            $table->char('mobile', 15)->unique();
+            $table->char('mobile', 15);
 
             //['employee', 'customer', 'user']
             $table->unsignedTinyInteger('user_type')
@@ -34,8 +34,8 @@ return new class () extends Migration {
             // ['b2c', 'b2b', 'b2g']
             $table->unsignedTinyInteger('customer_type')->nullable();
 
-            $table->string('email', 150)->unique()->nullable();
-            $table->char('national_code', 10)->nullable()->unique();
+            $table->string('email', 150)->nullable();
+            $table->char('national_code', 10)->nullable();
 
             $table->string('password', 128)->nullable();
 
@@ -50,11 +50,17 @@ return new class () extends Migration {
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('last_login_at')->nullable();
 
-            $table->string('employee_code', 50)->nullable()->unique();
+            $table->string('employee_code', 50)->nullable();
             $table->timestamp('employment_date')->nullable();
 
             $table->timestamps();
+
             $table->softDeletes();
+
+            $table->uniqueSoftDeleteBy(['mobile'], 'mobile');
+            $table->uniqueSoftDeleteBy(['email'], 'email');
+            $table->uniqueSoftDeleteBy(['national_code'], 'national_code');
+            $table->uniqueSoftDeleteBy(['employee_code'], 'employee_code');
 
             $table->index('user_type');
             $table->index('customer_type');

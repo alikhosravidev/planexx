@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Contracts\Transformer;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Entity\BaseEntity;
 
 /**
  * Interface for extracting data from models.
@@ -14,10 +14,10 @@ interface DataExtractorInterface
     /**
      * Extract data from a model.
      *
-     * @param BaseModel $model
+     * @param BaseEntity $model
      * @return array
      */
-    public function extract(BaseModel $model): array;
+    public function extract(BaseEntity $model): array;
 
     /**
      * Set whether to include accessors.

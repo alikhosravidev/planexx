@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Contracts\Repository;
 
-use App\Contracts\Model\BaseModelContract;
+use App\Contracts\Entity\EntityInterface;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -14,7 +14,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 // TODO: Add more test (filters and searches)
 abstract class BaseRepository implements RepositoryInterface
 {
-    protected BaseModelContract $model;
+    protected EntityInterface $model;
     protected Builder $query;
     protected Collection $criteria;
 
@@ -34,8 +34,8 @@ abstract class BaseRepository implements RepositoryInterface
     {
         $model = app($this->model());
 
-        if (!$model instanceof BaseModelContract) {
-            $baseModelClass = BaseModelContract::class;
+        if (!$model instanceof EntityInterface) {
+            $baseModelClass = EntityInterface::class;
 
             throw new Exception("Class {$this->model()} must be an instance of {$baseModelClass}");
         }
@@ -61,7 +61,7 @@ abstract class BaseRepository implements RepositoryInterface
         return $result;
     }
 
-    public function find(int $id): ?BaseModelContract
+    public function find(int $id): ?EntityInterface
     {
         $this->applyCriteria();
         $result = $this->query->find($id);
@@ -70,7 +70,7 @@ abstract class BaseRepository implements RepositoryInterface
         return $result;
     }
 
-    public function first(): ?BaseModelContract
+    public function first(): ?EntityInterface
     {
         $this->applyCriteria();
         $result = $this->query->first();
@@ -79,7 +79,7 @@ abstract class BaseRepository implements RepositoryInterface
         return $result;
     }
 
-    public function findOrFail(int $id): ?BaseModelContract
+    public function findOrFail(int $id): ?EntityInterface
     {
         $this->applyCriteria();
         $result = $this->query->findOrFail($id);
@@ -88,16 +88,18 @@ abstract class BaseRepository implements RepositoryInterface
         return $result;
     }
 
-    public function create(array $data): BaseModelContract
+    public function create(array $data): EntityInterface
     {
         return $this->model->create($data);
     }
 
-    public function update(int $id, array $data): BaseModelContract
+    public function update(int $id, array $data): EntityInterface
     {
-        $this->model->where('id', $id)->update($data);
+        $model = $this->findOrFail($id);
+        $model->fill($data);
+        $model->save();
 
-        return $this->findOrFail($id);
+        return $model->fresh();
     }
 
     public function delete(int $id): bool
@@ -120,7 +122,7 @@ abstract class BaseRepository implements RepositoryInterface
         return $this->model->where($field, $value)->get();
     }
 
-    public function findOneBy(string $field, $value): ?BaseModelContract
+    public function findOneBy(string $field, $value): ?EntityInterface
     {
         return $this->model->where($field, $value)->first();
     }

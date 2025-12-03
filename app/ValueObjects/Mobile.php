@@ -5,15 +5,21 @@ declare(strict_types=1);
 namespace App\ValueObjects;
 
 use App\Utilities\CustomValidator;
+use App\Utilities\StringUtility;
 use InvalidArgumentException;
 
 final readonly class Mobile
 {
-    public function __construct(public string $value)
+    public string $value;
+    public function __construct(string $value)
     {
-        if (!preg_match(CustomValidator::MOBILE_REGEX, $this->value)) {
+        $value = StringUtility::transformMobile($value);
+
+        if (!preg_match(CustomValidator::MOBILE_REGEX, $value)) {
             throw new InvalidArgumentException('Invalid mobile number. Must be in format 09xxxxxxxxx.');
         }
+
+        $this->value = $value;
     }
 
     public function __toString(): string

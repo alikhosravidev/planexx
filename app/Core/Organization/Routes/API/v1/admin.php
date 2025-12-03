@@ -10,6 +10,7 @@ use App\Core\Organization\Http\Controllers\API\V1\Admin\JobPositionAPIController
 use App\Core\Organization\Http\Controllers\API\V1\Admin\PermissionAPIController;
 use App\Core\Organization\Http\Controllers\API\V1\Admin\RoleAPIController;
 use App\Core\Organization\Http\Controllers\API\V1\Admin\UserAPIController;
+use App\Core\Organization\Http\Controllers\API\V1\Admin\UserRoleAPIController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('api/v1/admin')
@@ -22,7 +23,7 @@ Route::prefix('api/v1/admin')
                 Route::apiResource('users', UserAPIController::class);
                 Route::apiResource('departments', DepartmentAPIController::class);
                 Route::apiResource('roles', RoleAPIController::class);
-                Route::apiResource('permissions', PermissionAPIController::class)->only(['index', 'show']);
+                Route::apiResource('permissions', PermissionAPIController::class)->only(['keyValList']);
 
                 Route::apiResource('addresses', AddressAPIController::class);
 
@@ -30,6 +31,12 @@ Route::prefix('api/v1/admin')
                 Route::get('cities/{city}', [CityAPIController::class, 'show'])->name('cities.show');
 
                 Route::apiResource('job-positions', JobPositionAPIController::class);
+
+                // User sub-resources
+                Route::get('users/{user}/roles', [UserRoleAPIController::class, 'show'])
+                    ->name('users.roles.show');
+                Route::put('users/{user}/roles', [UserRoleAPIController::class, 'update'])
+                    ->name('users.roles.update');
             });
 
         Route::middleware(['throttle:' . config('authService.auth_max_attempts')])

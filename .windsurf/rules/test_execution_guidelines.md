@@ -6,22 +6,22 @@ trigger: manual
 
 ## Run All Tests
 ```bash
-docker exec -it lsp_app vendor/bin/phpunit --stop-on-failure --stop-on-error
+docker exec -it planexx_app vendor/bin/phpunit --stop-on-failure --stop-on-error
 ```
 
 ## Run Specific Test File
 ```bash
-docker exec -it lsp_app vendor/bin/phpunit tests/Feature/ExampleTest.php --stop-on-failure --stop-on-error
+docker exec -it planexx_app vendor/bin/phpunit tests/Feature/ExampleTest.php --stop-on-failure --stop-on-error
 ```
 
 ## Run Multiple Test Files
 ```bash
-docker exec -it lsp_app vendor/bin/phpunit tests/Feature/Test1.php tests/Unit/Test2.php --stop-on-failure --stop-on-error
+docker exec -it planexx_app vendor/bin/phpunit tests/Feature/Test1.php tests/Unit/Test2.php --stop-on-failure --stop-on-error
 ```
 
 ## Run Specific Test Method
 ```bash
-docker exec -it lsp_app vendor/bin/phpunit --filter test_method_name --stop-on-failure --stop-on-error
+docker exec -it planexx_app vendor/bin/phpunit --filter test_method_name --stop-on-failure --stop-on-error
 ```
 
 ---
@@ -42,4 +42,4 @@ If a test still fails after a maximum of **three (3) attempts** to fix it, the d
 ### Important Notes:
 - ✅ Always use `--stop-on-failure --stop-on-error` flags.
 - ✅ Test paths are relative to the project root.
-- ✅ The container (`lsp_app`) must be running.
+- ✅ The container (`planexx_app`) must be running.

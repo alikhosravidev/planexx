@@ -15,6 +15,15 @@
 
     $modules = [
         [
+            'id' => 'app',
+            'name' => 'زیرساخت',
+            'icon' => 'fa-solid fa-building',
+            'color' => 'green',
+            'entities' => [
+                ['id' => 'tags', 'name' => 'برچسب‌ها'],
+            ],
+        ],
+                [
             'id' => 'org',
             'name' => 'ساختار سازمانی',
             'icon' => 'fa-solid fa-sitemap',

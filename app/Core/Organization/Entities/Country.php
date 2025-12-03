@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Entities;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Entity\BaseEntity;
 use App\Core\Organization\Database\Factories\CountryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * Relations:
  * @property HasMany     $addresses
  */
-class Country extends BaseModel
+class Country extends BaseEntity
 {
     use HasFactory;
     protected $table    = 'core_org_countries';

@@ -35,6 +35,7 @@ class UserTransformer extends BaseTransformer
         'mobile_verified_at' => DateTimeTransformer::class,
         'last_login_at'      => DateTimeTransformer::class,
         'employment_date'    => DateTimeTransformer::class,
+        'birth_date'         => DateTimeTransformer::class,
     ];
 
     protected array $availableIncludes = ['directManager', 'jobPosition', 'departments'];

@@ -27,11 +27,11 @@ class OrganizationQuickAccessRegistrar implements RegistrarInterface
                 ->enabled()
                 ->order(2);
 
-            $builder->item('موقعیت‌های شغلی', 'org-job-positions')
-                ->url('#')
+            $builder->item('برچسب‌ها', 'org-job-positions')
+                ->route('web.app.tags.index')
                 ->icon('fa-solid fa-briefcase')
                 ->color('teal')
-                ->enabled(false)
+                ->enabled()
                 ->order(3);
 
             $builder->item('نقش‌ها و دسترسی‌ها', 'org-roles-permissions')

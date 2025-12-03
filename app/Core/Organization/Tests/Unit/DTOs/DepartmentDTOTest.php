@@ -64,6 +64,8 @@ class DepartmentDTOTest extends UnitTestBase
             'code'        => 'ENG',
             'manager_id'  => 2,
             'image_url'   => 'https://example.com/image.jpg',
+            'color'       => null,
+            'icon'        => null,
             'description' => 'Handles engineering tasks',
             'is_active'   => true,
         ];

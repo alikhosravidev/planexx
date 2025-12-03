@@ -6,6 +6,8 @@ namespace App\Core\Organization\Registrars;
 
 use App\Contracts\Registry\RegistrarInterface;
 use App\Contracts\Registry\RegistryManagerInterface;
+use App\Core\Organization\Repositories\DepartmentRepository;
+use App\Core\Organization\Repositories\RoleRepository;
 use App\Domains\User\UserQuery;
 use App\Services\Stats\StatBuilder;
 
@@ -13,6 +15,8 @@ class OrganizationStatsRegistrar implements RegistrarInterface
 {
     public function __construct(
         private readonly UserQuery $userQuery,
+        private readonly DepartmentRepository $departmentRepository,
+        private readonly RoleRepository $roleRepository,
     ) {
     }
 
@@ -33,15 +37,15 @@ class OrganizationStatsRegistrar implements RegistrarInterface
                 ->color('green')
                 ->order(2);
 
-            $builder->stat('دپارتمان‌ها', 'org-active-customers')
-                ->value(0)
+            $builder->stat('دپارتمان‌ها', 'org-active-departments')
+                ->value($this->departmentRepository->newQuery()->where('is_active', 1)->count())
                 ->icon('fa-solid fa-sitemap')
                 ->color('purple')
                 ->order(3);
 
-            $builder->stat('موقعیت‌های شغلی', 'org-active-customers')
-                ->value(0)
-                ->icon('fa-solid fa-briefcase')
+            $builder->stat('نقش‌های کاربری', 'org-roles')
+                ->value($this->roleRepository->newQuery()->count())
+                ->icon('fa-solid fa-shield-halved')
                 ->color('orange')
                 ->order(4);
         });

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\BPMS\Entities;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Entity\BaseEntity;
 use App\Core\BPMS\Database\Factories\FollowUpFactory;
 use App\Core\BPMS\Enums\FollowUpType;
 use App\Core\Organization\Entities\User;
@@ -31,7 +31,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property WorkflowState|null   $previousState
  * @property WorkflowState|null   $newState
  */
-class FollowUp extends BaseModel
+class FollowUp extends BaseEntity
 {
     use HasFactory;
     use HasCreator;

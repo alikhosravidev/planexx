@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services\Fetcher;
 
-use App\Contracts\Model\BaseModel;
-use App\Contracts\Model\BaseModelContract;
+use App\Contracts\Entity\BaseEntity;
+use App\Contracts\Entity\EntityInterface;
 
-class FetchModelEntities extends BaseFetcher
+class FetchEntities extends BaseFetcher
 {
     protected function isValidItem(
         string $namespace,
@@ -22,7 +22,7 @@ class FetchModelEntities extends BaseFetcher
             return false;
         }
 
-        return is_subclass_of($namespace, BaseModelContract::class)
+        return is_subclass_of($namespace, EntityInterface::class)
             && ! in_array($namespace, $this->ignoreList())
         ;
     }
@@ -30,8 +30,8 @@ class FetchModelEntities extends BaseFetcher
     protected function ignoreList(): array
     {
         return [
-            BaseModel::class,
-            BaseModelContract::class,
+            BaseEntity::class,
+            EntityInterface::class,
         ];
     }
 

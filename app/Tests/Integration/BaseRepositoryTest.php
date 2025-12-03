@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Entity\BaseEntity;
 use App\Contracts\Repository\BaseRepository;
 use App\Contracts\Repository\CriteriaInterface;
 use Illuminate\Database\Eloquent\Builder;
@@ -32,7 +32,7 @@ class BaseRepositoryTest extends IntegrationTestBase
         parent::setUp();
         $this->setupOnMemoryDatabase();
 
-        Schema::create('test_models', function (Blueprint $table) {
+        Schema::create('test_entities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
@@ -45,7 +45,7 @@ class BaseRepositoryTest extends IntegrationTestBase
 
     protected function tearDown(): void
     {
-        Schema::dropIfExists('test_models');
+        Schema::dropIfExists('test_entities');
 
         $this->downOnMemoryDatabase();
 
@@ -55,7 +55,7 @@ class BaseRepositoryTest extends IntegrationTestBase
     public function test_all_returns_collection_of_all_models(): void
     {
         // Arrange
-        TestModel::factory()->count(3)->create();
+        TestEntity::factory()->count(3)->create();
 
         // Act
         $result = $this->repository->all();
@@ -63,7 +63,7 @@ class BaseRepositoryTest extends IntegrationTestBase
         // Assert
         $this->assertInstanceOf(Collection::class, $result);
         $this->assertCount(3, $result);
-        $this->assertContainsOnlyInstancesOf(TestModel::class, $result);
+        $this->assertContainsOnlyInstancesOf(TestEntity::class, $result);
     }
 
     public function test_all_returns_empty_collection_when_no_models_exist(): void
@@ -79,13 +79,13 @@ class BaseRepositoryTest extends IntegrationTestBase
     public function test_find_returns_model_when_exists(): void
     {
         // Arrange
-        $model = TestModel::factory()->create(['name' => 'Test Model']);
+        $model = TestEntity::factory()->create(['name' => 'Test Model']);
 
         // Act
         $result = $this->repository->find($model->id);
 
         // Assert
-        $this->assertInstanceOf(TestModel::class, $result);
+        $this->assertInstanceOf(TestEntity::class, $result);
         $this->assertEquals($model->id, $result->id);
         $this->assertEquals('Test Model', $result->name);
     }
@@ -103,14 +103,14 @@ class BaseRepositoryTest extends IntegrationTestBase
     {
         // Arrange
         // Default ordering is by primary key ascending, so the first inserted record should be returned
-        $firstModel = TestModel::factory()->create(['name' => 'A Model']);
-        TestModel::factory()->create(['name' => 'Z Model']);
+        $firstModel = TestEntity::factory()->create(['name' => 'A Model']);
+        TestEntity::factory()->create(['name' => 'Z Model']);
 
         // Act
         $result = $this->repository->first();
 
         // Assert
-        $this->assertInstanceOf(TestModel::class, $result);
+        $this->assertInstanceOf(TestEntity::class, $result);
         $this->assertEquals($firstModel->id, $result->id);
         $this->assertEquals('A Model', $result->name);
     }
@@ -127,13 +127,13 @@ class BaseRepositoryTest extends IntegrationTestBase
     public function test_find_or_fail_returns_model_when_exists(): void
     {
         // Arrange
-        $model = TestModel::factory()->create(['name' => 'Test Model']);
+        $model = TestEntity::factory()->create(['name' => 'Test Model']);
 
         // Act
         $result = $this->repository->findOrFail($model->id);
 
         // Assert
-        $this->assertInstanceOf(TestModel::class, $result);
+        $this->assertInstanceOf(TestEntity::class, $result);
         $this->assertEquals($model->id, $result->id);
     }
 
@@ -159,19 +159,19 @@ class BaseRepositoryTest extends IntegrationTestBase
         $result = $this->repository->create($data);
 
         // Assert
-        $this->assertInstanceOf(TestModel::class, $result);
+        $this->assertInstanceOf(TestEntity::class, $result);
         $this->assertEquals('New Test Model', $result->name);
         $this->assertEquals('test@example.com', $result->email);
         $this->assertTrue($result->status);
 
         // Verify persistence
-        $this->assertDatabaseHas('test_models', $data);
+        $this->assertDatabaseHas('test_entities', $data);
     }
 
     public function test_update_modifies_existing_model_and_returns_updated_model(): void
     {
         // Arrange
-        $model = TestModel::factory()->create([
+        $model = TestEntity::factory()->create([
             'name'  => 'Original Name',
             'email' => 'original@example.com',
         ]);
@@ -185,14 +185,14 @@ class BaseRepositoryTest extends IntegrationTestBase
         $result = $this->repository->update($model->id, $updateData);
 
         // Assert
-        $this->assertInstanceOf(TestModel::class, $result);
+        $this->assertInstanceOf(TestEntity::class, $result);
         $this->assertEquals($model->id, $result->id);
         $this->assertEquals('Updated Name', $result->name);
         $this->assertTrue($result->status);
         $this->assertEquals('original@example.com', $result->email); // unchanged
 
         // Verify database state
-        $this->assertDatabaseHas('test_models', [
+        $this->assertDatabaseHas('test_entities', [
             'id'     => $model->id,
             'name'   => 'Updated Name',
             'email'  => 'original@example.com',
@@ -212,14 +212,14 @@ class BaseRepositoryTest extends IntegrationTestBase
     public function test_delete_removes_model_from_database(): void
     {
         // Arrange
-        $model = TestModel::factory()->create();
+        $model = TestEntity::factory()->create();
 
         // Act
         $result = $this->repository->delete($model->id);
 
         // Assert
         $this->assertTrue($result);
-        $this->assertDatabaseMissing('test_models', ['id' => $model->id]);
+        $this->assertDatabaseMissing('test_entities', ['id' => $model->id]);
     }
 
     public function test_delete_returns_false_when_model_does_not_exist(): void
@@ -234,7 +234,7 @@ class BaseRepositoryTest extends IntegrationTestBase
     public function test_paginate_returns_paginator_with_default_per_page(): void
     {
         // Arrange
-        TestModel::factory()->count(25)->create();
+        TestEntity::factory()->count(25)->create();
 
         // Act
         $result = $this->repository->paginate();
@@ -249,7 +249,7 @@ class BaseRepositoryTest extends IntegrationTestBase
     public function test_paginate_returns_paginator_with_custom_per_page(): void
     {
         // Arrange
-        TestModel::factory()->count(10)->create();
+        TestEntity::factory()->count(10)->create();
 
         // Act
         $result = $this->repository->paginate(5);
@@ -264,8 +264,8 @@ class BaseRepositoryTest extends IntegrationTestBase
     public function test_find_by_returns_collection_matching_field_value(): void
     {
         // Arrange
-        TestModel::factory()->count(3)->create(['status' => false]);
-        TestModel::factory()->count(2)->create(['status' => true]);
+        TestEntity::factory()->count(3)->create(['status' => false]);
+        TestEntity::factory()->count(2)->create(['status' => true]);
 
         // Act
         $result = $this->repository->findBy('status', true);
@@ -273,7 +273,7 @@ class BaseRepositoryTest extends IntegrationTestBase
         // Assert
         $this->assertInstanceOf(Collection::class, $result);
         $this->assertCount(2, $result);
-        $this->assertContainsOnlyInstancesOf(TestModel::class, $result);
+        $this->assertContainsOnlyInstancesOf(TestEntity::class, $result);
 
         foreach ($result as $model) {
             $this->assertTrue($model->status);
@@ -283,21 +283,21 @@ class BaseRepositoryTest extends IntegrationTestBase
     public function test_find_one_by_returns_first_model_matching_field_value(): void
     {
         // Arrange
-        TestModel::factory()->create(['email' => 'first@example.com']);
-        TestModel::factory()->create(['email' => 'second@example.com']);
+        TestEntity::factory()->create(['email' => 'first@example.com']);
+        TestEntity::factory()->create(['email' => 'second@example.com']);
 
         // Act
         $result = $this->repository->findOneBy('email', 'first@example.com');
 
         // Assert
-        $this->assertInstanceOf(TestModel::class, $result);
+        $this->assertInstanceOf(TestEntity::class, $result);
         $this->assertEquals('first@example.com', $result->email);
     }
 
     public function test_find_one_by_returns_null_when_no_match(): void
     {
         // Arrange
-        TestModel::factory()->create(['email' => 'existing@example.com']);
+        TestEntity::factory()->create(['email' => 'existing@example.com']);
 
         // Act
         $result = $this->repository->findOneBy('email', 'nonexistent@example.com');
@@ -309,7 +309,7 @@ class BaseRepositoryTest extends IntegrationTestBase
     public function test_count_returns_total_number_of_models(): void
     {
         // Arrange
-        TestModel::factory()->count(7)->create();
+        TestEntity::factory()->count(7)->create();
 
         // Act
         $result = $this->repository->count();
@@ -338,8 +338,8 @@ class BaseRepositoryTest extends IntegrationTestBase
         // Assert
         $this->assertSame($this->repository, $result);
         // Do not assert internal state; verify behavior by applying the criteria on a simple query
-        TestModel::factory()->create(['status' => false]);
-        TestModel::factory()->create(['status' => true]);
+        TestEntity::factory()->create(['status' => false]);
+        TestEntity::factory()->create(['status' => true]);
 
         $criteria->expects($this->once())
             ->method('apply')
@@ -364,8 +364,8 @@ class BaseRepositoryTest extends IntegrationTestBase
         $this->repository->pushCriteria($criteria);
 
         // Seed data with mixed statuses
-        TestModel::factory()->count(2)->create(['status' => false]);
-        TestModel::factory()->count(3)->create(['status' => true]);
+        TestEntity::factory()->count(2)->create(['status' => false]);
+        TestEntity::factory()->count(3)->create(['status' => true]);
 
         // Act - ensure criteria is applied once and then cleared (next call shouldn't be filtered)
         $filtered   = $this->repository->all();
@@ -379,8 +379,8 @@ class BaseRepositoryTest extends IntegrationTestBase
     public function test_criteria_are_applied_to_all_method(): void
     {
         // Arrange
-        TestModel::factory()->count(3)->create(['status' => false]);
-        TestModel::factory()->count(2)->create(['status' => true]);
+        TestEntity::factory()->count(3)->create(['status' => false]);
+        TestEntity::factory()->count(2)->create(['status' => true]);
 
         $criteria = $this->createMock(CriteriaInterface::class);
         $criteria->expects($this->once())
@@ -405,8 +405,8 @@ class BaseRepositoryTest extends IntegrationTestBase
     public function test_criteria_are_applied_to_find_method(): void
     {
         // Arrange
-        $inactiveModel = TestModel::factory()->create(['status' => false]);
-        $activeModel   = TestModel::factory()->create(['status' => true]);
+        $inactiveModel = TestEntity::factory()->create(['status' => false]);
+        $activeModel   = TestEntity::factory()->create(['status' => true]);
 
         $criteria = $this->createMock(CriteriaInterface::class);
         $criteria->expects($this->once())
@@ -426,8 +426,8 @@ class BaseRepositoryTest extends IntegrationTestBase
     public function test_criteria_are_applied_to_count_method(): void
     {
         // Arrange
-        TestModel::factory()->count(3)->create(['status' => false]);
-        TestModel::factory()->count(2)->create(['status' => true]);
+        TestEntity::factory()->count(3)->create(['status' => false]);
+        TestEntity::factory()->count(2)->create(['status' => true]);
 
         $criteria = $this->createMock(CriteriaInterface::class);
         $criteria->expects($this->once())
@@ -447,8 +447,8 @@ class BaseRepositoryTest extends IntegrationTestBase
     public function test_criteria_are_applied_to_paginate_method(): void
     {
         // Arrange
-        TestModel::factory()->count(5)->create(['status' => false]);
-        TestModel::factory()->count(3)->create(['status' => true]);
+        TestEntity::factory()->count(5)->create(['status' => false]);
+        TestEntity::factory()->count(3)->create(['status' => true]);
 
         $criteria = $this->createMock(CriteriaInterface::class);
         $criteria->expects($this->once())
@@ -470,9 +470,9 @@ class BaseRepositoryTest extends IntegrationTestBase
     public function test_multiple_criteria_are_applied_in_order(): void
     {
         // Arrange
-        TestModel::factory()->create(['name' => 'Test A', 'status' => true, 'email' => 'a@example.com']);
-        TestModel::factory()->create(['name' => 'Test B', 'status' => true, 'email' => 'b@example.com']);
-        TestModel::factory()->create(['name' => 'Test C', 'status' => false, 'email' => 'c@example.com']);
+        TestEntity::factory()->create(['name' => 'Test A', 'status' => true, 'email' => 'a@example.com']);
+        TestEntity::factory()->create(['name' => 'Test B', 'status' => true, 'email' => 'b@example.com']);
+        TestEntity::factory()->create(['name' => 'Test C', 'status' => false, 'email' => 'c@example.com']);
 
         $statusCriteria = $this->createMock(CriteriaInterface::class);
         $statusCriteria->expects($this->once())
@@ -495,13 +495,13 @@ class BaseRepositoryTest extends IntegrationTestBase
 
         // Assert
         $this->assertCount(2, $result);
-        $this->assertContainsOnlyInstancesOf(TestModel::class, $result);
+        $this->assertContainsOnlyInstancesOf(TestEntity::class, $result);
     }
 
     public function test_unique_constraint_violation_throws_exception_and_persists_first_row(): void
     {
         // Arrange
-        $initialCount = TestModel::count();
+        $initialCount = TestEntity::count();
 
         // Act & Assert
         try {
@@ -513,11 +513,11 @@ class BaseRepositoryTest extends IntegrationTestBase
         }
 
         // Only the first insert should persist within the surrounding test transaction
-        $this->assertEquals($initialCount + 1, TestModel::count());
+        $this->assertEquals($initialCount + 1, TestEntity::count());
     }
 }
 
-class TestModel extends BaseModel
+class TestEntity extends BaseEntity
 {
     use HasFactory;
 
@@ -540,7 +540,7 @@ class TestModelFactory extends Factory
      *
      * @var class-string<\Illuminate\Database\Eloquent\Model>
      */
-    protected $model = TestModel::class;
+    protected $model = TestEntity::class;
 
     /**
      * Define the model's default state.
@@ -561,6 +561,6 @@ class TestModelRepository extends BaseRepository
 {
     public function model(): string
     {
-        return TestModel::class;
+        return TestEntity::class;
     }
 }

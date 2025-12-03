@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Entities;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Entity\BaseEntity;
 use App\Core\Organization\Database\Factories\JobPositionFactory;
 use App\Core\Organization\Enums\TierEnum;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Accessors:
  * @property string                       $tier_label
  */
-class JobPosition extends BaseModel
+class JobPosition extends BaseEntity
 {
     use HasFactory;
     use SoftDeletes;

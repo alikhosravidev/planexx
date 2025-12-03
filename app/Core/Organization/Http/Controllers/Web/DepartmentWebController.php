@@ -75,7 +75,7 @@ class DepartmentWebController extends BaseWebController
 
         $usersResponse = $this->apiGet(
             'api.v1.admin.org.users.keyValList',
-            ['per_page' => 100, 'field' => 'full_name']
+            ['per_page' => 100, 'field' => 'full_name', 'filter' => ['user_type' => UserTypeEnum::Employee]]
         );
 
         return view('Organization::departments.add-or-edit', [

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\BPMS\Entities;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Entity\BaseEntity;
 use App\Core\BPMS\Database\Factories\WatchlistFactory;
 use App\Core\BPMS\Enums\WatchStatus;
 use App\Core\Organization\Entities\User;
@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Task                 $task
  * @property User                 $watcher
  */
-class Watchlist extends BaseModel
+class Watchlist extends BaseEntity
 {
     use HasFactory;
 

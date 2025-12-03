@@ -15,7 +15,7 @@ declare(strict_types=1);
  * @CTO Mehrdad Dadkhah <dadkhah.ir@gmail.com>
  */
 
-namespace App\Contracts\Model;
+namespace App\Contracts\Entity;
 
 use ArrayAccess;
 use Illuminate\Contracts\Broadcasting\HasBroadcastChannel;
@@ -26,7 +26,7 @@ use Illuminate\Contracts\Support\CanBeEscapedWhenCastToString;
 use Illuminate\Contracts\Support\Jsonable;
 use JsonSerializable;
 
-interface BaseModelContract extends
+interface EntityInterface extends
     Arrayable,
     ArrayAccess,
     CanBeEscapedWhenCastToString,

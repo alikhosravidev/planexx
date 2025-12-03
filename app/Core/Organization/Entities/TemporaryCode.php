@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Entities;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Entity\BaseEntity;
 use App\Core\Organization\Database\Factories\TemporaryCodeFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -33,7 +33,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon $updated_at
  * @property ?User $user
  */
-class TemporaryCode extends BaseModel
+class TemporaryCode extends BaseEntity
 {
     use HasFactory;
 

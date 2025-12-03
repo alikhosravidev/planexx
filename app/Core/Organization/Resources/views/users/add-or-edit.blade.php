@@ -1,5 +1,5 @@
 @php
-    $userType = $user['user_type']['name'] ?? 'User';
+    $userType = $userType ?? $user['user_type']['name'] ?? 'User';
     $userTypeLower = strtolower($userType);
     $typeLabels = [
         'Employee' => ['title' => 'کارکنان', 'singular' => 'کارمند', 'editTitle' => 'ویرایش کارمند'],
@@ -67,7 +67,7 @@
                             <x-forms.input class="min-w-[140px]" name="national_code" maxlength="10" :value="$user['national_code'] ?? ''" label="کد ملی" />
                             <x-forms.select class="min-w-[140px]" name="gender" label="جنسیت" :value="$genderValue" class="min-w-[140px]"
                                 :options="[1 => 'مرد', 2 => 'زن']" />
-                            <x-forms.date name="birth_date" :value="$user['birth_date'] ?? null" label="تاریخ تولد" />
+                            <x-forms.date name="birth_date" :value="$user['birth_date']['main'] ?? null" label="تاریخ تولد" />
                         </div>
                     </div>
 
@@ -108,16 +108,13 @@
                                     $departmentName = $primaryDepartment['name'] ?? null;
                                 @endphp
 
-                                <x-forms.select name="job_position_id" label="موقعیت شغلی" :value="$jobPositionId" class="min-w-[140px]"
-                                                :options="$jobPositionId ? [$jobPositionId => $jobPositionName] : []" />
-
                                 <x-forms.select name="direct_manager_id" label="مدیر مستقیم" :value="$managerId" class="min-w-[140px]"
-                                                :options="$managerId ? [$managerId => $managerName] : []" />
+                                                :options="$users" />
 
                                 <x-forms.select name="department_id" label="دپارتمان اصلی" :value="$departmentId" class="min-w-[140px]"
-                                                :options="$departmentId ? [$departmentId => $departmentName] : []" />
+                                                :options="$departments" />
 
-                                <x-forms.date name="employment_date" :value="$user['employment_date'] ?? null" label="تاریخ استخدام" />
+                                <x-forms.date name="employment_date" :value="$user['employment_date']['main'] ?? null" label="تاریخ استخدام" />
                             </div>
                         </div>
                     @endif

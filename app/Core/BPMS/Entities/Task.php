@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\BPMS\Entities;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Entity\BaseEntity;
 use App\Core\BPMS\Database\Factories\TaskFactory;
 use App\Core\BPMS\Enums\TaskPriority;
 use App\Core\Organization\Entities\User;
@@ -39,7 +39,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Database\Eloquent\Collection<int, FollowUp> $followUps
  * @property \Illuminate\Database\Eloquent\Collection<int, User> $watchers
  */
-class Task extends BaseModel
+class Task extends BaseEntity
 {
     use HasFactory;
     use SoftDeletes;

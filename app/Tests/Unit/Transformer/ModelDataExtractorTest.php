@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Transformer;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Entity\BaseEntity;
 use App\Services\Transformer\ModelDataExtractor;
 use Tests\UnitTestBase;
 
@@ -23,7 +23,7 @@ class ModelDataExtractorTest extends UnitTestBase
 
     public function test_extracts_attributes(): void
     {
-        $user = new UserModel();
+        $user = new UserEntity();
         $data = $this->extractor->extract($user);
 
         $this->assertArrayHasKey('name', $data);
@@ -34,7 +34,7 @@ class ModelDataExtractorTest extends UnitTestBase
 
     public function test_extracts_relations(): void
     {
-        $author = new AuthorModel();
+        $author = new AuthorEntity();
         $data   = $this->extractor->extract($author);
 
         $this->assertArrayHasKey('name', $data);
@@ -44,7 +44,7 @@ class ModelDataExtractorTest extends UnitTestBase
 
     public function test_extracts_accessors_when_enabled(): void
     {
-        $person = new PersonModel();
+        $person = new PersonEntity();
         $this->extractor->setIncludeAccessors(true);
         $data = $this->extractor->extract($person);
 
@@ -56,7 +56,7 @@ class ModelDataExtractorTest extends UnitTestBase
 
     public function test_skips_accessors_when_disabled(): void
     {
-        $person = new PersonModel();
+        $person = new PersonEntity();
         $this->extractor->setIncludeAccessors(false);
         $data = $this->extractor->extract($person);
 
@@ -72,7 +72,7 @@ class ModelDataExtractorTest extends UnitTestBase
     }
 }
 
-class UserModel extends BaseModel
+class UserEntity extends BaseEntity
 {
     protected $fillable = ['name', 'email'];
 
@@ -90,7 +90,7 @@ class UserModel extends BaseModel
     }
 }
 
-class AuthorModel extends BaseModel
+class AuthorEntity extends BaseEntity
 {
     protected $fillable = ['name'];
 
@@ -106,7 +106,7 @@ class AuthorModel extends BaseModel
     }
 }
 
-class PersonModel extends BaseModel
+class PersonEntity extends BaseEntity
 {
     protected $fillable = ['first_name', 'last_name'];
     protected $appends  = ['full_name'];

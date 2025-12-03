@@ -66,11 +66,6 @@
             'component' => 'text',
         ],
         [
-            'key' => 'job_position.name',
-            'label' => 'موقعیت شغلی',
-            'component' => 'text',
-        ],
-        [
             'key' => 'department.name',
             'label' => 'دپارتمان',
             'component' => 'text',
@@ -154,7 +149,7 @@
             <div class="flex-1 p-6 lg:p-8">
 
                 <form method="GET" action="{{ route('web.org.users.index') }}" class="mb-6">
-                    <input type="hidden" name="user_type" value="employee">
+                    <input type="hidden" name="user_type" value="{{ $userType->name }}">
                     <x-ui.filter-bar :filters="$filters" :resetUrl="$resetUrl"/>
                 </form>
 
@@ -192,5 +187,5 @@
 
     </div>
 
-    <x-org.access-modal/>
+    <x-org.access-modal :roles="$roles"/>
 </x-layouts.app>

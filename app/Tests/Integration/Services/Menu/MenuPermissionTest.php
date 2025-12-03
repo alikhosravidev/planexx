@@ -6,7 +6,6 @@ namespace App\Tests\Integration\Services\Menu;
 
 use App\Services\Menu\MenuBuilder;
 use App\Services\Menu\MenuManager;
-use Spatie\Permission\Models\Permission;
 use Tests\IntegrationTestBase;
 
 final class MenuPermissionTest extends IntegrationTestBase
@@ -16,14 +15,30 @@ final class MenuPermissionTest extends IntegrationTestBase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->manager = new MenuManager();
+        $this->manager = new class () extends MenuManager {
+            private $permResolver = null;
+
+            public function setPermissionResolver(callable $resolver): void
+            {
+                $this->permResolver = $resolver;
+            }
+
+            protected function userHasPermission(string $permission): bool
+            {
+                if ($this->permResolver) {
+                    return (bool) call_user_func($this->permResolver, $permission);
+                }
+
+                return parent::userHasPermission($permission);
+            }
+        };
     }
 
     public function test_filters_items_when_user_has_no_permission(): void
     {
         $this->actingAsClient();
-        Permission::findOrCreate('admin.access', 'web');
-        Permission::findOrCreate('users.view', 'web');
+        // Deny all permissions by default for this test
+        $this->manager->setPermissionResolver(fn (string $perm) => false);
 
         $this->manager->register('permission.menu', function (MenuBuilder $builder) {
             $builder->item('عمومی', 'public-item')->url('/public');
@@ -40,8 +55,8 @@ final class MenuPermissionTest extends IntegrationTestBase
     public function test_shows_items_when_user_has_permission(): void
     {
         $this->actingAsClient();
-        Permission::findOrCreate('admin.access', 'web');
-        $this->user->givePermissionTo('admin.access');
+        // Allow only 'admin.access' for this test
+        $this->manager->setPermissionResolver(fn (string $perm) => $perm === 'admin.access');
 
         $this->manager->register('permission.menu', function (MenuBuilder $builder) {
             $builder->item('ادمین', 'admin-item')->permission('admin.access');
@@ -66,11 +81,10 @@ final class MenuPermissionTest extends IntegrationTestBase
     public function test_filters_children_based_on_permissions(): void
     {
         $this->actingAsClient();
-        Permission::findOrCreate('parent.view', 'web');
-        Permission::findOrCreate('child.allowed', 'web');
-        Permission::findOrCreate('child.denied', 'web');
-        $this->user->givePermissionTo('parent.view');
-        $this->user->givePermissionTo('child.allowed');
+        // Allow parent and allowed child, deny the other
+        $this->manager->setPermissionResolver(function (string $perm) {
+            return in_array($perm, ['parent.view', 'child.allowed'], true);
+        });
 
         $this->manager->register('nested.permission.menu', function (MenuBuilder $builder) {
             $builder->group('والد', 'parent')->permission('parent.view')->children(function (MenuBuilder $sub) {

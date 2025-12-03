@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Entities;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Entity\BaseEntity;
 use App\Core\Organization\Database\Factories\UserDepartmentFactory;
 use App\Core\Organization\Traits\HasUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * Relations:
  * @property Department                   $department
  */
-class UserDepartment extends BaseModel
+class UserDepartment extends BaseEntity
 {
     use HasFactory;
     use HasUser;

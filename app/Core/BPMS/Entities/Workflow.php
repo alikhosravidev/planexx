@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\BPMS\Entities;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Entity\BaseEntity;
 use App\Core\BPMS\Database\Factories\WorkflowFactory;
 use App\Core\Organization\Entities\Department;
 use App\Core\Organization\Entities\User;
@@ -33,7 +33,7 @@ use Spatie\Permission\Models\Role;
  * @property \Illuminate\Database\Eloquent\Collection<int, WorkflowState> $states
  * @property \Illuminate\Database\Eloquent\Collection<int, Role> $allowedRoles
  */
-class Workflow extends BaseModel
+class Workflow extends BaseEntity
 {
     use HasFactory;
     use SoftDeletes;
@@ -81,7 +81,7 @@ class Workflow extends BaseModel
         return $this->morphToMany(
             related: Role::class,
             name: 'model',
-            table: 'model_has_roles',
+            table: 'core_org_entity_has_roles',
             foreignPivotKey: 'model_id',
             relatedPivotKey: 'role_id'
         );

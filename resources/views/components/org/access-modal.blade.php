@@ -1,8 +1,9 @@
 <div id="accessModal" data-modal data-modal-backdrop class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl w-full max-w-lg shadow-2xl">
-        <form data-modal-form data-url="#" data-method="POST" data-redirect="reload">
-            {{--{{ route('api.org.users.access', ['user' => '__USER_ID__']) }}--}}
+        <form data-ajax action="#" method="POST" data-on-success="reload">
+            @method('PUT')
             @csrf
+            <button type="button" id="prefillRolesBtn" data-method="GET" class="hidden"></button>
 
             <!-- Header -->
             <div class="px-6 py-4 border-b border-border-light flex items-center justify-between">
@@ -31,17 +32,11 @@
                     </label>
                     <select name="primary_role" id="primaryRole" class="flex-1 px-lg py-3.5 text-base text-text-primary outline-none bg-transparent cursor-pointer leading-normal">
                         <option value="">انتخاب کنید</option>
-                        <option value="1">مدیر سیستم</option>
-                        <option value="2">مدیر ارشد</option>
-                        <option value="3">مدیر فروش</option>
-                        <option value="4">کارشناس فروش</option>
-                        <option value="5">کارشناس فنی</option>
-                        <option value="6">منابع انسانی</option>
-                        <option value="7">مدیر مالی</option>
-                        <option value="8">کارشناس مالی</option>
-                        <option value="9">مدیر مارکتینگ</option>
-                        <option value="10">کارشناس مارکتینگ</option>
-                        <option value="11">کارشناس CRM</option>
+                        @if(!empty($roles))
+                            @foreach($roles as $id => $title)
+                                <option value="{{ $id }}">{{ $title }}</option>
+                            @endforeach
+                        @endif
                     </select>
                 </div>
             </div>
@@ -54,50 +49,14 @@
                     <span class="text-text-muted text-xs">(چند انتخابی)</span>
                 </label>
                 <div class="border border-border-medium rounded-xl p-4 bg-bg-tertiary space-y-3 max-h-[200px] overflow-y-auto">
-                    <label class="flex items-center gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-all duration-200">
-                        <input type="checkbox" name="secondary_roles[]" class="w-4 h-4 text-primary border-border-medium rounded focus:ring-primary focus:ring-offset-0" value="1">
-                        <span class="text-sm text-text-primary leading-normal">مدیر سیستم</span>
-                    </label>
-                    <label class="flex items-center gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-all duration-200">
-                        <input type="checkbox" name="secondary_roles[]" class="w-4 h-4 text-primary border-border-medium rounded focus:ring-primary focus:ring-offset-0" value="2">
-                        <span class="text-sm text-text-primary leading-normal">مدیر ارشد</span>
-                    </label>
-                    <label class="flex items-center gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-all duration-200">
-                        <input type="checkbox" name="secondary_roles[]" class="w-4 h-4 text-primary border-border-medium rounded focus:ring-primary focus:ring-offset-0" value="3">
-                        <span class="text-sm text-text-primary leading-normal">مدیر فروش</span>
-                    </label>
-                    <label class="flex items-center gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-all duration-200">
-                        <input type="checkbox" name="secondary_roles[]" class="w-4 h-4 text-primary border-border-medium rounded focus:ring-primary focus:ring-offset-0" value="4">
-                        <span class="text-sm text-text-primary leading-normal">کارشناس فروش</span>
-                    </label>
-                    <label class="flex items-center gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-all duration-200">
-                        <input type="checkbox" name="secondary_roles[]" class="w-4 h-4 text-primary border-border-medium rounded focus:ring-primary focus:ring-offset-0" value="5">
-                        <span class="text-sm text-text-primary leading-normal">کارشناس فنی</span>
-                    </label>
-                    <label class="flex items-center gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-all duration-200">
-                        <input type="checkbox" name="secondary_roles[]" class="w-4 h-4 text-primary border-border-medium rounded focus:ring-primary focus:ring-offset-0" value="6">
-                        <span class="text-sm text-text-primary leading-normal">منابع انسانی</span>
-                    </label>
-                    <label class="flex items-center gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-all duration-200">
-                        <input type="checkbox" name="secondary_roles[]" class="w-4 h-4 text-primary border-border-medium rounded focus:ring-primary focus:ring-offset-0" value="7">
-                        <span class="text-sm text-text-primary leading-normal">مدیر مالی</span>
-                    </label>
-                    <label class="flex items-center gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-all duration-200">
-                        <input type="checkbox" name="secondary_roles[]" class="w-4 h-4 text-primary border-border-medium rounded focus:ring-primary focus:ring-offset-0" value="8">
-                        <span class="text-sm text-text-primary leading-normal">کارشناس مالی</span>
-                    </label>
-                    <label class="flex items-center gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-all duration-200">
-                        <input type="checkbox" name="secondary_roles[]" class="w-4 h-4 text-primary border-border-medium rounded focus:ring-primary focus:ring-offset-0" value="9">
-                        <span class="text-sm text-text-primary leading-normal">مدیر مارکتینگ</span>
-                    </label>
-                    <label class="flex items-center gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-all duration-200">
-                        <input type="checkbox" name="secondary_roles[]" class="w-4 h-4 text-primary border-border-medium rounded focus:ring-primary focus:ring-offset-0" value="10">
-                        <span class="text-sm text-text-primary leading-normal">کارشناس مارکتینگ</span>
-                    </label>
-                    <label class="flex items-center gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-all duration-200">
-                        <input type="checkbox" name="secondary_roles[]" class="w-4 h-4 text-primary border-border-medium rounded focus:ring-primary focus:ring-offset-0" value="11">
-                        <span class="text-sm text-text-primary leading-normal">کارشناس CRM</span>
-                    </label>
+                    @if(!empty($roles))
+                        @foreach($roles as $id => $title)
+                            <label class="flex items-center gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-all duration-200">
+                                <input type="checkbox" name="secondary_roles[]" class="w-4 h-4 text-primary border-border-medium rounded focus:ring-primary focus:ring-offset-0" value="{{ $id }}">
+                                <span class="text-sm text-text-primary leading-normal">{{ $title }}</span>
+                            </label>
+                        @endforeach
+                    @endif
                 </div>
                 <p class="text-xs text-text-muted mt-2 leading-normal">
                     <i class="fa-solid fa-info-circle ml-1"></i>
@@ -133,20 +92,63 @@ document.addEventListener('DOMContentLoaded', () => {
             usernameEl.textContent = userName;
         }
 
-        const form = modal.querySelector('form[data-modal-form]');
+        const form = modal.querySelector('form[data-ajax]');
         if (form && userId) {
-            const baseUrl = "#";
-            // route('api.org.users.access', ['user' => '__USER_ID__'])
-            const url = baseUrl.replace('__USER_ID__', userId);
-            form.setAttribute('data-url', url);
+            const url = window.route('api.v1.admin.org.users.roles.update', { user: userId });
+            form.setAttribute('action', url);
+        }
+
+        // Prefill current roles using AJAX system
+        if (userId) {
+            const prefillBtn = modal.querySelector('#prefillRolesBtn');
+            if (prefillBtn) {
+                const showUrl = window.route('api.v1.admin.org.users.roles.show', { user: userId });
+                prefillBtn.setAttribute('action', showUrl);
+                prefillBtn.setAttribute('data-action', showUrl);
+
+                const onSuccess = (event) => {
+                    try {
+                        const responsePayload = event.detail?.response || {};
+                        const data = event.detail?.data || responsePayload.data || {};
+                        const payload = responsePayload.result || data.result || data.data || data || {};
+                        const primary = payload.primary_role ?? null;
+                        const secondary = Array.isArray(payload.secondary_roles) ? payload.secondary_roles : [];
+
+                        const primarySelect = modal.querySelector('#primaryRole');
+                        if (primarySelect) {
+                            primarySelect.value = primary != null ? String(primary) : '';
+                            primarySelect.dispatchEvent(new Event('change', { bubbles: true }));
+                        }
+
+                        const checkboxes = modal.querySelectorAll('input[name="secondary_roles[]"]');
+                        const secondaryStr = secondary.map(String);
+                        checkboxes.forEach(cb => {
+                            const shouldCheck = secondaryStr.includes(cb.value);
+                            if (cb.checked !== shouldCheck) {
+                                cb.checked = shouldCheck;
+                                cb.dispatchEvent(new Event('change', { bubbles: true }));
+                            }
+                        });
+                    } catch (_) {
+                        // ignore
+                    } finally {
+                        prefillBtn.removeEventListener('ajax:success', onSuccess, { once: true });
+                    }
+                };
+
+                prefillBtn.addEventListener('ajax:success', onSuccess, { once: true });
+                // Add data-ajax only after action is ready to avoid init errors
+                prefillBtn.setAttribute('data-ajax', '');
+                prefillBtn.click();
+            }
         }
     });
 
     modal.addEventListener('modal:closed', () => {
-        const form = modal.querySelector('form');
+        const form = modal.querySelector('form[data-ajax]');
         if (form) {
             form.reset();
-            form.setAttribute('data-url', '#');
+            form.setAttribute('action', '#');
         }
         const usernameEl = modal.querySelector('[data-modal-username]');
         if (usernameEl) {

@@ -45,6 +45,11 @@ class OrganizationMenuRegistrar implements MenuRegistrar
                 ->icon('fa-solid fa-sitemap')
                 ->order(5);
 
+            $menu->item('برچسب‌ها', 'app.tags')
+                ->route('web.app.tags.index')
+                ->icon('fa-solid fa-tag')
+                ->order(5);
+
             $menu->item('نقش‌ها و دسترسی‌ها', 'org-roles')
                 ->route('web.org.roles.index')
                 ->icon('fa-solid fa-shield-halved')

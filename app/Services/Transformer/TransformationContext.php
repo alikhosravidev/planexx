@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Transformer;
 
-use App\Contracts\Model\BaseModelContract;
+use App\Contracts\Entity\EntityInterface;
 
 /**
  * Immutable DTO for transformation pipeline context.
@@ -12,9 +12,9 @@ use App\Contracts\Model\BaseModelContract;
 readonly class TransformationContext
 {
     public function __construct(
-        public array $data,
-        public BaseModelContract|array $originalModel,
-        public array $metadata = [],
+        public array                 $data,
+        public EntityInterface|array $originalModel,
+        public array                 $metadata = [],
     ) {
     }
 

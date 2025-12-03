@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services\MetadataMappers;
 
-use App\Contracts\Model\BaseModelContract;
+use App\Contracts\Entity\EntityInterface;
 use App\Services\Fetcher\BaseFetcher;
-use App\Services\Fetcher\FetchModelEntities;
+use App\Services\Fetcher\FetchEntities;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 class MapEntityMetadata extends BaseMetadataMapper
@@ -39,7 +39,7 @@ class MapEntityMetadata extends BaseMetadataMapper
 
         if (
             empty($map[$tableName])
-            || ! is_subclass_of($map[$tableName], BaseModelContract::class)
+            || ! is_subclass_of($map[$tableName], EntityInterface::class)
         ) {
             return null;
         }
@@ -47,7 +47,7 @@ class MapEntityMetadata extends BaseMetadataMapper
         return $map[$tableName];
     }
 
-    public static function getEntity(?string $entityType, null|int|string $entityId): ?BaseModelContract
+    public static function getEntity(?string $entityType, null|int|string $entityId): ?EntityInterface
     {
         if (null === $entityType || ! is_numeric($entityId)) {
             return null;
@@ -64,7 +64,7 @@ class MapEntityMetadata extends BaseMetadataMapper
 
     protected static function getFetcher(): BaseFetcher
     {
-        return new FetchModelEntities();
+        return new FetchEntities();
     }
 
     protected function getCachedMapPath(): string

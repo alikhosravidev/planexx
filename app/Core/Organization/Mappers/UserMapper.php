@@ -33,6 +33,7 @@ class UserMapper
             directManagerId: OrNull::intOrNull($request->input('direct_manager_id')),
             departmentId: OrNull::intOrNull($request->input('department_id')),
             employmentDate: OrNull::dateOrNull($request->input('employment_date')),
+            employeeCode: $request->input('employee_code'),
             imageUrl: $request->input('image_url'),
         );
     }
@@ -54,6 +55,7 @@ class UserMapper
             directManagerId: OrNull::intOrNull($request->input('direct_manager_id')) ?? $user->direct_manager_id,
             departmentId: OrNull::intOrNull($request->input('department_id')),
             employmentDate: OrNull::dateOrNull($request->input('employment_date')),
+            employeeCode: $request->input('employee_code'),
             imageUrl: $request->input('image_url') ?? $user->image_url,
         );
     }

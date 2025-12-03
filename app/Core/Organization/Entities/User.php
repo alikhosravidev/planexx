@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Entities;
 
-use App\Contracts\Model\BaseModel;
+use App\Contracts\Entity\BaseEntity;
+use App\Contracts\Entity\RoleableEntity;
 use App\Core\Organization\Database\Factories\UserFactory;
 use App\Core\Organization\Enums\CustomerTypeEnum;
 use App\Core\Organization\Enums\GenderEnum;
 use App\Core\Organization\Enums\UserTypeEnum;
 use App\Core\Organization\Services\Auth\ValueObjects\Identifier;
 use App\Core\Organization\Traits\HasApiTokens;
-use App\Core\Organization\Traits\HasJobPosition;
 use App\ValueObjects\Email;
 use App\ValueObjects\Mobile;
 use Illuminate\Auth\Authenticatable;
@@ -56,10 +56,11 @@ use Spatie\Permission\Traits\HasRoles;
  * Relations:
  * @property Address                      $address
  */
-class User extends BaseModel implements
+class User extends BaseEntity implements
     AuthenticatableContract,
     AuthorizableContract,
-    CanResetPasswordContract
+    CanResetPasswordContract,
+    RoleableEntity
 {
     use HasApiTokens;
     use Authenticatable;
@@ -69,10 +70,16 @@ class User extends BaseModel implements
     use HasFactory;
     use HasRoles;
     use HasPermissions;
-    use HasJobPosition;
     use SoftDeletes;
 
-    protected $table = 'core_org_users';
+    public const TABLE = 'core_org_users';
+
+    protected bool $shouldLogActivity = true;
+
+    // Spatie\Permission: Force role/permission operations to use the 'web' guard
+    protected string $guard_name = 'web';
+
+    protected $table = self::TABLE;
 
     protected $fillable = [
         'direct_manager_id',
@@ -92,6 +99,8 @@ class User extends BaseModel implements
         'mobile_verified_at',
         'email_verified_at',
         'last_login_at',
+        'employee_code',
+        'employment_date',
     ];
 
     protected $casts = [
@@ -100,10 +109,13 @@ class User extends BaseModel implements
         'gender'             => GenderEnum::class,
         'is_active'          => 'boolean',
         'birth_date'         => 'datetime',
+        'employment_date'    => 'datetime',
         'mobile_verified_at' => 'datetime',
         'email_verified_at'  => 'datetime',
         'last_login_at'      => 'datetime',
     ];
+
+    protected array $ignoreActivityLogAttributes = ['last_login_at'];
 
     protected $hidden = ['password'];
 
@@ -141,7 +153,7 @@ class User extends BaseModel implements
         )->withPivot('is_primary')->withTimestamps();
     }
 
-    public function mobile(): Attribute
+    protected function mobile(): Attribute
     {
         return Attribute::make(
             get: fn (string $value) => new Mobile($value),
@@ -149,7 +161,7 @@ class User extends BaseModel implements
         );
     }
 
-    public function email(): Attribute
+    protected function email(): Attribute
     {
         return Attribute::make(
             get: fn (?string $value) => $value ? new Email($value) : null,

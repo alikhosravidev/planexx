@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Contracts\Transformer;
 
-use App\Contracts\Model\BaseModelContract;
+use App\Contracts\Entity\EntityInterface;
 use App\Services\Transformer\FieldTransformerRegistry;
 use App\Services\Transformer\ModelTransformationContext;
 use App\Services\Transformer\Steps\BlacklistFilterStep;
@@ -43,10 +43,10 @@ abstract class BaseTransformer extends TransformerAbstract implements Transforme
     /**
      * Transform a single model to array format.
      *
-     * @param BaseModelContract $model
+     * @param EntityInterface $model
      * @return array
      */
-    public function transformModel(BaseModelContract $model): array
+    public function transformModel(EntityInterface $model): array
     {
         return $this->transform($model);
     }
@@ -76,10 +76,10 @@ abstract class BaseTransformer extends TransformerAbstract implements Transforme
     /**
      * Transform method required by Fractal.
      *
-     * @param BaseModelContract $data
+     * @param EntityInterface $data
      * @return array
      */
-    public function transform(BaseModelContract $data): array
+    public function transform(EntityInterface $data): array
     {
         $pipeline = $this->buildPipeline();
         $context  = new ModelTransformationContext([], $data);
@@ -221,7 +221,7 @@ abstract class BaseTransformer extends TransformerAbstract implements Transforme
      */
     public function transformOne($model, ?string $resourceKey = null): array
     {
-        if ($model instanceof BaseModelContract) {
+        if ($model instanceof EntityInterface) {
             return $this->transform($model);
         }
 
