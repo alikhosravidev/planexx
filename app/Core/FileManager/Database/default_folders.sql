@@ -7,8 +7,8 @@ VALUES
   (2, NULL, NULL, 'بازاریابی و سوشال', 0, 'pink', 'fa-solid fa-bullhorn', 'پوشه اسناد و فایل‌های بازاریابی', 2, NOW(), NOW()),
   (33, NULL, NULL, 'مالی و قراردادها', 0, 'green', 'fa-solid fa-chart-line', 'پوشه اسناد مرتبط با فروش', 3, NOW(), NOW()),
   (3, NULL, NULL, 'فروش', 0, 'blue', 'fa-solid fa-chart-line', 'پوشه اسناد مرتبط با فروش', 3, NOW(), NOW()),
-  (22, NULL, NULL, 'فنی و مهندسی', 0, 'slate', 'fa-solid fa-gears', 'پوشه مستندات و فایل‌های فنی', 4, NOW(), NOW());
-  (55, NULL, NULL, 'متفرقه', 0, 'amber', 'fa-solid fa-folder-tree', 'پوشه مستندات و فایل‌های فنی', 4, NOW(), NOW());
+  (22, NULL, NULL, 'فنی و مهندسی', 0, 'slate', 'fa-solid fa-gears', 'پوشه مستندات و فایل‌های فنی', 4, NOW(), NOW()),
+  (55, NULL, NULL, 'متفرقه', 0, 'amber', 'fa-solid fa-folder-tree', 'پوشه مستندات و فایل‌های فنی', 4, NOW(), NOW()),
   (44, NULL, NULL, 'آشیو', 0, 'slate', 'fa-solid fa-box-archive', 'پوشه مستندات و فایل‌های فنی', 4, NOW(), NOW());
 
 -- Sub-folders for 'اسناد استراتژیک' (parent_id = 1)

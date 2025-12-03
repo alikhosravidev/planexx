@@ -20,6 +20,10 @@ class AuthWebController extends BaseWebController
     {
         $response = $this->apiPost('api.v1.admin.user.auth', $request->all());
 
+        if ($response['status'] === false) {
+            return response()->json($response['message']);
+        }
+
         return response()->json($response)
             ->cookie(
                 'token',
