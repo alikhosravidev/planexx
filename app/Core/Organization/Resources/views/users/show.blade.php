@@ -19,10 +19,10 @@
         ['label' => $pageTitle],
     ];
 
-    $actionButtons = [
-        ['label' => 'ویرایش', 'url' => route('web.org.users.edit', $user['id']), 'icon' => 'fa-solid fa-pen', 'type' => 'primary'],
+    $actionButtons = array_values(array_filter([
+        isset($user['id']) ? ['label' => 'ویرایش', 'url' => route('web.org.users.edit', ['user' => $user['id']]), 'icon' => 'fa-solid fa-pen', 'type' => 'primary'] : null,
         ['label' => 'بازگشت', 'url' => $listUrl, 'icon' => 'fa-solid fa-arrow-right', 'type' => 'outline'],
-    ];
+    ]));
 
     $personalInfoItems = [
         ['label' => 'نام کامل', 'value' => $user['full_name'] ?? '-'],

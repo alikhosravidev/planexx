@@ -62,8 +62,9 @@ class DocumentWebController extends BaseWebController
     public function folder(Request $request, int $folderId): View
     {
         $folderResponse = $this->apiGet('api.v1.admin.file-manager.folders.show', [
-            'folder'   => $folderId,
-            'includes' => 'parent,children,files.uploader,files.tags',
+            'folder' => $folderId,
+            // Request only supported includes on FolderTransformer
+            'includes' => 'parent,children',
         ]);
 
         $folder = $folderResponse['result'] ?? [];

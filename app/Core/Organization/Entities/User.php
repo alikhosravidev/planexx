@@ -12,6 +12,7 @@ use App\Core\Organization\Enums\GenderEnum;
 use App\Core\Organization\Enums\UserTypeEnum;
 use App\Core\Organization\Services\Auth\ValueObjects\Identifier;
 use App\Core\Organization\Traits\HasApiTokens;
+use App\Core\Organization\Traits\HasJobPosition;
 use App\ValueObjects\Email;
 use App\ValueObjects\Mobile;
 use Illuminate\Auth\Authenticatable;
@@ -71,6 +72,7 @@ class User extends BaseEntity implements
     use HasRoles;
     use HasPermissions;
     use SoftDeletes;
+    use HasJobPosition;
 
     public const TABLE = 'core_org_users';
 

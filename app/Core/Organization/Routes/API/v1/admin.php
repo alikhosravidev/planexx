@@ -23,7 +23,7 @@ Route::prefix('api/v1/admin')
                 Route::apiResource('users', UserAPIController::class);
                 Route::apiResource('departments', DepartmentAPIController::class);
                 Route::apiResource('roles', RoleAPIController::class);
-                Route::apiResource('permissions', PermissionAPIController::class)->only(['keyValList']);
+                Route::apiResource('permissions', PermissionAPIController::class)->only(['index', 'show', 'keyValList']);
 
                 Route::apiResource('addresses', AddressAPIController::class);
 

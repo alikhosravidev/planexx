@@ -98,7 +98,7 @@
             'type' => 'link',
             'tooltip' => 'مشاهده جزئیات',
             'url' => function($row) {
-                return route('web.org.users.show', ['user' => $row['id']]);
+                return isset($row['id']) ? route('web.org.users.show', ['user' => $row['id']]) : '#';
             },
         ],
         [
@@ -106,7 +106,7 @@
             'type' => 'link',
             'tooltip' => 'ویرایش',
             'url' => function($row) {
-                return route('web.org.users.edit', ['user' => $row['id']]);
+                return isset($row['id']) ? route('web.org.users.edit', ['user' => $row['id']]) : '#';
             },
         ],
         [

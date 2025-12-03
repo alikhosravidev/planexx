@@ -1,6 +1,6 @@
 @php
     $pageTitle = $folder['name'] ?? 'پوشه';
-    
+
     $breadcrumbs = [
         ['label' => 'خانه', 'url' => route('web.dashboard')],
         ['label' => 'مدیریت اسناد', 'url' => route('web.documents.index')],
@@ -10,7 +10,7 @@
     if (isset($folder['parent']) && isset($folder['parent']['name'])) {
         $breadcrumbs[] = ['label' => $folder['parent']['name'], 'url' => route('web.documents.folder', ['folderId' => $folder['parent']['id']])];
     }
-    
+
     $breadcrumbs[] = ['label' => $folder['name'] ?? 'پوشه'];
 
     $fileTypeConfig = [
@@ -30,7 +30,7 @@
         'slate' => 'bg-slate-50 text-slate-500 border-slate-200',
         'amber' => 'bg-amber-50 text-amber-500 border-amber-200',
     ];
-    
+
     $folderColorClass = $folderColorClasses[$folder['color'] ?? 'blue'] ?? $folderColorClasses['blue'];
 @endphp
 
@@ -55,7 +55,7 @@
                                 </div>
                                 <div>
                                     <h1 class="text-2xl font-bold text-text-primary leading-tight">{{ $pageTitle }}</h1>
-                                    <p class="text-sm text-text-muted">{{ $folder['description'] ?? '' }}</p>
+                                    <p class="text-sm text-text-muted">{{ $folder['description']['full'] ?? '' }}</p>
                                 </div>
                             </div>
                             <nav class="flex items-center gap-2 text-xs text-text-muted">
@@ -79,20 +79,6 @@
                                 <i class="fa-solid fa-cloud-arrow-up"></i>
                                 <span>آپلود فایل</span>
                             </button>
-                            
-                            @if(isset($folder['id']))
-                                <button
-                                    data-ajax
-                                    data-method="DELETE"
-                                    action="{{ route('api.v1.admin.file-manager.folders.destroy', ['folder' => $folder['id']]) }}"
-                                    data-on-success="redirect"
-                                    data-redirect-url="{{ route('web.documents.index') }}"
-                                    data-confirm="آیا از حذف این پوشه و تمام محتویات آن اطمینان دارید؟"
-                                    class="px-5 py-2.5 border border-red-200 text-red-600 rounded-lg font-medium hover:bg-red-50 transition-all duration-200 flex items-center gap-2 text-sm">
-                                    <i class="fa-solid fa-trash"></i>
-                                    <span>حذف پوشه</span>
-                                </button>
-                            @endif
                         </div>
                     </div>
 
@@ -203,9 +189,9 @@
                                                 <button
                                                     data-ajax
                                                     data-method="POST"
-                                                    action="{{ route('api.v1.admin.file-manager.files.favorite.toggle', ['fileId' => $file['id']]) }}"
+                                                    data-action="{{ route('api.v1.admin.file-manager.files.favorite.toggle', ['fileId' => $file['id']]) }}"
                                                     data-on-success="custom"
-                                                    data-action="toggleFavorite"
+                                                    custom-action="toggleFavorite"
                                                     class="w-8 h-8 flex items-center justify-center rounded-lg transition-all duration-200 text-text-muted hover:text-amber-500 hover:bg-amber-50"
                                                     title="افزودن به علاقه‌مندی">
                                                     <i class="fa-regular fa-star"></i>

@@ -122,22 +122,59 @@ const registerCustomActions = () => {
 // Search Functionality
 const initSearch = () => {
     const searchInput = document.querySelector('[data-search-input]');
-    
     if (!searchInput) return;
+
+    // Ensure value reflects current URL (safety in case Blade didn't bind)
+    try {
+        const url = new URL(window.location.href);
+        const current = url.searchParams.get('search') || '';
+        if (current && searchInput.value !== current) {
+            searchInput.value = current;
+        }
+    } catch (e) {}
 
     let searchTimeout;
     searchInput.addEventListener('input', (e) => {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
             const url = new URL(window.location.href);
-            if (e.target.value) {
-                url.searchParams.set('search', e.target.value);
+            const value = (e.target.value || '').trim();
+            if (value) {
+                url.searchParams.set('search', value);
             } else {
                 url.searchParams.delete('search');
             }
+            // reset pagination when changing search
+            url.searchParams.delete('page');
             window.location.href = url.toString();
         }, 500);
     });
+};
+
+// Filters: handle checkbox/select filters and sync with URL
+const initFilters = () => {
+    // is_temporary checkbox on index page
+    const tempCheckbox = document.querySelector('input[name="is_temporary"]');
+    if (tempCheckbox) {
+        // initialize from URL explicitly
+        try {
+            const url = new URL(window.location.href);
+            const isTemp = url.searchParams.get('is_temporary');
+            tempCheckbox.checked = isTemp === '1' || isTemp === 'true' || isTemp === 'on';
+        } catch (e) {}
+
+        tempCheckbox.addEventListener('change', (e) => {
+            const url = new URL(window.location.href);
+            if (e.target.checked) {
+                url.searchParams.set('is_temporary', '1');
+            } else {
+                url.searchParams.delete('is_temporary');
+            }
+            // reset pagination on filter change
+            url.searchParams.delete('page');
+            window.location.href = url.toString();
+        });
+    }
 };
 
 // Loading State Management
@@ -194,6 +231,7 @@ const initDocuments = () => {
     initFolderPreview();
     registerCustomActions();
     initSearch();
+    initFilters();
     initLoadingStates();
 };
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Core\FileManager\Http\Controllers\API\V1\Admin;
 
 use App\Contracts\Controller\BaseAPIController;
+use App\Core\FileManager\Http\Transformers\V1\Admin\FavoriteTransformer;
 use App\Core\FileManager\Repositories\FavoriteRepository;
 use App\Core\FileManager\Repositories\FileRepository;
 use App\Core\FileManager\Repositories\FolderRepository;
@@ -16,11 +17,12 @@ class FavoriteAPIController extends BaseAPIController
 {
     public function __construct(
         FavoriteRepository                 $repository,
+        FavoriteTransformer                $transformer,
         private readonly FavoriteService   $service,
         private readonly FileRepository    $fileRepository,
         private readonly FolderRepository  $folderRepository,
     ) {
-        parent::__construct($repository, null);
+        parent::__construct($repository, $transformer);
     }
 
     public function toggleFile(Request $request, int $fileId): JsonResponse

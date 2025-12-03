@@ -158,9 +158,9 @@
                                                 <button
                                                     data-ajax
                                                     data-method="POST"
-                                                    action="{{ route('api.v1.admin.file-manager.files.favorite.toggle', ['fileId' => $file['id']]) }}"
+                                                    data-action="{{ route('api.v1.admin.file-manager.files.favorite.toggle', ['fileId' => $file['id']]) }}"
                                                     data-on-success="custom"
-                                                    data-action="toggleFavorite"
+                                                    custom-action="toggleFavorite"
                                                     class="w-8 h-8 flex items-center justify-center rounded-lg transition-all duration-200 text-text-muted hover:text-amber-500 hover:bg-amber-50"
                                                     title="افزودن به علاقه‌مندی">
                                                     <i class="fa-regular fa-star"></i>
