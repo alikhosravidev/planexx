@@ -20,11 +20,12 @@ class DashboardQuickAccessRegistrar implements RegistrarInterface
                 ->enabled()
                 ->order(1);
 
+
             $builder->item('مدیریت اسناد و فایل‌ها', 'document')
-                ->route('#')
+                ->route('web.documents.index')
                 ->icon('fa-solid fa-folder-open')
                 ->color('amber')
-                ->enabled(false)
+                ->enabled()
                 ->order(2);
 
             $builder->item('مدیریت وظایف', 'task-manager')
