@@ -98,22 +98,7 @@
             </header>
 
             <div class="flex-1 p-6 lg:p-8">
-{{--                @if (isset($folder['children']) && count($folder['children']) > 0)
-                    <div class="mb-8">
-                        <div class="flex items-center justify-between mb-4">
-                            <h2 class="text-lg font-semibold text-text-primary">زیرپوشه‌ها</h2>
-                        </div>
 
-                        <div class="flex flex-wrap gap-5">
-                            @foreach ($folder['children'] as $childFolder)
-                                <x-ui.folder-card
-                                    :folder="$childFolder"
-                                    :url="route('web.documents.folder', ['folderId' => $childFolder['id']])"
-                                />
-                            @endforeach
-                        </div>
-                    </div>
-                @endif--}}
 
                 <div class="bg-bg-primary border border-border-light rounded-2xl overflow-hidden">
                     <div class="px-6 py-4 border-b border-border-light flex items-center justify-between">
