@@ -8,6 +8,7 @@ import './bootstrap';
 // Import UI component initializers
 import { uiComponents } from './ui-components.js';
 import { forms } from './forms/index.js';
+import './documents.js';
 
 // Initialize on DOM ready
 document.addEventListener(

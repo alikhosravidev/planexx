@@ -72,4 +72,18 @@ return [
         'cache_ttl'     => (int) env('REGISTRY_CACHE_TTL', 3600),
     ],
 
+    'sms' => [
+        'provider'                   => env('SMS_PROVIDER', 'kavenegar'),
+        'api_key'                    => env('SMS_API_KEY'),
+        'sender'                     => env('SMS_SENDER'),
+        'pattern'                    => env('SMS_VERIFICATION_CODE_PATTERN_KEY', 'verification-code'),
+        'verification_code_length'   => env('SMS_VERIFICATION_CODE_LENGTH', 6),
+        'check_code_command_enabled' => env('SMS_CHECK_CODE_COMMAND_ENABLED', env('APP_ENV') === 'production'),
+        'variable_number_limit'      => [
+            'maximum'   => env('SMS_VARIABLE_NUMBER_LIMIT_MAXIMUM', 5),
+            'sms_ir'    => env('SMS_VARIABLE_NUMBER_LIMIT_SMS_IR', 5),
+            'kavenegar' => env('SMS_VARIABLE_NUMBER_LIMIT_KAVENEGAR', 3),
+        ],
+    ],
+
 ];

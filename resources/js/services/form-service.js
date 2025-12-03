@@ -33,23 +33,33 @@ class FormService {
     try {
       // Get form data
       const formData = new FormData(form);
-      const data = {};
-      formData.forEach((value, key) => {
-        if (key.endsWith('[]')) {
-          const cleanKey = key.slice(0, -2);
-          if (!Array.isArray(data[cleanKey])) {
-            data[cleanKey] = [];
+      const isFileUpload = form.enctype === 'multipart/form-data';
+      
+      let data;
+      
+      if (isFileUpload) {
+        // For file uploads, use FormData directly
+        data = formData;
+      } else {
+        // For regular forms, convert to object
+        data = {};
+        formData.forEach((value, key) => {
+          if (key.endsWith('[]')) {
+            const cleanKey = key.slice(0, -2);
+            if (!Array.isArray(data[cleanKey])) {
+              data[cleanKey] = [];
+            }
+            data[cleanKey].push(value);
+          } else if (Object.prototype.hasOwnProperty.call(data, key)) {
+            if (!Array.isArray(data[key])) {
+              data[key] = [data[key]];
+            }
+            data[key].push(value);
+          } else {
+            data[key] = value;
           }
-          data[cleanKey].push(value);
-        } else if (Object.prototype.hasOwnProperty.call(data, key)) {
-          if (!Array.isArray(data[key])) {
-            data[key] = [data[key]];
-          }
-          data[key].push(value);
-        } else {
-          data[key] = value;
-        }
-      });
+        });
+      }
 
       // Build and execute request
       let request;

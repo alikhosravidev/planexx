@@ -1,0 +1,225 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Core\FileManager\Http\Controllers\Web;
+
+use App\Contracts\Controller\BaseWebController;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+
+class DocumentWebController extends BaseWebController
+{
+    public function index(Request $request): View
+    {
+        $filters = [];
+
+        if ($request->filled('search')) {
+            $filters['search'] = $request->get('search');
+        }
+
+        if ($request->filled('file_type')) {
+            $filters['file_type'] = $request->get('file_type');
+        }
+
+        if ($request->filled('folder_id')) {
+            $filters['folder_id'] = $request->get('folder_id');
+        }
+
+        if ($request->filled('is_temporary')) {
+            $filters['is_temporary'] = $request->boolean('is_temporary');
+        }
+
+        $queryParams = [
+            'filter'   => $filters,
+            'sort'     => $request->get('sort', '-created_at'),
+            'per_page' => $request->get('per_page', 20),
+            'includes' => 'folder,uploader,tags',
+        ];
+
+        $filesResponse = $this->apiGet('api.v1.admin.file-manager.files.index', $queryParams);
+
+        $foldersResponse = $this->apiGet('api.v1.admin.file-manager.folders.index', [
+            'filter'   => ['parent_id' => null],
+            'per_page' => 100,
+        ]);
+
+        $stats = [
+            'total_files'   => $filesResponse['meta']['pagination']['total'] ?? 0,
+            'total_folders' => count($foldersResponse['result'] ?? []),
+        ];
+
+        return view('FileManager::documents.index', [
+            'files'       => $filesResponse['result']             ?? [],
+            'folders'     => $foldersResponse['result']           ?? [],
+            'pagination'  => $filesResponse['meta']['pagination'] ?? [],
+            'stats'       => $stats,
+            'currentPage' => 'documents-all',
+        ]);
+    }
+
+    public function folder(Request $request, int $folderId): View
+    {
+        $folderResponse = $this->apiGet('api.v1.admin.file-manager.folders.show', [
+            'folder'   => $folderId,
+            'includes' => 'parent,children,files.uploader,files.tags',
+        ]);
+
+        $folder = $folderResponse['result'] ?? [];
+
+        $filters = ['folder_id' => $folderId];
+
+        if ($request->filled('search')) {
+            $filters['search'] = $request->get('search');
+        }
+
+        if ($request->filled('file_type')) {
+            $filters['file_type'] = $request->get('file_type');
+        }
+
+        $filesResponse = $this->apiGet('api.v1.admin.file-manager.files.index', [
+            'filter'   => $filters,
+            'sort'     => $request->get('sort', '-created_at'),
+            'per_page' => $request->get('per_page', 20),
+            'includes' => 'uploader,tags',
+        ]);
+
+        return view('FileManager::documents.folder', [
+            'folder'      => $folder,
+            'files'       => $filesResponse['result']             ?? [],
+            'pagination'  => $filesResponse['meta']['pagination'] ?? [],
+            'currentPage' => 'documents-all',
+            'request'     => $request,
+        ]);
+    }
+
+    public function favorites(Request $request): View
+    {
+        $favoritesResponse = $this->apiGet('api.v1.admin.file-manager.favorites.index', [
+            'per_page' => $request->get('per_page', 20),
+        ]);
+
+        $foldersResponse = $this->apiGet('api.v1.admin.file-manager.folders.index', [
+            'per_page' => 100,
+        ]);
+
+        $favorites       = $favoritesResponse['result'] ?? [];
+        $files           = [];
+        $favoriteFolders = [];
+
+        foreach ($favorites as $favorite) {
+            if (isset($favorite['entity_type']) && $favorite['entity_type'] === 'file') {
+                $files[] = $favorite['entity'] ?? $favorite;
+            } elseif (isset($favorite['entity_type']) && $favorite['entity_type'] === 'folder') {
+                $favoriteFolders[] = $favorite['entity'] ?? $favorite;
+            }
+        }
+
+        $stats = [
+            'total_files'   => count($files),
+            'total_folders' => count($favoriteFolders),
+        ];
+
+        return view('FileManager::documents.favorites', [
+            'files'           => $files,
+            'favoriteFolders' => $favoriteFolders,
+            'folders'         => $foldersResponse['result']               ?? [],
+            'pagination'      => $favoritesResponse['meta']['pagination'] ?? [],
+            'stats'           => $stats,
+            'currentPage'     => 'documents-favorites',
+        ]);
+    }
+
+    public function recent(Request $request): View
+    {
+        $filesResponse = $this->apiGet('api.v1.admin.file-manager.files.index', [
+            'sort'     => '-last_accessed_at',
+            'per_page' => $request->get('per_page', 20),
+            'includes' => 'folder,uploader,tags',
+        ]);
+
+        $foldersResponse = $this->apiGet('api.v1.admin.file-manager.folders.index', [
+            'per_page' => 100,
+        ]);
+
+        return view('FileManager::documents.recent', [
+            'files'       => $filesResponse['result']             ?? [],
+            'folders'     => $foldersResponse['result']           ?? [],
+            'pagination'  => $filesResponse['meta']['pagination'] ?? [],
+            'currentPage' => 'documents-recent',
+            'request'     => $request,
+        ]);
+    }
+
+    public function temporary(Request $request): View
+    {
+        $filesResponse = $this->apiGet('api.v1.admin.file-manager.files.index', [
+            'filter'   => ['is_temporary' => true],
+            'sort'     => '-created_at',
+            'per_page' => $request->get('per_page', 20),
+            'includes' => 'folder,uploader,tags',
+        ]);
+
+        $foldersResponse = $this->apiGet('api.v1.admin.file-manager.folders.index', [
+            'per_page' => 100,
+        ]);
+
+        $stats = [
+            'total_files' => $filesResponse['meta']['pagination']['total'] ?? 0,
+            'total_size'  => '0 MB',
+        ];
+
+        return view('FileManager::documents.temporary', [
+            'files'       => $filesResponse['result']             ?? [],
+            'folders'     => $foldersResponse['result']           ?? [],
+            'pagination'  => $filesResponse['meta']['pagination'] ?? [],
+            'stats'       => $stats,
+            'currentPage' => 'documents-temporary',
+        ]);
+    }
+
+    public function createFolder(): View
+    {
+        $foldersResponse = $this->apiGet('api.v1.admin.file-manager.folders.index', [
+            'per_page' => 100,
+        ]);
+
+        return view('FileManager::documents.create-folder', [
+            'folders' => $foldersResponse['result'] ?? [],
+        ]);
+    }
+
+    public function editFolder(int $folderId): View
+    {
+        $folderResponse = $this->apiGet('api.v1.admin.file-manager.folders.show', [
+            'folder'   => $folderId,
+            'includes' => 'parent',
+        ]);
+
+        $foldersResponse = $this->apiGet('api.v1.admin.file-manager.folders.index', [
+            'per_page' => 100,
+        ]);
+
+        return view('FileManager::documents.edit-folder', [
+            'folder'  => $folderResponse['result']  ?? [],
+            'folders' => $foldersResponse['result'] ?? [],
+        ]);
+    }
+
+    public function upload(): View
+    {
+        $foldersResponse = $this->apiGet('api.v1.admin.file-manager.folders.index', [
+            'per_page' => 100,
+        ]);
+
+        return view('FileManager::documents.upload', [
+            'folders' => $foldersResponse['result'] ?? [],
+        ]);
+    }
+
+    public function download(int $id): RedirectResponse
+    {
+        return redirect()->route('api.v1.admin.file-manager.files.download', ['id' => $id]);
+    }
+}

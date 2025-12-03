@@ -13,7 +13,7 @@ use App\Commands\PrepareParallelTests;
 use App\Contracts\BootstrapFileManagerInterface;
 use App\Contracts\ModuleDiscoveryInterface;
 use App\Core\BPMS\Providers\BPMSServiceProvider;
-//use App\Core\FileManager\Providers\FileManagerServiceProvider;
+use App\Core\FileManager\Providers\FileManagerServiceProvider;
 use App\Core\FormEngine\Providers\FormEngineServiceProvider;
 use App\Core\Notify\Providers\NotifyServiceProvider;
 use App\Core\Organization\Providers\OrganizationServiceProvider;
@@ -88,7 +88,7 @@ class AppServiceProvider extends ServiceProvider
     private function registerCoreProviders(): void
     {
         $this->app->register(OrganizationServiceProvider::class);
-        //$this->app->register(FileManagerServiceProvider::class);
+        $this->app->register(FileManagerServiceProvider::class);
         $this->app->register(FormEngineServiceProvider::class);
         $this->app->register(BPMSServiceProvider::class);
         $this->app->register(NotifyServiceProvider::class);
