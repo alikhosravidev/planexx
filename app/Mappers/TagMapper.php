@@ -13,23 +13,29 @@ class TagMapper
     public function fromRequest(Request $request): TagDTO
     {
         return new TagDTO(
-            name: $request->input('name'),
-            slug: $request->input('slug'),
-            description: $request->input('description'),
-            color: $request->input('color'),
-            icon: $request->input('icon'),
+            name: $request->string('name')->trim()->toString(),
+            slug: $request->string('slug')->trim()->toString() ?: null,
+            description: $request->string('description')->trim()->toString() ?: null,
+            color: $request->string('color')->trim()->toString() ?: null,
+            icon: $request->string('icon')->trim()->toString() ?: null,
             usageCount: $request->integer('usage_count', 0),
         );
     }
 
     public function fromRequestForUpdate(Request $request, Tag $tag): TagDTO
     {
+        $name        = $request->string('name')->trim()->toString();
+        $slug        = $request->string('slug')->trim()->toString();
+        $description = $request->string('description')->trim()->toString();
+        $color       = $request->string('color')->trim()->toString();
+        $icon        = $request->string('icon')->trim()->toString();
+
         return new TagDTO(
-            name: $request->input('name')               ?? $tag->name,
-            slug: $request->input('slug')               ?? $tag->slug,
-            description: $request->input('description') ?? $tag->description,
-            color: $request->input('color')             ?? $tag->color,
-            icon: $request->input('icon')               ?? $tag->icon,
+            name: $name               !== '' ? $name : $tag->name,
+            slug: $slug               !== '' ? $slug : $tag->slug,
+            description: $description !== '' ? $description : $tag->description,
+            color: $color             !== '' ? $color : $tag->color,
+            icon: $icon               !== '' ? $icon : $tag->icon,
             usageCount: $request->integer('usage_count', $tag->usage_count),
         );
     }

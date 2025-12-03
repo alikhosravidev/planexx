@@ -50,14 +50,7 @@ class Tag extends BaseEntity
     protected function name(): Attribute
     {
         return Attribute::make(
-            set: function (null|string $value) {
-                $name                     = trim($value);
-                $this->attributes['name'] = $name;
-
-                if (! isset($this->attributes['slug']) || empty($this->attributes['slug'])) {
-                    $this->attributes['slug'] = $name ? Str::slug(Str::lower($name)) : null;
-                }
-            },
+            set: fn (null|string $value) => $value !== null ? trim($value) : null,
         );
     }
 
@@ -65,8 +58,13 @@ class Tag extends BaseEntity
     {
         return Attribute::make(
             set: function (null|string $value) {
-                $base                     = $value !== null && $value !== '' ? $value : ($this->attributes['name'] ?? null);
-                $this->attributes['slug'] = $base ? Str::slug(Str::lower((string) $base)) : null;
+                if ($value !== null && $value !== '') {
+                    return Str::slug(Str::lower(trim($value)));
+                }
+
+                $name = $this->attributes['name'] ?? null;
+
+                return $name ? Str::slug(Str::lower($name)) : null;
             },
         );
     }
