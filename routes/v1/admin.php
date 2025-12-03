@@ -16,6 +16,4 @@ Route::prefix('api/v1/admin')
             ->name('enums.keyValList');
 
         Route::apiResource('tags', TagAPIController::class)->except(['create', 'edit']);
-        Route::get('tags/key-value-list', [TagAPIController::class, 'keyValList'])
-            ->name('tags.keyValList');
     });
