@@ -35,6 +35,7 @@
 
     $resetUrl = route('web.org.departments.index');
 
+    // TODO: Refactor department stats using registry
     $totalDepartments = count($departments);
     $countActive = function ($items) use (&$countActive) {
         $count = 0;
@@ -110,6 +111,7 @@
                             <x-ui.table.head>
                                 <x-ui.table.th>نام دپارتمان</x-ui.table.th>
                                 <x-ui.table.th>کد</x-ui.table.th>
+                                <x-ui.table.th>نوع</x-ui.table.th>
                                 <x-ui.table.th>مدیر</x-ui.table.th>
                                 <x-ui.table.th>تعداد کارمندان</x-ui.table.th>
                                 <x-ui.table.th>وضعیت</x-ui.table.th>
@@ -120,7 +122,7 @@
                                 @forelse($departments as $dept)
                                     @include('Organization::departments.partials.department-row', ['dept' => $dept, 'level' => 0])
                                 @empty
-                                    <x-ui.table.empty :colspan="6" icon="fa-building" message="دپارتمانی یافت نشد" />
+                                    <x-ui.table.empty :colspan="7" icon="fa-building" message="دپارتمانی یافت نشد" />
                                 @endforelse
                             </x-ui.table.body>
                         </table>

@@ -10,7 +10,7 @@
     @if($level > 0) data-parent-id="{{ $dept['parent_id'] }}" @endif
     data-has-children="{{ $hasChildren ? '1' : '0' }}">
     <td class="px-6 py-4">
-        <div class="flex items-center gap-3">
+        <div class="flex items-center">
             @if($hasChildren)
                 <button type="button" class="toggle-dept w-6 h-6 flex items-center justify-center text-text-muted hover:text-primary transition-colors" data-parent-id="{{ $dept['id'] }}">
                     <i class="fa-solid fa-chevron-down transition-transform duration-200"></i>
@@ -19,11 +19,46 @@
                 <div class="w-6"></div>
             @endif
             {!! $indent !!}
-            <i class="fa-solid fa-building text-primary"></i>
+            @php
+                $type = $dept['type'] ?? 3;
+                $hasImage = ($type == 1 || $type == 2); // holding or brand
+            @endphp
+            @if($hasImage && !empty($dept['image_url']))
+                <img src="{{ $dept['image_url'] }}"
+                     alt="{{ $dept['name'] }}"
+                     class="w-10 h-10 rounded-full object-cover border-2 border-border-light ml-1">
+            @else
+                @php
+                    $iconClass = !empty($dept['icon']) ? $dept['icon'] : 'fa-building';
+                @endphp
+                <i class="fa-solid {{ $iconClass }} text-{{ $dept['color'] ?? 'primary' }}"></i>
+            @endif
             <span class="text-base text-text-primary font-medium leading-normal">{{ $dept['name'] }}</span>
         </div>
     </td>
     <td class="px-6 py-4 text-base text-text-secondary leading-normal">{{ $dept['code'] ?? '-' }}</td>
+    <td class="px-6 py-4">
+        @php
+            $typeLabels = [
+                1 => 'هولدینگ',
+                2 => 'برند',
+                3 => 'دپارتمان',
+                4 => 'تیم'
+            ];
+            $typeColors = [
+                1 => 'purple',
+                2 => 'orange',
+                3 => 'blue',
+                4 => 'green'
+            ];
+            $type = $dept['type'] ?? 3;
+            $label = $typeLabels[$type] ?? 'دپارتمان';
+            $color = $typeColors[$type] ?? 'blue';
+        @endphp
+        <span class="inline-flex items-center gap-1.5 bg-{{ $color }}-50 text-{{ $color }}-700 px-2.5 py-1 rounded-lg text-xs font-medium leading-normal">
+            {{ $label }}
+        </span>
+    </td>
     <td class="px-6 py-4 text-base text-text-secondary leading-normal">{{ $dept['manager']['full_name'] ?? '-' }}</td>
     <td class="px-6 py-4 text-base text-text-secondary leading-normal">{{ $dept['employees_count'] ?? 0 }} نفر</td>
     <td class="px-6 py-4">

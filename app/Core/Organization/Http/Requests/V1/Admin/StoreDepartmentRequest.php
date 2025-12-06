@@ -7,7 +7,9 @@ namespace App\Core\Organization\Http\Requests\V1\Admin;
 use App\Contracts\Requests\BaseRequest;
 use App\Core\Organization\Entities\Department;
 use App\Core\Organization\Entities\User;
+use App\Core\Organization\Enums\DepartmentTypeEnum;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
 class StoreDepartmentRequest extends BaseRequest
 {
@@ -27,6 +29,8 @@ class StoreDepartmentRequest extends BaseRequest
             'color'       => 'nullable|string|max:20',
             'icon'        => 'nullable|string|max:100',
             'description' => 'nullable|string',
+            'type'        => ['required', new Enum(DepartmentTypeEnum::class)],
+            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_active'   => 'required|boolean',
         ];
     }

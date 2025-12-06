@@ -27,9 +27,10 @@ class DepartmentAPIController extends BaseAPIController
     // POST /departments
     public function store(StoreDepartmentRequest $request): JsonResponse
     {
-        $dto = $this->mapper->fromRequest($request);
+        $dto   = $this->mapper->fromRequest($request);
+        $image = $request->file('image');
 
-        $model = $this->service->create($dto);
+        $model = $this->service->create($dto, $image);
 
         return $this->response->created(
             array_merge(
@@ -45,8 +46,9 @@ class DepartmentAPIController extends BaseAPIController
     {
         $department = $this->repository->findOrFail($id);
         $dto        = $this->mapper->fromRequestForUpdate($request, $department);
+        $image      = $request->file('image');
 
-        $updated = $this->service->update($department, $dto);
+        $updated = $this->service->update($department, $dto, $image);
 
         return $this->response->success(
             $this->transformer->transformOne($updated),

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domains\Department;
 
 use App\Contracts\DataTransferObject;
+use App\Core\Organization\Enums\DepartmentTypeEnum;
 
 final readonly class DepartmentDTO implements DataTransferObject
 {
@@ -17,6 +18,7 @@ final readonly class DepartmentDTO implements DataTransferObject
         public ?string $color = null,
         public ?string $icon = null,
         public ?string $description = null,
+        public DepartmentTypeEnum $type = DepartmentTypeEnum::DEPARTMENT,
         public bool    $isActive = true,
     ) {
     }
@@ -32,6 +34,7 @@ final readonly class DepartmentDTO implements DataTransferObject
             'color'       => $this->color,
             'icon'        => $this->icon,
             'description' => $this->description,
+            'type'        => $this->type->value,
             'is_active'   => $this->isActive,
         ];
     }

@@ -122,6 +122,19 @@
                                         :options="$parentDepartments"
                                     />
 
+                                    <x-forms.select
+                                        name="type"
+                                        label="نوع دپارتمان"
+                                        :value="$department['type'] ?? 3"
+                                        class="min-w-[140px]"
+                                        :options="[
+                                            1 => 'هولدینگ',
+                                            2 => 'برند',
+                                            3 => 'دپارتمان',
+                                            4 => 'تیم'
+                                        ]"
+                                    />
+
                                     @php
                                         $managerId = $department['manager']['id'] ?? null;
                                         $managerName = $department['manager']['full_name'] ?? null;
@@ -144,39 +157,55 @@
                                         rows="4"
                                     />
 
-                                    <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
-                                        <div class="flex">
-                                            <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-start leading-normal pt-4">
-                                                رنگ دپارتمان
-                                            </label>
-                                            <div class="flex-1 px-lg py-3.5 flex flex-wrap gap-2">
-                                                @foreach($colors as $color)
-                                                    <label class="cursor-pointer color-option">
-                                                        <input type="radio" name="color" value="{{ $color }}" class="peer hidden" {{ $color === $selectedColor ? 'checked' : '' }}>
-                                                        <div class="w-8 h-8 bg-{{ $color }} rounded-lg border-2 border-transparent peer-checked:border-gray-800 peer-checked:ring-2 peer-checked:ring-gray-300 transition-all flex items-center justify-center">
-                                                            <i class="fa-solid fa-check text-white text-xs opacity-0 peer-checked:opacity-100 check-icon"></i>
-                                                        </div>
-                                                    </label>
-                                                @endforeach
-                                            </div>
-                                        </div>
+                                    <!-- Image Upload Section -->
+                                    <div id="image-upload-section" class="hidden">
+                                        @php
+                                            $currentImageUrl = null;
+                                            if (isset($department['image']['file_url'])) {
+                                                $currentImageUrl = $department['image']['file_url'];
+                                            } elseif (isset($department['image_url'])) {
+                                                $currentImageUrl = $department['image_url'];
+                                            }
+                                        @endphp
+                                        <x-ui.profile-image-upload :value="$currentImageUrl" label="تصویر" standalone/>
                                     </div>
 
-                                    <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
-                                        <div class="flex">
-                                            <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-start leading-normal pt-4">
-                                                آیکون دپارتمان
-                                            </label>
-                                            <div class="flex-1 px-lg py-3.5">
-                                                <div class="flex flex-wrap gap-2">
-                                                    @foreach($icons as $icon)
-                                                        <label class="cursor-pointer icon-option">
-                                                            <input type="radio" name="icon" value="{{ $icon }}" class="peer hidden" {{ $icon === $selectedIcon ? 'checked' : '' }}>
-                                                            <div class="w-10 h-10 bg-bg-secondary rounded-lg border-2 border-transparent peer-checked:border-primary peer-checked:bg-primary/10 transition-all flex items-center justify-center hover:bg-gray-100">
-                                                                <i class="fa-solid {{ $icon }} text-lg text-text-secondary peer-checked:text-primary"></i>
+                                    <!-- Icon and Color Section -->
+                                    <div id="icon-color-section">
+                                        <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
+                                            <div class="flex">
+                                                <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-start leading-normal pt-4">
+                                                    رنگ دپارتمان
+                                                </label>
+                                                <div class="flex-1 px-lg py-3.5 flex flex-wrap gap-2">
+                                                    @foreach($colors as $color)
+                                                        <label class="cursor-pointer color-option">
+                                                            <input type="radio" name="color" value="{{ $color }}" class="peer hidden" {{ $color === $selectedColor ? 'checked' : '' }}>
+                                                            <div class="w-8 h-8 bg-{{ $color }} rounded-lg border-2 border-transparent peer-checked:border-gray-800 peer-checked:ring-2 peer-checked:ring-gray-300 transition-all flex items-center justify-center">
+                                                                <i class="fa-solid fa-check text-white text-xs opacity-0 peer-checked:opacity-100 check-icon"></i>
                                                             </div>
                                                         </label>
                                                     @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
+                                            <div class="flex">
+                                                <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-start leading-normal pt-4">
+                                                    آیکون دپارتمان
+                                                </label>
+                                                <div class="flex-1 px-lg py-3.5">
+                                                    <div class="flex flex-wrap gap-2">
+                                                        @foreach($icons as $icon)
+                                                            <label class="cursor-pointer icon-option">
+                                                                <input type="radio" name="icon" value="{{ $icon }}" class="peer hidden" {{ $icon === $selectedIcon ? 'checked' : '' }}>
+                                                                <div class="w-10 h-10 bg-bg-secondary rounded-lg border-2 border-transparent peer-checked:border-primary peer-checked:bg-primary/10 transition-all flex items-center justify-center hover:bg-gray-100">
+                                                                    <i class="fa-solid {{ $icon }} text-lg text-text-secondary peer-checked:text-primary"></i>
+                                                                </div>
+                                                            </label>
+                                                        @endforeach
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -224,6 +253,14 @@
                                         <i class="fa-solid fa-check text-blue-600 mt-0.5"></i>
                                         <span>مدیر دپارتمان مسئول نظارت بر کارمندان است</span>
                                     </li>
+                                    <li class="flex items-start gap-2 text-sm text-blue-700 leading-relaxed">
+                                        <i class="fa-solid fa-check text-blue-600 mt-0.5"></i>
+                                        <span>برای هولدینگ و برند، تصویر الزامی است</span>
+                                    </li>
+                                    <li class="flex items-start gap-2 text-sm text-blue-700 leading-relaxed">
+                                        <i class="fa-solid fa-check text-blue-600 mt-0.5"></i>
+                                        <span>برای دپارتمان و تیم، آیکون و رنگ الزامی است</span>
+                                    </li>
                                 </ul>
                             </div>
 
@@ -263,6 +300,30 @@
     @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Handle type-based field visibility
+            function toggleTypeFields(type) {
+                const imageSection = document.getElementById('image-upload-section');
+                const iconColorSection = document.getElementById('icon-color-section');
+
+                if (type === '1' || type === '2') { // Holding or Brand
+                    imageSection.classList.remove('hidden');
+                    iconColorSection.classList.add('hidden');
+                } else { // Department or Team
+                    imageSection.classList.add('hidden');
+                    iconColorSection.classList.remove('hidden');
+                }
+            }
+
+            // Initial state
+            const typeSelect = document.querySelector('select[name="type"]');
+            if (typeSelect) {
+                toggleTypeFields(typeSelect.value);
+
+                typeSelect.addEventListener('change', function() {
+                    toggleTypeFields(this.value);
+                });
+            }
+
             document.querySelectorAll('.color-option input').forEach(input => {
                 input.addEventListener('change', function() {
                     document.querySelectorAll('.color-option .check-icon').forEach(icon => {
