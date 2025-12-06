@@ -55,6 +55,23 @@
 
     $selectedColor = $department['color'] ?? 'blue-500';
     $selectedIcon = $department['icon'] ?? 'fa-building';
+
+    // Recursive function to render department tree options
+    function renderDepartmentOptions($departments, $level = 0, $parentId = null) {
+        $html = '';
+        $indent = str_repeat('  ---  ', $level);
+
+        foreach ($departments as $dept) {
+            $html .= '<option ' . ($parentId === $dept['id'] ? 'selected' : '') . ' value="' . $dept['id'] . '">' . $indent . $dept['name'] . '</option>';
+
+            // Recursively render children if they exist
+            if (! empty($dept['children'])) {
+                $html .= renderDepartmentOptions($dept['children'], $level + 1, $parentId);
+            }
+        }
+
+        return $html;
+    }
 @endphp
 
 <x-layouts.app :title="$pageTitle">
@@ -113,14 +130,22 @@
                                         $parentName = $department['parent']['name'] ?? null;
                                     @endphp
 
-                                    <x-forms.select
-                                        name="parent_id"
-                                        label="دپارتمان والد"
-                                        :value="$parentId"
-                                        class="min-w-[140px]"
-                                        placeholder="بدون والد (دپارتمان اصلی)"
-                                        :options="$parentDepartments"
-                                    />
+                                    <div
+                                        class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
+                                        <div class="flex items-stretch">
+                                            <label for="parent_id"
+                                                   class="bg-bg-label border-l border-border-light px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal min-w-[140px]">
+                                                دپارتمان والد
+                                            </label>
+
+                                            <select name="parent_id" id="parent_id"
+                                                    class="flex-1 px-lg py-3.5 text-base text-text-primary outline-none bg-transparent cursor-pointer leading-normal min-w-[140px]">
+                                                <option value="">بدون والد (دپارتمان اصلی)</option>
+                                                {!! renderDepartmentOptions($allDepartments ?? [], 0, $department['parent_id'] ?? null) !!}
+                                            </select>
+
+                                        </div>
+                                    </div>
 
                                     <x-forms.select
                                         name="type"
@@ -172,16 +197,20 @@
 
                                     <!-- Icon and Color Section -->
                                     <div id="icon-color-section">
-                                        <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
+                                        <div
+                                            class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
                                             <div class="flex">
-                                                <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-start leading-normal pt-4">
+                                                <label
+                                                    class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-start leading-normal pt-4">
                                                     رنگ دپارتمان
                                                 </label>
                                                 <div class="flex-1 px-lg py-3.5 flex flex-wrap gap-2">
                                                     @foreach($colors as $color)
                                                         <label class="cursor-pointer color-option">
-                                                            <input type="radio" name="color" value="{{ $color }}" class="peer hidden" {{ $color === $selectedColor ? 'checked' : '' }}>
-                                                            <div class="w-8 h-8 bg-{{ $color }} rounded-lg border-2 border-transparent peer-checked:border-gray-800 peer-checked:ring-2 peer-checked:ring-gray-300 transition-all flex items-center justify-center">
+                                                            <input type="radio" name="color" value="{{ $color }}"
+                                                                   class="peer hidden" {{ $color === $selectedColor ? 'checked' : '' }}>
+                                                            <div
+                                                                class="w-8 h-8 bg-{{ $color }} rounded-lg border-2 border-transparent peer-checked:border-gray-800 peer-checked:ring-2 peer-checked:ring-gray-300 transition-all flex items-center justify-center">
                                                                 <i class="fa-solid fa-check text-white text-xs opacity-0 peer-checked:opacity-100 check-icon"></i>
                                                             </div>
                                                         </label>
@@ -190,17 +219,21 @@
                                             </div>
                                         </div>
 
-                                        <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
+                                        <div
+                                            class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
                                             <div class="flex">
-                                                <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-start leading-normal pt-4">
+                                                <label
+                                                    class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-start leading-normal pt-4">
                                                     آیکون دپارتمان
                                                 </label>
                                                 <div class="flex-1 px-lg py-3.5">
                                                     <div class="flex flex-wrap gap-2">
                                                         @foreach($icons as $icon)
                                                             <label class="cursor-pointer icon-option">
-                                                                <input type="radio" name="icon" value="{{ $icon }}" class="peer hidden" {{ $icon === $selectedIcon ? 'checked' : '' }}>
-                                                                <div class="w-10 h-10 bg-bg-secondary rounded-lg border-2 border-transparent peer-checked:border-primary peer-checked:bg-primary/10 transition-all flex items-center justify-center hover:bg-gray-100">
+                                                                <input type="radio" name="icon" value="{{ $icon }}"
+                                                                       class="peer hidden" {{ $icon === $selectedIcon ? 'checked' : '' }}>
+                                                                <div
+                                                                    class="w-10 h-10 bg-bg-secondary rounded-lg border-2 border-transparent peer-checked:border-primary peer-checked:bg-primary/10 transition-all flex items-center justify-center hover:bg-gray-100">
                                                                     <i class="fa-solid {{ $icon }} text-lg text-text-secondary peer-checked:text-primary"></i>
                                                                 </div>
                                                             </label>
@@ -272,7 +305,8 @@
                         <x-ui.button type="submit" variant="green" icon="fa-solid fa-check">
                             ذخیره دپارتمان
                         </x-ui.button>
-                        <a href="{{ $listUrl }}" class="inline-flex items-center gap-2 bg-bg-secondary text-text-secondary border border-border-medium px-xl py-md rounded-lg font-medium hover:bg-gray-100 transition-all duration-200 text-base leading-normal">
+                        <a href="{{ $listUrl }}"
+                           class="inline-flex items-center gap-2 bg-bg-secondary text-text-secondary border border-border-medium px-xl py-md rounded-lg font-medium hover:bg-gray-100 transition-all duration-200 text-base leading-normal">
                             <i class="fa-solid fa-times ml-2"></i>
                             <span>انصراف</span>
                         </a>
@@ -298,76 +332,76 @@
     </div>
 
     @push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Handle type-based field visibility
-            function toggleTypeFields(type) {
-                const imageSection = document.getElementById('image-upload-section');
-                const iconColorSection = document.getElementById('icon-color-section');
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Handle type-based field visibility
+                function toggleTypeFields(type) {
+                    const imageSection = document.getElementById('image-upload-section');
+                    const iconColorSection = document.getElementById('icon-color-section');
 
-                if (type === '1' || type === '2') { // Holding or Brand
-                    imageSection.classList.remove('hidden');
-                    iconColorSection.classList.add('hidden');
-                } else { // Department or Team
-                    imageSection.classList.add('hidden');
-                    iconColorSection.classList.remove('hidden');
+                    if (type === '1' || type === '2') { // Holding or Brand
+                        imageSection.classList.remove('hidden');
+                        iconColorSection.classList.add('hidden');
+                    } else { // Department or Team
+                        imageSection.classList.add('hidden');
+                        iconColorSection.classList.remove('hidden');
+                    }
                 }
-            }
 
-            // Initial state
-            const typeSelect = document.querySelector('select[name="type"]');
-            if (typeSelect) {
-                toggleTypeFields(typeSelect.value);
+                // Initial state
+                const typeSelect = document.querySelector('select[name="type"]');
+                if (typeSelect) {
+                    toggleTypeFields(typeSelect.value);
 
-                typeSelect.addEventListener('change', function() {
-                    toggleTypeFields(this.value);
-                });
-            }
-
-            document.querySelectorAll('.color-option input').forEach(input => {
-                input.addEventListener('change', function() {
-                    document.querySelectorAll('.color-option .check-icon').forEach(icon => {
-                        icon.classList.add('opacity-0');
-                        icon.classList.remove('opacity-100');
+                    typeSelect.addEventListener('change', function () {
+                        toggleTypeFields(this.value);
                     });
-                    if (this.checked) {
-                        this.nextElementSibling.querySelector('.check-icon').classList.remove('opacity-0');
-                        this.nextElementSibling.querySelector('.check-icon').classList.add('opacity-100');
-                    }
-                });
-            });
+                }
 
-            document.querySelectorAll('.icon-option input').forEach(input => {
-                input.addEventListener('change', function() {
-                    document.querySelectorAll('.icon-option > div').forEach(div => {
-                        div.classList.remove('border-primary', 'bg-primary/10');
-                        div.classList.add('border-transparent');
-                        div.querySelector('i').classList.remove('text-primary');
-                        div.querySelector('i').classList.add('text-text-secondary');
+                document.querySelectorAll('.color-option input').forEach(input => {
+                    input.addEventListener('change', function () {
+                        document.querySelectorAll('.color-option .check-icon').forEach(icon => {
+                            icon.classList.add('opacity-0');
+                            icon.classList.remove('opacity-100');
+                        });
+                        if (this.checked) {
+                            this.nextElementSibling.querySelector('.check-icon').classList.remove('opacity-0');
+                            this.nextElementSibling.querySelector('.check-icon').classList.add('opacity-100');
+                        }
                     });
-                    if (this.checked) {
-                        this.nextElementSibling.classList.add('border-primary', 'bg-primary/10');
-                        this.nextElementSibling.classList.remove('border-transparent');
-                        this.nextElementSibling.querySelector('i').classList.add('text-primary');
-                        this.nextElementSibling.querySelector('i').classList.remove('text-text-secondary');
-                    }
                 });
+
+                document.querySelectorAll('.icon-option input').forEach(input => {
+                    input.addEventListener('change', function () {
+                        document.querySelectorAll('.icon-option > div').forEach(div => {
+                            div.classList.remove('border-primary', 'bg-primary/10');
+                            div.classList.add('border-transparent');
+                            div.querySelector('i').classList.remove('text-primary');
+                            div.querySelector('i').classList.add('text-text-secondary');
+                        });
+                        if (this.checked) {
+                            this.nextElementSibling.classList.add('border-primary', 'bg-primary/10');
+                            this.nextElementSibling.classList.remove('border-transparent');
+                            this.nextElementSibling.querySelector('i').classList.add('text-primary');
+                            this.nextElementSibling.querySelector('i').classList.remove('text-text-secondary');
+                        }
+                    });
+                });
+
+                const checkedColor = document.querySelector('.color-option input:checked');
+                if (checkedColor) {
+                    checkedColor.nextElementSibling.querySelector('.check-icon').classList.remove('opacity-0');
+                    checkedColor.nextElementSibling.querySelector('.check-icon').classList.add('opacity-100');
+                }
+
+                const checkedIcon = document.querySelector('.icon-option input:checked');
+                if (checkedIcon) {
+                    checkedIcon.nextElementSibling.classList.add('border-primary', 'bg-primary/10');
+                    checkedIcon.nextElementSibling.classList.remove('border-transparent');
+                    checkedIcon.nextElementSibling.querySelector('i').classList.add('text-primary');
+                    checkedIcon.nextElementSibling.querySelector('i').classList.remove('text-text-secondary');
+                }
             });
-
-            const checkedColor = document.querySelector('.color-option input:checked');
-            if (checkedColor) {
-                checkedColor.nextElementSibling.querySelector('.check-icon').classList.remove('opacity-0');
-                checkedColor.nextElementSibling.querySelector('.check-icon').classList.add('opacity-100');
-            }
-
-            const checkedIcon = document.querySelector('.icon-option input:checked');
-            if (checkedIcon) {
-                checkedIcon.nextElementSibling.classList.add('border-primary', 'bg-primary/10');
-                checkedIcon.nextElementSibling.classList.remove('border-transparent');
-                checkedIcon.nextElementSibling.querySelector('i').classList.add('text-primary');
-                checkedIcon.nextElementSibling.querySelector('i').classList.remove('text-text-secondary');
-            }
-        });
-    </script>
+        </script>
     @endpush
 </x-layouts.app>

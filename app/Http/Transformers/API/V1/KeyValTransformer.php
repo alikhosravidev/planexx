@@ -26,8 +26,12 @@ class KeyValTransformer extends BaseTransformer
         parent::__construct($config, $registry, $extractor, $manager, $logger);
     }
 
-    public function transform(EntityInterface $model): array
+    public function transform(?EntityInterface $model): array
     {
+        if (null === $model) {
+            return [];
+        }
+
         return [
             $model->getAttribute($this->key) => $model->getAttribute($this->field),
         ];

@@ -22,6 +22,7 @@ use Psr\Log\LoggerInterface;
 abstract class BaseTransformer extends TransformerAbstract implements TransformerInterface
 {
     protected array $fieldTransformers = [];
+    protected array $includeAliases    = [];
 
     public function __construct(
         protected readonly TransformerConfig $config,
@@ -79,8 +80,12 @@ abstract class BaseTransformer extends TransformerAbstract implements Transforme
      * @param EntityInterface $data
      * @return array
      */
-    public function transform(EntityInterface $data): array
+    public function transform(?EntityInterface $data): array
     {
+        if ($data === null) {
+            return [];
+        }
+
         $pipeline = $this->buildPipeline();
         $context  = new ModelTransformationContext([], $data);
         $result   = $pipeline->process($context);
@@ -96,9 +101,27 @@ abstract class BaseTransformer extends TransformerAbstract implements Transforme
      */
     public function setIncludes(array $includes): static
     {
+        if (isset($includes['relations'])) {
+            $this->includeAliases = $includes['aliases'] ?? [];
+            $includesForFractal   = [];
+
+            foreach ($includes['relations'] as $relation) {
+                $includesForFractal[] = $this->includeAliases[$relation] ?? $relation;
+            }
+
+            $this->manager->parseIncludes($includesForFractal);
+
+            return $this;
+        }
+
         $this->manager->parseIncludes($includes);
 
         return $this;
+    }
+
+    public function getIncludeAliases(): array
+    {
+        return $this->includeAliases;
     }
 
     /**
@@ -221,10 +244,6 @@ abstract class BaseTransformer extends TransformerAbstract implements Transforme
      */
     public function transformOne($model, ?string $resourceKey = null): array
     {
-        if ($model instanceof EntityInterface) {
-            return $this->transform($model);
-        }
-
         $resource = $this->item($model, $this, $resourceKey);
 
         return $this->manager->createData($resource)->toArray();
@@ -262,6 +281,13 @@ abstract class BaseTransformer extends TransformerAbstract implements Transforme
         }
 
         return $this->config->defaultIncludes;
+    }
+
+    public function setDefaultIncludes(array $includes): static
+    {
+        $this->defaultIncludes = $includes;
+
+        return $this;
     }
 
     /**

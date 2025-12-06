@@ -14,6 +14,7 @@ use App\Core\Organization\Repositories\DepartmentRepository;
 use App\Domains\Department\DepartmentDTO;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use InvalidArgumentException;
 
 readonly class DepartmentService implements DepartmentServiceInterface
 {
@@ -91,12 +92,12 @@ readonly class DepartmentService implements DepartmentServiceInterface
         if ($type->hasImage()) {
             // For holding/brand types, check if new image provided OR existing image exists
             if (!$image && (!$existingDepartment || !$existingDepartment->image)) {
-                throw new \InvalidArgumentException('Image is required for ' . $type->label());
+                throw new InvalidArgumentException('Image is required for ' . $type->label());
             }
         }
 
         if ($type->hasIconAndColor() && (!$color || !$icon)) {
-            throw new \InvalidArgumentException('Icon and color are required for ' . $type->label());
+            throw new InvalidArgumentException('Icon and color are required for ' . $type->label());
         }
     }
 
@@ -106,7 +107,7 @@ readonly class DepartmentService implements DepartmentServiceInterface
             file      : $image,
             moduleName: $department->getModuleName(),
             title     : $department->name . ' Image',
-            entityType: $department->getModuleName(),
+            entityType: $department->getMorphClass(),
             entityId  : $department->id,
             isPublic  : true,
             uploadedBy: auth()->id(),

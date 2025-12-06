@@ -8,13 +8,14 @@ use App\Contracts\Transformer\DataExtractorInterface;
 use App\Contracts\Transformer\SerializerInterface;
 use App\Contracts\Transformer\TransformerInterface;
 use App\Services\Transformer\ArraySerializerAdapter;
+use App\Services\Transformer\CustomArraySerializer;
 use App\Services\Transformer\FieldTransformerRegistry;
 use App\Services\Transformer\FractalManagerFactory;
 use App\Services\Transformer\ModelDataExtractor;
 use App\Services\Transformer\TransformerConfig;
 use App\Services\Transformer\TransformerFactory;
 use Illuminate\Support\ServiceProvider;
-use League\Fractal\Serializer\DataArraySerializer;
+use League\Fractal\Manager;
 
 /**
  * Service provider for transformer dependencies.
@@ -29,7 +30,7 @@ class TransformerServiceProvider extends ServiceProvider
         // Bind serializer
         $this->app->singleton(SerializerInterface::class, function ($app) {
             return new ArraySerializerAdapter(
-                new DataArraySerializer()
+                new CustomArraySerializer()
             );
         });
 
@@ -50,6 +51,14 @@ class TransformerServiceProvider extends ServiceProvider
 
         // Bind registry (per request)
         $this->app->singleton(FieldTransformerRegistry::class);
+
+        // Bind Fractal Manager with CustomArraySerializer
+        $this->app->bind(Manager::class, function ($app) {
+            $manager = new Manager();
+            $manager->setSerializer(new CustomArraySerializer());
+
+            return $manager;
+        });
     }
 
     /**

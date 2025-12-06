@@ -46,8 +46,8 @@ class DepartmentWebController extends BaseWebController
     public function create(): View
     {
         $deptResponse = $this->apiGet(
-            'api.v1.admin.org.departments.keyValList',
-            ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => null]]
+            'api.v1.admin.org.departments.index',
+            ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => null], 'includes' => 'children'],
         );
 
         $usersResponse = $this->apiGet(
@@ -56,8 +56,8 @@ class DepartmentWebController extends BaseWebController
         );
 
         return view('Organization::departments.add-or-edit', [
-            'parentDepartments' => $deptResponse['result']  ?? [],
-            'managers'          => $usersResponse['result'] ?? [],
+            'allDepartments' => $deptResponse['result']  ?? [],
+            'managers'       => $usersResponse['result'] ?? [],
         ]);
     }
 
@@ -69,8 +69,8 @@ class DepartmentWebController extends BaseWebController
         ]);
 
         $deptResponse = $this->apiGet(
-            'api.v1.admin.org.departments.keyValList',
-            ['per_page' => 100, 'field' => 'name']
+            'api.v1.admin.org.departments.index',
+            ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => null], 'includes' => 'children'],
         );
 
         $usersResponse = $this->apiGet(
@@ -79,9 +79,9 @@ class DepartmentWebController extends BaseWebController
         );
 
         return view('Organization::departments.add-or-edit', [
-            'department'        => $response['result']      ?? [],
-            'parentDepartments' => $deptResponse['result']  ?? [],
-            'managers'          => $usersResponse['result'] ?? [],
+            'department'     => $response['result']      ?? [],
+            'allDepartments' => $deptResponse['result']  ?? [],
+            'managers'       => $usersResponse['result'] ?? [],
         ]);
     }
 }

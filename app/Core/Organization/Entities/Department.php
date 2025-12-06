@@ -72,7 +72,7 @@ class Department extends BaseEntity
 
     public function children(): HasMany
     {
-        return $this->hasMany(self::class, 'parent_id');
+        return $this->hasMany(self::class, 'parent_id')->with('children');
     }
 
     public function users(): BelongsToMany

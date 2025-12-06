@@ -12,7 +12,8 @@
     <td class="px-6 py-4">
         <div class="flex items-center">
             @if($hasChildren)
-                <button type="button" class="toggle-dept w-6 h-6 flex items-center justify-center text-text-muted hover:text-primary transition-colors" data-parent-id="{{ $dept['id'] }}">
+                <button type="button" class="toggle-dept w-6 h-6 flex items-center justify-center text-text-muted hover:text-primary transition-colors"
+                        data-parent-id="{{ $dept['id'] }}">
                     <i class="fa-solid fa-chevron-down transition-transform duration-200"></i>
                 </button>
             @else

@@ -56,6 +56,7 @@ abstract class BaseAPIController
         $results = $query->paginate($pagination['per_page']);
         $this->afterIndex($results, $request);
 
+        $this->transformer->setIncludes($includes);
         $transformed = $this->transformer->transformMany($results);
 
         return $this->response->success(
@@ -80,6 +81,7 @@ abstract class BaseAPIController
             $this->authorizeShow($resource);
             $this->afterShow($resource, $request);
 
+            $this->transformer->setIncludes($includes);
             $transformed = $this->transformer->transformOne($resource);
 
             return $this->response->success($transformed['data'] ?? $transformed);
@@ -142,7 +144,7 @@ abstract class BaseAPIController
         $requestedIncludes = $request->query('includes', '');
 
         if (empty($requestedIncludes)) {
-            return $defaultIncludes;
+            return ['relations' => $defaultIncludes, 'aliases' => []];
         }
 
         $requestedIncludes = is_array($requestedIncludes)
@@ -151,9 +153,26 @@ abstract class BaseAPIController
 
         $requestedIncludes = array_map('trim', $requestedIncludes);
         $requestedIncludes = array_filter($requestedIncludes);
-        $this->validateIncludes($requestedIncludes);
 
-        return array_unique(array_merge($defaultIncludes, $requestedIncludes));
+        $relations = [];
+        $aliases   = [];
+
+        foreach ($requestedIncludes as $include) {
+            if (str_contains($include, ':')) {
+                [$relation, $alias] = array_map('trim', explode(':', $include, 2));
+                $relations[]        = $relation;
+                $aliases[$relation] = $alias;
+            } else {
+                $relations[] = $include;
+            }
+        }
+
+        $this->validateIncludes($relations, $aliases);
+
+        return [
+            'relations' => array_unique(array_merge($defaultIncludes, $relations)),
+            'aliases'   => $aliases,
+        ];
     }
 
     protected function parseWithCount(Request $request): array
@@ -197,14 +216,16 @@ abstract class BaseAPIController
         ];
     }
 
-    protected function validateIncludes(array $includes): void
+    protected function validateIncludes(array $relations, array $aliases = []): void
     {
         $availableIncludes = $this->transformer->getAvailableIncludes();
         $invalidIncludes   = [];
 
-        foreach ($includes as $include) {
-            if (!in_array($include, $availableIncludes, true)) {
-                $invalidIncludes[] = $include;
+        foreach ($relations as $relation) {
+            $aliasOrRelation = $aliases[$relation] ?? $relation;
+
+            if (!in_array($aliasOrRelation, $availableIncludes, true)) {
+                $invalidIncludes[] = $relation;
             }
         }
 
@@ -448,8 +469,10 @@ abstract class BaseAPIController
 
     protected function applyEagerLoading(Builder $query, array $includes): Builder
     {
-        if (!empty($includes)) {
-            $query->with($includes);
+        $relations = $includes['relations'] ?? $includes;
+
+        if (!empty($relations)) {
+            $query->with($relations);
         }
 
         return $query;

@@ -13,21 +13,23 @@ class DepartmentTransformer extends BaseTransformer
 
     public function includeParent(Department $department)
     {
-        return $this->item($department->parent, resolve(self::class), 'parent');
+        return $this->item($department->parent, resolve(self::class));
     }
 
     public function includeUsers(Department $department)
     {
-        return $this->item($department->users, resolve(UserTransformer::class), 'users');
+        return $this->collection($department->users, resolve(UserTransformer::class));
     }
 
     public function includeManager(Department $department)
     {
-        return $this->item($department->manager, resolve(UserTransformer::class), 'manager');
+        return $this->item($department->manager, resolve(UserTransformer::class));
     }
 
     public function includeChildren(Department $department)
     {
-        return $this->collection($department->children, resolve(self::class), 'children');
+        $children = $department->children;
+
+        return $this->collection($children, resolve(self::class));
     }
 }

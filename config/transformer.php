@@ -46,6 +46,7 @@ return [
         'secret_field',
         'api_token',
         'token',
+        'recursive_children',
     ],
 
     'available_includes' => [],
