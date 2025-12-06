@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Organization\Tests\Feature\V1\Admin;
 
 use App\Core\Organization\Entities\Department;
+use App\Core\Organization\Enums\DepartmentTypeEnum;
 use Tests\APITestBase;
 
 class StoreDepartmentTest extends APITestBase
@@ -31,6 +32,9 @@ class StoreDepartmentTest extends APITestBase
             'name'        => $name,
             'code'        => $code,
             'description' => $description,
+            'type'        => DepartmentTypeEnum::DEPARTMENT->value,
+            'icon'        => 'computer',
+            'color'       => '#0000FF',
             'is_active'   => true,
         ];
 
@@ -57,6 +61,9 @@ class StoreDepartmentTest extends APITestBase
             'name'        => $name,
             'code'        => $code,
             'description' => $description,
+            'type'        => DepartmentTypeEnum::DEPARTMENT->value,
+            'icon'        => 'computer',
+            'color'       => '#0000FF',
             'is_active'   => true,
         ]);
     }

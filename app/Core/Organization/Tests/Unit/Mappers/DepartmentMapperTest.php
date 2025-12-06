@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Organization\Tests\Unit\Mappers;
 
 use App\Core\Organization\Entities\Department;
+use App\Core\Organization\Enums\DepartmentTypeEnum;
 use App\Core\Organization\Mappers\DepartmentMapper;
 use Illuminate\Http\Request;
 use Mockery;
@@ -104,6 +105,7 @@ class DepartmentMapperTest extends UnitTestBase
         $department->manager_id  = $entityManagerId;
         $department->image_url   = $entityImageUrl;
         $department->description = $entityDescription;
+        $department->type        = DepartmentTypeEnum::DEPARTMENT;
         $department->is_active   = $entityIsActive;
 
         // Act
@@ -139,6 +141,7 @@ class DepartmentMapperTest extends UnitTestBase
         $department->manager_id  = $entityManagerId;
         $department->image_url   = $entityImageUrl;
         $department->description = $entityDescription;
+        $department->type        = DepartmentTypeEnum::DEPARTMENT;
         $department->is_active   = $entityIsActive;
 
         // Act

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Organization\Tests\Feature\V1\Admin;
 
 use App\Core\Organization\Entities\Department;
+use App\Core\Organization\Enums\DepartmentTypeEnum;
 use Tests\APITestBase;
 
 class UpdateDepartmentTest extends APITestBase
@@ -33,6 +34,9 @@ class UpdateDepartmentTest extends APITestBase
 
         $data = [
             'name'      => $newName,
+            'type'      => DepartmentTypeEnum::DEPARTMENT->value,
+            'icon'      => 'updated-icon',
+            'color'     => '#FF00FF',
             'is_active' => true,
         ];
 

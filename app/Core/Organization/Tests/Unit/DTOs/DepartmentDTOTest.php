@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Tests\Unit\DTOs;
 
+use App\Core\Organization\Enums\DepartmentTypeEnum;
 use App\Domains\Department\DepartmentDTO;
 use Tests\UnitTestBase;
 
@@ -67,6 +68,7 @@ class DepartmentDTOTest extends UnitTestBase
             'color'       => null,
             'icon'        => null,
             'description' => 'Handles engineering tasks',
+            'type'        => DepartmentTypeEnum::DEPARTMENT->value,
             'is_active'   => true,
         ];
         $this->assertEquals($expected, $array);

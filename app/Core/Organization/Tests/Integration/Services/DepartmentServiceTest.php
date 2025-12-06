@@ -26,6 +26,8 @@ class DepartmentServiceTest extends IntegrationTestBase
             name       : 'Engineering Department',
             code       : 'ENG',
             description: 'Handles engineering tasks',
+            icon       : 'building',
+            color      : '#FF0000',
             isActive   : true,
         );
 
@@ -37,11 +39,15 @@ class DepartmentServiceTest extends IntegrationTestBase
         $this->assertEquals('Engineering Department', $department->name);
         $this->assertEquals('ENG', $department->code);
         $this->assertEquals('Handles engineering tasks', $department->description);
+        $this->assertEquals('building', $department->icon);
+        $this->assertEquals('#FF0000', $department->color);
         $this->assertTrue($department->is_active);
         $this->assertDatabaseHas(Department::class, [
             'id'        => $department->id,
             'name'      => 'Engineering Department',
             'code'      => 'ENG',
+            'icon'      => 'building',
+            'color'     => '#FF0000',
             'is_active' => true,
         ]);
     }
@@ -58,6 +64,8 @@ class DepartmentServiceTest extends IntegrationTestBase
             name       : 'Updated Department',
             code       : 'UPD',
             description: 'Updated description',
+            icon       : 'updated-building',
+            color      : '#00FF00',
             isActive   : true,
         );
 
@@ -69,11 +77,15 @@ class DepartmentServiceTest extends IntegrationTestBase
         $this->assertEquals('Updated Department', $updatedDepartment->name);
         $this->assertEquals('UPD', $updatedDepartment->code);
         $this->assertEquals('Updated description', $updatedDepartment->description);
+        $this->assertEquals('updated-building', $updatedDepartment->icon);
+        $this->assertEquals('#00FF00', $updatedDepartment->color);
         $this->assertTrue($updatedDepartment->is_active);
         $this->assertDatabaseHas(Department::class, [
             'id'        => $existingDepartment->id,
             'name'      => 'Updated Department',
             'code'      => 'UPD',
+            'icon'      => 'updated-building',
+            'color'     => '#00FF00',
             'is_active' => true,
         ]);
     }
