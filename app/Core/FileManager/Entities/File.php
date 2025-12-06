@@ -149,15 +149,6 @@ class File extends BaseEntity implements TaggableEntity, FavoritableEntity
         return $this->morphMany(Favorite::class, 'entity');
     }
 
-    public function scopeIsFavorite($query, $isFavorite = true)
-    {
-        return $query->when($isFavorite, function ($query) {
-            $query->whereHas('favorites', function ($subQuery) {
-                $subQuery->where('user_id', auth()->id());
-            });
-        });
-    }
-
     protected static function newFactory(): FileFactory
     {
         return FileFactory::new();

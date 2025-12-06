@@ -109,13 +109,4 @@ readonly class FileService
             return $deletedCount;
         });
     }
-
-    public function getFavoriteFiles(int $userId)
-    {
-        return $this->fileRepository->query()
-            ->whereHas('favorites', function ($query) use ($userId) {
-                $query->where('user_id', $userId);
-            })
-            ->with(['folder', 'uploader']);
-    }
 }

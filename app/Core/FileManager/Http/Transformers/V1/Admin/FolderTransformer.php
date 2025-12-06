@@ -33,12 +33,12 @@ class FolderTransformer extends BaseTransformer
             return null;
         }
 
-        return $this->item($folder->parent, new self());
+        return $this->item($folder->parent, resolve(self::class));
     }
 
     public function includeChildren(Folder $folder)
     {
-        return $this->collection($folder->children, new self());
+        return $this->collection($folder->children, resolve(self::class));
     }
 
     public function includeFiles(Folder $folder)

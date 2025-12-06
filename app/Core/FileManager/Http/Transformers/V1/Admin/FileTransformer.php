@@ -16,7 +16,6 @@ class FileTransformer extends BaseTransformer
         'folder',
         'uploader',
         'tags',
-        'favorites',
     ];
 
     protected function getVirtualFieldResolvers(): array
