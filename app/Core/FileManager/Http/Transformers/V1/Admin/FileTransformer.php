@@ -35,7 +35,7 @@ class FileTransformer extends BaseTransformer
             return null;
         }
 
-        return $this->item($file->folder, new FolderTransformer());
+        return $this->item($file->folder, resolve(FolderTransformer::class));
     }
 
     public function includeUploader(File $file): ?array
@@ -44,12 +44,12 @@ class FileTransformer extends BaseTransformer
             return null;
         }
 
-        return $this->item($file->uploader, new UserTransformer());
+        return $this->item($file->uploader, resolve(UserTransformer::class));
     }
 
     public function includeTags(File $file): array
     {
-        return $this->collection($file->tags, new TagTransformer());
+        return $this->collection($file->tags, resolve(TagTransformer::class));
     }
 
     private function formatBytes(int $bytes, int $precision = 2): string

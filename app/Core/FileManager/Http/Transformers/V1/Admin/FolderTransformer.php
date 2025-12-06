@@ -43,11 +43,11 @@ class FolderTransformer extends BaseTransformer
 
     public function includeFiles(Folder $folder): array
     {
-        return $this->collection($folder->files, new FileTransformer());
+        return $this->collection($folder->files, resolve(FileTransformer::class));
     }
 
     public function includeTags(Folder $folder): array
     {
-        return $this->collection($folder->tags, new TagTransformer());
+        return $this->collection($folder->tags, resolve(TagTransformer::class));
     }
 }
