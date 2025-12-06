@@ -29,7 +29,7 @@ class FileTransformer extends BaseTransformer
         ];
     }
 
-    public function includeFolder(File $file): ?array
+    public function includeFolder(File $file)
     {
         if (!$file->folder) {
             return null;
@@ -38,7 +38,7 @@ class FileTransformer extends BaseTransformer
         return $this->item($file->folder, resolve(FolderTransformer::class));
     }
 
-    public function includeUploader(File $file): ?array
+    public function includeUploader(File $file)
     {
         if (!$file->uploader) {
             return null;
@@ -47,7 +47,7 @@ class FileTransformer extends BaseTransformer
         return $this->item($file->uploader, resolve(UserTransformer::class));
     }
 
-    public function includeTags(File $file): array
+    public function includeTags(File $file)
     {
         return $this->collection($file->tags, resolve(TagTransformer::class));
     }

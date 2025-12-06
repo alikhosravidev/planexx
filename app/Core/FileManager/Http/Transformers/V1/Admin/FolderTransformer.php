@@ -27,7 +27,7 @@ class FolderTransformer extends BaseTransformer
         ];
     }
 
-    public function includeParent(Folder $folder): ?array
+    public function includeParent(Folder $folder)
     {
         if (!$folder->parent) {
             return null;
@@ -36,17 +36,17 @@ class FolderTransformer extends BaseTransformer
         return $this->item($folder->parent, new self());
     }
 
-    public function includeChildren(Folder $folder): array
+    public function includeChildren(Folder $folder)
     {
         return $this->collection($folder->children, new self());
     }
 
-    public function includeFiles(Folder $folder): array
+    public function includeFiles(Folder $folder)
     {
         return $this->collection($folder->files, resolve(FileTransformer::class));
     }
 
-    public function includeTags(Folder $folder): array
+    public function includeTags(Folder $folder)
     {
         return $this->collection($folder->tags, resolve(TagTransformer::class));
     }
