@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Core\FileManager\Entities;
 
 use App\Contracts\Entity\BaseEntity;
+use App\Contracts\Entity\FavoritableEntity;
 use App\Contracts\Entity\TaggableEntity;
 use App\Core\FileManager\Database\Factories\FolderFactory;
+use App\Entities\Favorite;
 use App\Traits\Taggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,7 +31,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Database\Eloquent\Collection<int, Folder> $children
  * @property \Illuminate\Database\Eloquent\Collection<int, File> $files
  */
-class Folder extends BaseEntity implements TaggableEntity
+class Folder extends BaseEntity implements TaggableEntity, FavoritableEntity
 {
     use HasFactory;
     use SoftDeletes;

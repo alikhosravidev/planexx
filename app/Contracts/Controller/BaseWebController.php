@@ -6,6 +6,7 @@ namespace App\Contracts\Controller;
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
@@ -93,11 +94,35 @@ abstract class BaseWebController
         $response = app(Kernel::class)->handle($subRequest);
 
         $decodedResponse = json_decode($response->getContent(), true);
+        $statusCode      = $response->getStatusCode();
 
-        if ($response->getStatusCode() === 422) {
+        // Log all API errors for debugging
+        if ($statusCode >= 400) {
+            Log::error('API Error in BaseWebController', [
+                'route'        => $routeName,
+                'method'       => $method,
+                'status'       => $statusCode,
+                'response'     => $decodedResponse,
+                'request_data' => $data,
+            ]);
+        }
+
+        if ($statusCode === 422) {
             Session::flashInput($data);
 
             throw ValidationException::withMessages($decodedResponse['errors'] ?? []);
+        }
+
+        // For all other errors (500, 404, 403, etc.), throw an exception with details
+        if ($statusCode >= 400) {
+            $message   = $decodedResponse['message']   ?? "API request failed with status {$statusCode}";
+            $exception = $decodedResponse['exception'] ?? null;
+
+            if ($exception && config('app.debug')) {
+                throw new RuntimeException("{$message}: {$exception}");
+            }
+
+            throw new RuntimeException($message);
         }
 
         return $decodedResponse;

@@ -16,7 +16,7 @@ class FileFactory extends Factory
 {
     protected $model = File::class;
 
-    public function definition()
+    public function definition(): array
     {
         $type       = $this->faker->randomElement(FileTypeEnum::cases());
         $collection = $this->faker->randomElement(FileCollectionEnum::cases());

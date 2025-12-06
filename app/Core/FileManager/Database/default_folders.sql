@@ -13,28 +13,28 @@ VALUES
 -- Sub-folders for 'اسناد استراتژیک' (parent_id = 1)
 INSERT INTO `core_file_folders` (`parent_id`, `module_name`, `name`, `is_public`, `color`, `icon`, `description`, `order`, `created_at`, `updated_at`)
 VALUES
-  (1, NULL, 'منابع انسانی', 0, 'blue', 'fa-solid fa-users', 'زیرپوشه منابع انسانی', 1, NOW(), NOW()),
-  (1, NULL, 'مالی', 0, 'green', 'fa-solid fa-coins', 'زیرپوشه مالی', 2, NOW(), NOW()),
-  (1, NULL, 'حقوقی', 0, 'slate', 'fa-solid fa-scale-balanced', 'زیرپوشه حقوقی', 3, NOW(), NOW()),
-  (1, NULL, 'مدیریتی', 0, 'amber', 'fa-solid fa-briefcase', 'زیرپوشه مدیریتی', 4, NOW(), NOW());
+  (1, NULL, 'منابع انسانی', 0, 'purple', 'fa-solid fa-users', 'زیرپوشه منابع انسانی', 1, NOW(), NOW()),
+  (1, NULL, 'مالی', 0, 'purple', 'fa-solid fa-coins', 'زیرپوشه مالی', 2, NOW(), NOW()),
+  (1, NULL, 'حقوقی', 0, 'purple', 'fa-solid fa-scale-balanced', 'زیرپوشه حقوقی', 3, NOW(), NOW()),
+  (1, NULL, 'مدیریتی', 0, 'purple', 'fa-solid fa-briefcase', 'زیرپوشه مدیریتی', 4, NOW(), NOW());
 
 -- Sub-folders for 'بازاریابی و سوشال' (parent_id = 2)
 INSERT INTO `core_file_folders` (`parent_id`, `module_name`, `name`, `is_public`, `color`, `icon`, `description`, `order`, `created_at`, `updated_at`)
 VALUES
   (2, NULL, 'کمپین‌ها', 0, 'pink', 'fa-solid fa-rocket', 'زیرپوشه کمپین‌ها', 1, NOW(), NOW()),
-  (2, NULL, 'برندینگ', 0, 'purple', 'fa-solid fa-palette', 'زیرپوشه برندینگ', 2, NOW(), NOW()),
-  (2, NULL, 'شبکه‌های اجتماعی', 0, 'blue', 'fa-solid fa-share-nodes', 'زیرپوشه شبکه‌های اجتماعی', 3, NOW(), NOW());
+  (2, NULL, 'برندینگ', 0, 'pink', 'fa-solid fa-palette', 'زیرپوشه برندینگ', 2, NOW(), NOW()),
+  (2, NULL, 'شبکه‌های اجتماعی', 0, 'pink', 'fa-solid fa-share-nodes', 'زیرپوشه شبکه‌های اجتماعی', 3, NOW(), NOW());
 
 -- Sub-folders for 'فروش' (parent_id = 4)
 INSERT INTO `core_file_folders` (`parent_id`, `module_name`, `name`, `is_public`, `color`, `icon`, `description`, `order`, `created_at`, `updated_at`)
 VALUES
-  (4, NULL, 'قراردادها', 0, 'green', 'fa-solid fa-file-signature', 'زیرپوشه قراردادها', 1, NOW(), NOW()),
-  (4, NULL, 'پیشنهادات', 0, 'amber', 'fa-solid fa-file-invoice', 'زیرپوشه پیشنهادات', 2, NOW(), NOW()),
+  (4, NULL, 'قراردادها', 0, 'blue', 'fa-solid fa-file-signature', 'زیرپوشه قراردادها', 1, NOW(), NOW()),
+  (4, NULL, 'پیشنهادات', 0, 'blue', 'fa-solid fa-file-invoice', 'زیرپوشه پیشنهادات', 2, NOW(), NOW()),
   (4, NULL, 'گزارشات فروش', 0, 'blue', 'fa-solid fa-chart-bar', 'زیرپوشه گزارشات فروش', 3, NOW(), NOW());
 
 -- Sub-folders for 'فنی و مهندسی' (parent_id = 5)
 INSERT INTO `core_file_folders` (`parent_id`, `module_name`, `name`, `is_public`, `color`, `icon`, `description`, `order`, `created_at`, `updated_at`)
 VALUES
-  (5, NULL, 'مشخصات فنی', 0, 'blue', 'fa-solid fa-clipboard-list', 'زیرپوشه مشخصات فنی', 1, NOW(), NOW()),
-  (5, NULL, 'دفترچه راهنما', 0, 'green', 'fa-solid fa-book', 'زیرپوشه دفترچه راهنما', 2, NOW(), NOW()),
-  (5, NULL, 'نقشه‌ها', 0, 'purple', 'fa-solid fa-drafting-compass', 'زیرپوشه نقشه‌ها', 3, NOW(), NOW());
+  (5, NULL, 'مشخصات فنی', 0, 'slate', 'fa-solid fa-clipboard-list', 'زیرپوشه مشخصات فنی', 1, NOW(), NOW()),
+  (5, NULL, 'دفترچه راهنما', 0, 'slate', 'fa-solid fa-book', 'زیرپوشه دفترچه راهنما', 2, NOW(), NOW()),
+  (5, NULL, 'نقشه‌ها', 0, 'slate', 'fa-solid fa-drafting-compass', 'زیرپوشه نقشه‌ها', 3, NOW(), NOW());

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\FileManager\Entities;
+namespace App\Entities;
 
 use App\Contracts\Entity\BaseEntity;
 use App\Core\Organization\Entities\User;

@@ -7,6 +7,7 @@ namespace App\Core\FileManager\Mappers;
 use App\Core\FileManager\DTOs\FileUpdateDTO;
 use App\Core\FileManager\DTOs\FileUploadDTO;
 use App\Core\FileManager\Enums\FileCollectionEnum;
+use App\Utilities\OrNull;
 use Illuminate\Http\Request;
 
 class FileMapper
@@ -15,11 +16,11 @@ class FileMapper
     {
         return new FileUploadDTO(
             file: $request->file('file'),
-            folderId: $request->filled('folder_id') ? (int) $request->input('folder_id') : null,
+            folderId: OrNull::intOrNull($request->input('folder_id')),
             moduleName: $request->input('module_name'),
             title: $request->input('title'),
             entityType: $request->input('entity_type'),
-            entityId: $request->filled('entity_id') ? (int) $request->input('entity_id') : null,
+            entityId: OrNull::intOrNull($request->input('entity_id')),
             collection: $request->input('collection') ? FileCollectionEnum::from((int) $request->input('collection')) : null,
             isPublic: $request->boolean('is_public', false),
             isTemporary: $request->boolean('is_temporary', false),
@@ -32,9 +33,9 @@ class FileMapper
     {
         return new FileUpdateDTO(
             title: $request->input('title'),
-            folderId: $request->filled('folder_id') ? (int) $request->input('folder_id') : null,
-            isPublic: $request->has('is_public') ? $request->boolean('is_public') : null,
-            isActive: $request->has('is_active') ? $request->boolean('is_active') : null,
+            folderId: OrNull::intOrNull($request->input('folder_id')),
+            isPublic: OrNull::boolOrNull($request->input('is_public')),
+            isActive: OrNull::boolOrNull($request->input('is_active')),
         );
     }
 }

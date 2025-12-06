@@ -11,7 +11,7 @@ class FolderFactory extends Factory
 {
     protected $model = Folder::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'parent_id'   => null,

@@ -26,7 +26,7 @@ Route::prefix('api/v1/admin')
                 Route::post('folders/{folderId}/favorite', [FavoriteAPIController::class, 'toggleFolder'])
                     ->name('folders.favorite.toggle');
 
-                Route::get('favorites', [FavoriteAPIController::class, 'index'])
-                    ->name('favorites.index');
+                Route::delete('files/cleanup-temporary', [FileAPIController::class, 'cleanupTemporary'])
+                    ->name('files.cleanup-temporary');
             });
     });

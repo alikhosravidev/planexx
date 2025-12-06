@@ -1,6 +1,6 @@
 @php
     $pageTitle = 'مدیریت اسناد و فایل‌ها';
-    
+
     $breadcrumbs = [
         ['label' => 'خانه', 'url' => route('web.dashboard')],
         ['label' => 'مدیریت اسناد'],
@@ -124,12 +124,12 @@
                     <div class="px-6 py-4 border-b border-border-light flex items-center justify-between">
                         <h2 class="text-lg font-semibold text-text-primary">آخرین فایل‌ها</h2>
                         <div class="flex items-center gap-2">
-                            <button class="w-9 h-9 flex items-center justify-center rounded-lg text-text-muted hover:bg-bg-secondary hover:text-primary transition-all duration-200" title="نمای لیستی">
+                            <button class="w-9 h-9 flex items-center justify-center rounded-lg text-text-muted bg-primary text-white transition-all duration-200" title="نمای لیستی">
                                 <i class="fa-solid fa-list"></i>
                             </button>
-                            <button class="w-9 h-9 flex items-center justify-center rounded-lg bg-primary text-white" title="نمای کارتی">
+                            {{--<button class="w-9 h-9 flex items-center justify-center rounded-lg bg-primary text-white hover:bg-bg-secondary hover:text-primary" title="نمای کارتی">
                                 <i class="fa-solid fa-grip"></i>
-                            </button>
+                            </button>--}}
                         </div>
                     </div>
 
@@ -205,7 +205,7 @@
 
                                         <!-- Date -->
                                         <td class="px-4 py-4 hidden lg:table-cell">
-                                            <span class="text-sm text-text-muted">{{ $file['created_at']['jalali'] ?? '-' }}</span>
+                                            <span class="text-sm text-text-muted">{{ $file['created_at']['human']['short'] ?? '-' }}</span>
                                         </td>
 
                                         <!-- Actions -->
@@ -218,9 +218,9 @@
                                                     data-action="{{ route('api.v1.admin.file-manager.files.favorite.toggle', ['fileId' => $file['id']]) }}"
                                                     data-on-success="custom"
                                                     custom-action="toggleFavorite"
-                                                    class="w-8 h-8 flex items-center justify-center rounded-lg transition-all duration-200 text-text-muted hover:text-amber-500 hover:bg-amber-50"
-                                                    title="افزودن به علاقه‌مندی">
-                                                    <i class="fa-regular fa-star"></i>
+                                                    class="w-8 h-8 flex items-center justify-center rounded-lg transition-all duration-200 {{ $file['is_favorite'] ? 'text-amber-500 bg-amber-50' : 'text-text-muted hover:text-amber-500 hover:bg-amber-50' }}"
+                                                    title="{{ $file['is_favorite'] ? 'حذف از علاقه‌مندی' : 'افزودن به علاقه‌مندی' }}">
+                                                    <i class="{{ $file['is_favorite'] ? 'fa-solid' : 'fa-regular' }} fa-star"></i>
                                                 </button>
 
                                                 <!-- Download -->
@@ -235,7 +235,7 @@
                                                 <button
                                                     data-ajax
                                                     data-method="DELETE"
-                                                    action="{{ route('api.v1.admin.file-manager.files.destroy', ['file' => $file['id']]) }}"
+                                                    data-action="{{ route('api.v1.admin.file-manager.files.destroy', ['file' => $file['id']]) }}"
                                                     data-on-success="remove"
                                                     data-target="[data-file-id='{{ $file['id'] }}']"
                                                     data-confirm="آیا از حذف این فایل اطمینان دارید؟"

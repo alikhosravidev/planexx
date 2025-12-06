@@ -8,16 +8,13 @@ use App\Contracts\Controller\BaseWebController;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentWebController extends BaseWebController
 {
     public function index(Request $request): View
     {
         $filters = [];
-
-        if ($request->filled('search')) {
-            $filters['search'] = $request->get('search');
-        }
 
         if ($request->filled('file_type')) {
             $filters['file_type'] = $request->get('file_type');
@@ -31,12 +28,11 @@ class DocumentWebController extends BaseWebController
             $filters['is_temporary'] = $request->boolean('is_temporary');
         }
 
-        $queryParams = [
-            'filter'   => $filters,
-            'sort'     => $request->get('sort', '-created_at'),
-            'per_page' => $request->get('per_page', 20),
-            'includes' => 'folder,uploader,tags',
-        ];
+        $queryParams             = $request->except('filter');
+        $queryParams['filter']   = $filters;
+        $queryParams['sort']     = $request->get('sort', '-created_at');
+        $queryParams['per_page'] = $request->get('per_page', 20);
+        $queryParams['includes'] = 'folder,uploader,tags,favorites';
 
         $filesResponse = $this->apiGet('api.v1.admin.file-manager.files.index', $queryParams);
 
@@ -97,38 +93,20 @@ class DocumentWebController extends BaseWebController
 
     public function favorites(Request $request): View
     {
-        $favoritesResponse = $this->apiGet('api.v1.admin.file-manager.favorites.index', [
-            'per_page' => $request->get('per_page', 20),
-        ]);
-
-        $foldersResponse = $this->apiGet('api.v1.admin.file-manager.folders.index', [
+        $queryParams             = $request->except('filter');
+        $queryParams['per_page'] = $request->get('per_page', 20);
+        $queryParams['filter']   = ['is_favorite' => 1];
+        $favoritesResponse       = $this->apiGet('api.v1.admin.file-manager.files.index', $queryParams);
+        $foldersResponse         = $this->apiGet('api.v1.admin.file-manager.folders.index', [
+            'filter'   => ['parent_id' => null],
             'per_page' => 100,
         ]);
 
-        $favorites       = $favoritesResponse['result'] ?? [];
-        $files           = [];
-        $favoriteFolders = [];
-
-        foreach ($favorites as $favorite) {
-            if (isset($favorite['entity_type']) && $favorite['entity_type'] === 'file') {
-                $files[] = $favorite['entity'] ?? $favorite;
-            } elseif (isset($favorite['entity_type']) && $favorite['entity_type'] === 'folder') {
-                $favoriteFolders[] = $favorite['entity'] ?? $favorite;
-            }
-        }
-
-        $stats = [
-            'total_files'   => count($files),
-            'total_folders' => count($favoriteFolders),
-        ];
-
         return view('FileManager::documents.favorites', [
-            'files'           => $files,
-            'favoriteFolders' => $favoriteFolders,
-            'folders'         => $foldersResponse['result']               ?? [],
-            'pagination'      => $favoritesResponse['meta']['pagination'] ?? [],
-            'stats'           => $stats,
-            'currentPage'     => 'documents-favorites',
+            'files'       => $favoritesResponse['result']             ?? [],
+            'folders'     => $foldersResponse['result']                   ?? [],
+            'pagination'  => $favoritesResponse['meta']['pagination'] ?? [],
+            'currentPage' => 'documents-favorites',
         ]);
     }
 
@@ -221,6 +199,10 @@ class DocumentWebController extends BaseWebController
 
     public function download(int $id): RedirectResponse
     {
-        return redirect()->route('api.v1.admin.file-manager.files.download', ['id' => $id]);
+        $response = $this->apiGet('api.v1.admin.file-manager.files.show', ['file' => $id]);
+        $disk     = $response['result']['disk'];
+        $url      = $response['result']['url'] ?? Storage::disk($disk)->url($response['result']['file_path']);
+
+        return response()->redirectTo($url);
     }
 }

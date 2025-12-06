@@ -18,24 +18,11 @@ final readonly class FileUpdateDTO implements Arrayable
 
     public function toArray(): array
     {
-        $data = [];
-
-        if ($this->title !== null) {
-            $data['title'] = $this->title;
-        }
-
-        if ($this->folderId !== null) {
-            $data['folder_id'] = $this->folderId;
-        }
-
-        if ($this->isPublic !== null) {
-            $data['is_public'] = $this->isPublic;
-        }
-
-        if ($this->isActive !== null) {
-            $data['is_active'] = $this->isActive;
-        }
-
-        return $data;
+        return [
+            'title'     => $this->title,
+            'folder_id' => $this->folderId,
+            'is_public' => $this->isPublic,
+            'is_active' => $this->isActive,
+        ];
     }
 }

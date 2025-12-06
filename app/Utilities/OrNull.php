@@ -52,7 +52,7 @@ class OrNull
     public static function boolOrNull(null|int|bool|string $input): ?bool
     {
         if (null === $input) {
-            return null;
+            return false;
         }
 
         if (is_numeric($input)) {

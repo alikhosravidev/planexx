@@ -32,7 +32,7 @@ class RoleAPIController extends BaseAPIController
         return $this->response->created(
             array_merge(
                 $this->transformer->transformOne($role),
-                ['redirect_url' => route('web.org.roles.edit', $role->id)]
+                ['redirect_url' => route('web.org.roles.permissions', $role->id)]
             ),
             'نقش با موفقیت ایجاد شد.'
         );

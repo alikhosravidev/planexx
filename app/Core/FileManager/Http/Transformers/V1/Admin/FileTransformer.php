@@ -6,6 +6,7 @@ namespace App\Core\FileManager\Http\Transformers\V1\Admin;
 
 use App\Contracts\Transformer\BaseTransformer;
 use App\Core\FileManager\Entities\File;
+use App\Http\Transformers\V1\Admin\TagTransformer;
 
 class FileTransformer extends BaseTransformer
 {
@@ -15,6 +16,7 @@ class FileTransformer extends BaseTransformer
         'folder',
         'uploader',
         'tags',
+        'favorites',
     ];
 
     protected function getVirtualFieldResolvers(): array
@@ -23,6 +25,7 @@ class FileTransformer extends BaseTransformer
             'file_type_label'  => fn (File $file) => $file->file_type->label(),
             'collection_label' => fn (File $file) => $file->collection?->label(),
             'file_size_human'  => fn (File $file) => $this->formatBytes($file->file_size),
+            'is_favorite'      => fn (File $file) => $file->favorites()->where('user_id', auth('sanctum')->id() ?? auth('web')->id())->exists(),
         ];
     }
 

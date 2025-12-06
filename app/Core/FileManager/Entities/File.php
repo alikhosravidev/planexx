@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Core\FileManager\Entities;
 
 use App\Contracts\Entity\BaseEntity;
+use App\Contracts\Entity\FavoritableEntity;
 use App\Contracts\Entity\TaggableEntity;
 use App\Core\FileManager\Database\Factories\FileFactory;
 use App\Core\FileManager\Enums\FileCollectionEnum;
 use App\Core\FileManager\Enums\FileTypeEnum;
 use App\Core\Organization\Entities\User;
+use App\Entities\Favorite;
 use App\Traits\Taggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -56,7 +58,7 @@ use Illuminate\Support\Str;
  * @property Folder|null $folder
  * @property User|null $uploader
  */
-class File extends BaseEntity implements TaggableEntity
+class File extends BaseEntity implements TaggableEntity, FavoritableEntity
 {
     use HasFactory;
     use SoftDeletes;
@@ -145,6 +147,15 @@ class File extends BaseEntity implements TaggableEntity
     public function favorites(): MorphMany
     {
         return $this->morphMany(Favorite::class, 'entity');
+    }
+
+    public function scopeIsFavorite($query, $isFavorite = true)
+    {
+        return $query->when($isFavorite, function ($query) {
+            $query->whereHas('favorites', function ($subQuery) {
+                $subQuery->where('user_id', auth()->id());
+            });
+        });
     }
 
     protected static function newFactory(): FileFactory

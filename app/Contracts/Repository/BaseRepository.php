@@ -79,7 +79,7 @@ abstract class BaseRepository implements RepositoryInterface
         return $result;
     }
 
-    public function findOrFail(int $id): ?EntityInterface
+    public function findOrFail(int|string $id): ?EntityInterface
     {
         $this->applyCriteria();
         $result = $this->query->findOrFail($id);

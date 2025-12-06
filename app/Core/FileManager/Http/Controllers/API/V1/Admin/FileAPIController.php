@@ -11,9 +11,9 @@ use App\Core\FileManager\Http\Transformers\V1\Admin\FileTransformer;
 use App\Core\FileManager\Mappers\FileMapper;
 use App\Core\FileManager\Repositories\FileRepository;
 use App\Core\FileManager\Services\FileService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class FileAPIController extends BaseAPIController
 {
@@ -57,21 +57,6 @@ class FileAPIController extends BaseAPIController
         return $this->response->success([]);
     }
 
-    public function download(int $id): StreamedResponse|JsonResponse
-    {
-        $file = $this->repository->findOrFail($id);
-
-        if (!$file->is_public && !auth()->check()) {
-            return $this->response->error('Unauthorized', 401);
-        }
-
-        $this->service->incrementDownloadCount($file);
-
-        $url = $this->service->getDownloadUrl($file);
-
-        return redirect($url);
-    }
-
     public function show(int|string $id, Request $request): JsonResponse
     {
         $file = $this->repository->findOrFail($id);
@@ -79,5 +64,30 @@ class FileAPIController extends BaseAPIController
         $this->service->incrementViewCount($file);
 
         return parent::show($id, $request);
+    }
+
+    protected function applyFilter(Builder $query, string $field, array $filter): Builder
+    {
+        if ($field === 'is_favorite') {
+            return $query->when($filter['value'], function ($query) {
+                $query->whereHas('favorites', function ($subQuery) {
+                    $subQuery->where('user_id', auth()->id());
+                });
+            });
+        }
+
+        return parent::applyFilter($query, $field, $filter);
+    }
+
+    public function cleanupTemporary(): JsonResponse
+    {
+        $deletedCount = $this->service->cleanupTemporary();
+
+        return $this->response->success(
+            [
+                'message'       => "Cleaned up {$deletedCount} temporary files",
+                'deleted_count' => $deletedCount,
+            ]
+        );
     }
 }

@@ -10,7 +10,6 @@ use App\Repositories\ActivityLogRepository;
 use App\Services\Distribution\DistributionManager;
 use App\Services\QuickAccess\QuickAccessManager;
 use App\Services\Stats\StatManager;
-use App\Services\Transformer\TransformerFactory;
 use Illuminate\Contracts\View\View;
 
 class OrganizationDashboardController extends BaseWebController
@@ -20,7 +19,6 @@ class OrganizationDashboardController extends BaseWebController
         private readonly QuickAccessManager $quickAccessManager,
         private readonly DistributionManager $distributionManager,
         private readonly ActivityLogRepository $activityLogRepository,
-        private readonly TransformerFactory $transformerFactory,
         private readonly ActivityLogTransformer $transformer,
     ) {
     }

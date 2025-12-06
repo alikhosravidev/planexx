@@ -4,6 +4,8 @@
  * Note: Modal management is handled by the global ui-components.js
  */
 
+import { registerAction } from '@/api/actions/index.js';
+
 // File Drop Zone
 const initDropZone = () => {
     const dropZone = document.querySelector('[data-drop-zone]');
@@ -103,17 +105,21 @@ const initFolderPreview = () => {
 
 // Custom AJAX Action: Toggle Favorite
 const registerCustomActions = () => {
-    if (typeof window.registerAction === 'function') {
-        window.registerAction('toggleFavorite', (data, element) => {
+    if (typeof registerAction === 'function') {
+        registerAction('toggleFavorite', (data, element) => {
             const icon = element.querySelector('i');
-            if (data.is_favorite) {
+            if (data.result.is_favorite) {
+                // Favorited state
                 icon?.classList.remove('fa-regular');
                 icon?.classList.add('fa-solid');
-                element.classList.add('text-amber-500');
+                element.classList.remove('text-text-muted', 'hover:text-amber-500', 'hover:bg-amber-50');
+                element.classList.add('text-amber-500', 'bg-amber-50');
             } else {
+                // Not favorited state
                 icon?.classList.remove('fa-solid');
                 icon?.classList.add('fa-regular');
-                element.classList.remove('text-amber-500');
+                element.classList.remove('text-amber-500', 'bg-amber-50');
+                element.classList.add('text-text-muted', 'hover:text-amber-500', 'hover:bg-amber-50');
             }
         });
     }

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Core\FileManager\Repositories;
+namespace App\Repositories;
 
 use App\Contracts\Repository\BaseRepository;
-use App\Core\FileManager\Entities\Favorite;
+use App\Entities\Favorite;
 
 class FavoriteRepository extends BaseRepository
 {

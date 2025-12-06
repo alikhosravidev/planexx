@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Core\FileManager\Http\Controllers\API\V1\Admin;
 
 use App\Contracts\Controller\BaseAPIController;
-use App\Core\FileManager\Http\Transformers\V1\Admin\FavoriteTransformer;
-use App\Core\FileManager\Repositories\FavoriteRepository;
 use App\Core\FileManager\Repositories\FileRepository;
 use App\Core\FileManager\Repositories\FolderRepository;
-use App\Core\FileManager\Services\FavoriteService;
+use App\Http\Transformers\V1\Admin\FavoriteTransformer;
+use App\Repositories\FavoriteRepository;
+use App\Services\Favorite\FavoriteService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -30,12 +30,12 @@ class FavoriteAPIController extends BaseAPIController
         $file   = $this->fileRepository->findOrFail($fileId);
         $userId = $request->user()->id;
 
-        $isFavorite = $this->service->toggle($userId, $file);
+        $isFavorite = $this->service->for($file)->by($userId)->toggle();
 
-        return $this->response->success([
-            'is_favorite' => $isFavorite,
-            'message'     => $isFavorite ? 'Added to favorites' : 'Removed from favorites',
-        ]);
+        return $this->response->success(
+            ['is_favorite' => $isFavorite],
+            $isFavorite ? 'به علاقه‌مندی‌ها اضافه شد' : 'از علاقه‌مندی‌ها حذف شد'
+        );
     }
 
     public function toggleFolder(Request $request, int $folderId): JsonResponse
@@ -43,24 +43,11 @@ class FavoriteAPIController extends BaseAPIController
         $folder = $this->folderRepository->findOrFail($folderId);
         $userId = $request->user()->id;
 
-        $isFavorite = $this->service->toggle($userId, $folder);
+        $isFavorite = $this->service->for($folder)->by($userId)->toggle();
 
-        return $this->response->success([
-            'is_favorite' => $isFavorite,
-            'message'     => $isFavorite ? 'Added to favorites' : 'Removed from favorites',
-        ]);
-    }
-
-    public function index(Request $request): JsonResponse
-    {
-        $userId = $request->user()->id;
-
-        $favorites = $this->repository
-            ->findWhere(['user_id' => $userId])
-            ->load('entity');
-
-        return $this->response->success([
-            'data' => $favorites,
-        ]);
+        return $this->response->success(
+            ['is_favorite' => $isFavorite],
+            $isFavorite ? 'به علاقه‌مندی‌ها اضافه شد' : 'از علاقه‌مندی‌ها حذف شد'
+        );
     }
 }

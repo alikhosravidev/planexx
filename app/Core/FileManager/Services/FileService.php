@@ -86,4 +86,36 @@ readonly class FileService
 
         return $this->storageService->temporaryUrl($file->file_path, 60);
     }
+
+    public function cleanupTemporary(): int
+    {
+        return DB::transaction(function () {
+            $temporaryFiles = $this->fileRepository->query()
+                ->where('is_temporary', true)
+                ->where(function ($query) {
+                    $query->whereNull('expires_at')
+                          ->orWhere('expires_at', '<', now());
+                })
+                ->get();
+
+            $deletedCount = 0;
+
+            foreach ($temporaryFiles as $file) {
+                $this->storageService->delete($file->file_path);
+                $this->fileRepository->delete($file->id);
+                $deletedCount++;
+            }
+
+            return $deletedCount;
+        });
+    }
+
+    public function getFavoriteFiles(int $userId)
+    {
+        return $this->fileRepository->query()
+            ->whereHas('favorites', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->with(['folder', 'uploader']);
+    }
 }

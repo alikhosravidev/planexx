@@ -10,7 +10,7 @@ use App\Http\Requests\V1\Admin\UpdateTagRequest;
 use App\Http\Transformers\V1\Admin\TagTransformer;
 use App\Mappers\TagMapper;
 use App\Repositories\TagRepository;
-use App\Services\TagService;
+use App\Services\Tag\TagService;
 use Illuminate\Http\JsonResponse;
 
 class TagAPIController extends BaseAPIController

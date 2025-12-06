@@ -25,3 +25,5 @@ Thumbs.db
 
 # Module manager file-based configuration
 /bootstrap/modules.php
+
+.sass-cache

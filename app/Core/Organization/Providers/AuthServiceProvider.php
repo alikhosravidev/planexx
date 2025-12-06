@@ -10,7 +10,7 @@ use App\Core\Organization\Services\Auth\ProviderResolver;
 use App\Core\Organization\Services\Auth\Providers\OTP;
 use App\Core\Organization\Services\Auth\Providers\Password;
 use App\Core\Organization\Services\OTPService\Contracts\OTPGenerator;
-use App\Core\Organization\Services\OTPService\Generators\RealGenerator;
+use App\Core\Organization\Services\OTPService\Generators\FakeGenerator;
 use App\Core\Organization\Services\OTPService\OTPConfig;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,7 +20,7 @@ class AuthServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->app->bind(OTPGenerator::class, RealGenerator::class);
+        $this->app->bind(OTPGenerator::class, FakeGenerator::class);
 
         $this->app->singleton(OTP::class);
         $this->app->tag(OTP::class, self::AUTH_PROVIDER_TAG);

@@ -15,18 +15,18 @@ class FileRepository extends BaseRepository
         'original_name' => 'like',
         'file_name'     => 'like',
         'title'         => 'like',
-        'mime_type'     => '=',
-        'extension'     => '=',
-        'file_type'     => '=',
-        'collection'    => '=',
-        'folder_id'     => '=',
-        'module_name'   => '=',
-        'uploaded_by'   => '=',
-        'entity_type'   => '=',
-        'entity_id'     => '=',
-        'is_public'     => '=',
-        'is_temporary'  => '=',
-        'is_active'     => '=',
+    ];
+
+    public array $filterableFields = [
+        'is_public'    => '=',
+        'is_temporary' => '=',
+        'is_active'    => '=',
+        'module_name'  => '=',
+        'mime_type'    => '=',
+        'extension'    => '=',
+        'file_type'    => '=',
+        'collection'   => '=',
+        'is_favorite'  => '=',
     ];
 
     public array $sortableFields = [

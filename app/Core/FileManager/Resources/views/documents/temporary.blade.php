@@ -1,6 +1,6 @@
 @php
     $pageTitle = 'فایل‌های موقت';
-    
+
     $breadcrumbs = [
         ['label' => 'خانه', 'url' => route('web.dashboard')],
         ['label' => 'مدیریت اسناد', 'url' => route('web.documents.index')],
@@ -183,12 +183,12 @@
                                                 <button
                                                     data-ajax
                                                     data-method="POST"
-                                                    action="{{ route('api.v1.admin.file-manager.files.favorite.toggle', ['fileId' => $file['id']]) }}"
+                                                    data-action="{{ route('api.v1.admin.file-manager.files.favorite.toggle', ['fileId' => $file['id']]) }}"
                                                     data-on-success="custom"
-                                                    data-action="toggleFavorite"
-                                                    class="w-8 h-8 flex items-center justify-center rounded-lg transition-all duration-200 text-text-muted hover:text-amber-500 hover:bg-amber-50"
-                                                    title="افزودن به علاقه‌مندی">
-                                                    <i class="fa-regular fa-star"></i>
+                                                    custom-action="toggleFavorite"
+                                                    class="w-8 h-8 flex items-center justify-center rounded-lg transition-all duration-200 {{ $file['is_favorite'] ? 'text-amber-500 bg-amber-50' : 'text-text-muted hover:text-amber-500 hover:bg-amber-50' }}"
+                                                    title="{{ $file['is_favorite'] ? 'حذف از علاقه‌مندی' : 'افزودن به علاقه‌مندی' }}">
+                                                    <i class="{{ $file['is_favorite'] ? 'fa-solid' : 'fa-regular' }} fa-star"></i>
                                                 </button>
 
                                                 <a
