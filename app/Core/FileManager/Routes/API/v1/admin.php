@@ -14,6 +14,9 @@ Route::prefix('api/v1/admin')
         Route::prefix('file-manager')
             ->name('file-manager.')
             ->group(function () {
+                Route::delete('files/cleanup-temporary', [FileAPIController::class, 'cleanupTemporary'])
+                    ->name('files.cleanup-temporary');
+
                 Route::apiResource('folders', FolderAPIController::class);
                 Route::apiResource('files', FileAPIController::class);
 
@@ -25,8 +28,5 @@ Route::prefix('api/v1/admin')
 
                 Route::post('folders/{folderId}/favorite', [FavoriteAPIController::class, 'toggleFolder'])
                     ->name('folders.favorite.toggle');
-
-                Route::delete('files/cleanup-temporary', [FileAPIController::class, 'cleanupTemporary'])
-                    ->name('files.cleanup-temporary');
             });
     });

@@ -67,7 +67,7 @@
                                 <button
                                     data-ajax
                                     data-method="DELETE"
-                                    action="{{ route('api.v1.admin.file-manager.files.cleanup-temporary') }}"
+                                    data-action="{{ route('api.v1.admin.file-manager.files.cleanup-temporary') }}"
                                     data-on-success="reload"
                                     data-confirm="آیا از پاکسازی تمام فایل‌های موقت اطمینان دارید؟ این عملیات غیرقابل بازگشت است."
                                     class="px-5 py-2.5 border border-red-200 text-red-600 rounded-lg font-medium hover:bg-red-50 transition-all duration-200 flex items-center gap-2 text-sm">
