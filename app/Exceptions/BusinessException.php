@@ -8,6 +8,6 @@ class BusinessException extends BaseException
 {
     protected function statusCode(): HttpStatusCodeEnum
     {
-        return  HttpStatusCodeEnum::HTTP_PRECONDITION_REQUIRED;
+        return HttpStatusCodeEnum::HTTP_PRECONDITION_REQUIRED;
     }
 }
