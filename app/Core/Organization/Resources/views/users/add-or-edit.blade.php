@@ -111,8 +111,13 @@
                                 <x-forms.select name="direct_manager_id" label="مدیر مستقیم" :value="$managerId" class="min-w-[140px]"
                                                 :options="$users" />
 
-                                <x-forms.select name="department_id" label="دپارتمان اصلی" :value="$departmentId" class="min-w-[140px]"
-                                                :options="$departments" />
+                                <x-Organization::department.select
+                                    name="department_id"
+                                    label="دپارتمان اصلی"
+                                    :value="$departmentId"
+                                    class="min-w-[140px]"
+                                    :options="$allDepartments ?? []"
+                                />
 
                                 <x-forms.date name="employment_date" :value="$user['employment_date']['main'] ?? null" label="تاریخ استخدام" />
                             </div>

@@ -99,8 +99,8 @@ class UserWebController extends BaseWebController
 
         if ($user->user_type === UserTypeEnum::Employee) {
             $deptResponse = $this->apiGet(
-                'api.v1.admin.org.departments.keyValList',
-                ['per_page' => 100, 'field' => 'name']
+                'api.v1.admin.org.departments.index',
+                ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => null], 'includes' => 'children'],
             );
             $usersResponse = $this->apiGet(
                 'api.v1.admin.org.users.keyValList',
@@ -109,9 +109,9 @@ class UserWebController extends BaseWebController
         }
 
         return view('Organization::users.add-or-edit', [
-            'user'        => $response['result']      ?? [],
-            'departments' => $deptResponse['result']  ?? [],
-            'users'       => $usersResponse['result'] ?? [],
+            'user'           => $response['result']        ?? [],
+            'allDepartments' => $deptResponse['result'] ?? [],
+            'users'          => $usersResponse['result']   ?? [],
         ]);
     }
 }

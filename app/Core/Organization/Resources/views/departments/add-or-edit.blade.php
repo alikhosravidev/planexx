@@ -56,22 +56,6 @@
     $selectedColor = $department['color'] ?? 'blue-500';
     $selectedIcon = $department['icon'] ?? 'fa-building';
 
-    // Recursive function to render department tree options
-    function renderDepartmentOptions($departments, $level = 0, $parentId = null) {
-        $html = '';
-        $indent = str_repeat('  ---  ', $level);
-
-        foreach ($departments as $dept) {
-            $html .= '<option ' . ($parentId === $dept['id'] ? 'selected' : '') . ' value="' . $dept['id'] . '">' . $indent . $dept['name'] . '</option>';
-
-            // Recursively render children if they exist
-            if (! empty($dept['children'])) {
-                $html .= renderDepartmentOptions($dept['children'], $level + 1, $parentId);
-            }
-        }
-
-        return $html;
-    }
 @endphp
 
 <x-layouts.app :title="$pageTitle">
@@ -130,22 +114,14 @@
                                         $parentName = $department['parent']['name'] ?? null;
                                     @endphp
 
-                                    <div
-                                        class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
-                                        <div class="flex items-stretch">
-                                            <label for="parent_id"
-                                                   class="bg-bg-label border-l border-border-light px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal min-w-[140px]">
-                                                دپارتمان والد
-                                            </label>
-
-                                            <select name="parent_id" id="parent_id"
-                                                    class="flex-1 px-lg py-3.5 text-base text-text-primary outline-none bg-transparent cursor-pointer leading-normal min-w-[140px]">
-                                                <option value="">بدون والد (دپارتمان اصلی)</option>
-                                                {!! renderDepartmentOptions($allDepartments ?? [], 0, $department['parent_id'] ?? null) !!}
-                                            </select>
-
-                                        </div>
-                                    </div>
+                                    <x-Organization::department.select
+                                        name="parent_id"
+                                        label="نوع دپارتمان"
+                                        placeholder="بدون والد (دپارتمان اصلی)"
+                                        :value="$department['parent_id'] ?? null"
+                                        class="min-w-[140px]"
+                                        :options="$allDepartments ?? []"
+                                    />
 
                                     <x-forms.select
                                         name="type"
