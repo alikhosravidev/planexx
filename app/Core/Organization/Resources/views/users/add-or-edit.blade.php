@@ -76,10 +76,10 @@
 
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             @php
-                                $userTypeValue = $user['user_type']['name'] ?? ucfirst(request('user_type')) ?? 'User';
+                                $userTypeValue = $user['user_type']['value'] ?? request('user_type') ?? \App\Core\Organization\Enums\UserTypeEnum::User->value;
                             @endphp
                             <x-forms.select name="user_type" label="نوع کاربر" required :value="$userTypeValue" class="min-w-[140px]"
-                                :options="['User' => 'کاربر عادی', 'Customer' => 'مشتری', 'Employee' => 'کارمند']"/>
+                                :options="$userTypes"/>
 
                             <x-forms.input class="min-w-[140px]" name="password" type="password" label="رمز عبور جدید" placeholder="خالی بگذارید اگر تغییری نمی‌خواهید" />
 

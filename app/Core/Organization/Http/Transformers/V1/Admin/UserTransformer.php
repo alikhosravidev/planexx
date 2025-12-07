@@ -46,7 +46,7 @@ class UserTransformer extends BaseTransformer
             return null;
         }
 
-        return $this->item($user->directManager, resolve(self::class));
+        return $this->item($user->directManager, $this);
     }
 
     public function includeJobPosition(User $user)

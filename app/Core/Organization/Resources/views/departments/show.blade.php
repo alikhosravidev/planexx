@@ -74,7 +74,7 @@
                         @if(!empty($department['description']))
                             <div class="bg-bg-primary border border-border-light rounded-2xl p-6">
                                 <h2 class="text-lg font-semibold text-text-primary leading-snug mb-4">توضیحات</h2>
-                                <p class="text-base text-text-secondary leading-relaxed">{{ $department['description'] }}</p>
+                                <p class="text-base text-text-secondary leading-relaxed">{{ $department['description']['full'] }}</p>
                             </div>
                         @endif
                     </div>

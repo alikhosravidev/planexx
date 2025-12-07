@@ -72,6 +72,78 @@ class FieldTransformationStepTest extends UnitTestBase
         $this->assertEquals($data, $result->data);
     }
 
+    public function test_transforms_nested_collection_recursively(): void
+    {
+        $transformer = Mockery::mock(FieldTransformerInterface::class);
+        $transformer->shouldReceive('transform')->with('raw_price')->andReturn('formatted_price');
+
+        $container = Mockery::mock(Container::class);
+        $container->shouldReceive('make')->andReturn($transformer);
+
+        $registry = new FieldTransformerRegistry($container);
+        $registry->register('price', PriceTransformer::class);
+
+        $step = new FieldTransformationStep($registry);
+
+        $data = [
+            'name'     => 'Parent',
+            'price'    => 'raw_price',
+            'children' => [
+                [
+                    'name'     => 'Child 1',
+                    'price'    => 'raw_price',
+                    'children' => [
+                        [
+                            'name'  => 'Grandchild',
+                            'price' => 'raw_price',
+                        ],
+                    ],
+                ],
+                [
+                    'name'  => 'Child 2',
+                    'price' => 'raw_price',
+                ],
+            ],
+        ];
+
+        $context = new TransformationContext($data, []);
+        $result  = $step->process($context);
+
+        $this->assertEquals('formatted_price', $result->data['price']);
+        $this->assertEquals('formatted_price', $result->data['children'][0]['price']);
+        $this->assertEquals('formatted_price', $result->data['children'][0]['children'][0]['price']);
+        $this->assertEquals('formatted_price', $result->data['children'][1]['price']);
+    }
+
+    public function test_transforms_nested_associative_array_recursively(): void
+    {
+        $transformer = Mockery::mock(FieldTransformerInterface::class);
+        $transformer->shouldReceive('transform')->with('raw_price')->andReturn('formatted_price');
+
+        $container = Mockery::mock(Container::class);
+        $container->shouldReceive('make')->andReturn($transformer);
+
+        $registry = new FieldTransformerRegistry($container);
+        $registry->register('price', PriceTransformer::class);
+
+        $step = new FieldTransformationStep($registry);
+
+        $data = [
+            'name'   => 'Item',
+            'price'  => 'raw_price',
+            'parent' => [
+                'name'  => 'Parent Item',
+                'price' => 'raw_price',
+            ],
+        ];
+
+        $context = new TransformationContext($data, []);
+        $result  = $step->process($context);
+
+        $this->assertEquals('formatted_price', $result->data['price']);
+        $this->assertEquals('formatted_price', $result->data['parent']['price']);
+    }
+
     protected function tearDown(): void
     {
         Mockery::close();

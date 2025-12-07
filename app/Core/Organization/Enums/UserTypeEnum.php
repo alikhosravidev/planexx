@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Enums;
 
+use App\Traits\EnumTrait;
+
 enum UserTypeEnum: int
 {
+    use EnumTrait;
+
     case User     = 1;
     case Employee = 2;
     case Customer = 3;
@@ -35,16 +39,5 @@ enum UserTypeEnum: int
             self::Employee => 'fa-user-tie',
             self::Customer => 'fa-users',
         };
-    }
-
-    public static function fromName(string $name): ?self
-    {
-        foreach (self::cases() as $case) {
-            if ($name === $case->name) {
-                return $case;
-            }
-        }
-
-        return null;
     }
 }

@@ -55,9 +55,12 @@ class DepartmentWebController extends BaseWebController
             ['per_page' => 100, 'field' => 'full_name', 'filter' => ['user_type' => UserTypeEnum::Employee]]
         );
 
+        $typeResponse = $this->apiGet('api.v1.admin.enums.keyValList', ['enum' => 'DepartmentTypeEnum']);
+
         return view('Organization::departments.add-or-edit', [
-            'allDepartments' => $deptResponse['result']  ?? [],
-            'managers'       => $usersResponse['result'] ?? [],
+            'allDepartments'  => $deptResponse['result']  ?? [],
+            'managers'        => $usersResponse['result'] ?? [],
+            'departmentTypes' => $typeResponse['result']  ?? [],
         ]);
     }
 
@@ -78,10 +81,13 @@ class DepartmentWebController extends BaseWebController
             ['per_page' => 100, 'field' => 'full_name', 'filter' => ['user_type' => UserTypeEnum::Employee]]
         );
 
+        $typeResponse = $this->apiGet('api.v1.admin.enums.keyValList', ['enum' => 'DepartmentTypeEnum']);
+
         return view('Organization::departments.add-or-edit', [
-            'department'     => $response['result']      ?? [],
-            'allDepartments' => $deptResponse['result']  ?? [],
-            'managers'       => $usersResponse['result'] ?? [],
+            'department'      => $response['result']      ?? [],
+            'allDepartments'  => $deptResponse['result']  ?? [],
+            'managers'        => $usersResponse['result'] ?? [],
+            'departmentTypes' => $typeResponse['result'] ?? [],
         ]);
     }
 }

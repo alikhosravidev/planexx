@@ -8,7 +8,10 @@ use App\Contracts\Requests\BaseRequest;
 use App\Core\Organization\Entities\Department;
 use App\Core\Organization\Entities\JobPosition;
 use App\Core\Organization\Entities\User;
+use App\Core\Organization\Enums\GenderEnum;
+use App\Core\Organization\Enums\UserTypeEnum;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
 class StoreUserRequest extends BaseRequest
 {
@@ -26,9 +29,9 @@ class StoreUserRequest extends BaseRequest
             'mobile'            => ['required', 'string', 'mobile', Rule::unique(User::class, 'mobile')->withoutTrashed()],
             'email'             => ['nullable', 'email', 'email', Rule::unique(User::class, 'email')->withoutTrashed()],
             'national_code'     => ['nullable', 'digits:10', Rule::unique(User::class, 'national_code')->withoutTrashed()],
-            'gender'            => ['nullable', Rule::in([1,2,3])],
+            'gender'            => ['nullable', new Enum(GenderEnum::class)],
             'birth_date'        => ['nullable', 'date'],
-            'user_type'         => ['required', Rule::in(['User','Customer','Employee'])],
+            'user_type'         => ['required', new Enum(UserTypeEnum::class)],
             'is_active'         => ['required', 'boolean'],
             'password'          => ['nullable', 'string', 'min:6'],
             'job_position_id'   => ['nullable', Rule::exists(JobPosition::class, 'id')],

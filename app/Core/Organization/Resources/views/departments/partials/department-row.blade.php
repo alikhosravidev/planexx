@@ -20,41 +20,31 @@
                 <div class="w-6"></div>
             @endif
             {!! $indent !!}
-            @php
-                $type = $dept['type'] ?? 3;
-                $hasImage = ($type == 1 || $type == 2); // holding or brand
-            @endphp
-            @if($hasImage && !empty($dept['image_url']))
+            @if($dept['type']['has_image'] && !empty($dept['image_url']))
                 <img src="{{ $dept['image_url'] }}"
                      alt="{{ $dept['name'] }}"
-                     class="w-10 h-10 rounded-full object-cover border-2 border-border-light ml-1">
+                     class="w-10 h-10 rounded-full object-cover border-2 border-border-light ml-2">
+                    <span class="text-base text-text-primary font-medium leading-normal">{{ $dept['name'] }}</span>
             @else
                 @php
                     $iconClass = !empty($dept['icon']) ? $dept['icon'] : 'fa-building';
                 @endphp
-                <i class="fa-solid {{ $iconClass }} text-{{ $dept['color'] ?? 'primary' }}"></i>
+                <x-ui.table.cells.badge
+                    :value="$dept['name']"
+                    :options="[
+                        'icon' => $iconClass,
+                        'color' => $dept['color'] ?? 'primary',
+                        'size' => 'md',
+                    ]"
+                />
             @endif
-            <span class="text-base text-text-primary font-medium leading-normal">{{ $dept['name'] }}</span>
         </div>
     </td>
     <td class="px-6 py-4 text-base text-text-secondary leading-normal">{{ $dept['code'] ?? '-' }}</td>
     <td class="px-6 py-4">
         @php
-            $typeLabels = [
-                1 => 'هولدینگ',
-                2 => 'برند',
-                3 => 'دپارتمان',
-                4 => 'تیم'
-            ];
-            $typeColors = [
-                1 => 'purple',
-                2 => 'orange',
-                3 => 'blue',
-                4 => 'green'
-            ];
-            $type = $dept['type'] ?? 3;
-            $label = $typeLabels[$type] ?? 'دپارتمان';
-            $color = $typeColors[$type] ?? 'blue';
+            $label = $dept['type']['label'] ?? 'دپارتمان';
+            $color = $dept['type']['color'] ?? 'blue';
         @endphp
         <span class="inline-flex items-center gap-1.5 bg-{{ $color }}-50 text-{{ $color }}-700 px-2.5 py-1 rounded-lg text-xs font-medium leading-normal">
             {{ $label }}

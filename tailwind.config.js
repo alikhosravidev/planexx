@@ -10,11 +10,11 @@ export default {
     "./node_modules/@fortawesome/fontawesome-free/**/*.js",
   ],
   safelist: [
-    { pattern: /text-(blue|green|purple|teal|orange|amber|indigo|stone|gray)-600/ },
+    { pattern: /text-(blue|sky|cyan|teal|green|emerald|lime|yellow|amber|orange|red|rose|pink|fuchsia|purple|violet|indigo|slate|gray|zinc|stone)-(500|600|700|800|900)/ },
     { pattern: /bg-(blue|green|purple|teal|orange|amber|indigo|stone|gray)-50/ },
     { pattern: /border-(blue|green|purple|teal|orange|amber|indigo|stone|gray)-300/, variants: ['hover'] },
     { pattern: /from-(blue|green|purple|teal|orange|amber|indigo|stone|gray)-(300|400)\/(50|60)/ },
-    { pattern: /bg-(blue|sky|cyan|teal|green|emerald|lime|yellow|amber|orange|red|rose|pink|fuchsia|purple|violet|indigo|slate|gray|zinc|stone)-(500|600|700)/ },
+    { pattern: /bg-(blue|sky|cyan|teal|green|emerald|lime|yellow|amber|orange|red|rose|pink|fuchsia|purple|violet|indigo|slate|gray|zinc|stone)-(500|600|700|800|900)/ },
   ],
   theme: {
     extend: {

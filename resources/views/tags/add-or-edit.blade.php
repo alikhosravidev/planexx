@@ -12,26 +12,8 @@
         ['label' => 'بازگشت', 'url' => route('web.app.tags.index'), 'icon' => 'fa-solid fa-arrow-right', 'type' => 'outline'],
     ];
 
-    $colors = [
-        'blue-500', 'blue-600', 'blue-700', 'sky-500', 'sky-600', 'cyan-500', 'cyan-600',
-        'teal-500', 'teal-600', 'green-500', 'green-600', 'emerald-500', 'emerald-600', 'lime-500',
-        'yellow-500', 'amber-500', 'amber-600', 'orange-500', 'orange-600',
-        'red-500', 'red-600', 'rose-500', 'rose-600', 'pink-500', 'pink-600', 'fuchsia-500',
-        'purple-500', 'purple-600', 'violet-500', 'violet-600', 'indigo-500', 'indigo-600',
-        'slate-500', 'slate-600', 'gray-500', 'gray-600', 'zinc-500', 'zinc-600', 'stone-500',
-    ];
-
-    $icons = [
-        'fa-tag', 'fa-tags', 'fa-star', 'fa-heart', 'fa-bookmark',
-        'fa-bolt', 'fa-gem', 'fa-fire', 'fa-thumbs-up', 'fa-trophy',
-        'fa-check', 'fa-circle', 'fa-square', 'fa-bell', 'fa-lightbulb',
-        'fa-rocket', 'fa-leaf', 'fa-tree', 'fa-sun', 'fa-moon',
-        'fa-user', 'fa-users', 'fa-graduation-cap', 'fa-briefcase', 'fa-chart-line',
-        'fa-comments', 'fa-paper-plane', 'fa-calendar-days', 'fa-globe', 'fa-crown',
-    ];
-
-    $selectedColor = $tag['color'] ?? 'blue-500';
-    $selectedIcon = $tag['icon'] ?? 'fa-tag';
+    $selectedColor = $tag['color'] ?? null;
+    $selectedIcon = $tag['icon'] ?? null;
 @endphp
 
 <x-layouts.app :title="$pageTitle">
@@ -92,43 +74,19 @@
                             </div>
 
                             <div class="lg:col-span-2 space-y-6">
-                                <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
-                                    <div class="flex">
-                                        <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-start leading-normal pt-4">
-                                            رنگ برچسب
-                                        </label>
-                                        <div class="flex-1 px-lg py-3.5 flex flex-wrap gap-2">
-                                            @foreach($colors as $color)
-                                                <label class="cursor-pointer color-option">
-                                                    <input type="radio" name="color" value="{{ $color }}" class="peer hidden" {{ $color === $selectedColor ? 'checked' : '' }}>
-                                                    <div class="w-8 h-8 bg-{{ $color }} rounded-lg border-2 border-transparent peer-checked:border-gray-800 peer-checked:ring-2 peer-checked:ring-gray-300 transition-all flex items-center justify-center">
-                                                        <i class="fa-solid fa-check text-white text-xs opacity-0 peer-checked:opacity-100 check-icon"></i>
-                                                    </div>
-                                                </label>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
+                                <x-forms.color-field
+                                    class="min-w-[140px]"
+                                    name="color"
+                                    label="رنگ برچسب"
+                                    :selected="$selectedColor"
+                                />
 
-                                <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
-                                    <div class="flex">
-                                        <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-start leading-normal pt-4">
-                                            آیکون برچسب
-                                        </label>
-                                        <div class="flex-1 px-lg py-3.5">
-                                            <div class="flex flex-wrap gap-2">
-                                                @foreach($icons as $icon)
-                                                    <label class="cursor-pointer icon-option">
-                                                        <input type="radio" name="icon" value="{{ $icon }}" class="peer hidden" {{ $icon === $selectedIcon ? 'checked' : '' }}>
-                                                        <div class="w-10 h-10 bg-bg-secondary rounded-lg border-2 border-transparent peer-checked:border-primary peer-checked:bg-primary/10 transition-all flex items-center justify-center hover:bg-gray-100">
-                                                            <i class="fa-solid {{ $icon }} text-lg text-text-secondary peer-checked:text-primary"></i>
-                                                        </div>
-                                                    </label>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <x-forms.icon-field
+                                    class="min-w-[140px]"
+                                    name="icon"
+                                    label="آیکون برچسب"
+                                    :selected="$selectedIcon"
+                                />
                             </div>
                         </div>
                     </div>

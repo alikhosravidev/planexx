@@ -161,12 +161,27 @@
             }
 
             toggleButtons.forEach(btn => {
+                const parentId = btn.dataset.parentId;
+                const icon = btn.querySelector('i');
+                const children = document.querySelectorAll(`.child-of-${parentId}`);
+                const hasVisibleChildren = Array.from(children).some(child => child.style.display !== 'none');
+
+                if (hasVisibleChildren) {
+                    icon.style.transform = 'rotate(-180deg)';
+                } else {
+                    icon.style.transform = 'rotate(0deg)';
+                }
+            });
+
+            toggleButtons.forEach(btn => {
                 btn.addEventListener('click', function() {
                     const parentId = this.dataset.parentId;
                     const icon = this.querySelector('i');
-                    const isOpen = icon.style.transform === 'rotate(-180deg)';
 
-                    if (isOpen) {
+                    const children = document.querySelectorAll(`.child-of-${parentId}`);
+                    const hasVisibleChildren = Array.from(children).some(child => child.style.display !== 'none');
+
+                    if (hasVisibleChildren) {
                         icon.style.transform = 'rotate(0deg)';
                         toggleChildren(parentId, false);
                     } else {

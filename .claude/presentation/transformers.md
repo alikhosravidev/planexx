@@ -1,88 +1,138 @@
 # Transformers
 
-> **Sources**: `docs/transformer-usage.md`, `docs/migration-guide.md`
+## Architecture Overview
+Pipeline-based transformation system built on League Fractal with strict type safety and dependency injection.
 
-## Modern Pipeline-Based Transformers
-Strict type safety, dependency injection, explicit virtual fields.
+## Pipeline Steps
+1. **DataExtractionStep** - Extract data from model (`attributesToArray()` + `relationsToArray()`)
+2. **BlacklistFilterStep** - Remove blacklisted fields (recursive on nested data)
+3. **FieldTransformationStep** - Apply field transformers (recursive on nested data)
+4. **VirtualFieldResolutionStep** - Resolve virtual/computed fields
 
-## Basic Usage
+## Creating Transformers
 
-### Creating Transformers
+### Basic Transformer
 ```php
 class UserTransformer extends BaseTransformer
 {
+    protected array $availableIncludes = ['posts', 'department'];
+
+    protected array $fieldTransformers = [
+        'type' => EnumTransformer::class,
+    ];
+
     protected function getVirtualFieldResolvers(): array
     {
         return [
             'full_name' => fn($user) => $user->first_name . ' ' . $user->last_name,
-            'avatar_url' => fn($user) => Storage::url($user->avatar),
         ];
     }
 }
 ```
 
-### Using Transformers (Recommended)
+### With Relationships (Includes)
 ```php
-// Via Factory
-$transformer = app(TransformerFactory::class)
-    ->makeFromRequest(UserTransformer::class, $request);
+class DepartmentTransformer extends BaseTransformer
+{
+    protected array $availableIncludes = ['parent', 'manager', 'children'];
 
-$result = $transformer->transformModel($user);      // Single
-$result = $transformer->transformCollection($users); // Collection
-$result = $transformer->transformArray($data);       // Array
-```
+    protected array $fieldTransformers = [
+        'type' => EnumTransformer::class,
+    ];
 
-## Available Methods
-- `transformModel(BaseModel $model): array`
-- `transformArray(array $data): array`
-- `transformCollection(Collection $models): array`
+    public function includeParent(Department $department)
+    {
+        return $this->item($department->parent, $this);
+    }
 
-## Configuration
+    public function includeManager(Department $department)
+    {
+        return $this->item($department->manager, resolve(UserTransformer::class));
+    }
 
-### Default Field Transformers
-Pre-configured:
-- `created_at`, `updated_at` → `DateTimeTransformer`
-- `price`, `amount` → `PriceTransformer`
-- `description`, `text` → `LongTextTransformer`
+    // Recursive includes for nested relations
+    public function includeChildren(Department $department)
+    {
+        $children = $department->children;
 
-### Request Integration
-```php
-// Include/Excludes from query params
-$transformer = $factory->makeFromRequest(UserTransformer::class, $request);
+        if ($children->isEmpty()) {
+            return $this->null();
+        }
 
-// Manual
-$transformer = app(UserTransformer::class)
-    ->setIncludes(['posts'])
-    ->setExcludes(['password'])
-    ->transformModel($user);
-```
+        $childTransformer = resolve(self::class);
+        $childTransformer->setDefaultIncludes(['children']);
 
-## Migration from Old System
-
-### Before
-```php
-protected array $additionalFields = ['full_name'];
-
-protected function addFullName($model) {
-    return $model->first_name . ' ' . $model->last_name;
+        return $this->collection($children, $childTransformer);
+    }
 }
 ```
 
-### After
+## Available Methods
+- `transformModel(EntityInterface $model): array` - Single model
+- `transformCollection(Collection $models): array` - Collection
+- `transformArray(array $data): array` - Array data
+- `transformOne($model, ?string $resourceKey): array` - With Fractal resource
+- `transformMany($model, ?string $resourceKey): array` - Collection with Fractal
+
+## Field Transformers
+Register in transformer class:
 ```php
-protected function getVirtualFieldResolvers(): array {
+protected array $fieldTransformers = [
+    'type'        => EnumTransformer::class,
+    'created_at'  => DateTimeTransformer::class,
+    'price'       => PriceTransformer::class,
+    'description' => LongTextTransformer::class,
+];
+```
+
+### Built-in Transformers
+| Transformer | Input | Output |
+|-------------|-------|--------|
+| `DateTimeTransformer` | Carbon/string | `{main, default, human: {jalali, gregorian}}` |
+| `EnumTransformer` | BackedEnum | `{name, value, label, cases, ...extraMethods}` |
+| `PriceTransformer` | int/float | `{raw, formatted, currency}` |
+| `LongTextTransformer` | string | `{raw, summary, word_count, char_count, read_time, html}` |
+| `DurationTransformer` | int (seconds) | `{seconds, formatted, human}` |
+
+## Includes & Excludes
+
+### Via Request Query Params
+```
+GET /api/users?includes=posts,department&excludes=password
+```
+
+### Manual Configuration
+```php
+$transformer = app(UserTransformer::class)
+    ->setIncludes(['posts', 'department'])
+    ->setExcludes(['password'])
+    ->setDefaultIncludes(['profile']);
+```
+
+## Recursive Transformation
+Field transformers and blacklist filters are applied recursively to nested data:
+- **Nested Collections** - Arrays like `children: [{...}, {...}]`
+- **Nested Associative Arrays** - Objects like `parent: {...}`
+
+This ensures consistent transformation across all nesting levels.
+
+## Virtual Fields
+Computed fields not stored in database:
+```php
+protected function getVirtualFieldResolvers(): array
+{
     return [
-        'full_name' => fn($model) => $model->first_name . ' ' . $model->last_name,
+        'full_name'  => fn($user) => $user->first_name . ' ' . $user->last_name,
+        'avatar_url' => fn($user) => Storage::url($user->avatar),
+        'is_admin'   => fn($user) => $user->hasRole('admin'),
     ];
 }
 ```
 
-## Key Changes
+## Key Points
+- ✅ Use `getVirtualFieldResolvers()` for computed fields
+- ✅ Use `fieldTransformers` array for field-specific transformations
+- ✅ Use `setDefaultIncludes()` for recursive nested relations
+- ✅ Transformations are recursive on nested data
 - ❌ No magic `add*` methods
-- ✅ Use `getVirtualFieldResolvers()`
-- ✅ Use `TransformerFactory` for instantiation
-- ✅ Strict types: `transformModel()`, not `transform()`
-
-## Full Details
-- Usage: `docs/transformer-usage.md`
-- Migration: `docs/migration-guide.md`
+- ❌ Don't use `transform()` directly, use typed methods

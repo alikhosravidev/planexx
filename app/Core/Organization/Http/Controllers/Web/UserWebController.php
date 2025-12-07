@@ -83,10 +83,12 @@ class UserWebController extends BaseWebController
 
     public function create(Request $request): View
     {
-        $userType = $request->get('user_type') ?? UserTypeEnum::Employee->name;
+        $userType     = $request->get('user_type') ?? UserTypeEnum::Employee->name;
+        $typeResponse = $this->apiGet('api.v1.admin.enums.keyValList', ['enum' => 'UserTypeEnum']);
 
         return view('Organization::users.add-or-edit', [
-            'userType' => $userType,
+            'userType'  => $userType,
+            'userTypes' => $typeResponse['result'] ?? [],
         ]);
     }
 
@@ -96,6 +98,8 @@ class UserWebController extends BaseWebController
             'user'     => $user->id,
             'includes' => 'directManager,jobPosition,departments',
         ]);
+
+        $typeResponse = $this->apiGet('api.v1.admin.enums.keyValList', ['enum' => 'UserTypeEnum']);
 
         if ($user->user_type === UserTypeEnum::Employee) {
             $deptResponse = $this->apiGet(
@@ -109,9 +113,10 @@ class UserWebController extends BaseWebController
         }
 
         return view('Organization::users.add-or-edit', [
-            'user'           => $response['result']        ?? [],
-            'allDepartments' => $deptResponse['result'] ?? [],
-            'users'          => $usersResponse['result']   ?? [],
+            'user'           => $response['result']      ?? [],
+            'allDepartments' => $deptResponse['result']  ?? [],
+            'users'          => $usersResponse['result'] ?? [],
+            'userTypes'      => $typeResponse['result']  ?? [],
         ]);
     }
 }

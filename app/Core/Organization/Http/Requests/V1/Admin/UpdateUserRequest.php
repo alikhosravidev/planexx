@@ -8,7 +8,10 @@ use App\Contracts\Requests\BaseRequest;
 use App\Core\Organization\Entities\Department;
 use App\Core\Organization\Entities\JobPosition;
 use App\Core\Organization\Entities\User;
+use App\Core\Organization\Enums\GenderEnum;
+use App\Core\Organization\Enums\UserTypeEnum;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
 class UpdateUserRequest extends BaseRequest
 {
@@ -26,9 +29,9 @@ class UpdateUserRequest extends BaseRequest
             'mobile'            => ['required', 'string', 'mobile', Rule::unique(User::class, 'mobile')->ignore($this->route('user'))],
             'email'             => ['nullable', 'email', Rule::unique(User::class, 'email')->ignore($this->route('user'))],
             'national_code'     => ['nullable', 'digits:10', Rule::unique(User::class, 'national_code')->ignore($this->route('user'))],
-            'gender'            => ['sometimes', 'nullable', Rule::in([1,2,3])],
+            'gender'            => ['sometimes', 'nullable', new Enum(GenderEnum::class)],
             'birth_date'        => ['sometimes', 'nullable', 'date'],
-            'user_type'         => ['sometimes', Rule::in(['User','Customer','Employee'])],
+            'user_type'         => ['sometimes', new Enum(UserTypeEnum::class)],
             'is_active'         => ['sometimes', 'boolean'],
             'password'          => ['sometimes', 'nullable', 'string', 'min:6'],
             'job_position_id'   => ['sometimes', 'nullable', Rule::exists(JobPosition::class, 'id')],

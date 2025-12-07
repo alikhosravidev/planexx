@@ -32,7 +32,6 @@
         }
     }
 
-    $color = $resolve('color', null);
     $sizeClasses = [
         'sm' => 'px-2 py-0.5 text-xs',
         'md' => 'px-2.5 py-1 text-sm',
@@ -40,18 +39,28 @@
     ];
     $sizeClass = $sizeClasses[$size] ?? $sizeClasses['sm'];
 
-    $textColor = null;
-    if (is_string($color)) {
-        $parts = explode('-', $color);
-        $base = $parts[0] ?? null;
-        if ($base) {
-            $textColor = $base . '-800';
+    $color = $resolve('color', null);
+    $isCustomColor = str_starts_with($color, '#');
+
+    $customBgColor = null;
+    if ($isCustomColor) {
+        $hex = ltrim($color, '#');
+        if (strlen($hex) === 3) {
+            $hex = $hex[0].$hex[0].$hex[1].$hex[1].$hex[2].$hex[2];
+        }
+
+        if (strlen($hex) === 6) {
+            [$r, $g, $b] = sscanf($hex, '%02x%02x%02x');
+            $customBgColor = "rgba({$r}, {$g}, {$b}, 0.12)";
         }
     }
 @endphp
 
 @if($color)
-    <span class="inline-flex items-center gap-1 rounded-lg font-medium {{ $sizeClass }} bg-{{ $color }}/20 {{ $textColor ? 'text-' . $textColor : '' }}">
+    <span
+        class="inline-flex items-center gap-1 rounded-lg font-medium {{ $sizeClass }} {{ ! $isCustomColor ? "bg-{$color}/20 text-{$color}" : '' }}"
+        style="{{ $isCustomColor ? "color:{$color};" . ($customBgColor ? " background-color: {$customBgColor};" : '') : '' }}"
+    >
         @if($icon)
             <i class="fa-solid {{ $icon }} {{ $iconClass ?? '' }}"></i>
         @endif

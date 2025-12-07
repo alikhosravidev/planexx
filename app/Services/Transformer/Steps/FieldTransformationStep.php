@@ -27,24 +27,64 @@ readonly class FieldTransformationStep implements TransformationStepInterface
      */
     public function process(TransformationContext $context): TransformationContext
     {
-        $transformedData = $context->data;
+        $transformedData = $this->transformRecursively(
+            $context->data,
+            $context->originalModel instanceof EntityInterface ? $context->originalModel : null
+        );
+
+        return $context->withData($transformedData);
+    }
+
+    private function transformRecursively(array $data, ?EntityInterface $model = null): array
+    {
+        $transformedData = $data;
 
         foreach ($transformedData as $field => $value) {
             if (null === $value) {
                 continue;
             }
 
-            if ($context->originalModel instanceof EntityInterface) {
-                $value = $context->originalModel->{$field};
+            if ($this->isNestedCollection($value)) {
+                $transformedData[$field] = array_map(
+                    fn (array $item) => $this->transformRecursively($item),
+                    $value
+                );
+
+                continue;
             }
 
             $transformer = $this->registry->resolve($field);
 
             if ($transformer) {
-                $transformedData[$field] = $transformer->transform($value);
+                $originalValue           = $model?->{$field} ?? $value;
+                $transformedData[$field] = $transformer->transform($originalValue);
+
+                continue;
+            }
+
+            if ($this->isNestedAssociativeArray($value)) {
+                $transformedData[$field] = $this->transformRecursively($value);
             }
         }
 
-        return $context->withData($transformedData);
+        return $transformedData;
+    }
+
+    private function isNestedCollection(mixed $value): bool
+    {
+        if (!is_array($value) || empty($value)) {
+            return false;
+        }
+
+        return array_is_list($value) && is_array($value[0]);
+    }
+
+    private function isNestedAssociativeArray(mixed $value): bool
+    {
+        if (!is_array($value) || empty($value)) {
+            return false;
+        }
+
+        return !array_is_list($value);
     }
 }

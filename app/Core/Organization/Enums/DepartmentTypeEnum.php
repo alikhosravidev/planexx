@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Enums;
 
+use App\Traits\EnumTrait;
+
 enum DepartmentTypeEnum: int
 {
+    use EnumTrait;
+
     case HOLDING    = 1;
     case BRAND      = 2;
     case DEPARTMENT = 3;
@@ -15,9 +19,19 @@ enum DepartmentTypeEnum: int
     {
         return match ($this) {
             self::HOLDING    => 'هولدینگ',
-            self::BRAND      => 'برند',
-            self::DEPARTMENT => 'دپارتمان',
+            self::BRAND      => 'برند / گروه',
+            self::DEPARTMENT => 'دپارتمان / شعبه',
             self::TEAM       => 'تیم',
+        };
+    }
+
+    public function color(): string
+    {
+        return match ($this) {
+            self::HOLDING    => 'purple',
+            self::BRAND      => 'orange',
+            self::DEPARTMENT => 'blue',
+            self::TEAM       => 'green',
         };
     }
 

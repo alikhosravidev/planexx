@@ -35,7 +35,7 @@ class EnumController
             $data = $this->enumService->getFilteredKeyValList(
                 $enum,
                 (string) $request->get('search'),
-                'name'
+                $request->input('field') ?? 'value'
             );
 
             return $this->response->success($data);
