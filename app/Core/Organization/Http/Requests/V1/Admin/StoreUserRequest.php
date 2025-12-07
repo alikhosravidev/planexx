@@ -38,7 +38,6 @@ class StoreUserRequest extends BaseRequest
             'direct_manager_id' => ['nullable', Rule::exists(User::class, 'id')],
             'department_id'     => ['nullable', Rule::exists(Department::class, 'id')],
             'employment_date'   => ['nullable', 'date'],
-            'image_url'         => ['nullable', 'string', 'max:255'],
         ];
     }
 }

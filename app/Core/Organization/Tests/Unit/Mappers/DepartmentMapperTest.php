@@ -28,7 +28,6 @@ class DepartmentMapperTest extends UnitTestBase
         $name        = 'Engineering Department';
         $code        = 'ENG';
         $managerId   = 2;
-        $imageUrl    = 'https://example.com/image.jpg';
         $description = 'Handles engineering tasks';
         $isActive    = true;
 
@@ -37,7 +36,6 @@ class DepartmentMapperTest extends UnitTestBase
             'name'        => $name,
             'code'        => $code,
             'manager_id'  => $managerId,
-            'image_url'   => $imageUrl,
             'description' => $description,
             'is_active'   => $isActive ? '1' : '0',
         ];
@@ -51,7 +49,6 @@ class DepartmentMapperTest extends UnitTestBase
         $this->assertEquals($name, $dto->name);
         $this->assertEquals($code, $dto->code);
         $this->assertEquals($managerId, $dto->managerId);
-        $this->assertEquals($imageUrl, $dto->imageUrl);
         $this->assertEquals($description, $dto->description);
         $this->assertEquals($isActive, $dto->isActive);
     }
@@ -75,7 +72,6 @@ class DepartmentMapperTest extends UnitTestBase
         $this->assertNull($dto->parentId);
         $this->assertNull($dto->code);
         $this->assertNull($dto->managerId);
-        $this->assertNull($dto->imageUrl);
         $this->assertNull($dto->description);
         $this->assertEquals($isActive, $dto->isActive);
     }
@@ -89,7 +85,6 @@ class DepartmentMapperTest extends UnitTestBase
         $entityName        = 'Old Department';
         $entityCode        = 'OLD';
         $entityManagerId   = 2;
-        $entityImageUrl    = 'old.jpg';
         $entityDescription = 'Old description';
         $entityIsActive    = false;
 
@@ -103,7 +98,6 @@ class DepartmentMapperTest extends UnitTestBase
         $department->name        = $entityName;
         $department->code        = $entityCode;
         $department->manager_id  = $entityManagerId;
-        $department->image_url   = $entityImageUrl;
         $department->description = $entityDescription;
         $department->type        = DepartmentTypeEnum::DEPARTMENT;
         $department->is_active   = $entityIsActive;
@@ -116,7 +110,6 @@ class DepartmentMapperTest extends UnitTestBase
         $this->assertEquals($updatedName, $dto->name); // From request
         $this->assertEquals($entityCode, $dto->code); // From entity
         $this->assertEquals($entityManagerId, $dto->managerId); // From entity
-        $this->assertEquals($entityImageUrl, $dto->imageUrl); // From entity
         $this->assertEquals($entityDescription, $dto->description); // From entity
         $this->assertEquals($updatedIsActive, $dto->isActive); // From request
     }
@@ -128,7 +121,6 @@ class DepartmentMapperTest extends UnitTestBase
         $entityName        = 'Existing Department';
         $entityCode        = 'EXI';
         $entityManagerId   = 2;
-        $entityImageUrl    = 'existing.jpg';
         $entityDescription = 'Existing description';
         $entityIsActive    = true;
 
@@ -139,7 +131,6 @@ class DepartmentMapperTest extends UnitTestBase
         $department->name        = $entityName;
         $department->code        = $entityCode;
         $department->manager_id  = $entityManagerId;
-        $department->image_url   = $entityImageUrl;
         $department->description = $entityDescription;
         $department->type        = DepartmentTypeEnum::DEPARTMENT;
         $department->is_active   = $entityIsActive;
@@ -152,7 +143,6 @@ class DepartmentMapperTest extends UnitTestBase
         $this->assertEquals($entityName, $dto->name);
         $this->assertEquals($entityCode, $dto->code);
         $this->assertEquals($entityManagerId, $dto->managerId);
-        $this->assertEquals($entityImageUrl, $dto->imageUrl);
         $this->assertEquals($entityDescription, $dto->description);
         $this->assertEquals($entityIsActive, $dto->isActive);
     }

@@ -7,6 +7,7 @@ namespace App\Core\FileManager\Http\Transformers\V1\Admin;
 use App\Contracts\Transformer\BaseTransformer;
 use App\Core\FileManager\Entities\File;
 use App\Http\Transformers\V1\Admin\TagTransformer;
+use App\Services\Transformer\FieldTransformers\EnumTransformer;
 
 class FileTransformer extends BaseTransformer
 {
@@ -17,6 +18,13 @@ class FileTransformer extends BaseTransformer
         'uploader',
         'tags',
     ];
+
+    protected array $fieldTransformers = [
+        'file_type'  => EnumTransformer::class,
+        'collection' => EnumTransformer::class,
+    ];
+
+    protected array $hidden = [];
 
     protected function getVirtualFieldResolvers(): array
     {
@@ -30,25 +38,31 @@ class FileTransformer extends BaseTransformer
 
     public function includeFolder(File $file)
     {
-        if (!$file->folder) {
-            return null;
-        }
-
-        return $this->item($file->folder, resolve(FolderTransformer::class));
+        return $this->itemRelation(
+            model: $file,
+            relationName: 'folder',
+            transformer:FolderTransformer::class,
+            foreignKey: 'folder_id',
+        );
     }
 
     public function includeUploader(File $file)
     {
-        if (!$file->uploader) {
-            return null;
-        }
-
-        return $this->item($file->uploader, resolve(UserTransformer::class));
+        return $this->itemRelation(
+            model: $file,
+            relationName: 'uploader',
+            transformer: UserTransformer::class,
+            foreignKey: 'uploaded_by',
+        );
     }
 
     public function includeTags(File $file)
     {
-        return $this->collection($file->tags, resolve(TagTransformer::class));
+        return $this->collectionRelation(
+            model: $file,
+            relationName: 'tags',
+            transformer:TagTransformer::class,
+        );
     }
 
     private function formatBytes(int $bytes, int $precision = 2): string

@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Core\Organization\Http\Transformers\V1\Admin;
 
 use App\Contracts\Transformer\BaseTransformer;
+use App\Core\FileManager\Http\Transformers\V1\Admin\FileTransformer;
 use App\Core\Organization\Entities\Department;
 use App\Services\Transformer\FieldTransformers\EnumTransformer;
 
 class DepartmentTransformer extends BaseTransformer
 {
-    protected array $availableIncludes = ['parent', 'manager', 'children', 'users'];
+    protected array $availableIncludes = ['parent', 'manager', 'children', 'users', 'thumbnail'];
 
     protected array $fieldTransformers = [
         'type' => EnumTransformer::class,
@@ -18,17 +19,38 @@ class DepartmentTransformer extends BaseTransformer
 
     public function includeParent(Department $department)
     {
-        return $this->item($department->parent, $this);
+        return $this->itemRelation(
+            model: $department,
+            relationName: 'parent',
+            transformer: $this,
+        );
     }
 
     public function includeUsers(Department $department)
     {
-        return $this->collection($department->users, resolve(UserTransformer::class));
+        return $this->collectionRelation(
+            model: $department,
+            relationName: 'users',
+            transformer: UserTransformer::class,
+        );
     }
 
     public function includeManager(Department $department)
     {
-        return $this->item($department->manager, resolve(UserTransformer::class));
+        return $this->itemRelation(
+            model: $department,
+            relationName: 'manager',
+            transformer: UserTransformer::class,
+        );
+    }
+
+    public function includeThumbnail(Department $department)
+    {
+        return $this->itemRelation(
+            model: $department,
+            relationName: 'thumbnail',
+            transformer: FileTransformer::class,
+        );
     }
 
     public function includeChildren(Department $department)

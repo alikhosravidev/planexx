@@ -29,25 +29,37 @@ class FolderTransformer extends BaseTransformer
 
     public function includeParent(Folder $folder)
     {
-        if (!$folder->parent) {
-            return null;
-        }
-
-        return $this->item($folder->parent, $this);
+        return $this->itemRelation(
+            model: $folder,
+            relationName: 'parent',
+            transformer: $this,
+        );
     }
 
     public function includeChildren(Folder $folder)
     {
-        return $this->collection($folder->children, $this);
+        return $this->collectionRelation(
+            model: $folder,
+            relationName: 'children',
+            transformer: $this,
+        );
     }
 
     public function includeFiles(Folder $folder)
     {
-        return $this->collection($folder->files, resolve(FileTransformer::class));
+        return $this->collectionRelation(
+            model: $folder,
+            relationName: 'files',
+            transformer: FileTransformer::class,
+        );
     }
 
     public function includeTags(Folder $folder)
     {
-        return $this->collection($folder->tags, resolve(TagTransformer::class));
+        return $this->collectionRelation(
+            model: $folder,
+            relationName: 'tags',
+            transformer: TagTransformer::class,
+        );
     }
 }

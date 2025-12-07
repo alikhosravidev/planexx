@@ -7,6 +7,9 @@ namespace App\Traits;
 use App\Entities\Tag;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
+/**
+ * @property \Illuminate\Database\Eloquent\Collection<Tag> $tags
+ */
 trait Taggable
 {
     public function tags(): MorphToMany

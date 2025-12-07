@@ -50,7 +50,7 @@
             'label' => 'کارمند',
             'component' => 'user',
             'options' => [
-                'image_key' => 'image_url',
+                'image_key' => 'avatar.file_url',
             ],
         ],
         [

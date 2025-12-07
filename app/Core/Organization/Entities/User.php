@@ -6,6 +6,7 @@ namespace App\Core\Organization\Entities;
 
 use App\Contracts\Entity\BaseEntity;
 use App\Contracts\Entity\RoleableEntity;
+use App\Core\FileManager\Traits\HasFile;
 use App\Core\Organization\Database\Factories\UserFactory;
 use App\Core\Organization\Enums\CustomerTypeEnum;
 use App\Core\Organization\Enums\GenderEnum;
@@ -43,7 +44,6 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Email|null                  $email
  * @property string|null                 $national_code
  * @property GenderEnum|null             $gender
- * @property string|null                 $image_url
  * @property int|null                    $address_id
  * @property bool                        $is_active
  * @property \Carbon\Carbon|null         $birth_date
@@ -55,7 +55,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property \Carbon\Carbon|null         $deleted_at
  *
  * Relations:
- * @property Address                      $address
+ * @property Address $address
  */
 class User extends BaseEntity implements
     AuthenticatableContract,
@@ -73,6 +73,7 @@ class User extends BaseEntity implements
     use HasPermissions;
     use SoftDeletes;
     use HasJobPosition;
+    use HasFile;
 
     public const TABLE = 'core_org_users';
 
@@ -95,7 +96,6 @@ class User extends BaseEntity implements
         'email',
         'national_code',
         'gender',
-        'image_url',
         'is_active',
         'birth_date',
         'mobile_verified_at',

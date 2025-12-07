@@ -30,7 +30,6 @@ class UpdateDepartmentRequest extends BaseRequest
                 Rule::unique(Department::class, 'code')->ignore($this->route('department')),
             ],
             'manager_id'  => ['nullable', Rule::exists(User::class, 'id')],
-            'image_url'   => 'nullable|url',
             'color'       => 'nullable|string|max:20',
             'icon'        => 'nullable|string|max:100',
             'description' => 'nullable|string',

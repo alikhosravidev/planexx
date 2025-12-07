@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Organization\Entities;
 
 use App\Contracts\Entity\BaseEntity;
-use App\Core\FileManager\Entities\File;
+use App\Core\FileManager\Traits\HasFile;
 use App\Core\Organization\Database\Factories\DepartmentFactory;
 use App\Core\Organization\Enums\DepartmentTypeEnum;
 use App\Core\Organization\Traits\HasManager;
@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -21,7 +20,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int|null                    $parent_id
  * @property string                      $name
  * @property string|null                 $code
- * @property string|null                 $image_url
  * @property string|null                 $description
  * @property DepartmentTypeEnum          $type
  * @property bool                        $is_active
@@ -33,13 +31,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Department|null              $parent
  * @property \Illuminate\Database\Eloquent\Collection<int, Department> $children
  * @property \Illuminate\Database\Eloquent\Collection<int, \App\Core\Organization\Entities\User> $users
- * @property File|null                    $image
  */
 class Department extends BaseEntity
 {
     use HasFactory;
     use SoftDeletes;
     use HasManager;
+    use HasFile;
 
     protected bool $shouldLogActivity = true;
 
@@ -52,7 +50,6 @@ class Department extends BaseEntity
         'name',
         'code',
         'manager_id',
-        'image_url',
         'color',
         'icon',
         'description',
@@ -72,7 +69,8 @@ class Department extends BaseEntity
 
     public function children(): HasMany
     {
-        return $this->hasMany(self::class, 'parent_id')->with('children');
+        return $this->hasMany(self::class, 'parent_id')
+            ->with(['children', 'thumbnail']);
     }
 
     public function users(): BelongsToMany
@@ -80,11 +78,6 @@ class Department extends BaseEntity
         return $this->belongsToMany(User::class, 'core_org_user_departments')
             ->withPivot('is_primary')
             ->withTimestamps();
-    }
-
-    public function image(): MorphOne
-    {
-        return $this->morphOne(File::class, 'entity');
     }
 
     protected static function newFactory(): DepartmentFactory

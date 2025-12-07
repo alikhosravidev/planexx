@@ -19,11 +19,11 @@ class RoleTransformer extends BaseTransformer
 
     public function includePermissions(Role $role)
     {
-        if (!$role->relationLoaded('permissions')) {
-            return null;
-        }
-
-        return $this->collection($role->permissions, resolve(PermissionTransformer::class));
+        return $this->collectionRelation(
+            model: $role,
+            relationName: 'permissions',
+            transformer: PermissionTransformer::class,
+        );
     }
 
     protected function getVirtualFieldResolvers(): array

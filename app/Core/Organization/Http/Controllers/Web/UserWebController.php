@@ -53,8 +53,9 @@ class UserWebController extends BaseWebController
             $filters['departments.id'] = $request->get('department_id');
         }
 
-        $queryParams           = $request->except('filter');
-        $queryParams['filter'] = $filters;
+        $queryParams             = $request->except('filter');
+        $queryParams['filter']   = $filters;
+        $queryParams['includes'] = 'avatar';
 
         $response = $this->apiGet('api.v1.admin.org.users.index', $queryParams);
 
@@ -73,7 +74,7 @@ class UserWebController extends BaseWebController
     {
         $response = $this->apiGet('api.v1.admin.org.users.show', [
             'user'     => $user->id,
-            'includes' => 'directManager,jobPosition,departments',
+            'includes' => 'directManager,departments',
         ]);
 
         return view('Organization::users.show', [
@@ -96,7 +97,7 @@ class UserWebController extends BaseWebController
     {
         $response = $this->apiGet('api.v1.admin.org.users.show', [
             'user'     => $user->id,
-            'includes' => 'directManager,jobPosition,departments',
+            'includes' => 'directManager,avatar,departments',
         ]);
 
         $typeResponse = $this->apiGet('api.v1.admin.enums.keyValList', ['enum' => 'UserTypeEnum']);

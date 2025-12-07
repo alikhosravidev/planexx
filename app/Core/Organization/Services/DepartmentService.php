@@ -6,6 +6,7 @@ namespace App\Core\Organization\Services;
 
 use App\Core\FileManager\DTOs\FileUploadDTO;
 use App\Core\FileManager\Entities\File;
+use App\Core\FileManager\Enums\FileCollectionEnum;
 use App\Core\FileManager\Services\FileService;
 use App\Core\Organization\Contracts\DepartmentServiceInterface;
 use App\Core\Organization\Entities\Department;
@@ -36,9 +37,7 @@ readonly class DepartmentService implements DepartmentServiceInterface
 
             // Handle image upload for holding/brand types
             if ($dto->type->hasImage() && $image) {
-                $file                  = $this->uploadDepartmentImage($department, $image);
-                $department->image_url = $file->file_url;
-                $department->save();
+                $this->uploadDepartmentImage($department, $image);
             }
 
             return $department;
@@ -61,8 +60,7 @@ readonly class DepartmentService implements DepartmentServiceInterface
                 }
 
                 if ($image) {
-                    $file              = $this->uploadDepartmentImage($department, $image);
-                    $data['image_url'] = $file->file_url;
+                    $this->uploadDepartmentImage($department, $image);
                 }
             }
 
@@ -101,6 +99,7 @@ readonly class DepartmentService implements DepartmentServiceInterface
         }
     }
 
+    // TODO: handle this action using events.
     private function uploadDepartmentImage(Department $department, UploadedFile $image): File
     {
         $uploadDto = new FileUploadDTO(
@@ -109,8 +108,9 @@ readonly class DepartmentService implements DepartmentServiceInterface
             title     : $department->name . ' Image',
             entityType: $department->getMorphClass(),
             entityId  : $department->id,
+            collection: FileCollectionEnum::THUMBNAIL,
             isPublic  : true,
-            uploadedBy: auth()->id(),
+            uploadedBy: auth()->id()
         );
 
         return $this->fileService->upload($uploadDto);

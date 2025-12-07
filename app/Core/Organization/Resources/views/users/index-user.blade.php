@@ -38,7 +38,7 @@
             'label' => 'کاربر',
             'component' => 'user',
             'options' => [
-                'image_key' => 'image_url',
+                'image_key' => 'avatar_image_url',
             ],
         ],
         [

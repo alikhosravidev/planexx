@@ -39,7 +39,6 @@ class UpdateUserRequest extends BaseRequest
             'department_id'     => ['sometimes', 'nullable', Rule::exists(Department::class, 'id')],
             'employment_date'   => ['sometimes', 'nullable', 'date'],
             'employee_code'     => ['sometimes', 'nullable', 'string', 'max:50'],
-            'image_url'         => ['sometimes', 'nullable', 'string', 'max:255'],
         ];
     }
 }

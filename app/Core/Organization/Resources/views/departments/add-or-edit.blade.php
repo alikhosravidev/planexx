@@ -147,12 +147,7 @@
                                     <!-- Image Upload Section -->
                                     <div id="image-upload-section" class="hidden">
                                         @php
-                                            $currentImageUrl = null;
-                                            if (isset($department['image']['file_url'])) {
-                                                $currentImageUrl = $department['image']['file_url'];
-                                            } elseif (isset($department['image_url'])) {
-                                                $currentImageUrl = $department['image_url'];
-                                            }
+                                            $currentImageUrl = $department['thumbnail']['file_url'] ?? null;
                                         @endphp
                                         <x-ui.profile-image-upload :value="$currentImageUrl" label="تصویر" standalone/>
                                     </div>

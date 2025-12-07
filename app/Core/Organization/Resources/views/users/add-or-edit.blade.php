@@ -126,7 +126,7 @@
 
                     {{--TODO: store user avatar--}}
                     <div class="bg-bg-primary border border-border-light rounded-2xl p-6">
-                        <x-ui.profile-image-upload :value="$user['image_url'] ?? null" standalone/>
+                        <x-ui.profile-image-upload :value="$user['avatar']['file_url'] ?? null" standalone/>
                     </div>
 
                     <div class="flex items-center gap-3">

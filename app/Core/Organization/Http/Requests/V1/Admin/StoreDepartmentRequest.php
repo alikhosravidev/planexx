@@ -25,7 +25,6 @@ class StoreDepartmentRequest extends BaseRequest
             'name'        => 'required|string|max:255',
             'code'        => ['nullable', 'string', 'max:50', Rule::unique(Department::class, 'code')],
             'manager_id'  => ['nullable', Rule::exists(User::class, 'id')],
-            'image_url'   => 'nullable|url',
             'color'       => 'nullable|string|max:20',
             'icon'        => 'nullable|string|max:100',
             'description' => 'nullable|string',

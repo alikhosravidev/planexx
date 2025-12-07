@@ -17,7 +17,6 @@ class DepartmentDTOTest extends UnitTestBase
         $name        = 'Engineering Department';
         $code        = 'ENG';
         $managerId   = 2;
-        $imageUrl    = 'https://example.com/image.jpg';
         $description = 'Handles engineering tasks';
         $isActive    = true;
 
@@ -27,7 +26,6 @@ class DepartmentDTOTest extends UnitTestBase
             parentId   : $parentId,
             code       : $code,
             managerId  : $managerId,
-            imageUrl   : $imageUrl,
             description: $description,
             isActive   : $isActive,
         );
@@ -37,7 +35,6 @@ class DepartmentDTOTest extends UnitTestBase
         $this->assertEquals($name, $dto->name);
         $this->assertEquals($code, $dto->code);
         $this->assertEquals($managerId, $dto->managerId);
-        $this->assertEquals($imageUrl, $dto->imageUrl);
         $this->assertEquals($description, $dto->description);
         $this->assertEquals($isActive, $dto->isActive);
     }
@@ -50,7 +47,6 @@ class DepartmentDTOTest extends UnitTestBase
             parentId   : 1,
             code       : 'ENG',
             managerId  : 2,
-            imageUrl   : 'https://example.com/image.jpg',
             description: 'Handles engineering tasks',
             isActive   : true,
         );
@@ -64,7 +60,6 @@ class DepartmentDTOTest extends UnitTestBase
             'name'        => 'Engineering Department',
             'code'        => 'ENG',
             'manager_id'  => 2,
-            'image_url'   => 'https://example.com/image.jpg',
             'color'       => null,
             'icon'        => null,
             'description' => 'Handles engineering tasks',
@@ -86,7 +81,6 @@ class DepartmentDTOTest extends UnitTestBase
         $this->assertNull($dto->parentId);
         $this->assertNull($dto->code);
         $this->assertNull($dto->managerId);
-        $this->assertNull($dto->imageUrl);
         $this->assertNull($dto->description);
         $this->assertFalse($dto->isActive);
     }

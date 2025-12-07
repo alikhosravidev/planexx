@@ -10,6 +10,7 @@ use App\Core\FileManager\Entities\File;
 use App\Core\FileManager\Repositories\FileRepository;
 use Illuminate\Support\Facades\DB;
 
+// TODO: refactor this service like TagService or FavoriteService.
 readonly class FileService
 {
     public function __construct(

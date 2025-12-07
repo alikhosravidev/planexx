@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Contracts\Transformer;
 
 use App\Contracts\Entity\EntityInterface;
+use App\Exceptions\Transformer\TransformerException;
 use App\Services\Transformer\FieldTransformerRegistry;
 use App\Services\Transformer\ModelTransformationContext;
 use App\Services\Transformer\Steps\BlacklistFilterStep;
@@ -16,6 +17,8 @@ use App\Services\Transformer\VirtualFieldResolver;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use League\Fractal\Manager;
+use League\Fractal\Resource\Collection as FractalCollection;
+use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
 use Psr\Log\LoggerInterface;
 
@@ -291,6 +294,19 @@ abstract class BaseTransformer extends TransformerAbstract implements Transforme
     }
 
     /**
+     * @param  \App\Contracts\Transformer\TransformerInterface|string  $transformer
+     * @return bool
+     */
+    private function isValidTransformer(TransformerInterface|string $transformer): bool
+    {
+        if ($transformer instanceof TransformerInterface) {
+            return true;
+        }
+
+        return is_subclass_of($transformer, TransformerInterface::class);
+    }
+
+    /**
      * Include a relationship with optional transformer.
      */
     protected function includeRelation(
@@ -307,5 +323,88 @@ abstract class BaseTransformer extends TransformerAbstract implements Transforme
 
             return $relation;
         };
+    }
+
+    /**
+     * Safely include a single model relation as an item.
+     */
+    protected function itemRelation(
+        EntityInterface $model,
+        string $relationName,
+        TransformerInterface|string $transformer,
+        ?string $foreignKey = null,
+        ?string $resourceKey = null,
+    ): ?Item {
+        if ($foreignKey !== null && empty($model->{$foreignKey})) {
+            return null;
+        }
+        $result = $this->prepareRelationInclude($model, $relationName, $transformer);
+
+        if ($result === null) {
+            return null;
+        }
+
+        [$related, $transformerInstance] = $result;
+
+        return $this->item($related, $transformerInstance, $resourceKey);
+    }
+
+    /**
+     * Safely include a to-many relation as a collection.
+     */
+    protected function collectionRelation(
+        EntityInterface $model,
+        string $relationName,
+        TransformerInterface|string $transformer,
+        ?string $resourceKey = null,
+    ): ?FractalCollection {
+        $result = $this->prepareRelationInclude($model, $relationName, $transformer);
+
+        if ($result === null) {
+            return null;
+        }
+
+        [$related, $transformerInstance] = $result;
+
+        return $this->collection($related, $transformerInstance, $resourceKey);
+    }
+
+    private function canIncludeRelation(EntityInterface $model, string $relationName): bool
+    {
+        if (!method_exists($model, $relationName)) {
+            return false;
+        }
+
+        if (method_exists($model, 'relationLoaded') && !$model->relationLoaded($relationName)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function prepareRelationInclude(
+        EntityInterface $model,
+        string $relationName,
+        TransformerInterface|string $transformer,
+    ): ?array {
+        if (! $this->isValidTransformer($transformer)) {
+            $transformerClass = is_string($transformer) ? $transformer : get_class($transformer);
+
+            throw new TransformerException("Transformer class '{$transformerClass}' is invalid.");
+        }
+
+        if (! $this->canIncludeRelation($model, $relationName)) {
+            return null;
+        }
+
+        $related = $model->{$relationName};
+
+        if ($related === null) {
+            return null;
+        }
+
+        $transformerInstance = is_string($transformer) ? resolve($transformer) : $transformer;
+
+        return [$related, $transformerInstance];
     }
 }

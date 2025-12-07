@@ -55,7 +55,7 @@
                     $user = auth()->user();
                     $userName = $user?->full_name ?? $user?->name ?? 'کاربر';
                     $userRole = $user?->role_name ?? 'مدیر سیستم';
-                    $userAvatar = $user->avatar ?? null;
+                    $userAvatar = $user->avatar?->file_url ?? null;
                     $initial = function($name) { return mb_substr($name, 0, 1, 'UTF-8'); };
                 @endphp
                 <button

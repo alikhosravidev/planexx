@@ -28,8 +28,10 @@ class UserAPIController extends BaseAPIController
 
     public function store(StoreUserRequest $request): JsonResponse
     {
-        $dto  = $this->mapper->fromRequest($request);
-        $user = $this->service->create($dto);
+        $dto   = $this->mapper->fromRequest($request);
+        $image = $request->file('image');
+
+        $user = $this->service->create($dto, $image);
 
         return $this->response->created(
             array_merge(
@@ -42,9 +44,11 @@ class UserAPIController extends BaseAPIController
 
     public function update(UpdateUserRequest $request, int $id): JsonResponse
     {
-        $user    = $this->repository->findOrFail($id);
-        $dto     = $this->mapper->fromRequestForUpdate($request, $user);
-        $updated = $this->service->update($user, $dto);
+        $user  = $this->repository->findOrFail($id);
+        $dto   = $this->mapper->fromRequestForUpdate($request, $user);
+        $image = $request->file('image');
+
+        $updated = $this->service->update($user, $dto, $image);
 
         return $this->response->success(
             $this->transformer->transformOne($updated),

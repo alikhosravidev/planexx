@@ -38,32 +38,43 @@ class UserTransformer extends BaseTransformer
         'birth_date'         => DateTimeTransformer::class,
     ];
 
-    protected array $availableIncludes = ['directManager', 'jobPosition', 'departments'];
+    protected array $availableIncludes = ['directManager', 'jobPosition', 'departments', 'avatar'];
 
     public function includeDirectManager(User $user)
     {
-        if (!$user->direct_manager_id || !$user->relationLoaded('directManager')) {
-            return null;
-        }
+        return $this->itemRelation(
+            model: $user,
+            relationName: 'directManager',
+            transformer: $this,
+            foreignKey: 'direct_manager_id',
+        );
+    }
 
-        return $this->item($user->directManager, $this);
+    public function includeAvatar(User $user)
+    {
+        return $this->itemRelation(
+            model: $user,
+            relationName: 'avatar',
+            transformer: $this,
+        );
     }
 
     public function includeJobPosition(User $user)
     {
-        if (!$user->job_position_id || !$user->relationLoaded('jobPosition')) {
-            return null;
-        }
-
-        return $this->item($user->jobPosition, resolve(JobPositionTransformer::class));
+        return $this->itemRelation(
+            model: $user,
+            relationName: 'jobPosition',
+            transformer: JobPositionTransformer::class,
+            foreignKey: 'job_position_id',
+        );
     }
 
     public function includeDepartments(User $user)
     {
-        if (!$user->relationLoaded('departments')) {
-            return null;
-        }
-
-        return $this->collection($user->departments, resolve(DepartmentTransformer::class));
+        return $this->collectionRelation(
+            model: $user,
+            relationName: 'departments',
+            transformer: DepartmentTransformer::class,
+        );
     }
 }

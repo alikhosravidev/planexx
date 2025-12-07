@@ -20,8 +20,8 @@
                 <div class="w-6"></div>
             @endif
             {!! $indent !!}
-            @if($dept['type']['has_image'] && !empty($dept['image_url']))
-                <img src="{{ $dept['image_url'] }}"
+            @if($dept['type']['has_image'] && !empty($dept['thumbnail']['file_url'] ?? null))
+                <img src="{{ $dept['thumbnail']['file_url'] }}"
                      alt="{{ $dept['name'] }}"
                      class="w-10 h-10 rounded-full object-cover border-2 border-border-light ml-2">
                     <span class="text-base text-text-primary font-medium leading-normal">{{ $dept['name'] }}</span>

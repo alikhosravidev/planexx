@@ -19,7 +19,7 @@ class DepartmentWebController extends BaseWebController
             'api.v1.admin.org.departments.index',
             [
                 'filter'    => ['parent_id' => null],
-                'includes'  => 'children',
+                'includes'  => 'children,thumbnail',
                 'withCount' => 'users:employees_count,children.users:employees_count',
             ],
         );
@@ -28,18 +28,6 @@ class DepartmentWebController extends BaseWebController
             'departments' => $response['result']             ?? [],
             'pagination'  => $response['meta']['pagination'] ?? [],
             'pageTitle'   => $pageTitle,
-        ]);
-    }
-
-    public function show(Department $department): View
-    {
-        $response = $this->apiGet('api.v1.admin.org.departments.show', [
-            'department' => $department->id,
-            'includes'   => 'parent,manager',
-        ]);
-
-        return view('Organization::departments.show', [
-            'department' => $response['result'] ?? [],
         ]);
     }
 
@@ -68,7 +56,7 @@ class DepartmentWebController extends BaseWebController
     {
         $response = $this->apiGet('api.v1.admin.org.departments.show', [
             'department' => $department->id,
-            'includes'   => 'parent,manager',
+            'includes'   => 'parent,manager,thumbnail',
         ]);
 
         $deptResponse = $this->apiGet(
@@ -87,7 +75,7 @@ class DepartmentWebController extends BaseWebController
             'department'      => $response['result']      ?? [],
             'allDepartments'  => $deptResponse['result']  ?? [],
             'managers'        => $usersResponse['result'] ?? [],
-            'departmentTypes' => $typeResponse['result'] ?? [],
+            'departmentTypes' => $typeResponse['result']  ?? [],
         ]);
     }
 }
