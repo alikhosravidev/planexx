@@ -114,10 +114,19 @@ export const handleButtonClick = async (event) => {
     return;
   }
 
+  // Prevent multiple concurrent AJAX requests globally
+  if (window.__ajaxRequestInProgress) {
+    return;
+  }
+  window.__ajaxRequestInProgress = true;
+
   // Add loading state
   if (config.loadingClass) {
     addClasses(button, config.loadingClass);
   }
+
+  // Add spinner class for visual feedback
+  button.classList.add('spinner-left');
 
   // Disable button during request
   const originalDisabled = button.disabled;
@@ -154,16 +163,19 @@ export const handleButtonClick = async (event) => {
       })
     );
 
-    // Execute response actions
+    // Execute response actions (await to keep global lock until done)
     if (config.actions.length > 0) {
       for (const actionName of config.actions) {
         if (actionName === 'custom' && config.afterSuccessAction) {
           const actionHandler = getAction(config.afterSuccessAction);
           if (actionHandler) {
-            actionHandler(result, button);
+            const maybePromise = actionHandler(result, button);
+            if (maybePromise instanceof Promise) {
+              await maybePromise;
+            }
           }
         } else {
-          executeAction(actionName, result, button);
+          await executeAction(actionName, result, button);
         }
       }
     }
@@ -187,7 +199,10 @@ export const handleButtonClick = async (event) => {
     if (config.loadingClass) {
       removeClasses(button, config.loadingClass);
     }
+    button.classList.remove('spinner-left');
     // Restore button state
     button.disabled = originalDisabled;
+
+    window.__ajaxRequestInProgress = false;
   }
 };

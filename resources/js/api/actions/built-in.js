@@ -29,9 +29,12 @@ export const builtInActions = {
    * Reload current page
    */
   'reload': () => {
-      setTimeout(() => {
-          window.location.reload();
-      }, CONFIG.REDIRECT_DELAY);
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            window.location.reload();
+            resolve();
+        }, CONFIG.REDIRECT_DELAY);
+    });
   },
 
   /**
@@ -40,13 +43,19 @@ export const builtInActions = {
   'redirect': (data) => {
     const url = data.redirect_url || data.redirectUrl;
     if (url) {
-        setTimeout(() => {
-            window.location.href = url;
-        }, CONFIG.REDIRECT_DELAY);
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                window.location.href = url;
+                resolve();
+            }, CONFIG.REDIRECT_DELAY);
+        });
     } else {
-        setTimeout(() => {
-            window.location.reload();
-        }, CONFIG.REDIRECT_DELAY);
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                window.location.reload();
+                resolve();
+            }, CONFIG.REDIRECT_DELAY);
+        });
     }
   },
 

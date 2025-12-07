@@ -4,7 +4,7 @@
  */
 
 import { resolve } from '@/utils/di-container.js';
-import { executeAction } from '../actions/executor.js';
+import { executeAction, executeActions } from '../actions/executor.js';
 
 // Get dependencies from DI container (can be mocked in tests)
 const getFormService = () => resolve('formService');
@@ -89,6 +89,8 @@ const removeClasses = (element, classString) => {
  */
 export const handleFormSubmit = async (event) => {
   const form = event.target;
+  const submitButton =
+    event.submitter || form.querySelector('button[type="submit"], button:not([type]), [type="submit"]');
 
   // Don't prevent default for non-AJAX forms
   if (!form.hasAttribute('data-ajax')) {
@@ -116,9 +118,22 @@ export const handleFormSubmit = async (event) => {
     }
   }
 
-  // Show loading state if specified
+  // Prevent multiple concurrent AJAX requests globally
+  if (window.__ajaxRequestInProgress) {
+    return;
+  }
+  window.__ajaxRequestInProgress = true;
+
+  // Show loading state if specified on form
   if (config.loadingClass) {
     addClasses(form, config.loadingClass);
+  }
+
+  // Add loading spinner to submit button
+  const buttonWasDisabled = submitButton ? submitButton.disabled : false;
+  if (submitButton) {
+    submitButton.disabled = true;
+    submitButton.classList.add('spinner-left');
   }
 
   try {
@@ -144,13 +159,11 @@ export const handleFormSubmit = async (event) => {
       })
     );
 
-    // Execute response actions
+    // Execute response actions (await to keep global lock until done)
     if (config.actions.length > 0) {
-      for (const actionName of config.actions) {
-        executeAction(actionName, result, form);
-      }
+      await executeActions(config.actions, result, form);
     } else if (config.defaultAction) {
-      executeAction(config.defaultAction, result, form);
+      await executeAction(config.defaultAction, result, form);
     }
   } catch (error) {
     console.error('Form submission error:', error);
@@ -173,5 +186,13 @@ export const handleFormSubmit = async (event) => {
     if (config.loadingClass) {
       removeClasses(form, config.loadingClass);
     }
+
+    // Remove loading spinner from submit button
+    if (submitButton) {
+      submitButton.classList.remove('spinner-left');
+      submitButton.disabled = buttonWasDisabled;
+    }
+
+    window.__ajaxRequestInProgress = false;
   }
 };

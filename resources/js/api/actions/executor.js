@@ -11,16 +11,19 @@ import { getAction } from './registry.js';
  * @param {string} actionName - Action name
  * @param {object} data - Response data
  * @param {HTMLElement} element - Form or button element
- * @returns {boolean} True if action was executed
+ * @returns {Promise<boolean>} True if action was executed
  */
-export const executeAction = (actionName, data, element) => {
+export const executeAction = async (actionName, data, element) => {
   if (!actionName) return false;
 
   // Try built-in actions first
   const builtInHandler = builtInActions[actionName];
   if (builtInHandler) {
     try {
-      builtInHandler(data, element);
+      const result = builtInHandler(data, element);
+      if (result instanceof Promise) {
+        await result;
+      }
       return true;
     } catch (error) {
       console.error(`Error executing built-in action "${actionName}":`, error);
@@ -32,7 +35,10 @@ export const executeAction = (actionName, data, element) => {
   const customHandler = getAction(actionName);
   if (customHandler) {
     try {
-      customHandler(data, element);
+      const result = customHandler(data, element);
+      if (result instanceof Promise) {
+        await result;
+      }
       return true;
     } catch (error) {
       console.error(`Error executing custom action "${actionName}":`, error);
@@ -45,17 +51,18 @@ export const executeAction = (actionName, data, element) => {
 };
 
 /**
- * Execute multiple actions in sequence
+ * Execute multiple actions in sequence (await each one)
  * @param {string[]} actionNames - Array of action names
  * @param {object} data - Response data
  * @param {HTMLElement} element - Form or button element
+ * @returns {Promise<void>}
  */
-export const executeActions = (actionNames, data, element) => {
+export const executeActions = async (actionNames, data, element) => {
   if (!Array.isArray(actionNames)) {
     actionNames = [actionNames];
   }
 
-  actionNames.forEach((actionName) => {
-    executeAction(actionName, data, element);
-  });
+  for (const actionName of actionNames) {
+    await executeAction(actionName, data, element);
+  }
 };
