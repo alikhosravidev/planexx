@@ -55,6 +55,25 @@ export const handleError = (error, options = {}) => {
 
   // 422 - Validation errors
   if (status === 422) {
+    if (showMessage) {
+      if (data.message) {
+        notifications.showError(data.message);
+      }
+
+      const validationErrors = data.errors || {};
+
+        const errorMessages = validationErrors
+            .map((item) => {
+                if (item && typeof item === 'object' && 'message' in item) {
+                    return item.message;
+                }
+                return item;
+            })
+            .filter(Boolean);
+
+      errorMessages.forEach((errorMessage) => notifications.showError(errorMessage));
+    }
+
     // Return validation errors for form handling
     return {
       isValidationError: true,

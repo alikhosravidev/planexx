@@ -20,11 +20,11 @@
             </div>
         </div>
         <div class="flex items-center gap-3">
-            <button onclick="selectAllPermissions()" class="bg-bg-secondary text-text-secondary border border-border-medium px-4 py-2.5 rounded-lg font-medium hover:bg-gray-100 transition-all duration-200 text-sm leading-normal flex items-center gap-2">
+            <button type="button" onclick="selectAllPermissions()" class="bg-bg-secondary text-text-secondary border border-border-medium px-4 py-2.5 rounded-lg font-medium hover:bg-gray-100 transition-all duration-200 text-sm leading-normal flex items-center gap-2">
                 <i class="fa-solid fa-check-double"></i>
                 <span>انتخاب همه</span>
             </button>
-            <button onclick="deselectAllPermissions()" class="bg-bg-secondary text-text-secondary border border-border-medium px-4 py-2.5 rounded-lg font-medium hover:bg-gray-100 transition-all duration-200 text-sm leading-normal flex items-center gap-2">
+            <button type="button" onclick="deselectAllPermissions()" class="bg-bg-secondary text-text-secondary border border-border-medium px-4 py-2.5 rounded-lg font-medium hover:bg-gray-100 transition-all duration-200 text-sm leading-normal flex items-center gap-2">
                 <i class="fa-solid fa-xmark"></i>
                 <span>حذف انتخاب‌ها</span>
             </button>

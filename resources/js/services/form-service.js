@@ -34,9 +34,9 @@ class FormService {
       // Get form data
       const formData = new FormData(form);
       const isFileUpload = form.enctype === 'multipart/form-data';
-      
+
       let data;
-      
+
       if (isFileUpload) {
         // For file uploads, use FormData directly
         data = formData;
@@ -95,10 +95,6 @@ class FormService {
 
         if (onValidationError) {
           onValidationError(result);
-        }
-
-        if (showMessage) {
-          notifications.showError(result.message);
         }
 
         return result;

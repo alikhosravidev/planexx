@@ -61,16 +61,18 @@
                     <!-- Search & Filters Row -->
                     <div class="flex flex-col lg:flex-row gap-3">
                         <!-- Search Input -->
-                        <div class="flex-1 relative">
-                            <i class="fa-solid fa-search absolute right-4 top-1/2 -translate-y-1/2 text-text-muted"></i>
-                            <input
-                                type="text"
-                                name="search"
-                                value="{{ request('search') }}"
-                                placeholder="جستجو در نام، تگ‌ها و عنوان فایل‌ها..."
-                                class="w-full pr-11 pl-4 py-3 border border-border-medium rounded-xl text-sm text-text-primary placeholder:text-text-muted focus:border-primary focus:shadow-focus outline-none transition-all duration-200"
-                                data-search-input>
-                        </div>
+                        <form method="GET" action="{{ route('web.documents.index') }}" class="flex-1">
+                            <div class="flex-1 relative">
+                                <i class="fa-solid fa-search absolute right-4 top-1/2 -translate-y-1/2 text-text-muted"></i>
+                                <input
+                                    type="text"
+                                    name="search"
+                                    value="{{ request('search') }}"
+                                    placeholder="جستجو در نام، تگ‌ها و عنوان فایل‌ها..."
+                                    class="w-full pr-11 pl-4 py-3 border border-border-medium rounded-xl text-sm text-text-primary placeholder:text-text-muted focus:border-primary focus:shadow-focus outline-none transition-all duration-200"
+                                >
+                            </div>
+                        </form>
 
                         <!-- Filters -->
                         <div class="flex items-center gap-2 flex-wrap">
@@ -86,8 +88,10 @@
                             </div>
 
                             <!-- Show Temporary Toggle -->
-                            <label class="flex items-center gap-2 px-4 py-3 border border-border-medium rounded-xl text-sm text-text-secondary cursor-pointer hover:border-primary transition-all duration-200">
-                                <input type="checkbox" name="is_temporary" class="accent-primary" {{ request('is_temporary') ? 'checked' : '' }}>
+                            <label
+                                class="flex items-center gap-2 px-4 py-3 border border-border-medium rounded-xl text-sm text-text-secondary cursor-pointer hover:border-primary transition-all duration-200">
+                                <input type="checkbox" id="is_temporary" name="is_temporary"
+                                       class="accent-primary" {{ request('is_temporary') ? 'checked' : '' }}>
                                 <i class="fa-solid fa-hourglass-half text-amber-500"></i>
                                 <span>موقت‌ها</span>
                             </label>
@@ -102,7 +106,8 @@
                 <div class="mb-8">
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-lg font-semibold text-text-primary">پوشه‌های اصلی</h2>
-                        <button type="button" data-modal-open="folderModal" class="text-sm text-primary hover:text-primary/80 font-medium flex items-center gap-1">
+                        <button type="button" data-modal-open="folderModal"
+                                class="text-sm text-primary hover:text-primary/80 font-medium flex items-center gap-1">
                             <i class="fa-solid fa-plus"></i>
                             <span>پوشه جدید</span>
                         </button>
@@ -124,7 +129,9 @@
                     <div class="px-6 py-4 border-b border-border-light flex items-center justify-between">
                         <h2 class="text-lg font-semibold text-text-primary">آخرین فایل‌ها</h2>
                         <div class="flex items-center gap-2">
-                            <button class="w-9 h-9 flex items-center justify-center rounded-lg text-text-muted bg-primary text-white transition-all duration-200" title="نمای لیستی">
+                            <button
+                                class="w-9 h-9 flex items-center justify-center rounded-lg text-text-muted bg-primary text-white transition-all duration-200"
+                                title="نمای لیستی">
                                 <i class="fa-solid fa-list"></i>
                             </button>
                             {{--<button class="w-9 h-9 flex items-center justify-center rounded-lg bg-primary text-white hover:bg-bg-secondary hover:text-primary" title="نمای کارتی">
@@ -137,132 +144,137 @@
                     <div class="overflow-x-auto">
                         <table class="w-full">
                             <thead class="bg-bg-secondary border-b border-border-light">
-                                <tr>
-                                    <th class="text-right px-6 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider">فایل</th>
-                                    <th class="text-right px-4 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider hidden lg:table-cell">پوشه</th>
-                                    <th class="text-right px-4 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider hidden md:table-cell">تگ‌ها</th>
-                                    <th class="text-right px-4 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider hidden sm:table-cell">حجم</th>
-                                    <th class="text-right px-4 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider hidden lg:table-cell">تاریخ</th>
-                                    <th class="text-left px-6 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider">عملیات</th>
-                                </tr>
+                            <tr>
+                                <th class="text-right px-6 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider">فایل</th>
+                                <th class="text-right px-4 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider hidden lg:table-cell">پوشه</th>
+                                <th class="text-right px-4 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider hidden md:table-cell">تگ‌ها</th>
+                                <th class="text-right px-4 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider hidden sm:table-cell">حجم</th>
+                                <th class="text-right px-4 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider hidden lg:table-cell">تاریخ</th>
+                                <th class="text-left px-6 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider">عملیات</th>
+                            </tr>
                             </thead>
                             <tbody class="divide-y divide-border-light">
-                                @forelse ($files as $file)
-                                    @php
-                                        $typeConfig = $fileTypeConfig[$file['file_type']['value']] ?? $fileTypeConfig[5];
-                                    @endphp
-                                    <tr class="hover:bg-bg-secondary/50 transition-colors duration-200" data-file-id="{{ $file['id'] }}">
-                                        <!-- File Info -->
-                                        <td class="px-6 py-4">
-                                            <div class="flex items-center gap-3">
-                                                <div class="relative flex-shrink-0">
-                                                    <div class="w-11 h-11 {{ $typeConfig['bg'] }} rounded-xl flex items-center justify-center">
-                                                        <i class="{{ $typeConfig['icon'] }} {{ $typeConfig['color'] }} text-lg"></i>
-                                                    </div>
-                                                    @if (isset($file['uploader']))
-                                                        <div class="absolute -bottom-1 -right-2 w-6 h-6 rounded-full border-2 border-white overflow-hidden" title="{{ $file['uploader']['full_name'] ?? '' }}">
-                                                            <img src="{{ $file['uploader']['image_url'] ?? 'https://ui-avatars.com/api/?name=' . urlencode($file['uploader']['full_name'] ?? 'U') }}" alt="{{ $file['uploader']['full_name'] ?? '' }}" class="w-full h-full object-cover">
-                                                        </div>
-                                                    @endif
+                            @forelse ($files as $file)
+                                @php
+                                    $typeConfig = $fileTypeConfig[$file['file_type']['value']] ?? $fileTypeConfig[5];
+                                @endphp
+                                <tr class="hover:bg-bg-secondary/50 transition-colors duration-200" data-file-id="{{ $file['id'] }}">
+                                    <!-- File Info -->
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="relative flex-shrink-0">
+                                                <div class="w-11 h-11 {{ $typeConfig['bg'] }} rounded-xl flex items-center justify-center">
+                                                    <i class="{{ $typeConfig['icon'] }} {{ $typeConfig['color'] }} text-lg"></i>
                                                 </div>
-                                                <div class="min-w-0">
-                                                    <div class="flex items-center gap-2">
-                                                        <span class="text-sm font-medium text-text-primary truncate leading-tight">{{ $file['title'] ?? $file['original_name'] }}</span>
-                                                        @if ($file['is_temporary'])
-                                                            <span class="px-1.5 py-0.5 bg-amber-50 text-amber-600 rounded text-[10px] font-medium">موقت</span>
-                                                        @endif
+                                                @if (isset($file['uploader']))
+                                                    <div class="absolute -bottom-1 -right-2 w-6 h-6 rounded-full border-2 border-white overflow-hidden"
+                                                         title="{{ $file['uploader']['full_name'] ?? '' }}">
+                                                        <img
+                                                            src="{{ $file['uploader']['image_url'] ?? 'https://ui-avatars.com/api/?name=' . urlencode($file['uploader']['full_name'] ?? 'U') }}"
+                                                            alt="{{ $file['uploader']['full_name'] ?? '' }}" class="w-full h-full object-cover">
                                                     </div>
-                                                    <p class="text-xs text-text-muted truncate leading-normal">{{ $file['original_name'] }}</p>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                        <!-- Folder -->
-                                        <td class="px-4 py-4 hidden lg:table-cell">
-                                            <span class="text-sm text-text-secondary">{{ $file['folder']['name'] ?? '-' }}</span>
-                                        </td>
-
-                                        <!-- Tags -->
-                                        <td class="px-4 py-4 hidden md:table-cell">
-                                            <div class="flex flex-wrap gap-1">
-                                                @if (isset($file['tags']) && count($file['tags']) > 0)
-                                                    @foreach (array_slice($file['tags'], 0, 2) as $tag)
-                                                        <span class="px-2 py-0.5 bg-bg-secondary text-text-muted rounded text-xs">{{ $tag['name'] }}</span>
-                                                    @endforeach
-                                                    @if (count($file['tags']) > 2)
-                                                        <span class="px-2 py-0.5 bg-bg-secondary text-text-muted rounded text-xs">+{{ count($file['tags']) - 2 }}</span>
-                                                    @endif
-                                                @else
-                                                    <span class="text-sm text-text-muted">-</span>
                                                 @endif
                                             </div>
-                                        </td>
-
-                                        <!-- Size -->
-                                        <td class="px-4 py-4 hidden sm:table-cell">
-                                            <span class="text-sm text-text-muted">{{ $file['file_size_human'] ?? '-' }}</span>
-                                        </td>
-
-                                        <!-- Date -->
-                                        <td class="px-4 py-4 hidden lg:table-cell">
-                                            <span class="text-sm text-text-muted">{{ $file['created_at']['human']['short'] ?? '-' }}</span>
-                                        </td>
-
-                                        <!-- Actions -->
-                                        <td class="px-6 py-4">
-                                            <div class="flex items-center justify-end gap-1">
-                                                <!-- Favorite -->
-                                                <button
-                                                    data-ajax
-                                                    data-method="POST"
-                                                    data-action="{{ route('api.v1.admin.file-manager.files.favorite.toggle', ['fileId' => $file['id']]) }}"
-                                                    data-on-success="custom"
-                                                    custom-action="toggleFavorite"
-                                                    class="w-8 h-8 flex items-center justify-center rounded-lg transition-all duration-200 {{ $file['is_favorite'] ? 'text-amber-500 bg-amber-50' : 'text-text-muted hover:text-amber-500 hover:bg-amber-50' }}"
-                                                    title="{{ $file['is_favorite'] ? 'حذف از علاقه‌مندی' : 'افزودن به علاقه‌مندی' }}">
-                                                    <i class="{{ $file['is_favorite'] ? 'fa-solid' : 'fa-regular' }} fa-star"></i>
-                                                </button>
-
-                                                <!-- Download -->
-                                                <a
-                                                    href="{{ route('web.documents.files.download', ['id' => $file['id']]) }}"
-                                                    class="w-8 h-8 flex items-center justify-center text-text-muted hover:text-primary hover:bg-bg-secondary rounded-lg transition-all duration-200"
-                                                    title="دانلود">
-                                                    <i class="fa-solid fa-download"></i>
-                                                </a>
-
-                                                <!-- Delete -->
-                                                <button
-                                                    data-ajax
-                                                    data-method="DELETE"
-                                                    data-action="{{ route('api.v1.admin.file-manager.files.destroy', ['file' => $file['id']]) }}"
-                                                    data-on-success="remove"
-                                                    data-target="[data-file-id='{{ $file['id'] }}']"
-                                                    data-confirm="آیا از حذف این فایل اطمینان دارید؟"
-                                                    class="w-8 h-8 flex items-center justify-center text-text-muted hover:text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200"
-                                                    title="حذف">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </button>
+                                            <div class="min-w-0">
+                                                <div class="flex items-center gap-2">
+                                                    <span
+                                                        class="text-sm font-medium text-text-primary truncate leading-tight">{{ $file['title'] ?? $file['original_name'] }}</span>
+                                                    @if ($file['is_temporary'])
+                                                        <span class="px-1.5 py-0.5 bg-amber-50 text-amber-600 rounded text-[10px] font-medium">موقت</span>
+                                                    @endif
+                                                </div>
+                                                <p class="text-xs text-text-muted truncate leading-normal">{{ $file['original_name'] }}</p>
                                             </div>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="6" class="px-6 py-12 text-center">
-                                            <div class="flex flex-col items-center justify-center">
-                                                <i class="fa-solid fa-folder-open text-6xl text-text-muted/30 mb-4"></i>
-                                                <p class="text-text-muted">هیچ فایلی یافت نشد</p>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforelse
+                                        </div>
+                                    </td>
+
+                                    <!-- Folder -->
+                                    <td class="px-4 py-4 hidden lg:table-cell">
+                                        <span class="text-sm text-text-secondary">{{ $file['folder']['name'] ?? '-' }}</span>
+                                    </td>
+
+                                    <!-- Tags -->
+                                    <td class="px-4 py-4 hidden md:table-cell">
+                                        <div class="flex flex-wrap gap-1">
+                                            @if (isset($file['tags']) && count($file['tags']) > 0)
+                                                @foreach (array_slice($file['tags'], 0, 2) as $tag)
+                                                    <span class="px-2 py-0.5 bg-bg-secondary text-text-muted rounded text-xs">{{ $tag['name'] }}</span>
+                                                @endforeach
+                                                @if (count($file['tags']) > 2)
+                                                    <span
+                                                        class="px-2 py-0.5 bg-bg-secondary text-text-muted rounded text-xs">+{{ count($file['tags']) - 2 }}</span>
+                                                @endif
+                                            @else
+                                                <span class="text-sm text-text-muted">-</span>
+                                            @endif
+                                        </div>
+                                    </td>
+
+                                    <!-- Size -->
+                                    <td class="px-4 py-4 hidden sm:table-cell">
+                                        <span class="text-sm text-text-muted">{{ $file['file_size_human'] ?? '-' }}</span>
+                                    </td>
+
+                                    <!-- Date -->
+                                    <td class="px-4 py-4 hidden lg:table-cell">
+                                        <span class="text-sm text-text-muted">{{ $file['created_at']['human']['short'] ?? '-' }}</span>
+                                    </td>
+
+                                    <!-- Actions -->
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center justify-end gap-1">
+                                            <!-- Favorite -->
+                                            <button
+                                                data-ajax
+                                                data-method="POST"
+                                                data-action="{{ route('api.v1.admin.file-manager.files.favorite.toggle', ['fileId' => $file['id']]) }}"
+                                                data-on-success="custom"
+                                                custom-action="toggleFavorite"
+                                                class="w-8 h-8 flex items-center justify-center rounded-lg transition-all duration-200 {{ $file['is_favorite'] ? 'text-amber-500 bg-amber-50' : 'text-text-muted hover:text-amber-500 hover:bg-amber-50' }}"
+                                                title="{{ $file['is_favorite'] ? 'حذف از علاقه‌مندی' : 'افزودن به علاقه‌مندی' }}">
+                                                <i class="{{ $file['is_favorite'] ? 'fa-solid' : 'fa-regular' }} fa-star"></i>
+                                            </button>
+
+                                            <!-- Download -->
+                                            <a
+                                                href="{{ route('web.documents.files.download', ['id' => $file['id']]) }}"
+                                                class="w-8 h-8 flex items-center justify-center text-text-muted hover:text-primary hover:bg-bg-secondary rounded-lg transition-all duration-200"
+                                                title="دانلود">
+                                                <i class="fa-solid fa-download"></i>
+                                            </a>
+
+                                            <!-- Delete -->
+                                            <button
+                                                data-ajax
+                                                data-method="DELETE"
+                                                data-action="{{ route('api.v1.admin.file-manager.files.destroy', ['file' => $file['id']]) }}"
+                                                data-on-success="remove"
+                                                data-target="[data-file-id='{{ $file['id'] }}']"
+                                                data-confirm="آیا از حذف این فایل اطمینان دارید؟"
+                                                class="w-8 h-8 flex items-center justify-center text-text-muted hover:text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200"
+                                                title="حذف">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="px-6 py-12 text-center">
+                                        <div class="flex flex-col items-center justify-center">
+                                            <i class="fa-solid fa-folder-open text-6xl text-text-muted/30 mb-4"></i>
+                                            <p class="text-text-muted">هیچ فایلی یافت نشد</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
                             </tbody>
                         </table>
                     </div>
 
                     <!-- Pagination -->
                     @if (isset($pagination) && !empty($pagination['total']) && $pagination['total'] > 0)
-                        <x-ui.pagination :pagination="$pagination" />
+                        <x-ui.pagination :pagination="$pagination"/>
                     @endif
                 </div>
             </div>
@@ -270,8 +282,8 @@
     </div>
 
     <!-- Upload Modal -->
-    <x-file-manager.upload-modal :folders="$folders" />
+    <x-FileManager::upload-modal :folders="$folders"/>
 
     <!-- Folder Modal -->
-    <x-file-manager.folder-modal :folders="$folders" />
+    <x-FileManager::folder-modal :folders="$folders"/>
 </x-layouts.app>

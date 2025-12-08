@@ -112,9 +112,5 @@ export function initPersianDigits(options = {}) {
     observeMutations();
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init, { once: true });
-  } else {
-    init();
-  }
+  document.addEventListener('DOMContentLoaded', init, { once: true });
 }

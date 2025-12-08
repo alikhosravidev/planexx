@@ -71,10 +71,6 @@ class DocumentWebController extends BaseWebController
             $filters['search'] = $request->get('search');
         }
 
-        if ($request->filled('file_type')) {
-            $filters['file_type'] = $request->get('file_type');
-        }
-
         $filesResponse = $this->apiGet('api.v1.admin.file-manager.files.index', [
             'filter'   => $filters,
             'sort'     => $request->get('sort', '-created_at'),

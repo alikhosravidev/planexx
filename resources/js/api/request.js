@@ -84,17 +84,8 @@ class Request {
       const response = await httpClient(config);
       return handleSuccess(response, this.options);
     } catch (error) {
-      // Check if it's a validation error
-      if (error.response?.status === 422) {
-        return {
-          isValidationError: true,
-          errors: error.response.data.errors || {},
-          message: error.response.data.message || 'فیلدهای نامعتبر وجود دارد.',
-        };
-      }
-
-      // Handle other errors
-      handleError(error, this.options);
+      // Let the centralized handler process all error cases (including 422)
+      return handleError(error, this.options);
     }
   }
 }

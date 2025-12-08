@@ -1,15 +1,26 @@
-@props(['folders' => []])
+@props([
+    'folders' => [],
+    'currentFolder' => null
+])
+
+@php
+    $folderOptions = [];
+
+    foreach ($folders as $folder) {
+        $folderOptions[$folder['id']] = $folder['name'];
+    }
+@endphp
 
 <div
     id="uploadModal"
     data-modal
     data-modal-backdrop
     class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-    
+
 
     <div class="bg-bg-primary rounded-3xl shadow-lg max-w-[600px] w-full max-h-[90vh] overflow-y-auto">
         <div class="px-6 py-5 border-b border-border-light flex items-center justify-between">
-            <h3 class="text-xl font-semibold text-text-primary leading-snug">آپلود فایل جدید</h3>
+            <h3 class="text-xl font-semibold text-text-primary leading-snug">آپلود فایل {!! null !== $currentFolder ? "در پوشه <span class='text-orange-500'>{$currentFolder['name']}</span>" : 'جدید' !!}</h3>
             <button type="button" data-modal-close class="w-9 h-9 flex items-center justify-center text-text-muted hover:text-primary hover:bg-bg-secondary rounded-lg transition-all duration-200">
                 <i class="fa-solid fa-times"></i>
             </button>
@@ -24,6 +35,10 @@
                 data-loading-class="opacity-50 pointer-events-none"
                 class="p-6">
                 @csrf
+
+                @if(null !== $currentFolder)
+                    <input type="hidden" name="folder_id" value="{{ $currentFolder['id'] }}">
+                @endif
 
                 <label
                     data-drop-zone
@@ -40,37 +55,25 @@
                 </label>
 
                 <div class="mb-4">
-                    <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
-                        <div class="flex items-stretch">
-                            <label class="bg-bg-label border-l border-border-light min-w-[120px] px-4 py-3.5 text-sm text-text-secondary flex items-center leading-normal">
-                                عنوان فایل
-                            </label>
-                            <input
-                                type="text"
-                                name="title"
-                                class="flex-1 px-4 py-3.5 text-sm text-text-primary outline-none bg-transparent leading-normal"
-                                placeholder="عنوان توصیفی فایل را وارد کنید">
-                        </div>
-                    </div>
+                    <x-forms.input
+                        name="title"
+                        label="عنوان فایل"
+                        placeholder="عنوان توصیفی فایل را وارد کنید"
+                        class="min-w-[120px]"
+                    />
                 </div>
 
-                <div class="mb-4">
-                    <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
-                        <div class="flex items-stretch">
-                            <label class="bg-bg-label border-l border-border-light min-w-[120px] px-4 py-3.5 text-sm text-text-secondary flex items-center leading-normal">
-                                پوشه مقصد
-                            </label>
-                            <select name="folder_id" class="flex-1 px-4 py-3.5 text-sm text-text-primary outline-none bg-transparent cursor-pointer leading-normal">
-                                <option value="">ریشه اسناد (بدون پوشه)</option>
-                                @foreach ($folders as $folder)
-                                    @if(isset($folder['id']) && isset($folder['name']))
-                                        <option value="{{ $folder['id'] }}">{{ $folder['name'] }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        </div>
+                @if(! empty($folderOptions))
+                    <div class="mb-4">
+                        <x-forms.select
+                            name="folder_id"
+                            label="پوشه مقصد"
+                            :options="$folderOptions"
+                            placeholder="ریشه اسناد (بدون پوشه)"
+                            class="min-w-[120px]"
+                        />
                     </div>
-                </div>
+                @endif
 
                 <div class="mb-6">
                     <label class="flex items-center gap-3 p-4 border border-border-medium rounded-xl cursor-pointer hover:border-primary transition-all duration-200">

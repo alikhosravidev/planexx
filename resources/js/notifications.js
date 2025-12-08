@@ -4,12 +4,27 @@
 export const notifications = {
 
   /**
+   * Ensure a container exists for stacking toasts with spacing
+   */
+  getContainer() {
+    let container = document.querySelector('[data-toast-container]');
+    if (!container) {
+      container = document.createElement('div');
+      container.setAttribute('data-toast-container', 'true');
+      container.className = 'fixed top-4 left-4 flex flex-col gap-3 z-50 pointer-events-none';
+      document.body.appendChild(container);
+    }
+    return container;
+  },
+
+  /**
    * Show toast notification
    * @param {string} message - Message to display
    * @param {string} type - Type of notification (success, error, warning, info)
    * @param {number} duration - Duration in milliseconds
    */
   showToast(message, type = 'info', duration = 3000) {
+    const container = this.getContainer();
     const toast = document.createElement('div');
     const colors = {
       success: 'bg-green-500',
@@ -18,9 +33,9 @@ export const notifications = {
       info: 'bg-blue-500'
     };
 
-    toast.className = `fixed top-4 left-4 ${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-opacity`;
+    toast.className = `${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg pointer-events-auto transition-opacity`;
     toast.textContent = message;
-    document.body.appendChild(toast);
+    container.appendChild(toast);
 
     setTimeout(() => {
       toast.style.opacity = '0';

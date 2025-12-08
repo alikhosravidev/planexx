@@ -195,5 +195,5 @@
 
     </div>
 
-    <x-org.access-modal :roles="$roles"/>
+    <x-Organization::access-modal :roles="$roles"/>
 </x-layouts.app>

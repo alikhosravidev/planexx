@@ -87,7 +87,7 @@
                                 value="{{ request('search') }}"
                                 placeholder="جستجو در فایل‌های موقت..."
                                 class="w-full pr-11 pl-4 py-3 border border-border-medium rounded-xl text-sm text-text-primary placeholder:text-text-muted focus:border-primary focus:shadow-focus outline-none transition-all duration-200"
-                                data-search-input>
+                            >
                         </div>
                     </div>
                 </div>
@@ -234,5 +234,5 @@
         </main>
     </div>
 
-    <x-file-manager.upload-modal :folders="$folders" />
+    <x-FileManager::upload-modal :folders="$folders" />
 </x-layouts.app>

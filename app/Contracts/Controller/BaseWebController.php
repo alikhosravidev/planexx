@@ -28,16 +28,10 @@ use RuntimeException;
  * - Consistency: Admin panel receives the same transformed data as external clients
  * - Performance: No network overhead, everything happens via internal dispatch
  * - Maintainability: No code duplication between API and web layers
- * TODO: test && refactor
+ * TODO: test
  */
 abstract class BaseWebController
 {
-    /**
-     * API prefix for route resolution
-     * Override in child classes if needed
-     */
-    protected string $apiPrefix = '';
-
     /**
      * Forward a request to the internal API using route name
      *
@@ -57,16 +51,62 @@ abstract class BaseWebController
         string $method = 'POST',
         array $headers = []
     ): mixed {
+        $originalRequest = request();
+
+        try {
+            $routeParams = [];
+            $route       = $this->resolveApiRoute($routeName);
+            $payload     = $this->extractPayload($route, $data, $routeParams);
+            $subRequest  = $this->buildSubRequest($routeName, $routeParams, $payload, $method, $headers);
+
+            $response        = app(Kernel::class)->handle($subRequest);
+            $decodedResponse = json_decode($response->getContent(), true);
+            $statusCode      = $response->getStatusCode();
+
+            if ($statusCode >= 400) {
+                Log::error('API Error in BaseWebController', [
+                    'route'        => $routeName,
+                    'method'       => $method,
+                    'status'       => $statusCode,
+                    'response'     => $decodedResponse,
+                    'request_data' => $data,
+                ]);
+            }
+            $this->handleValidationErrors($statusCode, $decodedResponse, $data);
+            $this->handleOtherErrors($statusCode, $decodedResponse);
+
+            return $decodedResponse;
+        } finally {
+            app()->instance('request', $originalRequest);
+        }
+    }
+
+    private function resolveApiRoute(string $routeName)
+    {
         $route = Route::getRoutes()->getByName($routeName);
 
         if (!$route) {
             throw new RuntimeException("API route '{$routeName}' not found");
         }
 
+        return $route;
+    }
+
+    private function extractPayload($route, array $data, array &$routeParams): array
+    {
         $paramNames  = $route->parameterNames();
         $routeParams = array_intersect_key($data, array_flip($paramNames));
-        $payload     = array_diff_key($data, $routeParams);
 
+        return array_diff_key($data, $routeParams);
+    }
+
+    private function buildSubRequest(
+        string $routeName,
+        array $routeParams,
+        array $payload,
+        string $method,
+        array $headers
+    ): Request {
         $generatedUrl = app('url')->route($routeName, $routeParams, false);
         $uri          = parse_url($generatedUrl, PHP_URL_PATH) ?: $generatedUrl;
 
@@ -83,49 +123,50 @@ abstract class BaseWebController
             $subRequest->headers->set($key, $value);
         }
 
-        if (!$subRequest->headers->has('Authorization')) {
-            $token = request()->cookie('token') ?? request()->bearerToken();
+        $this->ensureAuthorizationHeader($subRequest);
 
-            if (!empty($token)) {
-                $subRequest->headers->set('Authorization', 'Bearer ' . $token);
-            }
+        return $subRequest;
+    }
+
+    private function ensureAuthorizationHeader(Request $subRequest): void
+    {
+        if ($subRequest->headers->has('Authorization')) {
+            return;
         }
 
-        $response = app(Kernel::class)->handle($subRequest);
+        $token = request()->cookie('token') ?? request()->bearerToken();
 
-        $decodedResponse = json_decode($response->getContent(), true);
-        $statusCode      = $response->getStatusCode();
+        if (!empty($token)) {
+            $subRequest->headers->set('Authorization', 'Bearer ' . $token);
+        }
+    }
 
-        // Log all API errors for debugging
-        if ($statusCode >= 400) {
-            Log::error('API Error in BaseWebController', [
-                'route'        => $routeName,
-                'method'       => $method,
-                'status'       => $statusCode,
-                'response'     => $decodedResponse,
-                'request_data' => $data,
-            ]);
+    private function handleValidationErrors(int $statusCode, ?array $decodedResponse, array $data): void
+    {
+        if ($statusCode !== 422) {
+            return;
         }
 
-        if ($statusCode === 422) {
-            Session::flashInput($data);
+        Session::flashInput($data);
 
-            throw ValidationException::withMessages($decodedResponse['errors'] ?? []);
+        throw ValidationException::withMessages($decodedResponse['errors'] ?? []);
+    }
+
+    private function handleOtherErrors(int $statusCode, ?array $decodedResponse): void
+    {
+        if ($statusCode < 400) {
+            return;
         }
 
         // For all other errors (500, 404, 403, etc.), throw an exception with details
-        if ($statusCode >= 400) {
-            $message   = $decodedResponse['message']   ?? "API request failed with status {$statusCode}";
-            $exception = $decodedResponse['exception'] ?? null;
+        $message   = $decodedResponse['message']   ?? "API request failed with status {$statusCode}";
+        $exception = $decodedResponse['exception'] ?? null;
 
-            if ($exception && config('app.debug')) {
-                throw new RuntimeException("{$message}: {$exception}");
-            }
-
-            throw new RuntimeException($message);
+        if ($exception && config('app.debug')) {
+            throw new RuntimeException("{$message}: {$exception}");
         }
 
-        return $decodedResponse;
+        throw new RuntimeException($message);
     }
 
     /**

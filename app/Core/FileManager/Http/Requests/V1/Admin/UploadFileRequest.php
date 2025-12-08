@@ -30,4 +30,11 @@ class UploadFileRequest extends BaseRequest
             'expires_at'   => 'nullable|date',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'file.max' => 'فایل نباید بزرگتر از 100 مگابایت باشد.',
+        ];
+    }
 }

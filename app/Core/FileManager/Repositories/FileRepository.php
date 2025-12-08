@@ -18,6 +18,7 @@ class FileRepository extends BaseRepository
     ];
 
     public array $filterableFields = [
+        'folder_id'    => '=',
         'is_public'    => '=',
         'is_temporary' => '=',
         'is_active'    => '=',
