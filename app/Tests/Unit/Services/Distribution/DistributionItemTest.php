@@ -6,6 +6,7 @@ namespace App\Tests\Unit\Services\Distribution;
 
 use App\Services\Distribution\DistributionItem;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\PureUnitTestBase;
 
 final class DistributionItemTest extends PureUnitTestBase
@@ -110,9 +111,7 @@ final class DistributionItemTest extends PureUnitTestBase
         $this->assertSame('distribution-segment', $array['type']);
     }
 
-    /**
-     * @dataProvider specialCharacterTitlesProvider
-     */
+    #[DataProvider('specialCharacterTitlesProvider')]
     public function test_handles_special_characters_in_title(string $title): void
     {
         $item = DistributionItem::make($title);

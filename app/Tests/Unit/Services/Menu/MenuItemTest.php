@@ -7,6 +7,7 @@ namespace App\Tests\Unit\Services\Menu;
 use App\Services\Menu\MenuBuilder;
 use App\Services\Menu\MenuItem;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\PureUnitTestBase;
 
 final class MenuItemTest extends PureUnitTestBase
@@ -223,9 +224,7 @@ final class MenuItemTest extends PureUnitTestBase
         $this->assertSame('child-2', $array['children'][1]['id']);
     }
 
-    /**
-     * @dataProvider specialCharacterTitlesProvider
-     */
+    #[DataProvider('specialCharacterTitlesProvider')]
     public function test_handles_special_characters_in_title(string $title): void
     {
         $item = MenuItem::make($title);

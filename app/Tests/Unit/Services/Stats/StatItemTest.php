@@ -6,6 +6,7 @@ namespace App\Tests\Unit\Services\Stats;
 
 use App\Services\Stats\StatItem;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\PureUnitTestBase;
 
 final class StatItemTest extends PureUnitTestBase
@@ -162,9 +163,7 @@ final class StatItemTest extends PureUnitTestBase
         $this->assertSame('stat', $array['type']);
     }
 
-    /**
-     * @dataProvider specialCharacterTitlesProvider
-     */
+    #[DataProvider('specialCharacterTitlesProvider')]
     public function test_handles_special_characters_in_title(string $title): void
     {
         $item = StatItem::make($title);
