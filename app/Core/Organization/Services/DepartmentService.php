@@ -10,12 +10,10 @@ use App\Core\FileManager\Enums\FileCollectionEnum;
 use App\Core\FileManager\Services\FileService;
 use App\Core\Organization\Contracts\DepartmentServiceInterface;
 use App\Core\Organization\Entities\Department;
-use App\Core\Organization\Enums\DepartmentTypeEnum;
 use App\Core\Organization\Repositories\DepartmentRepository;
 use App\Domains\Department\DepartmentDTO;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
-use InvalidArgumentException;
 
 readonly class DepartmentService implements DepartmentServiceInterface
 {
@@ -30,12 +28,8 @@ readonly class DepartmentService implements DepartmentServiceInterface
         return DB::transaction(function () use ($dto, $image) {
             $data = $dto->toArray();
 
-            // Validate type-specific requirements
-            $this->validateTypeRequirements($dto->type, $image, $dto->color, $dto->icon);
-
             $department = $this->departmentRepository->create($data);
 
-            // Handle image upload for holding/brand types
             if ($dto->type->hasImage() && $image) {
                 $this->uploadDepartmentImage($department, $image);
             }
@@ -49,12 +43,7 @@ readonly class DepartmentService implements DepartmentServiceInterface
         return DB::transaction(function () use ($department, $dto, $image) {
             $data = $dto->toArray();
 
-            // Validate type-specific requirements
-            $this->validateTypeRequirements($dto->type, $image, $dto->color, $dto->icon, $department);
-
-            // Handle image upload for holding/brand types
             if ($dto->type->hasImage()) {
-                // Delete existing image if any and new image provided
                 if ($department->image && $image) {
                     $this->fileService->delete($department->image);
                 }
@@ -78,25 +67,6 @@ readonly class DepartmentService implements DepartmentServiceInterface
 
             return $this->departmentRepository->delete($department->id);
         });
-    }
-
-    private function validateTypeRequirements(
-        DepartmentTypeEnum $type,
-        ?UploadedFile $image,
-        ?string $color,
-        ?string $icon,
-        ?Department $existingDepartment = null
-    ): void {
-        if ($type->hasImage()) {
-            // For holding/brand types, check if new image provided OR existing image exists
-            if (!$image && (!$existingDepartment || !$existingDepartment->image)) {
-                throw new InvalidArgumentException('Image is required for ' . $type->label());
-            }
-        }
-
-        if ($type->hasIconAndColor() && (!$color || !$icon)) {
-            throw new InvalidArgumentException('Icon and color are required for ' . $type->label());
-        }
     }
 
     // TODO: handle this action using events.

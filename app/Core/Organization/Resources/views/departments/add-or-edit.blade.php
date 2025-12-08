@@ -107,7 +107,7 @@
 
                                     <x-Organization::department.select
                                         name="parent_id"
-                                        label="نوع دپارتمان"
+                                        label="دپارتمان والد"
                                         placeholder="بدون والد (دپارتمان اصلی)"
                                         :value="$department['parent_id'] ?? null"
                                         class="min-w-[140px]"
