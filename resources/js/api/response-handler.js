@@ -40,7 +40,9 @@ export const handleError = (error, options = {}) => {
   // 401 - Unauthorized (handled by interceptor, but log it)
   if (status === 401) {
     if (showMessage) {
-      notifications.showError('جلسه شما منقضی شده است. لطفاً دوباره وارد شوید.');
+      notifications.showError(
+        'جلسه شما منقضی شده است. لطفاً دوباره وارد شوید.',
+      );
     }
     throw error;
   }
@@ -62,16 +64,18 @@ export const handleError = (error, options = {}) => {
 
       const validationErrors = data.errors || {};
 
-        const errorMessages = validationErrors
-            .map((item) => {
-                if (item && typeof item === 'object' && 'message' in item) {
-                    return item.message;
-                }
-                return item;
-            })
-            .filter(Boolean);
+      const errorMessages = validationErrors
+        .map((item) => {
+          if (item && typeof item === 'object' && 'message' in item) {
+            return item.message;
+          }
+          return item;
+        })
+        .filter(Boolean);
 
-      errorMessages.forEach((errorMessage) => notifications.showError(errorMessage));
+      errorMessages.forEach((errorMessage) =>
+        notifications.showError(errorMessage),
+      );
     }
 
     // Return validation errors for form handling
@@ -86,7 +90,7 @@ export const handleError = (error, options = {}) => {
   if (status >= 500) {
     if (showMessage) {
       notifications.showError(
-        customMessage || 'خطایی در سرور رخ داده است. لطفاً دوباره تلاش کنید.'
+        customMessage || 'خطایی در سرور رخ داده است. لطفاً دوباره تلاش کنید.',
       );
     }
     throw error;
@@ -96,14 +100,16 @@ export const handleError = (error, options = {}) => {
   if (!error.response) {
     if (showMessage) {
       notifications.showError(
-        customMessage || 'خطا در اتصال به سرور. لطفاً اتصال اینترنتی خود را بررسی کنید.'
+        customMessage ||
+          'خطا در اتصال به سرور. لطفاً اتصال اینترنتی خود را بررسی کنید.',
       );
     }
     throw error;
   }
 
   // Generic error
-  const errorMessage = data?.message || customMessage || 'خطای نامعلومی رخ داده است.';
+  const errorMessage =
+    data?.message || customMessage || 'خطای نامعلومی رخ داده است.';
   if (showMessage) {
     notifications.showError(errorMessage);
   }

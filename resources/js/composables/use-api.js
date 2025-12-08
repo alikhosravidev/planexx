@@ -13,10 +13,7 @@ import { notifications } from '../notifications.js';
  * @returns {object} API state and methods
  */
 export const useApi = (options = {}) => {
-  const {
-    showNotifications = true,
-    onError = null,
-  } = options;
+  const { showNotifications = true, onError = null } = options;
 
   // Create state object
   const state = {

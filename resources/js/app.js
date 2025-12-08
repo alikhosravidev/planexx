@@ -18,18 +18,18 @@ initPersianDigits({
 
 // Initialize on DOM ready
 document.addEventListener(
-    'DOMContentLoaded',
-    () => {
-        // Initialize global UI components
-        uiComponents.initModals();
-        uiComponents.initDropdowns();
-        uiComponents.initAlerts();
-        uiComponents.initMobileMenu();
-        uiComponents.initMobileSidebar();
-        uiComponents.initUserMenu();
+  'DOMContentLoaded',
+  () => {
+    // Initialize global UI components
+    uiComponents.initModals();
+    uiComponents.initDropdowns();
+    uiComponents.initAlerts();
+    uiComponents.initMobileMenu();
+    uiComponents.initMobileSidebar();
+    uiComponents.initUserMenu();
 
-        // Initialize form functionality
-        forms.initForms();
-    },
-    {once: true}
+    // Initialize form functionality
+    forms.initForms();
+  },
+  { once: true },
 );

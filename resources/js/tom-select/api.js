@@ -1,6 +1,6 @@
- import { httpClient } from '@resources/js/api/http-client.js';
+import { httpClient } from '@resources/js/api/http-client.js';
 
- class TomSelectApi {
+class TomSelectApi {
   async fetch(url) {
     if (!url) return null;
     try {
@@ -11,6 +11,6 @@
       return null;
     }
   }
- }
+}
 
- export const tomSelectApi = new TomSelectApi();
+export const tomSelectApi = new TomSelectApi();

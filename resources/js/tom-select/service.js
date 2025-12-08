@@ -11,7 +11,7 @@ class TomSelectService {
    */
   create(selector, templateName = 'default') {
     const elements = document.querySelectorAll(selector);
-    elements.forEach(el => this.#initElement(el, templateName));
+    elements.forEach((el) => this.#initElement(el, templateName));
   }
 
   /**
@@ -20,7 +20,7 @@ class TomSelectService {
   #initElement(el, templateName) {
     const config = this.#extractConfig(el, templateName);
     const instance = this.#createInstance(el, config);
-    
+
     this.#setupEvents(el, instance);
     this.#loadDefaultValue(el, instance, config);
   }
@@ -30,8 +30,9 @@ class TomSelectService {
    */
   #extractConfig(el, templateName) {
     const currentTemplate = el.getAttribute('data-template');
-    const template = templates[currentTemplate || templateName] || templates.default;
-    
+    const template =
+      templates[currentTemplate || templateName] || templates.default;
+
     return {
       template,
       ajaxUrl: el.getAttribute('data-ajax_url'),
@@ -47,7 +48,8 @@ class TomSelectService {
    * Create TomSelect instance
    */
   #createInstance(el, config) {
-    const { template, ajaxUrl, placeholder, tags, searchableFields, dataPath } = config;
+    const { template, ajaxUrl, placeholder, tags, searchableFields, dataPath } =
+      config;
 
     const tomSelectConfig = {
       placeholder,
@@ -55,24 +57,28 @@ class TomSelectService {
       loadThrottle: DEFAULTS.loadThrottle,
       controlInput: null,
       hidePlaceholder: false,
-      load: ajaxUrl ? (query, callback) => {
-        this.#loadOptions(query, callback, { 
-          ajaxUrl, 
-          searchableFields, 
-          dataPath, 
-          template, 
-          el 
-        });
-      } : undefined,
+      load: ajaxUrl
+        ? (query, callback) => {
+            this.#loadOptions(query, callback, {
+              ajaxUrl,
+              searchableFields,
+              dataPath,
+              template,
+              el,
+            });
+          }
+        : undefined,
     };
 
     if (template.template || template.selection) {
       tomSelectConfig.render = {};
       if (template.template) {
-        tomSelectConfig.render.option = (data) => this.#toNode(template.template(data));
+        tomSelectConfig.render.option = (data) =>
+          this.#toNode(template.template(data));
       }
       if (template.selection) {
-        tomSelectConfig.render.item = (data) => this.#toNode(template.selection(data));
+        tomSelectConfig.render.item = (data) =>
+          this.#toNode(template.selection(data));
       }
     }
 
@@ -93,7 +99,11 @@ class TomSelectService {
   /**
    * Load options from API
    */
-  async #loadOptions(query, callback, { ajaxUrl, searchableFields, dataPath, template, el }) {
+  async #loadOptions(
+    query,
+    callback,
+    { ajaxUrl, searchableFields, dataPath, template, el },
+  ) {
     if (!ajaxUrl) {
       callback([]);
       return;
@@ -104,7 +114,7 @@ class TomSelectService {
     const url = buildUrl(ajaxUrl, params);
 
     const data = await tomSelectApi.fetch(url);
-    
+
     if (!data) {
       callback([]);
       return;
@@ -112,7 +122,7 @@ class TomSelectService {
 
     const values = normalizeData(data, dataPath);
     const results = template.getResults(values, el).results;
-    callback(results.map(r => ({ ...r })));
+    callback(results.map((r) => ({ ...r })));
   }
 
   /**
@@ -121,7 +131,9 @@ class TomSelectService {
   #setupEvents(el, instance) {
     instance.on('item_add', (value) => {
       const detail = instance.options[value] ?? null;
-      el.dispatchEvent(new CustomEvent('chosen-option', { detail, bubbles: true }));
+      el.dispatchEvent(
+        new CustomEvent('chosen-option', { detail, bubbles: true }),
+      );
     });
   }
 
@@ -129,8 +141,9 @@ class TomSelectService {
    * Load default value
    */
   async #loadDefaultValue(el, instance, config) {
-    const { defaultValue, ajaxUrl, searchableFields, dataPath, template } = config;
-    
+    const { defaultValue, ajaxUrl, searchableFields, dataPath, template } =
+      config;
+
     if (!defaultValue || !ajaxUrl) return;
 
     const params = buildSearchParams(searchableFields, defaultValue);
@@ -141,9 +154,9 @@ class TomSelectService {
 
     const values = normalizeData(data, dataPath);
     template.setRecentSelected?.(values, el, defaultValue);
-    
+
     const results = template.getResults(values, el).results;
-    const found = results.find(r => String(r.id) === String(defaultValue));
+    const found = results.find((r) => String(r.id) === String(defaultValue));
 
     if (found) {
       instance.addOption(found);
@@ -155,9 +168,9 @@ class TomSelectService {
    * Apply initial configuration to elements
    */
   #applyConfigToNodes() {
-    SELECT2_ELEMENTS.forEach(config => {
+    SELECT2_ELEMENTS.forEach((config) => {
       const nodes = document.querySelectorAll(config.selector);
-      nodes.forEach(node => {
+      nodes.forEach((node) => {
         if (config.placeholder && !node.getAttribute('data-placeholder')) {
           node.setAttribute('data-placeholder', config.placeholder);
         }
@@ -189,9 +202,14 @@ class TomSelectService {
 
 export const tomSelectService = new TomSelectService();
 
-export const select2Base = (selector, template) => tomSelectService.create(selector, template);
-export const select2Template = () => tomSelectService.create('.select2-template');
-export const select2Products = () => tomSelectService.create('.select2-products', 'products');
-export const select2Standard = () => tomSelectService.create('.select2-standard', 'default');
+export const select2Base = (selector, template) =>
+  tomSelectService.create(selector, template);
+export const select2Template = () =>
+  tomSelectService.create('.select2-template');
+export const select2Products = () =>
+  tomSelectService.create('.select2-products', 'products');
+export const select2Standard = () =>
+  tomSelectService.create('.select2-standard', 'default');
 export const initAllSelect2 = () => tomSelectService.initAll();
-export const afterLoadModalInitSelect2 = (modal) => tomSelectService.initInModal(modal);
+export const afterLoadModalInitSelect2 = (modal) =>
+  tomSelectService.initInModal(modal);

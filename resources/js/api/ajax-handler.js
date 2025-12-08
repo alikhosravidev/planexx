@@ -7,12 +7,17 @@
 import { handleFormSubmit } from './handlers/form-handler.js';
 import { handleButtonClick } from './handlers/button-handler.js';
 
-export { registerAction, getAction, hasAction, unregisterAction, getRegisteredActions } from './actions/registry.js';
+export {
+  registerAction,
+  getAction,
+  hasAction,
+  unregisterAction,
+  getRegisteredActions,
+} from './actions/registry.js';
 export { executeAction, executeActions } from './actions/executor.js';
 export { builtInActions } from './actions/built-in.js';
 
 let isInitialized = false;
-
 
 /**
  * Initialize AJAX handler for all forms and buttons

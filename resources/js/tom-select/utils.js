@@ -6,8 +6,7 @@ import { filterBuilderService } from '@resources/js/services/filter-builder-serv
 export function getDataAttr(el, name) {
   if (!el) return undefined;
 
-  const camelKey = name
-    .replace(/[_-]([a-z])/g, (_, c) => c.toUpperCase());
+  const camelKey = name.replace(/[_-]([a-z])/g, (_, c) => c.toUpperCase());
 
   return el.dataset?.[camelKey];
 }
@@ -18,10 +17,7 @@ export function getDataAttr(el, name) {
 export function safeGetByPath(obj, path) {
   if (!obj || !path) return undefined;
 
-  return path.split('.').reduce(
-    (acc, key) => acc?.[key],
-    obj
-  );
+  return path.split('.').reduce((acc, key) => acc?.[key], obj);
 }
 
 /**
@@ -36,10 +32,10 @@ export function buildSearchParams(searchableFields, searchValue) {
     return { s: trimmedValue };
   }
 
-  const fieldsArray = searchableFields.split(',').map(f => f.trim());
+  const fieldsArray = searchableFields.split(',').map((f) => f.trim());
   const filter = new filterBuilderService('');
 
-  fieldsArray.forEach(field => filter.addSearchFilter(field, trimmedValue));
+  fieldsArray.forEach((field) => filter.addSearchFilter(field, trimmedValue));
 
   return filter.setOrJoin().getFilters();
 }

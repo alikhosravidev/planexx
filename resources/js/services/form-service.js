@@ -3,7 +3,14 @@
  * Handles form submission, validation, and processing
  */
 
-import { post, get, put, patch, del, getValidationErrors } from '../api/request.js';
+import {
+  post,
+  get,
+  put,
+  patch,
+  del,
+  getValidationErrors,
+} from '../api/request.js';
 import { notifications } from '../notifications.js';
 import { validation, validationRules } from '../validation.js';
 
@@ -146,7 +153,9 @@ class FormService {
         field.classList.add('border-red-500');
 
         // Display error message
-        const messages = Array.isArray(fieldErrors) ? fieldErrors : [fieldErrors];
+        const messages = Array.isArray(fieldErrors)
+          ? fieldErrors
+          : [fieldErrors];
         const errorMessage = messages[0];
 
         this.showFieldError(field, errorMessage);
@@ -300,7 +309,8 @@ class FormService {
             // Custom validation rule
             if (validationRules[validateType]) {
               isFieldValid = validationRules[validateType](field.value);
-              errorMessage = validationRules[`${validateType}_message`] || errorMessage;
+              errorMessage =
+                validationRules[`${validateType}_message`] || errorMessage;
             }
         }
 

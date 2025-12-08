@@ -6,7 +6,7 @@
  */
 
 import axios from 'axios';
-import {getCookie} from "@/utils/cookie.js";
+import { getCookie } from '@/utils/cookie.js';
 
 /**
  * Get CSRF token from meta tag or cookie
@@ -58,7 +58,7 @@ const createHttpClient = () => {
 
       const token = getCookie('token');
       if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
+        config.headers.Authorization = `Bearer ${token}`;
       }
 
       // Token is automatically sent via HttpOnly cookie by the browser
@@ -67,7 +67,7 @@ const createHttpClient = () => {
     },
     (error) => {
       return Promise.reject(error);
-    }
+    },
   );
 
   // Response interceptor - Handle responses globally
@@ -91,7 +91,7 @@ const createHttpClient = () => {
       }
 
       return Promise.reject(error);
-    }
+    },
   );
 
   return instance;

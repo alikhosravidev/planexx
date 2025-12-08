@@ -69,7 +69,7 @@ export const getElements = (selector, context = document) => {
  */
 export const createElement = (tag, attributes = {}, content = '') => {
   const element = document.createElement(tag);
-  
+
   Object.entries(attributes).forEach(([key, value]) => {
     if (key === 'class') {
       addClasses(element, value);
@@ -77,11 +77,11 @@ export const createElement = (tag, attributes = {}, content = '') => {
       element.setAttribute(key, value);
     }
   });
-  
+
   if (content) {
     element.textContent = content;
   }
-  
+
   return element;
 };
 
@@ -132,14 +132,19 @@ export const toggleElement = (element) => {
  * @param {object} detail
  * @param {boolean} bubbles
  */
-export const dispatchEvent = (element, eventName, detail = {}, bubbles = true) => {
+export const dispatchEvent = (
+  element,
+  eventName,
+  detail = {},
+  bubbles = true,
+) => {
   if (element) {
     element.dispatchEvent(
       new CustomEvent(eventName, {
         detail,
         bubbles,
         cancelable: true,
-      })
+      }),
     );
   }
 };
@@ -154,9 +159,9 @@ export const dispatchEvent = (element, eventName, detail = {}, bubbles = true) =
  */
 export const addEventListener = (element, event, handler, options = {}) => {
   if (!element) return () => {};
-  
+
   element.addEventListener(event, handler, options);
-  
+
   // Return cleanup function
   return () => {
     element.removeEventListener(event, handler, options);
@@ -178,6 +183,6 @@ export const delegate = (parent, selector, event, handler) => {
       handler.call(target, e);
     }
   };
-  
+
   return addEventListener(parent, event, wrappedHandler);
 };

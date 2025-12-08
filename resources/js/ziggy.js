@@ -1,4 +1,558 @@
-const Ziggy = {"url":"http:\/\/localhost:8000","port":8000,"defaults":{},"routes":{"debugbar.openhandler":{"uri":"_debugbar\/open","methods":["GET","HEAD"]},"debugbar.clockwork":{"uri":"_debugbar\/clockwork\/{id}","methods":["GET","HEAD"],"parameters":["id"]},"debugbar.telescope":{"uri":"_debugbar\/telescope\/{id}","methods":["GET","HEAD"],"parameters":["id"]},"debugbar.assets.css":{"uri":"_debugbar\/assets\/stylesheets","methods":["GET","HEAD"]},"debugbar.assets.js":{"uri":"_debugbar\/assets\/javascript","methods":["GET","HEAD"]},"debugbar.cache.delete":{"uri":"_debugbar\/cache\/{key}\/{tags?}","methods":["DELETE"],"parameters":["key","tags"]},"debugbar.queries.explain":{"uri":"_debugbar\/queries\/explain","methods":["POST"]},"smsir.send.bulk":{"uri":"smsir\/send\/bulk","methods":["GET","HEAD"]},"smsir.send.":{"uri":"smsir\/send\/bulk","methods":["POST"]},"smsir.report.received.today":{"uri":"smsir\/report\/received\/today","methods":["GET","HEAD"]},"smsir.report.sent.today":{"uri":"smsir\/report\/sent\/today","methods":["GET","HEAD"]},"sanctum.csrf-cookie":{"uri":"sanctum\/csrf-cookie","methods":["GET","HEAD"]},"telescope":{"uri":"telescope\/{view?}","methods":["GET","HEAD"],"wheres":{"view":"(.*)"},"parameters":["view"]},"api.v1.admin.org.users.index":{"uri":"api\/v1\/admin\/org\/users","methods":["GET","HEAD"]},"api.v1.admin.org.users.store":{"uri":"api\/v1\/admin\/org\/users","methods":["POST"]},"api.v1.admin.org.users.show":{"uri":"api\/v1\/admin\/org\/users\/{user}","methods":["GET","HEAD"],"parameters":["user"]},"api.v1.admin.org.users.update":{"uri":"api\/v1\/admin\/org\/users\/{user}","methods":["PUT","PATCH"],"parameters":["user"]},"api.v1.admin.org.users.destroy":{"uri":"api\/v1\/admin\/org\/users\/{user}","methods":["DELETE"],"parameters":["user"]},"api.v1.admin.org.users.keyValList":{"uri":"api\/v1\/admin\/org\/users\/key-value-list\/{field}\/{key?}","methods":["GET","HEAD"],"parameters":["field","key"]},"api.v1.admin.org.departments.index":{"uri":"api\/v1\/admin\/org\/departments","methods":["GET","HEAD"]},"api.v1.admin.org.departments.store":{"uri":"api\/v1\/admin\/org\/departments","methods":["POST"]},"api.v1.admin.org.departments.show":{"uri":"api\/v1\/admin\/org\/departments\/{department}","methods":["GET","HEAD"],"parameters":["department"]},"api.v1.admin.org.departments.update":{"uri":"api\/v1\/admin\/org\/departments\/{department}","methods":["PUT","PATCH"],"parameters":["department"]},"api.v1.admin.org.departments.destroy":{"uri":"api\/v1\/admin\/org\/departments\/{department}","methods":["DELETE"],"parameters":["department"]},"api.v1.admin.org.departments.keyValList":{"uri":"api\/v1\/admin\/org\/departments\/key-value-list\/{field}\/{key?}","methods":["GET","HEAD"],"parameters":["field","key"]},"api.v1.admin.org.roles.index":{"uri":"api\/v1\/admin\/org\/roles","methods":["GET","HEAD"]},"api.v1.admin.org.roles.store":{"uri":"api\/v1\/admin\/org\/roles","methods":["POST"]},"api.v1.admin.org.roles.show":{"uri":"api\/v1\/admin\/org\/roles\/{role}","methods":["GET","HEAD"],"parameters":["role"]},"api.v1.admin.org.roles.update":{"uri":"api\/v1\/admin\/org\/roles\/{role}","methods":["PUT","PATCH"],"parameters":["role"]},"api.v1.admin.org.roles.destroy":{"uri":"api\/v1\/admin\/org\/roles\/{role}","methods":["DELETE"],"parameters":["role"]},"api.v1.admin.org.roles.keyValList":{"uri":"api\/v1\/admin\/org\/roles\/key-value-list\/{field}\/{key?}","methods":["GET","HEAD"],"parameters":["field","key"]},"api.v1.admin.org.permissions.index":{"uri":"api\/v1\/admin\/org\/permissions","methods":["GET","HEAD"]},"api.v1.admin.org.permissions.show":{"uri":"api\/v1\/admin\/org\/permissions\/{permission}","methods":["GET","HEAD"],"parameters":["permission"]},"api.v1.admin.org.permissions.keyValList":{"uri":"api\/v1\/admin\/org\/permissions\/key-value-list\/{field}\/{key?}","methods":["GET","HEAD"],"parameters":["field","key"]},"api.v1.admin.org.addresses.index":{"uri":"api\/v1\/admin\/org\/addresses","methods":["GET","HEAD"]},"api.v1.admin.org.addresses.store":{"uri":"api\/v1\/admin\/org\/addresses","methods":["POST"]},"api.v1.admin.org.addresses.show":{"uri":"api\/v1\/admin\/org\/addresses\/{address}","methods":["GET","HEAD"],"parameters":["address"]},"api.v1.admin.org.addresses.update":{"uri":"api\/v1\/admin\/org\/addresses\/{address}","methods":["PUT","PATCH"],"parameters":["address"]},"api.v1.admin.org.addresses.destroy":{"uri":"api\/v1\/admin\/org\/addresses\/{address}","methods":["DELETE"],"parameters":["address"]},"api.v1.admin.org.addresses.keyValList":{"uri":"api\/v1\/admin\/org\/addresses\/key-value-list\/{field}\/{key?}","methods":["GET","HEAD"],"parameters":["field","key"]},"api.v1.admin.org.cities.index":{"uri":"api\/v1\/admin\/org\/cities","methods":["GET","HEAD"]},"api.v1.admin.org.cities.show":{"uri":"api\/v1\/admin\/org\/cities\/{city}","methods":["GET","HEAD"],"parameters":["city"]},"api.v1.admin.org.job-positions.index":{"uri":"api\/v1\/admin\/org\/job-positions","methods":["GET","HEAD"]},"api.v1.admin.org.job-positions.store":{"uri":"api\/v1\/admin\/org\/job-positions","methods":["POST"]},"api.v1.admin.org.job-positions.show":{"uri":"api\/v1\/admin\/org\/job-positions\/{job_position}","methods":["GET","HEAD"],"parameters":["job_position"]},"api.v1.admin.org.job-positions.update":{"uri":"api\/v1\/admin\/org\/job-positions\/{job_position}","methods":["PUT","PATCH"],"parameters":["job_position"]},"api.v1.admin.org.job-positions.destroy":{"uri":"api\/v1\/admin\/org\/job-positions\/{job_position}","methods":["DELETE"],"parameters":["job_position"]},"api.v1.admin.org.job-positions.keyValList":{"uri":"api\/v1\/admin\/org\/job-positions\/key-value-list\/{field}\/{key?}","methods":["GET","HEAD"],"parameters":["field","key"]},"api.v1.admin.org.users.roles.show":{"uri":"api\/v1\/admin\/org\/users\/{user}\/roles","methods":["GET","HEAD"],"parameters":["user"]},"api.v1.admin.org.users.roles.update":{"uri":"api\/v1\/admin\/org\/users\/{user}\/roles","methods":["PUT"],"parameters":["user"]},"api.v1.admin.user.initiate.auth":{"uri":"api\/v1\/admin\/auth","methods":["GET","HEAD"]},"api.v1.admin.user.auth":{"uri":"api\/v1\/admin\/auth","methods":["POST"]},"api.v1.admin.user.initiate.resetPassword":{"uri":"api\/v1\/admin\/reset-password","methods":["GET","HEAD"]},"api.v1.admin.user.resetPassword":{"uri":"api\/v1\/admin\/reset-password","methods":["PUT"]},"api.v1.admin.user.logout":{"uri":"api\/v1\/admin\/logout","methods":["POST"]},"login":{"uri":"login","methods":["GET","HEAD"]},"auth":{"uri":"auth","methods":["POST"]},"logout":{"uri":"logout","methods":["POST"]},"web.org.dashboard":{"uri":"org\/dashboard","methods":["GET","HEAD"]},"web.org.users.index":{"uri":"org\/users","methods":["GET","HEAD"]},"web.org.users.create":{"uri":"org\/users\/create","methods":["GET","HEAD"]},"web.org.users.store":{"uri":"org\/users","methods":["POST"]},"web.org.users.show":{"uri":"org\/users\/{user}","methods":["GET","HEAD"],"parameters":["user"],"bindings":{"user":"id"}},"web.org.users.edit":{"uri":"org\/users\/{user}\/edit","methods":["GET","HEAD"],"parameters":["user"],"bindings":{"user":"id"}},"web.org.users.update":{"uri":"org\/users\/{user}","methods":["PUT","PATCH"],"parameters":["user"]},"web.org.users.destroy":{"uri":"org\/users\/{user}","methods":["DELETE"],"parameters":["user"]},"web.org.users.keyValList":{"uri":"org\/users\/key-value-list\/{field}\/{key?}","methods":["GET","HEAD"],"parameters":["field","key"]},"web.org.departments.index":{"uri":"org\/departments","methods":["GET","HEAD"]},"web.org.departments.create":{"uri":"org\/departments\/create","methods":["GET","HEAD"]},"web.org.departments.store":{"uri":"org\/departments","methods":["POST"]},"web.org.departments.show":{"uri":"org\/departments\/{department}","methods":["GET","HEAD"],"parameters":["department"],"bindings":{"department":"id"}},"web.org.departments.edit":{"uri":"org\/departments\/{department}\/edit","methods":["GET","HEAD"],"parameters":["department"],"bindings":{"department":"id"}},"web.org.departments.update":{"uri":"org\/departments\/{department}","methods":["PUT","PATCH"],"parameters":["department"]},"web.org.departments.destroy":{"uri":"org\/departments\/{department}","methods":["DELETE"],"parameters":["department"]},"web.org.departments.keyValList":{"uri":"org\/departments\/key-value-list\/{field}\/{key?}","methods":["GET","HEAD"],"parameters":["field","key"]},"web.org.roles.index":{"uri":"org\/roles","methods":["GET","HEAD"]},"web.org.roles.create":{"uri":"org\/roles\/create","methods":["GET","HEAD"]},"web.org.roles.store":{"uri":"org\/roles","methods":["POST"]},"web.org.roles.show":{"uri":"org\/roles\/{role}","methods":["GET","HEAD"],"parameters":["role"],"bindings":{"role":"id"}},"web.org.roles.edit":{"uri":"org\/roles\/{role}\/edit","methods":["GET","HEAD"],"parameters":["role"],"bindings":{"role":"id"}},"web.org.roles.update":{"uri":"org\/roles\/{role}","methods":["PUT","PATCH"],"parameters":["role"]},"web.org.roles.destroy":{"uri":"org\/roles\/{role}","methods":["DELETE"],"parameters":["role"]},"web.org.roles.keyValList":{"uri":"org\/roles\/key-value-list\/{field}\/{key?}","methods":["GET","HEAD"],"parameters":["field","key"]},"web.org.roles.permissions":{"uri":"org\/roles\/{role}\/permissions","methods":["GET","HEAD"],"parameters":["role"],"bindings":{"role":"id"}},"api.v1.admin.file-manager.folders.index":{"uri":"api\/v1\/admin\/file-manager\/folders","methods":["GET","HEAD"]},"api.v1.admin.file-manager.folders.store":{"uri":"api\/v1\/admin\/file-manager\/folders","methods":["POST"]},"api.v1.admin.file-manager.folders.show":{"uri":"api\/v1\/admin\/file-manager\/folders\/{folder}","methods":["GET","HEAD"],"parameters":["folder"]},"api.v1.admin.file-manager.folders.update":{"uri":"api\/v1\/admin\/file-manager\/folders\/{folder}","methods":["PUT","PATCH"],"parameters":["folder"]},"api.v1.admin.file-manager.folders.destroy":{"uri":"api\/v1\/admin\/file-manager\/folders\/{folder}","methods":["DELETE"],"parameters":["folder"]},"api.v1.admin.file-manager.folders.keyValList":{"uri":"api\/v1\/admin\/file-manager\/folders\/key-value-list\/{field}\/{key?}","methods":["GET","HEAD"],"parameters":["field","key"]},"api.v1.admin.file-manager.files.index":{"uri":"api\/v1\/admin\/file-manager\/files","methods":["GET","HEAD"]},"api.v1.admin.file-manager.files.store":{"uri":"api\/v1\/admin\/file-manager\/files","methods":["POST"]},"api.v1.admin.file-manager.files.show":{"uri":"api\/v1\/admin\/file-manager\/files\/{file}","methods":["GET","HEAD"],"parameters":["file"]},"api.v1.admin.file-manager.files.update":{"uri":"api\/v1\/admin\/file-manager\/files\/{file}","methods":["PUT","PATCH"],"parameters":["file"]},"api.v1.admin.file-manager.files.destroy":{"uri":"api\/v1\/admin\/file-manager\/files\/{file}","methods":["DELETE"],"parameters":["file"]},"api.v1.admin.file-manager.files.keyValList":{"uri":"api\/v1\/admin\/file-manager\/files\/key-value-list\/{field}\/{key?}","methods":["GET","HEAD"],"parameters":["field","key"]},"web.documents.index":{"uri":"documents","methods":["GET","HEAD"]},"web.documents.folder":{"uri":"documents\/folder\/{folderId}","methods":["GET","HEAD"],"parameters":["folderId"]},"web.documents.favorites":{"uri":"documents\/favorites","methods":["GET","HEAD"]},"web.documents.recent":{"uri":"documents\/recent","methods":["GET","HEAD"]},"web.documents.temporary":{"uri":"documents\/temporary","methods":["GET","HEAD"]},"web.documents.folders.create":{"uri":"documents\/folders\/create","methods":["GET","HEAD"]},"web.documents.folders.edit":{"uri":"documents\/folders\/{folderId}\/edit","methods":["GET","HEAD"],"parameters":["folderId"]},"web.documents.upload":{"uri":"documents\/upload","methods":["GET","HEAD"]},"web.documents.files.download":{"uri":"documents\/files\/{id}\/download","methods":["GET","HEAD"],"parameters":["id"]},"api.v1.admin.enums.show":{"uri":"api\/api\/v1\/admin\/enums\/{enum}","methods":["GET","HEAD"],"parameters":["enum"]},"api.v1.admin.enums.keyValList":{"uri":"api\/api\/v1\/admin\/enums\/{enum}\/key-value-list","methods":["GET","HEAD"],"parameters":["enum"]},"api.v1.admin.tags.index":{"uri":"api\/api\/v1\/admin\/tags","methods":["GET","HEAD"]},"api.v1.admin.tags.store":{"uri":"api\/api\/v1\/admin\/tags","methods":["POST"]},"api.v1.admin.tags.show":{"uri":"api\/api\/v1\/admin\/tags\/{tag}","methods":["GET","HEAD"],"parameters":["tag"]},"api.v1.admin.tags.update":{"uri":"api\/api\/v1\/admin\/tags\/{tag}","methods":["PUT","PATCH"],"parameters":["tag"]},"api.v1.admin.tags.destroy":{"uri":"api\/api\/v1\/admin\/tags\/{tag}","methods":["DELETE"],"parameters":["tag"]},"api.v1.admin.tags.keyValList":{"uri":"api\/api\/v1\/admin\/tags\/key-value-list\/{field}\/{key?}","methods":["GET","HEAD"],"parameters":["field","key"]},"api.v1.admin.files.favorite.toggle":{"uri":"api\/api\/v1\/admin\/files\/{fileId}\/favorite","methods":["POST"],"parameters":["fileId"]},"api.v1.admin.folders.favorite.toggle":{"uri":"api\/api\/v1\/admin\/folders\/{folderId}\/favorite","methods":["POST"],"parameters":["folderId"]},"api.v1.admin.favorites.index":{"uri":"api\/api\/v1\/admin\/favorites","methods":["GET","HEAD"]},"web.dashboard":{"uri":"dashboard","methods":["GET","HEAD"]},"web.test.components":{"uri":"test-components","methods":["GET","HEAD"]},"web.app.tags.index":{"uri":"org\/tags","methods":["GET","HEAD"]},"web.app.tags.create":{"uri":"org\/tags\/create","methods":["GET","HEAD"]},"web.app.tags.store":{"uri":"org\/tags","methods":["POST"]},"web.app.tags.show":{"uri":"org\/tags\/{tag}","methods":["GET","HEAD"],"parameters":["tag"],"bindings":{"tag":"id"}},"web.app.tags.edit":{"uri":"org\/tags\/{tag}\/edit","methods":["GET","HEAD"],"parameters":["tag"],"bindings":{"tag":"id"}},"web.app.tags.update":{"uri":"org\/tags\/{tag}","methods":["PUT","PATCH"],"parameters":["tag"]},"web.app.tags.keyValList":{"uri":"org\/tags\/key-value-list\/{field}\/{key?}","methods":["GET","HEAD"],"parameters":["field","key"]},"storage.local":{"uri":"storage\/{path}","methods":["GET","HEAD"],"wheres":{"path":".*"},"parameters":["path"]}}};
+const Ziggy = {
+  url: 'http:\/\/localhost:8000',
+  port: 8000,
+  defaults: {},
+  routes: {
+    'debugbar.openhandler': {
+      uri: '_debugbar\/open',
+      methods: ['GET', 'HEAD'],
+    },
+    'debugbar.clockwork': {
+      uri: '_debugbar\/clockwork\/{id}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['id'],
+    },
+    'debugbar.telescope': {
+      uri: '_debugbar\/telescope\/{id}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['id'],
+    },
+    'debugbar.assets.css': {
+      uri: '_debugbar\/assets\/stylesheets',
+      methods: ['GET', 'HEAD'],
+    },
+    'debugbar.assets.js': {
+      uri: '_debugbar\/assets\/javascript',
+      methods: ['GET', 'HEAD'],
+    },
+    'debugbar.cache.delete': {
+      uri: '_debugbar\/cache\/{key}\/{tags?}',
+      methods: ['DELETE'],
+      parameters: ['key', 'tags'],
+    },
+    'debugbar.queries.explain': {
+      uri: '_debugbar\/queries\/explain',
+      methods: ['POST'],
+    },
+    'smsir.send.bulk': {
+      uri: 'smsir\/send\/bulk',
+      methods: ['GET', 'HEAD'],
+    },
+    'smsir.send.': { uri: 'smsir\/send\/bulk', methods: ['POST'] },
+    'smsir.report.received.today': {
+      uri: 'smsir\/report\/received\/today',
+      methods: ['GET', 'HEAD'],
+    },
+    'smsir.report.sent.today': {
+      uri: 'smsir\/report\/sent\/today',
+      methods: ['GET', 'HEAD'],
+    },
+    'sanctum.csrf-cookie': {
+      uri: 'sanctum\/csrf-cookie',
+      methods: ['GET', 'HEAD'],
+    },
+    telescope: {
+      uri: 'telescope\/{view?}',
+      methods: ['GET', 'HEAD'],
+      wheres: { view: '(.*)' },
+      parameters: ['view'],
+    },
+    'api.v1.admin.org.users.index': {
+      uri: 'api\/v1\/admin\/org\/users',
+      methods: ['GET', 'HEAD'],
+    },
+    'api.v1.admin.org.users.store': {
+      uri: 'api\/v1\/admin\/org\/users',
+      methods: ['POST'],
+    },
+    'api.v1.admin.org.users.show': {
+      uri: 'api\/v1\/admin\/org\/users\/{user}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['user'],
+    },
+    'api.v1.admin.org.users.update': {
+      uri: 'api\/v1\/admin\/org\/users\/{user}',
+      methods: ['PUT', 'PATCH'],
+      parameters: ['user'],
+    },
+    'api.v1.admin.org.users.destroy': {
+      uri: 'api\/v1\/admin\/org\/users\/{user}',
+      methods: ['DELETE'],
+      parameters: ['user'],
+    },
+    'api.v1.admin.org.users.keyValList': {
+      uri: 'api\/v1\/admin\/org\/users\/key-value-list\/{field}\/{key?}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['field', 'key'],
+    },
+    'api.v1.admin.org.departments.index': {
+      uri: 'api\/v1\/admin\/org\/departments',
+      methods: ['GET', 'HEAD'],
+    },
+    'api.v1.admin.org.departments.store': {
+      uri: 'api\/v1\/admin\/org\/departments',
+      methods: ['POST'],
+    },
+    'api.v1.admin.org.departments.show': {
+      uri: 'api\/v1\/admin\/org\/departments\/{department}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['department'],
+    },
+    'api.v1.admin.org.departments.update': {
+      uri: 'api\/v1\/admin\/org\/departments\/{department}',
+      methods: ['PUT', 'PATCH'],
+      parameters: ['department'],
+    },
+    'api.v1.admin.org.departments.destroy': {
+      uri: 'api\/v1\/admin\/org\/departments\/{department}',
+      methods: ['DELETE'],
+      parameters: ['department'],
+    },
+    'api.v1.admin.org.departments.keyValList': {
+      uri: 'api\/v1\/admin\/org\/departments\/key-value-list\/{field}\/{key?}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['field', 'key'],
+    },
+    'api.v1.admin.org.roles.index': {
+      uri: 'api\/v1\/admin\/org\/roles',
+      methods: ['GET', 'HEAD'],
+    },
+    'api.v1.admin.org.roles.store': {
+      uri: 'api\/v1\/admin\/org\/roles',
+      methods: ['POST'],
+    },
+    'api.v1.admin.org.roles.show': {
+      uri: 'api\/v1\/admin\/org\/roles\/{role}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['role'],
+    },
+    'api.v1.admin.org.roles.update': {
+      uri: 'api\/v1\/admin\/org\/roles\/{role}',
+      methods: ['PUT', 'PATCH'],
+      parameters: ['role'],
+    },
+    'api.v1.admin.org.roles.destroy': {
+      uri: 'api\/v1\/admin\/org\/roles\/{role}',
+      methods: ['DELETE'],
+      parameters: ['role'],
+    },
+    'api.v1.admin.org.roles.keyValList': {
+      uri: 'api\/v1\/admin\/org\/roles\/key-value-list\/{field}\/{key?}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['field', 'key'],
+    },
+    'api.v1.admin.org.permissions.index': {
+      uri: 'api\/v1\/admin\/org\/permissions',
+      methods: ['GET', 'HEAD'],
+    },
+    'api.v1.admin.org.permissions.show': {
+      uri: 'api\/v1\/admin\/org\/permissions\/{permission}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['permission'],
+    },
+    'api.v1.admin.org.permissions.keyValList': {
+      uri: 'api\/v1\/admin\/org\/permissions\/key-value-list\/{field}\/{key?}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['field', 'key'],
+    },
+    'api.v1.admin.org.addresses.index': {
+      uri: 'api\/v1\/admin\/org\/addresses',
+      methods: ['GET', 'HEAD'],
+    },
+    'api.v1.admin.org.addresses.store': {
+      uri: 'api\/v1\/admin\/org\/addresses',
+      methods: ['POST'],
+    },
+    'api.v1.admin.org.addresses.show': {
+      uri: 'api\/v1\/admin\/org\/addresses\/{address}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['address'],
+    },
+    'api.v1.admin.org.addresses.update': {
+      uri: 'api\/v1\/admin\/org\/addresses\/{address}',
+      methods: ['PUT', 'PATCH'],
+      parameters: ['address'],
+    },
+    'api.v1.admin.org.addresses.destroy': {
+      uri: 'api\/v1\/admin\/org\/addresses\/{address}',
+      methods: ['DELETE'],
+      parameters: ['address'],
+    },
+    'api.v1.admin.org.addresses.keyValList': {
+      uri: 'api\/v1\/admin\/org\/addresses\/key-value-list\/{field}\/{key?}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['field', 'key'],
+    },
+    'api.v1.admin.org.cities.index': {
+      uri: 'api\/v1\/admin\/org\/cities',
+      methods: ['GET', 'HEAD'],
+    },
+    'api.v1.admin.org.cities.show': {
+      uri: 'api\/v1\/admin\/org\/cities\/{city}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['city'],
+    },
+    'api.v1.admin.org.job-positions.index': {
+      uri: 'api\/v1\/admin\/org\/job-positions',
+      methods: ['GET', 'HEAD'],
+    },
+    'api.v1.admin.org.job-positions.store': {
+      uri: 'api\/v1\/admin\/org\/job-positions',
+      methods: ['POST'],
+    },
+    'api.v1.admin.org.job-positions.show': {
+      uri: 'api\/v1\/admin\/org\/job-positions\/{job_position}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['job_position'],
+    },
+    'api.v1.admin.org.job-positions.update': {
+      uri: 'api\/v1\/admin\/org\/job-positions\/{job_position}',
+      methods: ['PUT', 'PATCH'],
+      parameters: ['job_position'],
+    },
+    'api.v1.admin.org.job-positions.destroy': {
+      uri: 'api\/v1\/admin\/org\/job-positions\/{job_position}',
+      methods: ['DELETE'],
+      parameters: ['job_position'],
+    },
+    'api.v1.admin.org.job-positions.keyValList': {
+      uri: 'api\/v1\/admin\/org\/job-positions\/key-value-list\/{field}\/{key?}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['field', 'key'],
+    },
+    'api.v1.admin.org.users.roles.show': {
+      uri: 'api\/v1\/admin\/org\/users\/{user}\/roles',
+      methods: ['GET', 'HEAD'],
+      parameters: ['user'],
+    },
+    'api.v1.admin.org.users.roles.update': {
+      uri: 'api\/v1\/admin\/org\/users\/{user}\/roles',
+      methods: ['PUT'],
+      parameters: ['user'],
+    },
+    'api.v1.admin.user.initiate.auth': {
+      uri: 'api\/v1\/admin\/auth',
+      methods: ['GET', 'HEAD'],
+    },
+    'api.v1.admin.user.auth': {
+      uri: 'api\/v1\/admin\/auth',
+      methods: ['POST'],
+    },
+    'api.v1.admin.user.initiate.resetPassword': {
+      uri: 'api\/v1\/admin\/reset-password',
+      methods: ['GET', 'HEAD'],
+    },
+    'api.v1.admin.user.resetPassword': {
+      uri: 'api\/v1\/admin\/reset-password',
+      methods: ['PUT'],
+    },
+    'api.v1.admin.user.logout': {
+      uri: 'api\/v1\/admin\/logout',
+      methods: ['POST'],
+    },
+    login: { uri: 'login', methods: ['GET', 'HEAD'] },
+    auth: { uri: 'auth', methods: ['POST'] },
+    logout: { uri: 'logout', methods: ['POST'] },
+    'web.org.dashboard': {
+      uri: 'org\/dashboard',
+      methods: ['GET', 'HEAD'],
+    },
+    'web.org.users.index': { uri: 'org\/users', methods: ['GET', 'HEAD'] },
+    'web.org.users.create': {
+      uri: 'org\/users\/create',
+      methods: ['GET', 'HEAD'],
+    },
+    'web.org.users.store': { uri: 'org\/users', methods: ['POST'] },
+    'web.org.users.show': {
+      uri: 'org\/users\/{user}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['user'],
+      bindings: { user: 'id' },
+    },
+    'web.org.users.edit': {
+      uri: 'org\/users\/{user}\/edit',
+      methods: ['GET', 'HEAD'],
+      parameters: ['user'],
+      bindings: { user: 'id' },
+    },
+    'web.org.users.update': {
+      uri: 'org\/users\/{user}',
+      methods: ['PUT', 'PATCH'],
+      parameters: ['user'],
+    },
+    'web.org.users.destroy': {
+      uri: 'org\/users\/{user}',
+      methods: ['DELETE'],
+      parameters: ['user'],
+    },
+    'web.org.users.keyValList': {
+      uri: 'org\/users\/key-value-list\/{field}\/{key?}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['field', 'key'],
+    },
+    'web.org.departments.index': {
+      uri: 'org\/departments',
+      methods: ['GET', 'HEAD'],
+    },
+    'web.org.departments.create': {
+      uri: 'org\/departments\/create',
+      methods: ['GET', 'HEAD'],
+    },
+    'web.org.departments.store': {
+      uri: 'org\/departments',
+      methods: ['POST'],
+    },
+    'web.org.departments.show': {
+      uri: 'org\/departments\/{department}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['department'],
+      bindings: { department: 'id' },
+    },
+    'web.org.departments.edit': {
+      uri: 'org\/departments\/{department}\/edit',
+      methods: ['GET', 'HEAD'],
+      parameters: ['department'],
+      bindings: { department: 'id' },
+    },
+    'web.org.departments.update': {
+      uri: 'org\/departments\/{department}',
+      methods: ['PUT', 'PATCH'],
+      parameters: ['department'],
+    },
+    'web.org.departments.destroy': {
+      uri: 'org\/departments\/{department}',
+      methods: ['DELETE'],
+      parameters: ['department'],
+    },
+    'web.org.departments.keyValList': {
+      uri: 'org\/departments\/key-value-list\/{field}\/{key?}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['field', 'key'],
+    },
+    'web.org.roles.index': { uri: 'org\/roles', methods: ['GET', 'HEAD'] },
+    'web.org.roles.create': {
+      uri: 'org\/roles\/create',
+      methods: ['GET', 'HEAD'],
+    },
+    'web.org.roles.store': { uri: 'org\/roles', methods: ['POST'] },
+    'web.org.roles.show': {
+      uri: 'org\/roles\/{role}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['role'],
+      bindings: { role: 'id' },
+    },
+    'web.org.roles.edit': {
+      uri: 'org\/roles\/{role}\/edit',
+      methods: ['GET', 'HEAD'],
+      parameters: ['role'],
+      bindings: { role: 'id' },
+    },
+    'web.org.roles.update': {
+      uri: 'org\/roles\/{role}',
+      methods: ['PUT', 'PATCH'],
+      parameters: ['role'],
+    },
+    'web.org.roles.destroy': {
+      uri: 'org\/roles\/{role}',
+      methods: ['DELETE'],
+      parameters: ['role'],
+    },
+    'web.org.roles.keyValList': {
+      uri: 'org\/roles\/key-value-list\/{field}\/{key?}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['field', 'key'],
+    },
+    'web.org.roles.permissions': {
+      uri: 'org\/roles\/{role}\/permissions',
+      methods: ['GET', 'HEAD'],
+      parameters: ['role'],
+      bindings: { role: 'id' },
+    },
+    'api.v1.admin.file-manager.folders.index': {
+      uri: 'api\/v1\/admin\/file-manager\/folders',
+      methods: ['GET', 'HEAD'],
+    },
+    'api.v1.admin.file-manager.folders.store': {
+      uri: 'api\/v1\/admin\/file-manager\/folders',
+      methods: ['POST'],
+    },
+    'api.v1.admin.file-manager.folders.show': {
+      uri: 'api\/v1\/admin\/file-manager\/folders\/{folder}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['folder'],
+    },
+    'api.v1.admin.file-manager.folders.update': {
+      uri: 'api\/v1\/admin\/file-manager\/folders\/{folder}',
+      methods: ['PUT', 'PATCH'],
+      parameters: ['folder'],
+    },
+    'api.v1.admin.file-manager.folders.destroy': {
+      uri: 'api\/v1\/admin\/file-manager\/folders\/{folder}',
+      methods: ['DELETE'],
+      parameters: ['folder'],
+    },
+    'api.v1.admin.file-manager.folders.keyValList': {
+      uri: 'api\/v1\/admin\/file-manager\/folders\/key-value-list\/{field}\/{key?}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['field', 'key'],
+    },
+    'api.v1.admin.file-manager.files.index': {
+      uri: 'api\/v1\/admin\/file-manager\/files',
+      methods: ['GET', 'HEAD'],
+    },
+    'api.v1.admin.file-manager.files.store': {
+      uri: 'api\/v1\/admin\/file-manager\/files',
+      methods: ['POST'],
+    },
+    'api.v1.admin.file-manager.files.show': {
+      uri: 'api\/v1\/admin\/file-manager\/files\/{file}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['file'],
+    },
+    'api.v1.admin.file-manager.files.update': {
+      uri: 'api\/v1\/admin\/file-manager\/files\/{file}',
+      methods: ['PUT', 'PATCH'],
+      parameters: ['file'],
+    },
+    'api.v1.admin.file-manager.files.destroy': {
+      uri: 'api\/v1\/admin\/file-manager\/files\/{file}',
+      methods: ['DELETE'],
+      parameters: ['file'],
+    },
+    'api.v1.admin.file-manager.files.keyValList': {
+      uri: 'api\/v1\/admin\/file-manager\/files\/key-value-list\/{field}\/{key?}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['field', 'key'],
+    },
+    'web.documents.index': { uri: 'documents', methods: ['GET', 'HEAD'] },
+    'web.documents.folder': {
+      uri: 'documents\/folder\/{folderId}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['folderId'],
+    },
+    'web.documents.favorites': {
+      uri: 'documents\/favorites',
+      methods: ['GET', 'HEAD'],
+    },
+    'web.documents.recent': {
+      uri: 'documents\/recent',
+      methods: ['GET', 'HEAD'],
+    },
+    'web.documents.temporary': {
+      uri: 'documents\/temporary',
+      methods: ['GET', 'HEAD'],
+    },
+    'web.documents.folders.create': {
+      uri: 'documents\/folders\/create',
+      methods: ['GET', 'HEAD'],
+    },
+    'web.documents.folders.edit': {
+      uri: 'documents\/folders\/{folderId}\/edit',
+      methods: ['GET', 'HEAD'],
+      parameters: ['folderId'],
+    },
+    'web.documents.upload': {
+      uri: 'documents\/upload',
+      methods: ['GET', 'HEAD'],
+    },
+    'web.documents.files.download': {
+      uri: 'documents\/files\/{id}\/download',
+      methods: ['GET', 'HEAD'],
+      parameters: ['id'],
+    },
+    'api.v1.admin.enums.show': {
+      uri: 'api\/api\/v1\/admin\/enums\/{enum}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['enum'],
+    },
+    'api.v1.admin.enums.keyValList': {
+      uri: 'api\/api\/v1\/admin\/enums\/{enum}\/key-value-list',
+      methods: ['GET', 'HEAD'],
+      parameters: ['enum'],
+    },
+    'api.v1.admin.tags.index': {
+      uri: 'api\/api\/v1\/admin\/tags',
+      methods: ['GET', 'HEAD'],
+    },
+    'api.v1.admin.tags.store': {
+      uri: 'api\/api\/v1\/admin\/tags',
+      methods: ['POST'],
+    },
+    'api.v1.admin.tags.show': {
+      uri: 'api\/api\/v1\/admin\/tags\/{tag}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['tag'],
+    },
+    'api.v1.admin.tags.update': {
+      uri: 'api\/api\/v1\/admin\/tags\/{tag}',
+      methods: ['PUT', 'PATCH'],
+      parameters: ['tag'],
+    },
+    'api.v1.admin.tags.destroy': {
+      uri: 'api\/api\/v1\/admin\/tags\/{tag}',
+      methods: ['DELETE'],
+      parameters: ['tag'],
+    },
+    'api.v1.admin.tags.keyValList': {
+      uri: 'api\/api\/v1\/admin\/tags\/key-value-list\/{field}\/{key?}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['field', 'key'],
+    },
+    'api.v1.admin.files.favorite.toggle': {
+      uri: 'api\/api\/v1\/admin\/files\/{fileId}\/favorite',
+      methods: ['POST'],
+      parameters: ['fileId'],
+    },
+    'api.v1.admin.folders.favorite.toggle': {
+      uri: 'api\/api\/v1\/admin\/folders\/{folderId}\/favorite',
+      methods: ['POST'],
+      parameters: ['folderId'],
+    },
+    'api.v1.admin.favorites.index': {
+      uri: 'api\/api\/v1\/admin\/favorites',
+      methods: ['GET', 'HEAD'],
+    },
+    'web.dashboard': { uri: 'dashboard', methods: ['GET', 'HEAD'] },
+    'web.test.components': {
+      uri: 'test-components',
+      methods: ['GET', 'HEAD'],
+    },
+    'web.app.tags.index': { uri: 'org\/tags', methods: ['GET', 'HEAD'] },
+    'web.app.tags.create': {
+      uri: 'org\/tags\/create',
+      methods: ['GET', 'HEAD'],
+    },
+    'web.app.tags.store': { uri: 'org\/tags', methods: ['POST'] },
+    'web.app.tags.show': {
+      uri: 'org\/tags\/{tag}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['tag'],
+      bindings: { tag: 'id' },
+    },
+    'web.app.tags.edit': {
+      uri: 'org\/tags\/{tag}\/edit',
+      methods: ['GET', 'HEAD'],
+      parameters: ['tag'],
+      bindings: { tag: 'id' },
+    },
+    'web.app.tags.update': {
+      uri: 'org\/tags\/{tag}',
+      methods: ['PUT', 'PATCH'],
+      parameters: ['tag'],
+    },
+    'web.app.tags.keyValList': {
+      uri: 'org\/tags\/key-value-list\/{field}\/{key?}',
+      methods: ['GET', 'HEAD'],
+      parameters: ['field', 'key'],
+    },
+    'storage.local': {
+      uri: 'storage\/{path}',
+      methods: ['GET', 'HEAD'],
+      wheres: { path: '.*' },
+      parameters: ['path'],
+    },
+  },
+};
 if (typeof window !== 'undefined' && typeof window.Ziggy !== 'undefined') {
   Object.assign(Ziggy.routes, window.Ziggy.routes);
 }

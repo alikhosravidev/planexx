@@ -2,7 +2,6 @@
  * Reusable UI components for Planexx
  */
 export const uiComponents = {
-
   /**
    * Modal state storage
    */
@@ -21,9 +20,9 @@ export const uiComponents = {
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
 
-    const event = new CustomEvent('modal:opened', { 
+    const event = new CustomEvent('modal:opened', {
       detail: { modalId, data },
-      bubbles: true 
+      bubbles: true,
     });
     modal.dispatchEvent(event);
   },
@@ -40,9 +39,9 @@ export const uiComponents = {
     document.body.style.overflow = '';
     this._modalStates.delete(modalId);
 
-    const event = new CustomEvent('modal:closed', { 
+    const event = new CustomEvent('modal:closed', {
       detail: { modalId },
-      bubbles: true 
+      bubbles: true,
     });
     modal.dispatchEvent(event);
   },
@@ -61,20 +60,20 @@ export const uiComponents = {
    */
   initModals() {
     // Open modal with data attributes
-    document.querySelectorAll('[data-modal-open]').forEach(btn => {
+    document.querySelectorAll('[data-modal-open]').forEach((btn) => {
       btn.addEventListener('click', (e) => {
         const modalId = e.currentTarget.dataset.modalOpen;
-        const modalData = e.currentTarget.dataset.modalData 
-          ? JSON.parse(e.currentTarget.dataset.modalData) 
+        const modalData = e.currentTarget.dataset.modalData
+          ? JSON.parse(e.currentTarget.dataset.modalData)
           : {};
-        
+
         this.openModal(modalId, modalData);
-        
+
         const modal = document.getElementById(modalId);
         if (modal) {
-          const event = new CustomEvent('modal:data-loaded', { 
+          const event = new CustomEvent('modal:data-loaded', {
             detail: modalData,
-            bubbles: true 
+            bubbles: true,
           });
           modal.dispatchEvent(event);
         }
@@ -82,7 +81,7 @@ export const uiComponents = {
     });
 
     // Close modal
-    document.querySelectorAll('[data-modal-close]').forEach(btn => {
+    document.querySelectorAll('[data-modal-close]').forEach((btn) => {
       btn.addEventListener('click', () => {
         const modal = btn.closest('[data-modal]');
         if (modal && modal.id) {
@@ -92,7 +91,7 @@ export const uiComponents = {
     });
 
     // Close on backdrop click
-    document.querySelectorAll('[data-modal-backdrop]').forEach(backdrop => {
+    document.querySelectorAll('[data-modal-backdrop]').forEach((backdrop) => {
       backdrop.addEventListener('click', (e) => {
         if (e.target === backdrop) {
           const modal = backdrop.closest('[data-modal]');
@@ -106,11 +105,13 @@ export const uiComponents = {
     // ESC key to close modals
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        document.querySelectorAll('[data-modal]:not(.hidden)').forEach(modal => {
-          if (modal.id) {
-            this.closeModal(modal.id);
-          }
-        });
+        document
+          .querySelectorAll('[data-modal]:not(.hidden)')
+          .forEach((modal) => {
+            if (modal.id) {
+              this.closeModal(modal.id);
+            }
+          });
       }
     });
   },
@@ -119,7 +120,7 @@ export const uiComponents = {
    * Initialize dropdown functionality
    */
   initDropdowns() {
-    document.querySelectorAll('[data-dropdown-toggle]').forEach(btn => {
+    document.querySelectorAll('[data-dropdown-toggle]').forEach((btn) => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const dropdownId = btn.dataset.dropdownToggle;
@@ -127,7 +128,7 @@ export const uiComponents = {
 
         if (dropdown) {
           // Close other dropdowns
-          document.querySelectorAll('[data-dropdown]').forEach(d => {
+          document.querySelectorAll('[data-dropdown]').forEach((d) => {
             if (d !== dropdown) d.classList.add('hidden');
           });
 
@@ -139,7 +140,7 @@ export const uiComponents = {
     // Close dropdowns when clicking outside
     document.addEventListener('click', (e) => {
       if (!e.target.closest('[data-dropdown-toggle]')) {
-        document.querySelectorAll('[data-dropdown]').forEach(d => {
+        document.querySelectorAll('[data-dropdown]').forEach((d) => {
           d.classList.add('hidden');
         });
       }
@@ -155,7 +156,7 @@ export const uiComponents = {
       success: 'bg-green-500',
       error: 'bg-red-500',
       warning: 'bg-yellow-500',
-      info: 'bg-blue-500'
+      info: 'bg-blue-500',
     };
 
     toast.className = `fixed top-4 left-4 ${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-opacity`;
@@ -172,7 +173,7 @@ export const uiComponents = {
    * Initialize alert dismissal
    */
   initAlerts() {
-    document.querySelectorAll('[data-alert-dismiss]').forEach(btn => {
+    document.querySelectorAll('[data-alert-dismiss]').forEach((btn) => {
       btn.addEventListener('click', () => {
         const alert = btn.closest('[data-alert]');
         if (alert) {
@@ -202,7 +203,9 @@ export const uiComponents = {
   initMobileSidebar() {
     const mobileToggle = document.querySelector('[data-mobile-sidebar-toggle]');
     const mobileSidebar = document.querySelector('[data-mobile-sidebar]');
-    const mobileOverlay = document.querySelector('[data-mobile-sidebar-overlay]');
+    const mobileOverlay = document.querySelector(
+      '[data-mobile-sidebar-overlay]',
+    );
     const mobileClose = document.querySelector('[data-mobile-sidebar-close]');
 
     if (!mobileToggle || !mobileSidebar || !mobileOverlay) return;
@@ -246,6 +249,5 @@ export const uiComponents = {
 
     userMenuToggle.addEventListener('click', toggleMenu);
     document.addEventListener('click', closeMenu);
-  }
-
+  },
 };

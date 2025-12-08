@@ -22,7 +22,6 @@ export const validationRules = {
  * Validation functions for Planexx
  */
 export const validation = {
-
   /**
    * Validate Iranian mobile number
    * Accepts: 09XXXXXXXXX (11 digits starting with 09)
@@ -74,6 +73,5 @@ export const validation = {
   validateDigitsOnly(value) {
     if (!value) return false;
     return validationRules.DIGITS_PATTERN.test(value);
-  }
-
+  },
 };

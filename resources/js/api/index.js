@@ -3,5 +3,6 @@
 
 import { initializeAjaxHandler } from '@/api/ajax-handler.js';
 
-document.addEventListener('DOMContentLoaded', initializeAjaxHandler, {once: true});
-
+document.addEventListener('DOMContentLoaded', initializeAjaxHandler, {
+  once: true,
+});

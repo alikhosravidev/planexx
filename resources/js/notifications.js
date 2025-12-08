@@ -2,7 +2,6 @@
  * Notification system for Planexx
  */
 export const notifications = {
-
   /**
    * Ensure a container exists for stacking toasts with spacing
    */
@@ -11,7 +10,8 @@ export const notifications = {
     if (!container) {
       container = document.createElement('div');
       container.setAttribute('data-toast-container', 'true');
-      container.className = 'fixed top-4 left-4 flex flex-col gap-3 z-50 pointer-events-none';
+      container.className =
+        'fixed top-4 left-4 flex flex-col gap-3 z-50 pointer-events-none';
       document.body.appendChild(container);
     }
     return container;
@@ -30,7 +30,7 @@ export const notifications = {
       success: 'bg-green-500',
       error: 'bg-red-500',
       warning: 'bg-yellow-500',
-      info: 'bg-blue-500'
+      info: 'bg-blue-500',
     };
 
     toast.className = `${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg pointer-events-auto transition-opacity`;
@@ -77,6 +77,5 @@ export const notifications = {
    */
   showInfo(message, duration = 3000) {
     this.showToast(message, 'info', duration);
-  }
-
+  },
 };

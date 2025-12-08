@@ -17,7 +17,8 @@ const getNotifications = () => resolve('notifications');
  * @returns {object}
  */
 export const getButtonConfig = (button) => {
-  const action = button.getAttribute('data-action') || button.getAttribute('href');
+  const action =
+    button.getAttribute('data-action') || button.getAttribute('href');
   const method = button.getAttribute('data-method') || 'POST';
   const actionsStr = button.getAttribute('data-on-success') || '';
   const loadingClass = button.getAttribute('data-loading-class') || '';
@@ -53,7 +54,9 @@ const extractDataFromButton = (button) => {
   for (const [key, value] of Object.entries(button.dataset)) {
     if (key.startsWith('param')) {
       // data-param-user-id → userId
-      const paramName = key.replace('param', '').replace(/^./, (c) => c.toLowerCase());
+      const paramName = key
+        .replace('param', '')
+        .replace(/^./, (c) => c.toLowerCase());
       data[paramName] = value;
     }
   }
@@ -106,7 +109,9 @@ export const handleButtonClick = async (event) => {
   const config = getButtonConfig(button);
 
   if (!config.action) {
-    console.error('Button action URL not found. Add data-action or action attribute.');
+    console.error(
+      'Button action URL not found. Add data-action or action attribute.',
+    );
     return;
   }
 
@@ -160,7 +165,7 @@ export const handleButtonClick = async (event) => {
       new CustomEvent('ajax:success', {
         detail: { response: result, button },
         bubbles: true,
-      })
+      }),
     );
 
     // Execute response actions (await to keep global lock until done)
@@ -185,7 +190,8 @@ export const handleButtonClick = async (event) => {
     // Show error message
     if (config.showMessage) {
       const notifications = getNotifications();
-      const errorMessage = error.response?.data?.message || error.message || 'خطایی رخ داده است';
+      const errorMessage =
+        error.response?.data?.message || error.message || 'خطایی رخ داده است';
       notifications.showError(errorMessage);
     }
 
@@ -193,7 +199,7 @@ export const handleButtonClick = async (event) => {
       new CustomEvent('ajax:error', {
         detail: { error, button },
         bubbles: true,
-      })
+      }),
     );
   } finally {
     if (config.loadingClass) {

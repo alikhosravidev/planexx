@@ -1,14 +1,25 @@
 export function initPersianDigits(options = {}) {
   const {
-    skipTags = ['SCRIPT','STYLE','CODE','PRE','KBD','SAMP','TEXTAREA','INPUT'],
+    skipTags = [
+      'SCRIPT',
+      'STYLE',
+      'CODE',
+      'PRE',
+      'KBD',
+      'SAMP',
+      'TEXTAREA',
+      'INPUT',
+    ],
     skipAttr = 'data-no-digit-localize',
-    skipClasses = []
+    skipClasses = [],
   } = options;
 
-  const PERSIAN_DIGITS = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+  const PERSIAN_DIGITS = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
   const DIGIT_REGEX = /\d/;
   const SKIP_TAGS = new Set(skipTags);
-  const SKIP_CLASS_SET = new Set(skipClasses.map(c => c.trim()).filter(Boolean));
+  const SKIP_CLASS_SET = new Set(
+    skipClasses.map((c) => c.trim()).filter(Boolean),
+  );
 
   function elementHasSkipClass(el) {
     if (!SKIP_CLASS_SET.size) return false;
@@ -64,19 +75,15 @@ export function initPersianDigits(options = {}) {
 
   function walkAndConvert(root) {
     if (shouldSkip(root)) return;
-    const walker = document.createTreeWalker(
-      root,
-      NodeFilter.SHOW_TEXT,
-      {
-        acceptNode: (node) => {
-          const p = node.parentNode;
-          if (!p || shouldSkip(p)) return NodeFilter.FILTER_REJECT;
-          return DIGIT_REGEX.test(node.nodeValue)
-            ? NodeFilter.FILTER_ACCEPT
-            : NodeFilter.FILTER_REJECT;
-        }
-      }
-    );
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: (node) => {
+        const p = node.parentNode;
+        if (!p || shouldSkip(p)) return NodeFilter.FILTER_REJECT;
+        return DIGIT_REGEX.test(node.nodeValue)
+          ? NodeFilter.FILTER_ACCEPT
+          : NodeFilter.FILTER_REJECT;
+      },
+    });
     let node;
     while ((node = walker.nextNode())) {
       convertTextNode(node);
@@ -102,7 +109,7 @@ export function initPersianDigits(options = {}) {
     observer.observe(document.documentElement, {
       subtree: true,
       childList: true,
-      characterData: true
+      characterData: true,
     });
   }
 

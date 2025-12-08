@@ -17,7 +17,8 @@ const getNotifications = () => resolve('notifications');
  */
 export const getFormConfig = (form) => {
   const action = form.getAttribute('action');
-  const method = form.getAttribute('data-method') || form.getAttribute('method') || 'POST';
+  const method =
+    form.getAttribute('data-method') || form.getAttribute('method') || 'POST';
 
   // Parse response actions (comma or space separated)
   const actionsStr = form.getAttribute('data-on-success') || '';
@@ -90,7 +91,10 @@ const removeClasses = (element, classString) => {
 export const handleFormSubmit = async (event) => {
   const form = event.target;
   const submitButton =
-    event.submitter || form.querySelector('button[type="submit"], button:not([type]), [type="submit"]');
+    event.submitter ||
+    form.querySelector(
+      'button[type="submit"], button:not([type]), [type="submit"]',
+    );
 
   // Don't prevent default for non-AJAX forms
   if (!form.hasAttribute('data-ajax')) {
@@ -161,7 +165,7 @@ export const handleFormSubmit = async (event) => {
     form.dispatchEvent(
       new CustomEvent('ajax:success', {
         detail: { response: result, form },
-      })
+      }),
     );
 
     // Execute response actions (await to keep global lock until done)
@@ -177,7 +181,7 @@ export const handleFormSubmit = async (event) => {
     form.dispatchEvent(
       new CustomEvent('ajax:error', {
         detail: { error, form },
-      })
+      }),
     );
 
     // Execute error actions if specified

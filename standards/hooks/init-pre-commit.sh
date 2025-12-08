@@ -20,7 +20,7 @@ WORKING_DIR="$(git rev-parse --show-toplevel)"
 
 # Run check-imports script
 echo ""
-echo "📋 Step 1/2: Checking imports..."
+echo "📋 Step 1/3: Checking imports..."
 sh ./standards/scripts/check-imports.sh || {
     echo "❌ Import check failed!"
     exit 1
@@ -28,9 +28,17 @@ sh ./standards/scripts/check-imports.sh || {
 
 # Run pint formatter script
 echo ""
-echo "🎨 Step 2/2: Running Laravel Pint formatter..."
+echo "🎨 Step 2/3: Running Laravel Pint formatter..."
 sh ./standards/scripts/pint.sh || {
     echo "❌ Pint formatter failed!"
+    exit 1
+}
+
+# Run JS formatter script
+echo ""
+echo "🧹 Step 3/3: Running JS formatter..."
+sh ./standards/scripts/js-formater.sh || {
+    echo "❌ JS formatter failed!"
     exit 1
 }
 

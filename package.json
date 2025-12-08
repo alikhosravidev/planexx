@@ -9,12 +9,14 @@
         "build:production": "vite build --mode production",
         "preview": "vite preview",
         "watch": "vite build --watch",
-        "clean": "rm -rf public/build"
+        "clean": "rm -rf public/build",
+        "format": "prettier --write --plugin=prettier-plugin-solidity ./resources/\"**/*.{js,jsx,ts,tsx,vue,html,css,scss,json,md,sol}\""
     },
     "devDependencies": {
         "autoprefixer": "^10.4.22",
         "axios": "^1.13.2",
         "concurrently": "^9.0.1",
+        "prettier-plugin-solidity": "^2.2.0",
         "laravel-vite-plugin": "^2.0.0",
         "postcss": "^8.5.6",
         "tailwindcss": "^3.4.18",

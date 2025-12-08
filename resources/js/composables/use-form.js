@@ -13,10 +13,7 @@ import { formService } from '../services/form-service.js';
  * @returns {object} Form state and methods
  */
 export const useForm = (formElement, options = {}) => {
-  const {
-    autoValidate = true,
-    clearErrorsOnInput = true,
-  } = options;
+  const { autoValidate = true, clearErrorsOnInput = true } = options;
 
   // Get form element
   let form = formElement;

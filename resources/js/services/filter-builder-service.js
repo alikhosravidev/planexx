@@ -27,7 +27,11 @@ class FilterBuilderService {
   // Filters (mapped to query filter[field])
   addRangeFilter(field, min, max) {
     this.validateField(field);
-    this._filters[field] = { ...(this._filters[field] || {}), gte: min ?? undefined, lte: max ?? undefined };
+    this._filters[field] = {
+      ...(this._filters[field] || {}),
+      gte: min ?? undefined,
+      lte: max ?? undefined,
+    };
     return this;
   }
 
@@ -47,20 +51,38 @@ class FilterBuilderService {
     if (!valid.includes(operator)) {
       throw new Error('Invalid comparison operator.');
     }
-    if (operator === '=' ) {
+    if (operator === '=') {
       this._filters[field] = value;
     } else if (operator === '!=') {
-      this._filters[field] = { ...(this._filters[field] || {}), not_in: Array.isArray(value) ? value : [value] };
+      this._filters[field] = {
+        ...(this._filters[field] || {}),
+        not_in: Array.isArray(value) ? value : [value],
+      };
     } else if (operator === 'like') {
-      this._filters[field] = { ...(this._filters[field] || {}), like: value };
+      this._filters[field] = {
+        ...(this._filters[field] || {}),
+        like: value,
+      };
     } else if (operator === '>=') {
-      this._filters[field] = { ...(this._filters[field] || {}), gte: value };
+      this._filters[field] = {
+        ...(this._filters[field] || {}),
+        gte: value,
+      };
     } else if (operator === '<=') {
-      this._filters[field] = { ...(this._filters[field] || {}), lte: value };
+      this._filters[field] = {
+        ...(this._filters[field] || {}),
+        lte: value,
+      };
     } else if (operator === '>') {
-      this._filters[field] = { ...(this._filters[field] || {}), gt: value };
+      this._filters[field] = {
+        ...(this._filters[field] || {}),
+        gt: value,
+      };
     } else if (operator === '<') {
-      this._filters[field] = { ...(this._filters[field] || {}), lt: value };
+      this._filters[field] = {
+        ...(this._filters[field] || {}),
+        lt: value,
+      };
     }
     return this;
   }
@@ -185,13 +207,18 @@ class FilterBuilderService {
       if (val == null) return;
       if (typeof val !== 'object' || Array.isArray(val)) {
         // simple equality
-        params.append(`filter[${field}]`, Array.isArray(val) ? val.join(',') : String(val));
+        params.append(
+          `filter[${field}]`,
+          Array.isArray(val) ? val.join(',') : String(val),
+        );
       } else {
         // operators
         Object.entries(val).forEach(([op, v]) => {
           if (v == null) return;
           if (Array.isArray(v)) {
-            v.forEach((item) => params.append(`filter[${field}][${op}][]`, String(item)));
+            v.forEach((item) =>
+              params.append(`filter[${field}][${op}][]`, String(item)),
+            );
           } else {
             params.append(`filter[${field}][${op}]`, String(v));
           }
@@ -202,7 +229,9 @@ class FilterBuilderService {
     const qs = params.toString();
     if (!this.baseURL) return qs ? `?${qs}` : '';
     if (!qs) return this.baseURL;
-    return this.baseURL.includes('?') ? `${this.baseURL}&${qs}` : `${this.baseURL}?${qs}`;
+    return this.baseURL.includes('?')
+      ? `${this.baseURL}&${qs}`
+      : `${this.baseURL}?${qs}`;
   }
 }
 

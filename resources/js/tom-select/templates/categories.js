@@ -7,11 +7,14 @@ const tpl = {
       toggleCategoryButtons(true);
     }
     return {
-      results: data.map(item => ({ id: item.id, text: `${item.id} > ${item.name_fa}` })),
+      results: data.map((item) => ({
+        id: item.id,
+        text: `${item.id} > ${item.name_fa}`,
+      })),
     };
   },
   setRecentSelected: (data, element, defaultValue) => {
-    if (!data.find(v => v.id == defaultValue)) {
+    if (!data.find((v) => v.id == defaultValue)) {
       console.warn('Default value not found:', defaultValue);
     }
   },

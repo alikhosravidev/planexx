@@ -17,8 +17,11 @@ export const baseTemplate = {
 
 export function getDisableConfig(el) {
   return {
-    disableCondition: getDataAttr(el, 'disable-condition') || getDataAttr(el, 'disable_condition'),
-    disableReason: getDataAttr(el, 'disable-reason') || getDataAttr(el, 'disable_reason'),
+    disableCondition:
+      getDataAttr(el, 'disable-condition') ||
+      getDataAttr(el, 'disable_condition'),
+    disableReason:
+      getDataAttr(el, 'disable-reason') || getDataAttr(el, 'disable_reason'),
   };
 }
 
@@ -26,8 +29,10 @@ export function toggleCategoryButtons(showCreate) {
   const startButton = document.getElementById('start');
   const createCategory = document.getElementById('create-category');
 
-  if (createCategory) createCategory.style.display = showCreate ? 'inline-flex' : 'none';
-  if (startButton) startButton.style.display = showCreate ? 'none' : 'inline-flex';
+  if (createCategory)
+    createCategory.style.display = showCreate ? 'inline-flex' : 'none';
+  if (startButton)
+    startButton.style.display = showCreate ? 'none' : 'inline-flex';
 }
 
 export { getDataAttr, safeGetByPath };

@@ -4,7 +4,11 @@
  */
 
 import { httpClient } from './http-client.js';
-import { handleSuccess, handleError, getValidationErrors } from './response-handler.js';
+import {
+  handleSuccess,
+  handleError,
+  getValidationErrors,
+} from './response-handler.js';
 
 /**
  * Base Request class for building API requests

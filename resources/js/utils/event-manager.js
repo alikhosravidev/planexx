@@ -24,9 +24,9 @@ class EventManager {
     }
 
     const listenerId = `listener_${++this.listenerCounter}`;
-    
+
     element.addEventListener(event, handler, options);
-    
+
     this.listeners.set(listenerId, {
       element,
       event,
@@ -43,12 +43,12 @@ class EventManager {
    */
   off(listenerId) {
     const listener = this.listeners.get(listenerId);
-    
+
     if (listener) {
       listener.element.removeEventListener(
         listener.event,
         listener.handler,
-        listener.options
+        listener.options,
       );
       this.listeners.delete(listenerId);
     }
@@ -79,7 +79,7 @@ class EventManager {
    */
   offElement(element) {
     const toRemove = [];
-    
+
     this.listeners.forEach((listener, id) => {
       if (listener.element === element) {
         toRemove.push(id);
@@ -120,7 +120,7 @@ class EventManager {
           detail,
           bubbles,
           cancelable: true,
-        })
+        }),
       );
     }
   }

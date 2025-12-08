@@ -2,7 +2,6 @@
  * General utility functions for Planexx
  */
 export const utilities = {
-
   /**
    * Debounce function for search and filter operations
    * @param {Function} func - Function to debounce
@@ -11,7 +10,7 @@ export const utilities = {
    */
   debounce(func, wait) {
     let timeout;
-    return function(...args) {
+    return function (...args) {
       clearTimeout(timeout);
       timeout = setTimeout(() => func.apply(this, args), wait);
     };
@@ -49,6 +48,5 @@ export const utilities = {
    */
   confirm(message) {
     return window.confirm(message);
-  }
-
+  },
 };

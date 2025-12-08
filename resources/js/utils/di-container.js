@@ -26,7 +26,7 @@ class DIContainer {
    */
   get(name) {
     const service = this.services.get(name);
-    
+
     if (!service) {
       throw new Error(`Service "${name}" not registered`);
     }

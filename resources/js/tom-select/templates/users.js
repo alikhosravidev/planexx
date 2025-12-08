@@ -23,7 +23,7 @@ const tpl = {
       </div>`;
   },
   getResults: (data) => ({
-    results: data.map(item => ({
+    results: data.map((item) => ({
       id: item.id,
       avatarUrl: item.avatar_image_url,
       displayName: item.display_name,
@@ -32,7 +32,7 @@ const tpl = {
     })),
   }),
   setRecentSelected: (data, element, defaultValue) => {
-    if (!data.find(v => v.id == defaultValue)) {
+    if (!data.find((v) => v.id == defaultValue)) {
       console.warn('Default value not found:', defaultValue);
     }
   },

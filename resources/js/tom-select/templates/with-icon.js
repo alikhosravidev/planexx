@@ -13,7 +13,7 @@ const tpl = {
       <span class="title">${data.title}</span>
     </div>`,
   getResults: (data) => ({
-    results: data.map(item => ({
+    results: data.map((item) => ({
       id: item.icon ? `${item.icon}_${item.title}_${item.url}` : item.class,
       title: item.title || item.class,
       class: item.icon || item.class,

@@ -35,7 +35,9 @@ const focusFirstOTPInput = () => {
  */
 const getOTPValue = () => {
   const inputs = document.querySelectorAll('.otp-input');
-  return Array.from(inputs).map((input) => input.value).join('');
+  return Array.from(inputs)
+    .map((input) => input.value)
+    .join('');
 };
 
 /**
@@ -61,7 +63,9 @@ const checkOTPComplete = () => {
     const otpForm = document.getElementById('otp-form');
     if (otpForm) {
       setTimeout(() => {
-        otpForm.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+        otpForm.dispatchEvent(
+          new Event('submit', { bubbles: true, cancelable: true }),
+        );
       }, CONFIG.AUTO_SUBMIT_DELAY);
     }
   }

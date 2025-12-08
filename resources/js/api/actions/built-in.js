@@ -7,7 +7,7 @@ import { formService } from '@/services/form-service.js';
 import { getAction } from './registry.js';
 
 const CONFIG = {
-    REDIRECT_DELAY: 500,
+  REDIRECT_DELAY: 500,
 };
 
 /**
@@ -28,34 +28,34 @@ export const builtInActions = {
   /**
    * Reload current page
    */
-  'reload': () => {
+  reload: () => {
     return new Promise((resolve) => {
-        setTimeout(() => {
-            window.location.reload();
-            resolve();
-        }, CONFIG.REDIRECT_DELAY);
+      setTimeout(() => {
+        window.location.reload();
+        resolve();
+      }, CONFIG.REDIRECT_DELAY);
     });
   },
 
   /**
    * Redirect to URL from response.redirect_url
    */
-  'redirect': (data) => {
+  redirect: (data) => {
     const url = data.redirect_url || data.redirectUrl;
     if (url) {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                window.location.href = url;
-                resolve();
-            }, CONFIG.REDIRECT_DELAY);
-        });
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          window.location.href = url;
+          resolve();
+        }, CONFIG.REDIRECT_DELAY);
+      });
     } else {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                window.location.reload();
-                resolve();
-            }, CONFIG.REDIRECT_DELAY);
-        });
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          window.location.reload();
+          resolve();
+        }, CONFIG.REDIRECT_DELAY);
+      });
     }
   },
 
@@ -63,11 +63,13 @@ export const builtInActions = {
    * Replace element content
    * Requires: data-target selector
    */
-  'replace': (data, element) => {
+  replace: (data, element) => {
     const target = getTargetElement(element);
     if (target && data.html) {
       target.innerHTML = data.html;
-      target.dispatchEvent(new CustomEvent('content-replaced', { detail: data }));
+      target.dispatchEvent(
+        new CustomEvent('content-replaced', { detail: data }),
+      );
     }
   },
 
@@ -75,7 +77,7 @@ export const builtInActions = {
    * Append element content
    * Requires: data-target selector
    */
-  'append': (data, element) => {
+  append: (data, element) => {
     const target = getTargetElement(element);
     if (target && data.html) {
       const tempDiv = document.createElement('div');
@@ -83,7 +85,9 @@ export const builtInActions = {
       const newElement = tempDiv.firstElementChild;
       if (newElement) {
         target.appendChild(newElement);
-        target.dispatchEvent(new CustomEvent('content-appended', { detail: data }));
+        target.dispatchEvent(
+          new CustomEvent('content-appended', { detail: data }),
+        );
       }
     }
   },
@@ -92,7 +96,7 @@ export const builtInActions = {
    * Prepend element content
    * Requires: data-target selector
    */
-  'prepend': (data, element) => {
+  prepend: (data, element) => {
     const target = getTargetElement(element);
     if (target && data.html) {
       const tempDiv = document.createElement('div');
@@ -100,7 +104,9 @@ export const builtInActions = {
       const newElement = tempDiv.firstElementChild;
       if (newElement) {
         target.prepend(newElement);
-        target.dispatchEvent(new CustomEvent('content-prepended', { detail: data }));
+        target.dispatchEvent(
+          new CustomEvent('content-prepended', { detail: data }),
+        );
       }
     }
   },
@@ -109,7 +115,7 @@ export const builtInActions = {
    * Remove element from DOM
    * Requires: data-target selector
    */
-  'remove': (data, element) => {
+  remove: (data, element) => {
     const target = getTargetElement(element);
     if (target) {
       target.remove();
@@ -120,7 +126,7 @@ export const builtInActions = {
    * Toggle element visibility
    * Requires: data-target selector
    */
-  'toggle': (data, element) => {
+  toggle: (data, element) => {
     const target = getTargetElement(element);
     if (target) {
       target.classList.toggle('hidden');
@@ -156,7 +162,7 @@ export const builtInActions = {
   /**
    * Reset form
    */
-  'reset': (data, element) => {
+  reset: (data, element) => {
     if (element.tagName === 'FORM') {
       formService.resetForm(element);
     }
@@ -193,7 +199,7 @@ export const builtInActions = {
   /**
    * Navigate back in history
    */
-  'back': () => {
+  back: () => {
     window.history.back();
   },
 
@@ -202,10 +208,12 @@ export const builtInActions = {
    * Requires: custom-action (action name)
    * Custom action must be registered via registerAction()
    */
-  'custom': (data, element) => {
+  custom: (data, element) => {
     const actionName = element.getAttribute('custom-action');
     if (!actionName) {
-      console.warn('Custom action specified but custom-action attribute is missing');
+      console.warn(
+        'Custom action specified but custom-action attribute is missing',
+      );
       return;
     }
 
@@ -213,7 +221,9 @@ export const builtInActions = {
     if (actionHandler) {
       actionHandler(data, element);
     } else {
-      console.warn(`Custom action "${actionName}" not registered. Use registerAction('${actionName}', handler) to register it.`);
+      console.warn(
+        `Custom action "${actionName}" not registered. Use registerAction('${actionName}', handler) to register it.`,
+      );
     }
   },
 };
