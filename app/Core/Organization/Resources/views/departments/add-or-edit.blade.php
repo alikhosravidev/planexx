@@ -93,7 +93,7 @@
                                     />
 
                                     <x-forms.input
-                                        class="min-w-[140px]"
+                                        class="min-w-[140px] text-left"
                                         name="code"
                                         :value="$department['code'] ?? ''"
                                         label="کد دپارتمان"

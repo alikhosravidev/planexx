@@ -74,7 +74,7 @@
             'component' => 'text',
         ],
         [
-            'key' => 'roles.0.title',
+            'key' => 'primaryRoles.0.title',
             'label' => 'نقش کاربری',
             'component' => 'text',
         ],

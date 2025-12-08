@@ -55,8 +55,7 @@ class UserWebController extends BaseWebController
 
         $queryParams              = $request->except('filter');
         $queryParams['filter']    = $filters;
-        $queryParams['includes']  = 'avatar,roles';
-        $queryParams['withCount'] = 'roles.users,roles.permissions';
+        $queryParams['includes']  = 'avatar,primaryRoles';
 
         $response = $this->apiGet('api.v1.admin.org.users.index', $queryParams);
 

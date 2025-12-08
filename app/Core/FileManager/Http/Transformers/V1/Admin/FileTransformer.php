@@ -6,6 +6,7 @@ namespace App\Core\FileManager\Http\Transformers\V1\Admin;
 
 use App\Contracts\Transformer\BaseTransformer;
 use App\Core\FileManager\Entities\File;
+use App\Core\Organization\Http\Transformers\V1\Admin\UserTransformer;
 use App\Http\Transformers\V1\Admin\TagTransformer;
 use App\Services\Transformer\FieldTransformers\EnumTransformer;
 

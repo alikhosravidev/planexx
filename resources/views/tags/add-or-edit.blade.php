@@ -55,7 +55,7 @@
                             />
 
                             <x-forms.input
-                                class="min-w-[140px]"
+                                class="min-w-[140px] text-left"
                                 name="slug"
                                 :value="$tag['slug'] ?? ''"
                                 label="اسلاگ (انگلیسی)"

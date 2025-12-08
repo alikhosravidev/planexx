@@ -61,9 +61,9 @@
                             <x-forms.input class="min-w-[140px]" name="full_name" :value="$user['full_name'] ?? ''" label="نام کامل" required/>
                             <x-forms.input class="min-w-[140px]" name="first_name" :value="$user['first_name'] ?? ''" label="نام"/>
                             <x-forms.input class="min-w-[140px]" name="last_name" :value="$user['last_name'] ?? ''" label="نام خانوادگی"/>
-                            <x-forms.input class="min-w-[140px]" name="mobile" type="tel" :value="$user['mobile'] ?? ''" label="شماره موبایل" required/>
-                            <x-forms.input class="min-w-[140px]" name="email" type="email" :value="$user['email'] ?? ''" label="ایمیل"/>
-                            <x-forms.input class="min-w-[140px]" name="national_code" maxlength="10" :value="$user['national_code'] ?? ''" label="کد ملی"/>
+                            <x-forms.input class="min-w-[140px] text-left" name="mobile" type="tel" :value="$user['mobile'] ?? ''" label="شماره موبایل" required/>
+                            <x-forms.input class="min-w-[140px] text-left" name="email" type="email" :value="$user['email'] ?? ''" label="ایمیل"/>
+                            <x-forms.input class="min-w-[140px] text-left" name="national_code" maxlength="10" :value="$user['national_code'] ?? ''" label="کد ملی"/>
                             <x-forms.select class="min-w-[140px]" name="gender" label="جنسیت" :value="$user['gender']['value'] ?? null" class="min-w-[140px]"
                                             :options="[1 => 'مرد', 2 => 'زن']"/>
                             <x-forms.date name="birth_date" :value="$user['birth_date']['main'] ?? null" label="تاریخ تولد"/>
@@ -77,7 +77,7 @@
                             <x-forms.select name="user_type" label="نوع کاربر" required :value="$userTypeValue" class="min-w-[140px]"
                                             :options="$userTypes"/>
 
-                            <x-forms.input class="min-w-[140px]" name="password" type="password" label="رمز عبور جدید"
+                            <x-forms.input class="min-w-[140px] text-left" name="password" type="password" label="رمز عبور جدید"
                                            placeholder="خالی بگذارید اگر تغییری نمی‌خواهید"/>
 
                             <div class="lg:col-span-2">
@@ -94,7 +94,7 @@
                         <h2 class="text-lg font-semibold text-text-primary leading-snug mb-6">اطلاعات استخدامی</h2>
 
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            <x-forms.input class="min-w-[140px]" name="employee_code" :value="$user['employee_code'] ?? ''" label="کد پرسنلی"/>
+                            <x-forms.input class="min-w-[140px] text-left" name="employee_code" :value="$user['employee_code'] ?? ''" label="کد پرسنلی"/>
 
                             @php
                                 $jobPositionId = $user['job_position']['id'] ?? null;

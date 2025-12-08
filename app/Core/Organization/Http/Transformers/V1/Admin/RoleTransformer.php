@@ -29,8 +29,8 @@ class RoleTransformer extends BaseTransformer
     protected function getVirtualFieldResolvers(): array
     {
         return [
-            'users_count'       => fn (Role $role) => $role->users_count ?? $role->users()->count(),
-            'permissions_count' => fn (Role $role) => $role->permissions_count ?? $role->permissions()->count(),
+            'users_count'       => fn (Role $role) => $role->users_count ?? 0,
+            'permissions_count' => fn (Role $role) => $role->permissions_count ?? 0,
         ];
     }
 }

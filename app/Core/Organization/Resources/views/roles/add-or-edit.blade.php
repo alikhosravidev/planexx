@@ -47,19 +47,19 @@
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             <x-forms.input
                                 class="min-w-[140px]"
+                                name="title"
+                                :value="$role['title'] ?? ''"
+                                label="عنوان نقش (فارسی)"
+                                placeholder="مدیر سیستم، مدیر ارشد، کارمند"
+                            />
+
+                            <x-forms.input
+                                class="min-w-[140px] text-left"
                                 name="name"
                                 :value="$role['name'] ?? ''"
                                 label="نام نقش (انگلیسی)"
                                 placeholder="admin, manager, employee"
                                 required
-                            />
-
-                            <x-forms.input
-                                class="min-w-[140px]"
-                                name="title"
-                                :value="$role['title'] ?? ''"
-                                label="عنوان نقش (فارسی)"
-                                placeholder="مدیر سیستم، مدیر ارشد، کارمند"
                             />
                         </div>
                     </div>
