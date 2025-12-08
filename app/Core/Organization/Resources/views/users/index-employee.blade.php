@@ -2,7 +2,12 @@
     $title = $pageTitle ?? 'مدیریت کارکنان';
     $createLabel = 'افزودن کارمند جدید';
     $actionButtons = [
-        ['label' => $createLabel, 'url' => route('web.org.users.create', ['user_type' => 'employee']), 'icon' => 'fa-solid fa-plus', 'type' => 'primary'],
+        [
+            'label' => $createLabel,
+            'url' => route('web.org.users.create', ['user_type' => 'employee']),
+            'icon' => 'fa-solid fa-plus',
+            'type' => 'primary',
+        ],
     ];
 
     $breadcrumbs = [
@@ -57,8 +62,6 @@
             'key' => 'mobile',
             'label' => 'شماره موبایل',
             'component' => 'text',
-            'align' => 'left',
-            'options' => ['dir' => 'ltr'],
         ],
         [
             'key' => 'email',
@@ -68,6 +71,11 @@
         [
             'key' => 'department.name',
             'label' => 'دپارتمان',
+            'component' => 'text',
+        ],
+        [
+            'key' => 'roles.0.title',
+            'label' => 'نقش کاربری',
             'component' => 'text',
         ],
         [

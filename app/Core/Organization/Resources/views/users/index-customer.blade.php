@@ -38,7 +38,7 @@
             'label' => 'مشتری',
             'component' => 'user',
             'options' => [
-                'image_key' => 'avatar_image_url',
+                'image_key' => 'avatar.file_url',
             ],
         ],
         [

@@ -147,6 +147,11 @@ export const handleFormSubmit = async (event) => {
       },
     });
 
+    // If submission failed (network/server error), do not treat as success
+    if (!result) {
+      return;
+    }
+
     // Handle validation errors
     if (result?.isValidationError) {
       return;

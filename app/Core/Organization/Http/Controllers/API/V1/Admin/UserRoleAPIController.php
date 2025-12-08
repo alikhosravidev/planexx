@@ -24,15 +24,12 @@ class UserRoleAPIController extends BaseAPIController
 
     public function show(int|string $id, Request $request): JsonResponse
     {
-        $entity  = $this->repository->newQuery()->with('roles')->findOrFail($id);
-        $roleIds = $entity->roles->pluck('id')->values();
-
-        $primary   = $roleIds->first();
-        $secondary = $roleIds->slice(1)->values()->all();
+        $entity = $this->repository->newQuery()->with('roles')->findOrFail($id);
+        $roles  = $entity->roles;
 
         return $this->response->success([
-            'primary_role'    => $primary,
-            'secondary_roles' => $secondary,
+            'primary_role'    => $roles->where('pivot.is_primary', '=', true)->pluck('id')->first(),
+            'secondary_roles' => $roles->where('pivot.is_primary', '=', false)->pluck('id')->values()->all(),
         ]);
     }
 

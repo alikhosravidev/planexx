@@ -14,6 +14,7 @@ use App\Core\Organization\Enums\UserTypeEnum;
 use App\Core\Organization\Services\Auth\ValueObjects\Identifier;
 use App\Core\Organization\Traits\HasApiTokens;
 use App\Core\Organization\Traits\HasJobPosition;
+use App\Core\Organization\Traits\HasRoles;
 use App\ValueObjects\Email;
 use App\ValueObjects\Mobile;
 use Illuminate\Auth\Authenticatable;
@@ -30,7 +31,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Spatie\Permission\Traits\HasPermissions;
-use Spatie\Permission\Traits\HasRoles;
 
 /**
  * @property int                         $id

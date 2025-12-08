@@ -62,17 +62,16 @@ readonly class RoleService
         return $role->fresh(['permissions']);
     }
 
-    public function updateUserRoles(User $user, ?int $primaryRoleId, array $secondaryRoleIds = []): User
+    // TODO: refactor updateUserRoles
+    public function updateUserRoles(User $user, int $primaryRoleId, array $secondaryRoleIds = []): User
     {
         return DB::transaction(function () use ($user, $primaryRoleId, $secondaryRoleIds) {
-            $roleIds = collect($secondaryRoleIds)
+            $secondaryRoleIds = collect($secondaryRoleIds)
                 ->filter(fn ($id) => $id !== null)
                 ->map(fn ($id) => (int) $id)
                 ->values();
 
-            if ($primaryRoleId) {
-                $roleIds = $roleIds->prepend($primaryRoleId)->unique();
-            }
+            $roleIds = $secondaryRoleIds->prepend($primaryRoleId)->unique();
 
             // Enforce correct guard to avoid sanctum mismatch
             $guard = 'web';
@@ -81,7 +80,15 @@ readonly class RoleService
                 ->whereIn('id', $roleIds->all())
                 ->get();
 
-            $user->syncRoles($roles);
+            $syncData = [];
+
+            foreach ($roles as $role) {
+                $syncData[$role->id] = [
+                    'is_primary' => $role->id === $primaryRoleId,
+                ];
+            }
+
+            $user->roles()->sync($syncData);
 
             return $user->fresh(['roles']);
         });

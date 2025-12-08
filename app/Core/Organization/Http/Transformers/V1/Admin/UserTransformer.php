@@ -38,7 +38,7 @@ class UserTransformer extends BaseTransformer
         'birth_date'         => DateTimeTransformer::class,
     ];
 
-    protected array $availableIncludes = ['directManager', 'jobPosition', 'departments', 'avatar'];
+    protected array $availableIncludes = ['directManager', 'jobPosition', 'departments', 'avatar', 'roles'];
 
     public function includeDirectManager(User $user)
     {
@@ -75,6 +75,15 @@ class UserTransformer extends BaseTransformer
             model: $user,
             relationName: 'departments',
             transformer: DepartmentTransformer::class,
+        );
+    }
+
+    public function includeRoles(User $user)
+    {
+        return $this->collectionRelation(
+            model: $user,
+            relationName: 'roles',
+            transformer: RoleTransformer::class,
         );
     }
 }

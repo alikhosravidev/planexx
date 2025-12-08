@@ -61,12 +61,12 @@
         return $total;
     };
     $totalEmployees = $sumEmployees($departments);
-    $maxLevel = 3;
+    $maxLevel = 0;
     $stats = [
         ['title' => 'کل دپارتمان‌ها', 'value' => $totalDepartments, 'icon' => 'fa-solid fa-building', 'color' => 'blue'],
         ['title' => 'دپارتمان‌های فعال', 'value' => $activeDepartments, 'icon' => 'fa-solid fa-check-circle', 'color' => 'green'],
         ['title' => 'کل کارمندان', 'value' => $totalEmployees, 'icon' => 'fa-solid fa-users', 'color' => 'purple'],
-        ['title' => 'سطوح سازمانی', 'value' => $maxLevel, 'icon' => 'fa-solid fa-sitemap', 'color' => 'orange'],
+        ['title' => 'نقش های سازمانی', 'value' => $maxLevel, 'icon' => 'fa-solid fa-sitemap', 'color' => 'orange'],
     ];
 @endphp
 

@@ -99,7 +99,7 @@
                             <tbody class="divide-y divide-border-light">
                                 @forelse ($files as $file)
                                     @php
-                                        $typeConfig = $fileTypeConfig[$file['file_type']] ?? $fileTypeConfig[5];
+                                        $typeConfig = $fileTypeConfig[$file['file_type']['value']] ?? $fileTypeConfig[5];
                                     @endphp
                                     <tr class="hover:bg-bg-secondary/50 transition-colors duration-200" data-file-id="{{ $file['id'] }}">
                                         <td class="px-6 py-4">

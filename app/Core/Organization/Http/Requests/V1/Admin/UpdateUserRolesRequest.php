@@ -18,7 +18,7 @@ class UpdateUserRolesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'primary_role'      => ['nullable', 'integer', Rule::exists(Role::class, 'id')],
+            'primary_role'      => ['required', 'numeric:', Rule::exists(Role::class, 'id')],
             'secondary_roles'   => ['array'],
             'secondary_roles.*' => ['integer', 'distinct', Rule::exists(Role::class, 'id')],
         ];

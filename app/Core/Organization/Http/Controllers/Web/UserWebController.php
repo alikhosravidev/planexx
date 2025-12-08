@@ -53,9 +53,11 @@ class UserWebController extends BaseWebController
             $filters['departments.id'] = $request->get('department_id');
         }
 
-        $queryParams             = $request->except('filter');
-        $queryParams['filter']   = $filters;
-        $queryParams['includes'] = 'avatar';
+        $queryParams              = $request->except('filter');
+        $queryParams['filter']    = $filters;
+        $queryParams['includes']  = 'avatar,roles';
+        $queryParams['withCount'] = 'roles.users,roles.permissions';
+        $queryParams['order_by']  = 'created_at';
 
         $response = $this->apiGet('api.v1.admin.org.users.index', $queryParams);
 
@@ -84,12 +86,35 @@ class UserWebController extends BaseWebController
 
     public function create(Request $request): View
     {
-        $userType     = $request->get('user_type') ?? UserTypeEnum::Employee->name;
+        $userType = UserTypeEnum::fromName(
+            Str::ucfirst($request->get('user_type') ?? UserTypeEnum::User->name)
+        );
+        $userTypeValue = $userType->value;
+        $userType      = $userType->name;
+
         $typeResponse = $this->apiGet('api.v1.admin.enums.keyValList', ['enum' => 'UserTypeEnum']);
 
+        $deptResponse  = ['result' => []];
+        $usersResponse = ['result' => []];
+
+        if ($userType === UserTypeEnum::Employee->name) {
+            $deptResponse = $this->apiGet(
+                'api.v1.admin.org.departments.index',
+                ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => null], 'includes' => 'children'],
+            );
+
+            $usersResponse = $this->apiGet(
+                'api.v1.admin.org.users.keyValList',
+                ['per_page' => 100, 'field' => 'full_name', 'filter' => ['user_type' => UserTypeEnum::Employee->value]]
+            );
+        }
+
         return view('Organization::users.add-or-edit', [
-            'userType'  => $userType,
-            'userTypes' => $typeResponse['result'] ?? [],
+            'userType'       => $userType,
+            'userTypeValue'  => $userTypeValue,
+            'userTypes'      => $typeResponse['result']  ?? [],
+            'allDepartments' => $deptResponse['result']  ?? [],
+            'users'          => $usersResponse['result'] ?? [],
         ]);
     }
 
@@ -102,22 +127,25 @@ class UserWebController extends BaseWebController
 
         $typeResponse = $this->apiGet('api.v1.admin.enums.keyValList', ['enum' => 'UserTypeEnum']);
 
-        if ($user->user_type === UserTypeEnum::Employee) {
-            $deptResponse = $this->apiGet(
-                'api.v1.admin.org.departments.index',
-                ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => null], 'includes' => 'children'],
-            );
-            $usersResponse = $this->apiGet(
-                'api.v1.admin.org.users.keyValList',
-                ['per_page' => 100, 'field' => 'full_name', 'filter' => ['user_type' => UserTypeEnum::Employee->value]]
-            );
-        }
+        $deptResponse = $this->apiGet(
+            'api.v1.admin.org.departments.index',
+            ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => null], 'includes' => 'children'],
+        );
+
+        $usersResponse = $this->apiGet(
+            'api.v1.admin.org.users.keyValList',
+            ['per_page' => 100, 'field' => 'full_name', 'filter' => ['user_type' => UserTypeEnum::Employee->value]]
+        );
+        $userType      = $user->user_type->name;
+        $userTypeValue = $user->user_type->value;
 
         return view('Organization::users.add-or-edit', [
             'user'           => $response['result']      ?? [],
             'allDepartments' => $deptResponse['result']  ?? [],
             'users'          => $usersResponse['result'] ?? [],
             'userTypes'      => $typeResponse['result']  ?? [],
+            'userType'       => $userType,
+            'userTypeValue'  => $userTypeValue,
         ]);
     }
 }
