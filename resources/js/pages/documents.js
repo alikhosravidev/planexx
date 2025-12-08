@@ -75,9 +75,30 @@ const handleFileSelect = (file, dropZone, highlightClasses = []) => {
   }
 };
 
+// Toggle temporary filter and refresh page with query param
+const initTemporaryToggle = () => {
+  const toggle = document.getElementById('is_temporary');
+  if (!toggle) return;
+
+  toggle.addEventListener('change', (event) => {
+    const params = new URLSearchParams(window.location.search);
+
+    if (event.target.checked) {
+      params.set('is_temporary', '1');
+    } else {
+      params.delete('is_temporary');
+    }
+
+    const query = params.toString();
+    const url = query ? `${window.location.pathname}?${query}` : window.location.pathname;
+    window.location.href = url;
+  });
+};
+
 // Initialize all features
 const initDocuments = () => {
   initDropZone();
+  initTemporaryToggle();
 };
 
 // Run on DOM ready
