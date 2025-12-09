@@ -38,6 +38,14 @@ class StoreUserRequest extends BaseRequest
             'direct_manager_id' => ['nullable', Rule::exists(User::class, 'id')],
             'department_id'     => ['nullable', Rule::exists(Department::class, 'id')],
             'employment_date'   => ['nullable', 'date'],
+            'image'             => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'image.max' => 'فایل نباید بزرگتر از 2 مگابایت باشد.',
         ];
     }
 }

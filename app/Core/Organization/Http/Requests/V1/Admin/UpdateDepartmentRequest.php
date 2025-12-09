@@ -38,4 +38,11 @@ class UpdateDepartmentRequest extends BaseRequest
             'is_active'   => 'required|boolean',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'image.max' => 'فایل نباید بزرگتر از 2 مگابایت باشد.',
+        ];
+    }
 }

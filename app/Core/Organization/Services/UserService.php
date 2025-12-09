@@ -60,8 +60,8 @@ readonly class UserService
                 $updated->changePassword($dto->password)->save();
             }
 
-            if ($updated->image && $image) {
-                $this->fileService->delete($updated->image);
+            if ($updated->avatar && $image) {
+                $this->fileService->delete($updated->avatar);
             }
 
             if ($image) {

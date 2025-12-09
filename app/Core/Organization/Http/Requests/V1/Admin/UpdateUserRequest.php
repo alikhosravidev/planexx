@@ -39,6 +39,14 @@ class UpdateUserRequest extends BaseRequest
             'department_id'     => ['sometimes', 'nullable', Rule::exists(Department::class, 'id')],
             'employment_date'   => ['sometimes', 'nullable', 'date'],
             'employee_code'     => ['sometimes', 'nullable', 'string', 'max:50'],
+            'image'             => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'image.max' => 'فایل نباید بزرگتر از 2 مگابایت باشد.',
         ];
     }
 }

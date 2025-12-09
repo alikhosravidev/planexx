@@ -30,6 +30,10 @@ readonly class DepartmentService implements DepartmentServiceInterface
 
             $department = $this->departmentRepository->create($data);
 
+            if ($department->thumbnail && $image) {
+                $this->fileService->delete($department->thumbnail);
+            }
+
             if ($dto->type->hasImage() && $image) {
                 $this->uploadDepartmentImage($department, $image);
             }
