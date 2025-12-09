@@ -37,7 +37,7 @@ const getCsrfToken = () => {
  */
 const createHttpClient = () => {
   const instance = axios.create({
-    timeout: 10000,
+    timeout: 120000,
     // Enable credentials for cross-domain requests (Sanctum)
     withCredentials: true,
     headers: {

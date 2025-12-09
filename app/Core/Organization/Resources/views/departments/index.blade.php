@@ -61,12 +61,12 @@
         return $total;
     };
     $totalEmployees = $sumEmployees($departments);
-    $maxLevel = 0;
+    $rolesCount = \App\Core\Organization\Entities\Role::query()->count();
     $stats = [
         ['title' => 'کل دپارتمان‌ها', 'value' => $totalDepartments, 'icon' => 'fa-solid fa-building', 'color' => 'blue'],
         ['title' => 'دپارتمان‌های فعال', 'value' => $activeDepartments, 'icon' => 'fa-solid fa-check-circle', 'color' => 'green'],
         ['title' => 'کل کارمندان', 'value' => $totalEmployees, 'icon' => 'fa-solid fa-users', 'color' => 'purple'],
-        ['title' => 'نقش های سازمانی', 'value' => $maxLevel, 'icon' => 'fa-solid fa-sitemap', 'color' => 'orange'],
+        ['title' => 'نقش های سازمانی', 'value' => $rolesCount, 'icon' => 'fa-solid fa-shield-halved', 'color' => 'orange'],
     ];
 @endphp
 
