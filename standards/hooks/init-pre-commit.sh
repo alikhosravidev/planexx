@@ -10,7 +10,7 @@ git config --local --replace-all safe.directory /var/www
 
 # Load container name from .env
 CONTAINER_NAME=$(grep -E '^CONTAINER_NAME=' .env | cut -d '=' -f2 | tr -d '\r"')
-CONTAINER_NAME=${CONTAINER_NAME:-lsp}
+CONTAINER_NAME=${CONTAINER_NAME:-planexx}
 
 # Export container name for scripts
 export CONTAINER_NAME

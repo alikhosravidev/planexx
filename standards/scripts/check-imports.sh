@@ -10,7 +10,7 @@ git config --local --replace-all safe.directory /var/www 2>/dev/null || true
 # Load container name from environment or .env
 if [ -z "$CONTAINER_NAME" ]; then
     CONTAINER_NAME=$(grep -E '^CONTAINER_NAME=' .env 2>/dev/null | cut -d '=' -f2 | tr -d '\r"')
-    CONTAINER_NAME=${CONTAINER_NAME:-lsp}
+    CONTAINER_NAME=${CONTAINER_NAME:-planexx}
 fi
 
 # Get staged PHP files

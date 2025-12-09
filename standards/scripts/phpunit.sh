@@ -28,12 +28,12 @@ if [ -z "$CONTAINER_NAME" ]; then
     if [ -z "$CONTAINER_NAME" ]; then
         CONTAINER_NAME=$(grep -E '^CONTAINER_NAME=' .env 2>/dev/null | cut -d '=' -f2 | tr -d '\r"')
     fi
-    CONTAINER_NAME=${CONTAINER_NAME:-lsp}
+    CONTAINER_NAME=${CONTAINER_NAME:-planexx}
 fi
 
 # Load database name from .env.testing
 DB_DATABASE=$(grep -E '^DB_DATABASE=' .env.testing 2>/dev/null | cut -d '=' -f2 | tr -d '\r"')
-DB_DATABASE=${DB_DATABASE:-lsp_test}
+DB_DATABASE=${DB_DATABASE:-planexx_test}
 
 echo "⚙️  Configuration:"
 echo "  - Container: ${CONTAINER_NAME}_app"
