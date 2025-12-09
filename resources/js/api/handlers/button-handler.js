@@ -180,7 +180,7 @@ export const handleButtonClick = async (event) => {
             }
           }
         } else {
-          await executeAction(actionName, result, button);
+          await executeAction(actionName, result.result, button);
         }
       }
     }

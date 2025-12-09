@@ -11,8 +11,11 @@
         'blue'   => ['main' => '#3B82F6', 'tab' => '#60A5FA'],
         'slate'  => ['main' => '#64748B', 'tab' => '#94A3B8'],
         'amber'  => ['main' => '#F59E0B', 'tab' => '#FBBF24'],
+        'orange' => ['main' => '#F97316', 'tab' => '#FB923C'],
+        'teal'   => ['main' => '#14B8A6', 'tab' => '#2DD4BF'],
+        'red'    => ['main' => '#EF4444', 'tab' => '#F87171'],
     ];
-    
+
     $colors = $colorClasses[$folder['color'] ?? 'blue'] ?? $colorClasses['blue'];
     $filesCount = $folder['files_count'] ?? 0;
     $name = $folder['name'] ?? 'پوشه';

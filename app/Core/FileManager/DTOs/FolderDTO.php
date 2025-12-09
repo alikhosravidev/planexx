@@ -8,16 +8,18 @@ use Illuminate\Contracts\Support\Arrayable;
 
 final readonly class FolderDTO implements Arrayable
 {
+    public ?string $color;
     public function __construct(
         public string  $name,
         public ?string $moduleName = null,
         public ?int    $parentId = null,
         public bool    $isPublic = false,
-        public ?string $color = null,
+        ?string $color = null,
         public ?string $icon = null,
         public ?string $description = null,
         public int     $order = 0,
     ) {
+        $this->color = null !== $color ? explode('-', $color)[0] : null;
     }
 
     public function toArray(): array

@@ -40,8 +40,9 @@ export const builtInActions = {
   /**
    * Redirect to URL from response.redirect_url
    */
-  redirect: (data) => {
-    const url = data.redirect_url || data.redirectUrl;
+  redirect: (data, element) => {
+    const url =
+      data.redirect_url || data.redirectUrl || element.dataset.redirectUrl;
     if (url) {
       return new Promise((resolve) => {
         setTimeout(() => {

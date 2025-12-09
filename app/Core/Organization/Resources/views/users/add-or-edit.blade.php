@@ -133,7 +133,19 @@
                             <i class="fa-solid fa-times ml-2"></i>
                             <span>انصراف</span>
                         </a>
-                        <x-ui.button type="button" icon="fa-solid fa-trash" variant="danger" class="mr-auto">حذف کاربر</x-ui.button>
+                        @isset($user)
+                            <x-ui.button
+                                data-ajax
+                                data-method="DELETE"
+                                data-confirm="آیا از حذف این کاربر اطمینان دارید؟"
+                                data-action="{{ route('api.v1.admin.org.users.destroy', $user['id']) }}"
+                                data-on-success="redirect"
+                                data-redirect-url="{{ route('web.org.users.index') }}"
+                                type="button"
+                                icon="fa-solid fa-trash"
+                                variant="danger"
+                                class="mr-auto">حذف کاربر</x-ui.button>
+                        @endisset
                     </div>
                 </form>
             </div>

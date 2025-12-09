@@ -32,7 +32,7 @@ class DocumentWebController extends BaseWebController
         $queryParams['filter']   = $filters;
         $queryParams['sort']     = $request->get('sort', '-created_at');
         $queryParams['per_page'] = $request->get('per_page', 20);
-        $queryParams['includes'] = 'folder,uploader,tags';
+        $queryParams['includes'] = 'folder,uploader.avatar,tags';
 
         $filesResponse = $this->apiGet('api.v1.admin.file-manager.files.index', $queryParams);
 
@@ -75,7 +75,7 @@ class DocumentWebController extends BaseWebController
             'filter'   => $filters,
             'sort'     => $request->get('sort', '-created_at'),
             'per_page' => $request->get('per_page', 20),
-            'includes' => 'uploader,tags',
+            'includes' => 'uploader.avatar,tags',
         ]);
 
         return view('FileManager::documents.folder', [

@@ -52,6 +52,6 @@ class FolderAPIController extends BaseAPIController
         $folder = $this->repository->findOrFail($id);
         $this->service->delete($folder);
 
-        return $this->response->success([]);
+        return $this->response->success([], 'پوشه با موفقیت ایجاد شد.');
     }
 }

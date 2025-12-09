@@ -6,12 +6,14 @@ namespace App\Core\FileManager\Services;
 
 use App\Core\FileManager\DTOs\FolderDTO;
 use App\Core\FileManager\Entities\Folder;
+use App\Core\FileManager\Repositories\FileRepository;
 use App\Core\FileManager\Repositories\FolderRepository;
 
 readonly class FolderService
 {
     public function __construct(
         private FolderRepository $folderRepository,
+        private FileRepository   $fileRepository,
     ) {
     }
 
@@ -27,6 +29,15 @@ readonly class FolderService
 
     public function delete(Folder $folder): bool
     {
+        $archiveFolder = $this->folderRepository
+            ->newQuery()
+            ->where('name', 'آرشیو')
+            ->first();
+        $this->fileRepository
+            ->newQuery()
+            ->where('folder_id', $folder->id)
+            ->update(['folder_id' => $archiveFolder->id]);
+
         return $this->folderRepository->delete($folder->id);
     }
 

@@ -224,7 +224,11 @@ abstract class BaseAPIController
         foreach ($relations as $relation) {
             $aliasOrRelation = $aliases[$relation] ?? $relation;
 
-            if (!in_array($aliasOrRelation, $availableIncludes, true)) {
+            $rootRelation = str_contains($aliasOrRelation, '.')
+                ? explode('.', $aliasOrRelation, 2)[0]
+                : $aliasOrRelation;
+
+            if (!in_array($rootRelation, $availableIncludes, true)) {
                 $invalidIncludes[] = $relation;
             }
         }

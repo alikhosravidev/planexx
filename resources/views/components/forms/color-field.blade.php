@@ -3,6 +3,7 @@
     'label' => 'رنگ',
     'selected' => null,
     'colors' => null,
+    'withCustomColor' => true,
 ])
 
 <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
@@ -19,14 +20,16 @@
                 :selected="$selected"
             />
 
-            <div class="border-t border-border-light px-lg py-3 flex items-center gap-3">
-                <input
-                    type="color"
-                    class="w-10 h-10 rounded border border-border-medium js-custom-color-input"
-                    data-color-hidden-name="{{ $name }}"
-                >
-                <span class="text-xs text-text-muted">رنگ سفارشی</span>
-            </div>
+            @if($withCustomColor)
+                <div class="border-t border-border-light px-lg py-3 flex items-center gap-3">
+                    <input
+                        type="color"
+                        class="w-10 h-10 rounded border border-border-medium js-custom-color-input"
+                        data-color-hidden-name="{{ $name }}"
+                    >
+                    <span class="text-xs text-text-muted">رنگ سفارشی</span>
+                </div>
+            @endif
         </div>
 
     </div>
