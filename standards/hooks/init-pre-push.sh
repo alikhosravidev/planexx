@@ -42,6 +42,14 @@ sh ./standards/scripts/check-migrate-command.sh || {
     exit 1
 }
 
+# Run frontend build checks (npm run build)
+echo ""
+echo "🧱 Running frontend build checks (npm run build)..."
+sh ./standards/scripts/check-build-command.sh || {
+    echo "❌ Frontend build checks failed!"
+    exit 1
+}
+
 # Run tests
 echo ""
 echo "🧪 Running tests..."

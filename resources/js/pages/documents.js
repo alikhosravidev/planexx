@@ -90,7 +90,9 @@ const initTemporaryToggle = () => {
     }
 
     const query = params.toString();
-    const url = query ? `${window.location.pathname}?${query}` : window.location.pathname;
+    const url = query
+      ? `${window.location.pathname}?${query}`
+      : window.location.pathname;
     window.location.href = url;
   });
 };
