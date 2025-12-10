@@ -48,24 +48,8 @@ class FormService {
         // For file uploads, use FormData directly
         data = formData;
       } else {
-        // For regular forms, convert to object
-        data = {};
-        formData.forEach((value, key) => {
-          if (key.endsWith('[]')) {
-            const cleanKey = key.slice(0, -2);
-            if (!Array.isArray(data[cleanKey])) {
-              data[cleanKey] = [];
-            }
-            data[cleanKey].push(value);
-          } else if (Object.prototype.hasOwnProperty.call(data, key)) {
-            if (!Array.isArray(data[key])) {
-              data[key] = [data[key]];
-            }
-            data[key].push(value);
-          } else {
-            data[key] = value;
-          }
-        });
+        // For regular forms, convert to object (supports nested arrays)
+        data = this.normalizeFormData(formData);
       }
 
       // Build and execute request
@@ -212,8 +196,32 @@ class FormService {
    */
   getFormData(form) {
     const formData = new FormData(form);
+    return this.normalizeFormData(formData);
+  }
+
+  normalizeFormData(formData) {
     const data = {};
+    const nested = {};
+
     formData.forEach((value, key) => {
+      const nestedMatch = key.match(/^([^\[]+)\[\]\[([^\]]+)]$/);
+
+      if (nestedMatch) {
+        const baseKey = nestedMatch[1];
+        const fieldKey = nestedMatch[2];
+
+        if (!nested[baseKey]) {
+          nested[baseKey] = {};
+        }
+
+        if (!nested[baseKey][fieldKey]) {
+          nested[baseKey][fieldKey] = [];
+        }
+
+        nested[baseKey][fieldKey].push(value);
+        return;
+      }
+
       if (key.endsWith('[]')) {
         const cleanKey = key.slice(0, -2);
         if (!Array.isArray(data[cleanKey])) {
@@ -229,6 +237,38 @@ class FormService {
         data[key] = value;
       }
     });
+
+    Object.entries(nested).forEach(([baseKey, fields]) => {
+      const lengths = Object.values(fields).map(
+        (fieldValues) => fieldValues.length,
+      );
+
+      if (lengths.length === 0) {
+        return;
+      }
+
+      const maxLength = Math.max(...lengths);
+
+      if (!Array.isArray(data[baseKey])) {
+        data[baseKey] = [];
+      }
+
+      for (let i = 0; i < maxLength; i += 1) {
+        const item =
+          data[baseKey][i] && typeof data[baseKey][i] === 'object'
+            ? data[baseKey][i]
+            : {};
+
+        Object.entries(fields).forEach(([fieldKey, fieldValues]) => {
+          if (i < fieldValues.length) {
+            item[fieldKey] = fieldValues[i];
+          }
+        });
+
+        data[baseKey][i] = item;
+      }
+    });
+
     return data;
   }
 

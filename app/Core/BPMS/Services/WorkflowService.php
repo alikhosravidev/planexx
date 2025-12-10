@@ -16,25 +16,42 @@ readonly class WorkflowService implements WorkflowServiceInterface
     public function __construct(
         private WorkflowRepository $workflowRepository,
         private WorkflowStateRepository $workflowStateRepository,
+        private WorkflowStateService $workflowStateService
     ) {
     }
 
     public function create(WorkflowDTO $dto): Workflow
     {
-        $data = $dto->toArray();
-
-        $workflow = $this->workflowRepository->create($data);
+        $workflow = $this->workflowRepository->create($dto->toArray());
+        $this->syncAllowedRoles($workflow, $dto->allowedRoles);
+        $this->workflowStateService->sync($workflow, $dto->states);
 
         WorkflowCreated::dispatch($workflow);
 
         return $workflow;
     }
 
+    private function syncAllowedRoles(Workflow $workflow, array $allowedRoles): void
+    {
+        if (empty($allowedRoles)) {
+            return;
+        }
+
+        $roleIds = array_filter(array_map('intval', $allowedRoles));
+
+        if (method_exists($workflow, 'allowedRoles')) {
+            $workflow->allowedRoles()->sync($roleIds);
+        }
+    }
+
     public function update(Workflow $workflow, WorkflowDTO $dto): Workflow
     {
-        $data = $dto->toArray();
+        $workflow = $this->workflowRepository->update($workflow->id, $dto->toArray());
 
-        return $this->workflowRepository->update($workflow->id, $data);
+        $this->syncAllowedRoles($workflow, $dto->allowedRoles);
+        $this->workflowStateService->sync($workflow, $dto->states);
+
+        return $workflow;
     }
 
     public function delete(Workflow $workflow): bool

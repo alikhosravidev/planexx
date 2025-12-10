@@ -19,6 +19,8 @@ final readonly class WorkflowDTO implements Arrayable
         public ?UserId $ownerId = null,
         public ?UserId $createdBy = null,
         public bool $isActive = true,
+        public array $allowedRoles = [],
+        public array $states = [],
     ) {
     }
 

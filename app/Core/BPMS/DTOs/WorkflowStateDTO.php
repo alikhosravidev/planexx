@@ -20,7 +20,7 @@ final readonly class WorkflowStateDTO implements Arrayable
         public ?string $description = null,
         public ?ColorHex $color = null,
         public ?int $order = null,
-        public WorkflowStatePosition $position = WorkflowStatePosition::MIDDLE,
+        public WorkflowStatePosition $position = WorkflowStatePosition::Middle,
         public ?UserId $defaultAssigneeId = null,
         public bool $isActive = true,
     ) {

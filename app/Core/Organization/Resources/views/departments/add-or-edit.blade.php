@@ -256,4 +256,33 @@
             </div>
         </main>
     </div>
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Handle type-based field visibility
+                function toggleTypeFields(type) {
+                    const imageSection = document.getElementById('image-upload-section');
+                    const iconColorSection = document.getElementById('icon-color-section');
+
+                    if (type === '1' || type === '2') { // Holding or Brand
+                        imageSection.classList.remove('hidden');
+                        iconColorSection.classList.add('hidden');
+                    } else { // Department or Team
+                        imageSection.classList.add('hidden');
+                        iconColorSection.classList.remove('hidden');
+                    }
+                }
+
+                // Initial state
+                const typeSelect = document.querySelector('select[name="type"]');
+                if (typeSelect) {
+                    toggleTypeFields(typeSelect.value);
+
+                    typeSelect.addEventListener('change', function () {
+                        toggleTypeFields(this.value);
+                    });
+                }
+            });
+        </script>
+    @endpush
 </x-layouts.app>

@@ -98,6 +98,7 @@ services:
         image: node:lts-alpine
         container_name: ${CONTAINER_NAME}_node
         tty: true
+        restart: unless-stopped
         user: "${UID}:${GID}"
         volumes:
             - ./:/var/www

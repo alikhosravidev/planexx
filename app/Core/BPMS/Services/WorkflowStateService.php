@@ -6,9 +6,13 @@ namespace App\Core\BPMS\Services;
 
 use App\Core\BPMS\Contracts\WorkflowStateServiceInterface;
 use App\Core\BPMS\DTOs\WorkflowStateDTO;
+use App\Core\BPMS\Entities\Workflow;
 use App\Core\BPMS\Entities\WorkflowState;
+use App\Core\BPMS\Enums\WorkflowStatePosition;
 use App\Core\BPMS\Repositories\TaskRepository;
 use App\Core\BPMS\Repositories\WorkflowStateRepository;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use LogicException;
 
 readonly class WorkflowStateService implements WorkflowStateServiceInterface
@@ -59,5 +63,75 @@ readonly class WorkflowStateService implements WorkflowStateServiceInterface
             ->max('order');
 
         return $maxOrder !== null ? ((int) $maxOrder) + 1 : 0;
+    }
+
+    /**
+     * @param  Workflow  $workflow
+     * @param  array  $states
+     * @return void
+     * @throws \Throwable
+     */
+    public function sync(Workflow $workflow, array $states): void
+    {
+        DB::transaction(function () use ($workflow, $states) {
+            $formattedStates = $this->prepareStatesData($workflow, $states);
+
+            $this->pruneObsoleteStates($workflow, $formattedStates);
+
+            $this->persistStates($workflow, $formattedStates);
+        });
+    }
+
+    protected function prepareStatesData(Workflow $workflow, array $states): Collection
+    {
+        return collect($states)->map(function ($stateData, $index) use ($workflow) {
+            return [
+                'id'                  => $stateData['id'] ?? null,
+                'workflow_id'         => $workflow->id,
+                'name'                => $stateData['name'] ?? '',
+                'slug'                => $this->generateSlug($stateData, $index),
+                'description'         => $stateData['description']         ?? null,
+                'color'               => $stateData['color']               ?? null,
+                'order'               => $stateData['order']               ?? null,
+                'default_assignee_id' => $stateData['default_assignee_id'] ?? null,
+                'is_active'           => true,
+                'position'            => $this->resolvePosition($stateData['position'] ?? 'middle'),
+            ];
+        });
+    }
+
+    protected function pruneObsoleteStates(Workflow $workflow, Collection $formattedStates): void
+    {
+        $idsToKeep = $formattedStates->pluck('id')->filter()->all();
+
+        $workflow->states()
+            ->whereNotIn('id', $idsToKeep)
+            ->delete();
+    }
+
+    protected function persistStates(Workflow $workflow, Collection $formattedStates): void
+    {
+        foreach ($formattedStates as $attributes) {
+            $workflow->states()->updateOrCreate(
+                ['id' => $attributes['id']],
+                $attributes
+            );
+        }
+    }
+
+    private function resolvePosition(string $positionString): WorkflowStatePosition
+    {
+        return match ($positionString) {
+            'start'         => WorkflowStatePosition::Start,
+            'final-success' => WorkflowStatePosition::FinalSuccess,
+            'final-failed'  => WorkflowStatePosition::FinalFailed,
+            'final-closed'  => WorkflowStatePosition::FinalClosed,
+            default         => WorkflowStatePosition::Middle,
+        };
+    }
+
+    private function generateSlug(array $stateData, int $index): string
+    {
+        return $stateData['slug'] ?? $stateData['name'] ?? 'state-' . ($index + 1);
     }
 }

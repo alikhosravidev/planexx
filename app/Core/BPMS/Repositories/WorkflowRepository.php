@@ -10,12 +10,13 @@ use App\Core\BPMS\Entities\Workflow;
 class WorkflowRepository extends BaseRepository
 {
     public array $fieldSearchable = [
-        'id'            => '=',
-        'name'          => 'like',
-        'slug'          => 'like',
+        'id'   => '=',
+        'name' => 'like',
+        'slug' => 'like',
+    ];
+
+    public array $filterableFields = [
         'department_id' => '=',
-        'owner_id'      => '=',
-        'created_by'    => '=',
         'is_active'     => '=',
     ];
 

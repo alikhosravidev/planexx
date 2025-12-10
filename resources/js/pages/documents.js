@@ -101,6 +101,24 @@ const initTemporaryToggle = () => {
 const initDocuments = () => {
   initDropZone();
   initTemporaryToggle();
+
+  document.querySelectorAll('[data-dropdown-toggle]').forEach((toggle) => {
+    toggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const targetId = this.getAttribute('data-dropdown-toggle');
+      const dropdown = document.getElementById(targetId);
+      document.querySelectorAll('[data-dropdown]').forEach((d) => {
+        if (d.id !== targetId) d.classList.add('hidden');
+      });
+      dropdown?.classList.toggle('hidden');
+    });
+  });
+
+  document.addEventListener('click', () => {
+    document
+      .querySelectorAll('[data-dropdown]')
+      .forEach((d) => d.classList.add('hidden'));
+  });
 };
 
 // Run on DOM ready

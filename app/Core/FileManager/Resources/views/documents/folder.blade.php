@@ -158,4 +158,6 @@
     <x-FileManager::upload-modal :currentFolder="$folder"/>
 
     <x-FileManager::folder-modal :folder="$folder"/>
+
+    @vite('resources/js/pages/documents.js')
 </x-layouts.app>

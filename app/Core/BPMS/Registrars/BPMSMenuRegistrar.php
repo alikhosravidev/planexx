@@ -26,7 +26,7 @@ class BPMSMenuRegistrar implements MenuRegistrar
                 ->order(1);
 
             $menu->item('مدیریت فرایندها', 'bpms-workflows')
-                ->url('#')
+                ->route('web.bpms.workflows.index')
                 ->icon('fa-solid fa-diagram-project')
                 ->order(2);
         });

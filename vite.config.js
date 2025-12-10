@@ -22,6 +22,8 @@ function getInputFiles() {
     const input = [
         'resources/css/app.css',
         'resources/js/app.js',
+        'resources/js/pages/documents.js',
+        'resources/js/pages/bpms-workflows.js',
     ];
 
     return input;

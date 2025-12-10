@@ -6,13 +6,14 @@
     'required' => false,
     'error' => null,
     'value' => null,
+    'direction' => 'rtl',
 ])
 
-<div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
+<div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200" dir="{{ $direction }}">
     <div class="flex items-stretch">
         @if($label)
             <label for="{{ $name }}"
-                {{ $attributes->merge(['class' => 'bg-bg-label border-l border-border-light px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal']) }}>
+                {{ $attributes->merge(['class' => 'bg-bg-label ' . ($direction === 'ltr' ? 'border-r' : 'border-l') . ' border-border-light px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal' . ($direction === 'ltr' ? ' text-left' : '')]) }}>
                 {{ $label }}
                 @if($required)
                     <span class="text-red-500">*</span>
@@ -26,7 +27,7 @@
             id="{{ $name }}"
             placeholder="{{ $placeholder }}"
             {{ $required ? 'required' : '' }}
-            {{ $attributes->merge(['class' => 'flex-1 px-lg py-3.5 text-base text-text-primary outline-none bg-transparent leading-normal']) }}
+            {{ $attributes->merge(['class' => 'flex-1 px-lg py-3.5 text-base text-text-primary outline-none bg-transparent leading-normal' . ($direction === 'ltr' ? ' text-left' : '')]) }}
             value="{{ old($name, $value) }}"
         >
 

@@ -157,7 +157,7 @@ readonly class TaskService implements TaskServiceInterface
         $state = $this->workflowStateRepository
             ->makeModel()
             ->where('workflow_id', $workflowId)
-            ->where('position', WorkflowStatePosition::START)
+            ->where('position', WorkflowStatePosition::Start)
             ->where('is_active', true)
             ->first();
 
@@ -173,7 +173,7 @@ readonly class TaskService implements TaskServiceInterface
         $state = $this->workflowStateRepository
             ->makeModel()
             ->where('workflow_id', $workflowId)
-            ->where('position', WorkflowStatePosition::FINAL_SUCCESS)
+            ->where('position', WorkflowStatePosition::FinalSuccess)
             ->where('is_active', true)
             ->first();
 

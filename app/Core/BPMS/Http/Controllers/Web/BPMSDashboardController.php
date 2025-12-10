@@ -30,10 +30,9 @@ class BPMSDashboardController extends BaseWebController
         ];
 
         $stats              = $this->statManager->getTransformed('bpms.dashboard.stats');
+        $topWorkflows       = $this->statManager->getTransformed('bpms.dashboard.top-workflows');
         $quickAccessModules = $this->quickAccessManager->getTransformed('bpms.dashboard.quick-access');
-
-        $topWorkflows     = $this->statManager->getTransformed('bpms.dashboard.top-workflows');
-        $taskDistribution = $this->distributionManager->getTransformed('bpms.dashboard.task-distribution');
+        $taskDistribution   = $this->distributionManager->getTransformed('bpms.dashboard.task-distribution');
 
         return view(
             'BPMS::dashboard.index',

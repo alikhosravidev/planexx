@@ -10,6 +10,7 @@
             header-variant="back"
             module-title="مدیریت وظایف"
             module-icon="fa-solid fa-diagram-project"
+            color="indigo"
         />
 
         <main class="flex-1 flex flex-col">

@@ -13,6 +13,7 @@ use App\Core\Organization\Enums\GenderEnum;
 use App\Core\Organization\Enums\UserTypeEnum;
 use App\Core\Organization\Services\Auth\ValueObjects\Identifier;
 use App\Core\Organization\Traits\HasApiTokens;
+use App\Core\Organization\Traits\HasDepartment;
 use App\Core\Organization\Traits\HasJobPosition;
 use App\Core\Organization\Traits\HasRoles;
 use App\ValueObjects\Email;
@@ -26,7 +27,6 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\Authorizable;
@@ -74,6 +74,7 @@ class User extends BaseEntity implements
     use SoftDeletes;
     use HasJobPosition;
     use HasFile;
+    use HasDepartment;
 
     public const TABLE = 'core_org_users';
 
@@ -143,16 +144,6 @@ class User extends BaseEntity implements
     public function directManager(): BelongsTo
     {
         return $this->belongsTo(self::class, 'direct_manager_id');
-    }
-
-    public function departments(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            Department::class,
-            'core_org_user_departments',
-            'user_id',
-            'department_id'
-        )->withPivot('is_primary')->withTimestamps();
     }
 
     protected function mobile(): Attribute

@@ -16,12 +16,29 @@
     'rowClick' => null,
     'selectable' => false,
     'selected' => [],
+    'rowClass' => null,
 ])
 
 @php
     $totalColumns = count($columns) + ($actions ? 1 : 0) + ($selectable ? 1 : 0);
 
     $actionsWidth = $actionsWidth ?? (count($actions ?? []) * 36 + 24) . 'px';
+
+    $resolveRowClass = function ($item) use ($rowClass) {
+        if (! $rowClass) {
+            return null;
+        }
+
+        if ($rowClass instanceof \Closure) {
+            return $rowClass($item);
+        }
+
+        if (is_callable($rowClass)) {
+            return call_user_func($rowClass, $item);
+        }
+
+        return $rowClass;
+    };
 @endphp
 
 <x-ui.table
@@ -80,6 +97,7 @@
                 $itemId = data_get($item, 'id');
                 $isSelected = in_array($itemId, $selected);
                 $rowUrl = null;
+                $rowClassValue = $resolveRowClass($item);
 
                 if ($rowClick) {
                     if (is_callable($rowClick)) {
@@ -94,6 +112,7 @@
                 :selected="$isSelected"
                 :href="$rowUrl"
                 :clickable="(bool) $rowUrl"
+                :class="$rowClassValue"
             >
                 @if($selectable)
                     <x-ui.table.td align="center" :compact="$compact">

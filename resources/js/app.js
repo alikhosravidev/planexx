@@ -8,7 +8,6 @@ import './bootstrap';
 // Import UI component initializers
 import { uiComponents } from './ui-components.js';
 import { forms } from './forms/index.js';
-import './pages/documents.js';
 import { initPersianDigits } from './utils/persian-digits.js';
 
 // Initialize Persian digits conversion with configurable skip classes

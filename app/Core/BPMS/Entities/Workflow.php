@@ -7,6 +7,7 @@ namespace App\Core\BPMS\Entities;
 use App\Contracts\Entity\BaseEntity;
 use App\Core\BPMS\Database\Factories\WorkflowFactory;
 use App\Core\Organization\Entities\Department;
+use App\Core\Organization\Entities\Role;
 use App\Core\Organization\Entities\User;
 use App\Core\Organization\Traits\HasCreator;
 use App\Core\Organization\Traits\HasOwner;
@@ -15,7 +16,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Permission\Models\Role;
 
 /**
  * @property int                         $id
@@ -69,7 +69,8 @@ class Workflow extends BaseEntity
 
     public function states(): HasMany
     {
-        return $this->hasMany(WorkflowState::class, 'workflow_id');
+        return $this->hasMany(WorkflowState::class, 'workflow_id')
+            ->orderBy('position');
     }
 
     public function tasks(): HasMany
