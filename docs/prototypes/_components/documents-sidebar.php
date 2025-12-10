@@ -5,7 +5,7 @@
  */
 
 // آیتم‌های فعال منو
-$currentPage   = $currentPage     ?? '';
+$currentPage   = $currentPage   ?? '';
 $currentFolder = $currentFolder ?? '';
 
 // فولدرهای پیش‌فرض سیستم

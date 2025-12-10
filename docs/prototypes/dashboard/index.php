@@ -73,7 +73,7 @@ $quickAccessModules = [
         'title'   => 'مدیریت وظایف',
         'icon'    => 'fa-solid fa-list-check',
         'color'   => 'indigo',
-        'url'     => '/dashboard/tasks.php',
+        'url'     => '/dashboard/workflows/index.php',
         'enabled' => true,
     ],
     [
@@ -187,9 +187,9 @@ component('head');
                   'stone'  => 'bg-stone-100',
                   'gray'   => 'bg-gray-50',
               ];
-              $iconColor     = $iconColors[$module['color']]         ?? $iconColors['blue'];
+              $iconColor     = $iconColors[$module['color']]     ?? $iconColors['blue'];
               $gradientColor = $gradientColors[$module['color']] ?? $gradientColors['blue'];
-              $bgColor       = $bgColors[$module['color']]             ?? $bgColors['blue'];
+              $bgColor       = $bgColors[$module['color']]       ?? $bgColors['blue'];
               $isDisabled    = !$module['enabled'];
               ?>
             

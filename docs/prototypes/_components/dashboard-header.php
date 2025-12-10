@@ -5,14 +5,14 @@
  */
 
 // دریافت متغیرها
-$pageTitle   = $pageTitle     ?? 'داشبورد';
+$pageTitle   = $pageTitle   ?? 'داشبورد';
 $breadcrumbs = $breadcrumbs ?? [
     ['label' => 'داشبورد', 'url' => '/dashboard/index.php'],
 ];
 
 // اطلاعات کاربر (در پروژه واقعی از session می‌آید)
-$userName   = $userName     ?? 'محمدرضا احمدی';
-$userRole   = $userRole     ?? 'مدیر سیستم';
+$userName   = $userName   ?? 'محمدرضا احمدی';
+$userRole   = $userRole   ?? 'مدیر سیستم';
 $userAvatar = $userAvatar ?? null;
 ?>
 

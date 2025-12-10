@@ -217,7 +217,7 @@ component('head', ['pageTitle' => $pageTitle]);
           <div class="divide-y divide-border-light">
             <?php foreach ($recentFiles as $file): ?>
               <?php
-              $typeConfig         = $fileTypeConfig[$file['type']]                    ?? $fileTypeConfig['default'];
+              $typeConfig         = $fileTypeConfig[$file['type']]            ?? $fileTypeConfig['default'];
                 $folderColorClass = $folderColorClasses[$file['folderColor']] ?? 'text-gray-500';
                 ?>
               <div class="flex items-center gap-4 px-6 py-4 hover:bg-bg-secondary/50 transition-colors duration-200 group">

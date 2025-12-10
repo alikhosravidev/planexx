@@ -83,7 +83,7 @@ $orgMenuItems = [
           }
 
           $currentPath = $_SERVER['PHP_SELF'];
-          $currentType = $_GET['type']   ?? '';
+          $currentType = $_GET['type']      ?? '';
           $itemType    = $itemQuery['type'] ?? '';
 
           // Check if current page matches the menu item
@@ -178,7 +178,7 @@ $orgMenuItems = [
           }
 
           $currentPath = $_SERVER['PHP_SELF'];
-          $currentType = $_GET['type']   ?? '';
+          $currentType = $_GET['type']      ?? '';
           $itemType    = $itemQuery['type'] ?? '';
 
           $pathMatches = str_contains($currentPath, str_replace('/dashboard/org/', '', $itemPath));

@@ -200,7 +200,7 @@ component('head', ['pageTitle' => $pageTitle]);
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <?php foreach ($favoriteFiles as $file): ?>
             <?php
-            $typeConfig         = $fileTypeConfig[$file['type']]                    ?? $fileTypeConfig['default'];
+            $typeConfig         = $fileTypeConfig[$file['type']]            ?? $fileTypeConfig['default'];
               $folderColorClass = $folderColorClasses[$file['folderColor']] ?? 'text-gray-500';
               ?>
             <div class="bg-bg-primary border border-border-light rounded-2xl p-5 hover:shadow-md hover:border-amber-200 transition-all duration-200 group">

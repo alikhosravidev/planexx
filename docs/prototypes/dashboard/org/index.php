@@ -157,9 +157,9 @@ component('head', ['pageTitle' => $pageTitle]);
                   'teal'   => 'bg-teal-50',
                   'orange' => 'bg-orange-50',
               ];
-              $iconColor     = $iconColors[$module['color']]         ?? $iconColors['blue'];
+              $iconColor     = $iconColors[$module['color']]     ?? $iconColors['blue'];
               $gradientColor = $gradientColors[$module['color']] ?? $gradientColors['blue'];
-              $bgColor       = $bgColors[$module['color']]             ?? $bgColors['blue'];
+              $bgColor       = $bgColors[$module['color']]       ?? $bgColors['blue'];
               ?>
             
             <a href="<?= $module['url'] ?>" 

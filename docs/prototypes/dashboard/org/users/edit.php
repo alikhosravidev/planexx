@@ -73,15 +73,15 @@ component('head', ['pageTitle' => $pageTitle]);
           'actionButtons' => $actionButtons,
       ]); ?>
       <div class="flex-1 p-6 lg:p-8">
-
+      
       <form method="POST" enctype="multipart/form-data">
-
+        
         <!-- اطلاعات پایه -->
         <div class="bg-bg-primary border border-border-light rounded-2xl p-6 mb-6">
           <h2 class="text-lg font-semibold text-text-primary leading-snug mb-6">اطلاعات پایه</h2>
-
+          
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
+            
             <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
               <div class="flex items-stretch">
                 <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal">
@@ -91,7 +91,7 @@ component('head', ['pageTitle' => $pageTitle]);
                        class="flex-1 px-lg py-3.5 text-base text-text-primary outline-none bg-transparent leading-normal">
               </div>
             </div>
-
+            
             <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
               <div class="flex items-stretch">
                 <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal">
@@ -101,7 +101,7 @@ component('head', ['pageTitle' => $pageTitle]);
                        class="flex-1 px-lg py-3.5 text-base text-text-primary outline-none bg-transparent leading-normal">
               </div>
             </div>
-
+            
             <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
               <div class="flex items-stretch">
                 <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal">
@@ -111,7 +111,7 @@ component('head', ['pageTitle' => $pageTitle]);
                        class="flex-1 px-lg py-3.5 text-base text-text-primary outline-none bg-transparent leading-normal">
               </div>
             </div>
-
+            
             <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
               <div class="flex items-stretch">
                 <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal">
@@ -121,7 +121,7 @@ component('head', ['pageTitle' => $pageTitle]);
                        class="flex-1 px-lg py-3.5 text-base text-text-primary outline-none bg-transparent leading-normal">
               </div>
             </div>
-
+            
             <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
               <div class="flex items-stretch">
                 <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal">
@@ -131,7 +131,7 @@ component('head', ['pageTitle' => $pageTitle]);
                        class="flex-1 px-lg py-3.5 text-base text-text-primary outline-none bg-transparent leading-normal">
               </div>
             </div>
-
+            
             <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
               <div class="flex items-stretch">
                 <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal">
@@ -141,7 +141,7 @@ component('head', ['pageTitle' => $pageTitle]);
                        class="flex-1 px-lg py-3.5 text-base text-text-primary outline-none bg-transparent leading-normal">
               </div>
             </div>
-
+            
             <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
               <div class="flex items-stretch">
                 <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal">
@@ -154,7 +154,7 @@ component('head', ['pageTitle' => $pageTitle]);
                 </select>
               </div>
             </div>
-
+            
             <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
               <div class="flex items-stretch">
                 <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal">
@@ -164,16 +164,16 @@ component('head', ['pageTitle' => $pageTitle]);
                        class="flex-1 px-lg py-3.5 text-base text-text-primary outline-none bg-transparent leading-normal">
               </div>
             </div>
-
+            
           </div>
         </div>
-
+        
         <!-- اطلاعات کاربری -->
         <div class="bg-bg-primary border border-border-light rounded-2xl p-6 mb-6">
           <h2 class="text-lg font-semibold text-text-primary leading-snug mb-6">اطلاعات کاربری</h2>
-
+          
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
+            
             <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
               <div class="flex items-stretch">
                 <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal">
@@ -186,7 +186,7 @@ component('head', ['pageTitle' => $pageTitle]);
                 </select>
               </div>
             </div>
-
+            
             <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
               <div class="flex items-stretch">
                 <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal">
@@ -197,7 +197,7 @@ component('head', ['pageTitle' => $pageTitle]);
                        placeholder="خالی بگذارید اگر تغییری نمی‌خواهید">
               </div>
             </div>
-
+            
             <div class="flex items-center gap-6 px-lg py-3.5">
               <label class="text-sm text-text-secondary leading-normal min-w-[140px]">
                 وضعیت کاربر
@@ -213,16 +213,16 @@ component('head', ['pageTitle' => $pageTitle]);
                 </label>
               </div>
             </div>
-
+            
           </div>
         </div>
-
+        
         <!-- اطلاعات استخدامی -->
         <div class="bg-bg-primary border border-border-light rounded-2xl p-6 mb-6">
           <h2 class="text-lg font-semibold text-text-primary leading-snug mb-6">اطلاعات استخدامی</h2>
-
+          
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
+            
             <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
               <div class="flex items-stretch">
                 <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal">
@@ -232,7 +232,7 @@ component('head', ['pageTitle' => $pageTitle]);
                        class="flex-1 px-lg py-3.5 text-base text-text-primary outline-none bg-transparent leading-normal">
               </div>
             </div>
-
+            
             <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
               <div class="flex items-stretch">
                 <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal">
@@ -246,7 +246,7 @@ component('head', ['pageTitle' => $pageTitle]);
                 </select>
               </div>
             </div>
-
+            
             <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
               <div class="flex items-stretch">
                 <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal">
@@ -259,7 +259,7 @@ component('head', ['pageTitle' => $pageTitle]);
                 </select>
               </div>
             </div>
-
+            
             <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
               <div class="flex items-stretch">
                 <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal">
@@ -273,24 +273,24 @@ component('head', ['pageTitle' => $pageTitle]);
                 </select>
               </div>
             </div>
-
+            
             <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-primary focus-within:shadow-focus transition-all duration-200">
               <div class="flex items-stretch">
                 <label class="bg-bg-label border-l border-border-light min-w-[140px] px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal">
                   تاریخ استخدام
                 </label>
-                <input type="date" name="employment_date" value="<?= $user['employment_date']['mian'] ?>"
+                <input type="date" name="employment_date" value="<?= $user['employment_date'] ?>"
                        class="flex-1 px-lg py-3.5 text-base text-text-primary outline-none bg-transparent leading-normal">
               </div>
             </div>
-
+            
           </div>
         </div>
-
+        
         <!-- تصویر پروفایل -->
         <div class="bg-bg-primary border border-border-light rounded-2xl p-6 mb-6">
           <h2 class="text-lg font-semibold text-text-primary leading-snug mb-6">تصویر پروفایل</h2>
-
+          
           <div class="flex items-start gap-6">
             <div class="w-32 h-32 bg-gray-100 rounded-xl flex items-center justify-center border-2 border-dashed border-border-medium">
               <?php if ($user['image_url']): ?>
@@ -309,7 +309,7 @@ component('head', ['pageTitle' => $pageTitle]);
             </div>
           </div>
         </div>
-
+        
         <!-- دکمه‌های عملیات -->
         <div class="flex items-center gap-3">
           <button type="submit" class="bg-green-600 text-white px-xl py-md rounded-lg font-medium hover:bg-green-700 transition-all duration-200 text-base leading-normal">
@@ -325,9 +325,9 @@ component('head', ['pageTitle' => $pageTitle]);
             <span>حذف کاربر</span>
           </button>
         </div>
-
+        
       </form>
-
+      
       </div>
     </main>
   </div>

@@ -215,7 +215,7 @@ component('head', ['pageTitle' => $pageTitle]);
               <tbody class="divide-y divide-border-light">
                 <?php foreach ($temporaryFiles as $file): ?>
                   <?php
-                  $typeConfig         = $fileTypeConfig[$file['type']]                    ?? $fileTypeConfig['default'];
+                  $typeConfig         = $fileTypeConfig[$file['type']]            ?? $fileTypeConfig['default'];
                     $folderColorClass = $folderColorClasses[$file['folderColor']] ?? 'text-gray-500';
 
                     // تعیین رنگ انقضا بر اساس زمان باقی‌مانده

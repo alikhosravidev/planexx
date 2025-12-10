@@ -5,14 +5,14 @@
  */
 
 // دریافت متغیرها
-$pageTitle       = $pageTitle             ?? 'عنوان صفحه';
+$pageTitle       = $pageTitle       ?? 'عنوان صفحه';
 $pageDescription = $pageDescription ?? null;
-$breadcrumbs     = $breadcrumbs         ?? [];
-$actionButtons   = $actionButtons     ?? [];
+$breadcrumbs     = $breadcrumbs     ?? [];
+$actionButtons   = $actionButtons   ?? [];
 
 // اطلاعات کاربر (در پروژه واقعی از session می‌آید)
-$userName   = $userName     ?? 'محمدرضا احمدی';
-$userRole   = $userRole     ?? 'مدیر سیستم';
+$userName   = $userName   ?? 'محمدرضا احمدی';
+$userRole   = $userRole   ?? 'مدیر سیستم';
 $userAvatar = $userAvatar ?? null;
 ?>
 
