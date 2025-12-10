@@ -13,13 +13,6 @@ class DashboardQuickAccessRegistrar implements RegistrarInterface
     public function register(RegistryManagerInterface $manager): void
     {
         $manager->register('dashboard.quick-access', function (QuickAccessBuilder $builder) {
-            $builder->item('مدیریت اسناد و فایل‌ها', 'document')
-                ->route('web.documents.index')
-                ->icon('fa-solid fa-folder-open')
-                ->color('amber')
-                ->enabled()
-                ->order(2);
-
             $builder->item('پایگاه تجربه سازمانی', 'okb')
                 ->url('#')
                 ->icon('fa-solid fa-book')

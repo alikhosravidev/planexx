@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Core\FileManager\Providers;
 
 use App\Core\FileManager\Registrars\FileManagerMenuRegistrar;
+use App\Core\FileManager\Registrars\FileManagerQuickAccessRegistrar;
 use App\Utilities\ProviderUtility;
 use Illuminate\Support\ServiceProvider;
 
@@ -38,5 +39,6 @@ class FileManagerServiceProvider extends ServiceProvider
         }
 
         app('menu')->registerBy(FileManagerMenuRegistrar::class);
+        app('quick-access')->registerBy(FileManagerQuickAccessRegistrar::class);
     }
 }
