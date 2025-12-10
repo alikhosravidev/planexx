@@ -12,12 +12,21 @@ class OrganizationQuickAccessRegistrar implements RegistrarInterface
 {
     public function register(RegistryManagerInterface $manager): void
     {
+        $manager->register('dashboard.quick-access', function (QuickAccessBuilder $builder) {
+            $builder->item('ساختار سازمانی', 'organization')
+                ->route('web.org.dashboard')
+                ->icon('fa-solid fa-sitemap')
+                ->color('blue')
+                ->enabled()
+                ->order(1);
+        });
+
         $manager->register('org.dashboard.quick-access', function (QuickAccessBuilder $builder) {
             $builder->item('مدیریت کاربران', 'org-user-management')
                 ->route('web.org.users.index')
                 ->icon('fa-solid fa-users')
                 ->color('blue')
-                ->enabled(true)
+                ->enabled()
                 ->order(1);
 
             $builder->item('دپارتمان‌ها', 'org-departments')

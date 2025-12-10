@@ -40,7 +40,8 @@ class Workflow extends BaseEntity
     use HasCreator;
     use HasOwner;
 
-    protected $table = 'bpms_workflows';
+    public const TABLE = 'bpms_workflows';
+    protected $table   = self::TABLE;
 
     protected $fillable = [
         'name',

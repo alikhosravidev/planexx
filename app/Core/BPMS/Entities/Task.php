@@ -45,7 +45,8 @@ class Task extends BaseEntity
     use SoftDeletes;
     use HasCreator;
 
-    protected $table = 'bpms_tasks';
+    public const TABLE = 'bpms_tasks';
+    protected $table   = self::TABLE;
 
     protected $fillable = [
         'slug',
