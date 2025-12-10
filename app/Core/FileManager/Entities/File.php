@@ -64,6 +64,8 @@ class File extends BaseEntity implements TaggableEntity, FavoritableEntity
     use SoftDeletes;
     use Taggable;
 
+    protected bool $shouldLogActivity = true;
+
     public const TABLE = 'core_file_files';
 
     protected $table = self::TABLE;

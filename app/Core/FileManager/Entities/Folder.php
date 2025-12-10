@@ -39,6 +39,8 @@ class Folder extends BaseEntity implements TaggableEntity, FavoritableEntity
 
     public const TABLE = 'core_file_folders';
 
+    protected bool $shouldLogActivity = true;
+
     protected $table = self::TABLE;
 
     protected $fillable = [

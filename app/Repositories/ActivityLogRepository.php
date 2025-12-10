@@ -6,7 +6,11 @@ namespace App\Repositories;
 
 use App\Contracts\Entity\RoleableEntity;
 use App\Contracts\Repository\BaseRepository;
+use App\Core\Organization\Entities\Department;
+use App\Core\Organization\Entities\Role;
+use App\Core\Organization\Entities\User;
 use App\Entities\Activity;
+use App\Entities\Tag;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
@@ -43,6 +47,7 @@ class ActivityLogRepository extends BaseRepository
                 },
             ])
             ->where('log_name', '=', Activity::DEFAULT_LOG_NAME)
+            ->whereIn('subject_type', [Department::TABLE, Role::TABLE, User::TABLE, Tag::TABLE])
             ->orderByDesc('created_at')
             ->orderByDesc('id')
             ->limit($limit)
