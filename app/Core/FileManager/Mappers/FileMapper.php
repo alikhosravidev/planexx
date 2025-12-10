@@ -6,13 +6,14 @@ namespace App\Core\FileManager\Mappers;
 
 use App\Core\FileManager\DTOs\FileUpdateDTO;
 use App\Core\FileManager\DTOs\FileUploadDTO;
+use App\Core\FileManager\Entities\Folder;
 use App\Core\FileManager\Enums\FileCollectionEnum;
 use App\Utilities\OrNull;
 use Illuminate\Http\Request;
 
 class FileMapper
 {
-    public function fromUploadRequest(Request $request): FileUploadDTO
+    public function fromUploadRequest(Request $request, ?Folder $folder): FileUploadDTO
     {
         return new FileUploadDTO(
             file: $request->file('file'),
@@ -22,7 +23,7 @@ class FileMapper
             entityType: $request->input('entity_type'),
             entityId: OrNull::intOrNull($request->input('entity_id')),
             collection: $request->input('collection') ? FileCollectionEnum::from((int) $request->input('collection')) : null,
-            isPublic: $request->boolean('is_public', false),
+            isPublic: $request->boolean('is_public', $folder?->is_public ?? false),
             isTemporary: $request->boolean('is_temporary', false),
             expiresAt: $request->input('expires_at'),
             uploadedBy: $request->user()?->id,

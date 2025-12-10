@@ -61,8 +61,12 @@ abstract class BaseRepository implements RepositoryInterface
         return $result;
     }
 
-    public function find(int $id): ?EntityInterface
+    public function find(?int $id): ?EntityInterface
     {
+        if (null === $id) {
+            return null;
+        }
+
         $this->applyCriteria();
         $result = $this->query->find($id);
         $this->resetModel();

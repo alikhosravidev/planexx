@@ -10,6 +10,7 @@ use App\Core\FileManager\Http\Requests\V1\Admin\UploadFileRequest;
 use App\Core\FileManager\Http\Transformers\V1\Admin\FileTransformer;
 use App\Core\FileManager\Mappers\FileMapper;
 use App\Core\FileManager\Repositories\FileRepository;
+use App\Core\FileManager\Repositories\FolderRepository;
 use App\Core\FileManager\Services\FileService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
@@ -22,13 +23,15 @@ class FileAPIController extends BaseAPIController
         FileTransformer              $transformer,
         private readonly FileService $service,
         private readonly FileMapper  $mapper,
+        private readonly FolderRepository $folderRepository,
     ) {
         parent::__construct($repository, $transformer);
     }
 
     public function store(UploadFileRequest $request): JsonResponse
     {
-        $dto = $this->mapper->fromUploadRequest($request);
+        $folder = $this->folderRepository->find((int) $request->get('folder_id'));
+        $dto    = $this->mapper->fromUploadRequest($request, $folder);
 
         $model = $this->service->upload($dto);
 

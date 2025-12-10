@@ -7,7 +7,7 @@
     'error' => null,
 ])
 
-<div class="mb-4">
+<div class="">
     @if($label)
         <label class="block text-sm font-medium text-text-primary mb-2">
             {{ $label }}

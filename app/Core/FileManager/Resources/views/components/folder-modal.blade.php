@@ -75,6 +75,17 @@
                 </div>
             </div>
 
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-text-secondary">نوع دسترسی</label>
+                <div class="flex flex-col mt-3">
+                    <x-forms.radio
+                        name="is_public"
+                        :value="isset($folder) && $folder['is_public'] ? 1 : 0"
+                        :options="['1' => 'عمومی', '0' => 'خصوصی']"
+                    />
+                </div>
+            </div>
+
             <div class="px-6 py-4 border-t border-border-light flex items-center justify-end gap-3 -mx-6 -mb-6">
                 <button
                     type="button"

@@ -3,7 +3,7 @@
     'icons' => null,
     'selected' => null,
     'size' => 8,
-    'wrapperClass' => 'px-lg'
+    'wrapperClass' => 'px-lg py-3.5'
 ])
 
 @php
