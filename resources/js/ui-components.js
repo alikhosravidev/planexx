@@ -350,13 +350,10 @@ export const uiComponents = {
 
       // Visual feedback with color change and animation
       if (element) {
-        const originalColor = window.getComputedStyle(element).color;
-        element.style.color = 'rgb(34, 197, 94)'; // green-500
-        element.style.transition = 'color 0.3s ease-out';
+        element.classList.add('text-green-500');
 
         setTimeout(() => {
-          element.style.transition = 'color 0.3s ease-in';
-          element.style.color = originalColor;
+          element.classList.remove('text-green-500');
         }, 1000);
       }
 
@@ -384,7 +381,8 @@ export const uiComponents = {
         return;
       }
 
-      await this.copyToClipboard(value, btn);
+      const icon = btn.querySelector('i');
+      await this.copyToClipboard(value, icon || btn);
     });
   },
 };
