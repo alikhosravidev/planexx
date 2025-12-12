@@ -29,13 +29,13 @@ public function label(): string
 }
 ```
 
-## Complete Pattern
+## Complete Pattern from Codebase
 ```php
 <?php
 
 declare(strict_types=1);
 
-namespace App\Core\User\Enums;
+namespace App\Core\Organization\Enums;
 
 enum UserTypeEnum: int
 {
@@ -51,6 +51,10 @@ enum UserTypeEnum: int
             self::Customer => 'مشتری',
         };
     }
+
+    // Additional helper methods (optional)
+    public function plural(): string { /* ... */ }
+    public function icon(): string { /* ... */ }
 }
 ```
 

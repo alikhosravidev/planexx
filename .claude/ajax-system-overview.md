@@ -35,7 +35,7 @@ Declarative AJAX system that requires **zero JavaScript** for standard forms. Al
 ```html
 <button
   data-ajax
-  action="{{ route('users.destroy', $user->id) }}"
+  data-action="{{ route('users.destroy', $user->id) }}"
   data-method="DELETE"
   data-on-success="remove"
   data-target="[data-user-id='{{ $user->id }}']"
@@ -92,7 +92,7 @@ registerAction('updateCart', (data) => {
 ```
 
 ```html
-<form data-on-success="custom" data-action="updateCart">...</form>
+<form data-on-success="custom" custom-action="updateCart">...</form>
 ```
 
 ### Level 3: Event Listeners (Advanced)
@@ -174,16 +174,14 @@ import './forms/index.js';
 import './auth/index.js';
 ```
 
-## Auth Flow (v2.0 - Secure)
+## Auth Flow (Current Implementation)
 
 ### Token Management
-- ✅ **Server-side storage**: Token is set by backend in HttpOnly cookie (non-encrypted)
-- ✅ **Dual authentication**: 
-  - **API routes** (`/api/*`): Token sent via `Authorization: Bearer {token}` header
-  - **Web routes**: Session-based authentication
-- ✅ **Automatic detection**: `http-client.js` detects API routes and adds Authorization header
-- ✅ **Cookie reading**: JavaScript reads token from cookie for API requests only
-- ❌ **Never use**: `cookieUtils.set('token', ...)` (removed in v2.0)
+- ✅ Token is stored in a client-accessible cookie (`token`)
+- ✅ `http-client.js` always attaches `Authorization: Bearer {token}` when the cookie exists
+- ✅ CSRF handled via meta tag / `XSRF-TOKEN` cookie for non-GET requests
+- ℹ️ No route-based detection today; all requests get the Authorization header if the cookie exists
+- ℹ️ Ensure backend sets the `token` cookie after login; do not store tokens in localStorage
 
 ### Login Flow
 - Server sets HttpOnly cookie and returns `redirect_url` in response
@@ -192,10 +190,10 @@ import './auth/index.js';
 - If OTP is invalid, no redirect occurs; user stays on OTP step
 
 ### How It Works
-1. User logs in → Server creates token and sets it in cookie
-2. JavaScript makes request to API route → `http-client.js` reads token from cookie
-3. Token is added to `Authorization: Bearer {token}` header automatically
-4. Laravel Sanctum validates the token via `auth:sanctum` middleware
+1. User logs in → Server sets `token` cookie.
+2. `http-client.js` reads the cookie on every request and adds `Authorization: Bearer {token}`.
+3. CSRF token is added to non-GET requests (from meta tag or `XSRF-TOKEN` cookie).
+4. Backend validates via Sanctum/session depending on route middleware.
 
 ## Ziggy Route Usage (Important)
 

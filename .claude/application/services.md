@@ -88,6 +88,58 @@ class OrderProcessingService
 }
 ```
 
+## Example: DepartmentService
+```php
+class DepartmentService implements DepartmentServiceInterface
+{
+    public function __construct(
+        private DepartmentRepository $departmentRepository,
+        private FileService $fileService,
+    ) {
+    }
+
+    public function create(DepartmentDTO $dto, ?UploadedFile $image = null): Department
+    {
+        return DB::transaction(function () use ($dto, $image) {
+            $data = $dto->toArray();
+
+            $department = $this->departmentRepository->create($data);
+
+            if ($dto->type->hasImage() && $image) {
+                $this->uploadDepartmentImage($department, $image);
+            }
+
+            return $department;
+        });
+    }
+}
+```
+
+## Example: RoleService
+```php
+class RoleService
+{
+    public function __construct(
+        private RoleRepository $roleRepository,
+    ) {
+    }
+
+    public function create(RoleDTO $dto): Role
+    {
+        return DB::transaction(function () use ($dto) {
+            $data = $dto->toArray();
+            $role = $this->roleRepository->create($data);
+
+            if (!empty($dto->permissions)) {
+                $role->syncPermissions($dto->permissions);
+            }
+
+            return $role->fresh(['permissions']);
+        });
+    }
+}
+```
+
 ## Best Practices
 1. **Single Responsibility** - Each service should have one clear purpose
 2. **Dependency Injection** - Inject all dependencies via constructor

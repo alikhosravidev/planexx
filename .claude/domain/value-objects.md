@@ -62,33 +62,38 @@ Don't use for:
 - Temporary calculations
 
 ## Layer Placement
-Value Objects belong in the **Domain Layer**. Shared VOs are in `app/Bus/ValueObjects/`.
+Value Objects belong in the **Domain Layer**.
+- **Shared VOs**: `app/ValueObjects/` (e.g., Email, Mobile)
+- **Module-specific VOs**: Within module domain (e.g., `Services/Auth/ValueObjects/Identifier`)
 
-## Example: Money Value Object
+## Example from Codebase
 ```php
-class Money
+// Value Object Example: Identifier
+final class Identifier implements Stringable
 {
+    public readonly IdentifierType $type;
+    public readonly string $value;
+
     public function __construct(
-        private readonly float $amount,
-        private readonly string $currency
+        string $identifier,
+        private readonly AuthConfig $authConfig,
     ) {
-        $this->validate();
+        $this->type  = $this->detectType($identifier);
+        $this->value = $this->normalize($identifier);
     }
 
-    private function validate(): void {
-        if ($this->amount < 0) {
-            throw new InvalidArgumentException('Negative amount');
-        }
+    public function equals(self $other): bool {
+        return $this->type === $other->type && $this->value === $other->value;
     }
+}
 
-    public function add(Money $other): self {
-        if ($this->currency !== $other->currency) {
-            throw new InvalidArgumentException('Currency mismatch');
+// Simple Value Object: Email
+final readonly class Email
+{
+    public function __construct(public string $value) {
+        if (!preg_match(CustomValidator::EMAIL_REGEX, $this->value)) {
+            throw new InvalidArgumentException('Invalid email address.');
         }
-        return new self(
-            $this->amount + $other->amount,
-            $this->currency
-        );
     }
 }
 ```

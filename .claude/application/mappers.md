@@ -126,6 +126,56 @@ class AddressMapper
 }
 ```
 
+## Example: UserMapper
+```php
+class UserMapper
+{
+    public function fromRequest(Request $request): UserUpsertDTO
+    {
+        return new UserUpsertDTO(
+            fullName: OrNull::stringOrNull($request->input('full_name')),
+            mobile: OrNull::valueObjectOrNull($request->input('mobile'), Mobile::class),
+            firstName: $request->input('first_name'),
+            lastName: $request->input('last_name'),
+            email: OrNull::valueObjectOrNull($request->input('email'), Email::class),
+            nationalCode: OrNull::valueObjectOrNull($request->input('national_code'), NationalCode::class),
+            gender: $request->filled('gender') ? GenderEnum::from((int) $request->input('gender')) : null,
+            birthDate: OrNull::dateOrNull($request->input('birth_date')),
+            userType: UserTypeEnum::tryFrom(OrNull::intOrNull($request->input('user_type')) ?? UserTypeEnum::User->value),
+            isActive: OrNull::boolOrNull($request->input('is_active')),
+            password: OrNull::stringOrNull($request->input('password')),
+            directManagerId: OrNull::intOrNull($request->input('direct_manager_id')),
+            departmentId: OrNull::intOrNull($request->input('department_id')),
+            employmentDate: OrNull::dateOrNull($request->input('employment_date')),
+            employeeCode: $request->input('employee_code'),
+        );
+    }
+}
+```
+
+## Example: DepartmentMapper
+```php
+class DepartmentMapper
+{
+    public function fromRequest(Request $request): DepartmentDTO
+    {
+        $type = DepartmentTypeEnum::from($request->integer('type', DepartmentTypeEnum::DEPARTMENT->value));
+
+        return new DepartmentDTO(
+            name       : $request->input('name'),
+            parentId   : OrNull::intOrNull($request->input('parent_id')),
+            code       : $request->input('code'),
+            managerId  : OrNull::intOrNull($request->input('manager_id')),
+            color      : $request->input('color'),
+            icon       : $request->input('icon'),
+            description: $request->input('description'),
+            type       : $type,
+            isActive   : $request->boolean('is_active', true),
+        );
+    }
+}
+```
+
 ## Best Practices
 - Keep mappers simple and focused
 - Use type casting when needed

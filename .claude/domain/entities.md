@@ -80,15 +80,21 @@ protected function statusBadge(): Attribute {
 Keep docblocks concise and synced with migrations:
 ```php
 /**
- * @property int         $id
- * @property string      $name
- * @property string|null $email
+ * @property int                         $id
+ * @property string                      $name
+ * @property string|null                 $email
+ * @property UserTypeEnum                $user_type
+ * @property GenderEnum|null             $gender
+ * @property bool                        $is_active
  *
  * Relations:
- * @property HasMany     $addresses
+ * @property HasMany                     $addresses
+ * @property BelongsTo                   $directManager
  */
-class Country extends Model { }
+class User extends BaseEntity { }
 ```
+
+**Note**: Use `BaseEntity` instead of `Model` for consistency with the codebase.
 
 ## Quick Reference
 

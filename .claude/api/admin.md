@@ -8,59 +8,84 @@ Admin-facing API endpoints designed for administrative applications. Require ele
 ## Authentication
 See: `.claude/api/authentication.md`
 
-Admin API requires **API keys with administrative privileges**.
+Uses Sanctum bearer tokens (`auth:api` / `auth:sanctum`) with administrative privileges.
 
 ## Permissions
 Admin endpoints require specific permissions based on user role.
 **403 Forbidden** returned for insufficient permissions.
 
-## Available Modules
+## Namespace & Prefixes
+- Base prefix: `/api/v1/admin`
+- Organization module prefix: `/api/v1/admin/org`
+- Middleware: `auth:sanctum` (same tokens as `auth:api`)
 
-### User Module
-Administrative access to user management:
-- **Addresses** - Create, update, delete, manage user addresses
-- **Cities** - Manage city information (read-only)
-- **Location** - General location-related endpoints
+## Available Endpoints (Organization module)
+- **Departments** (`Route::apiResource`)
+  - `GET /api/v1/admin/org/departments`
+  - `GET /api/v1/admin/org/departments/{id}`
+  - `POST /api/v1/admin/org/departments`
+  - `PUT/PATCH /api/v1/admin/org/departments/{id}`
+  - `DELETE /api/v1/admin/org/departments/{id}`
+- **Users** (`Route::apiResource`)
+  - `GET|POST|PUT|PATCH|DELETE /api/v1/admin/org/users`
+  - Sub-resource: `GET /api/v1/admin/org/users/{user}/roles`, `PUT /api/v1/admin/org/users/{user}/roles`
+- **Roles** (`Route::apiResource`)
+- **Permissions** (`index`, `show`, `keyValList`)
+- **Addresses** (`Route::apiResource`)
+- **Cities** (`index`, `show`)
+- **Job Positions** (`Route::apiResource`)
+- **Enums** (shared admin)
+  - `GET /api/v1/admin/enums/{enum}`
+  - `GET /api/v1/admin/enums/{enum}/key-value-list`
+
+## Department Web → API Flow (مثال end-to-end)
+1) **Web request**: کاربر صفحه مدیریت دپارتمان‌ها را باز می‌کند.
+   - Controller: `DepartmentWebController@index`
+   - Calls: `apiGet('api.v1.admin.org.departments.index', params...)`
+2) **Route resolution**: نام روت به آدرس `/api/v1/admin/org/departments` نگاشت می‌شود و با توکن Sanctum ارسال می‌شود.
+3) **API entry**: `DepartmentAPIController@index` (از `Route::apiResource`) درخواست را دریافت می‌کند.
+   - پشتیبانی از پارامترهای عمومی فیلتر/جستجو/اینکلود/withCount از `BaseAPIController`.
+4) **سرویس دامنه**: `DepartmentService` عملیات ایجاد/ویرایش/حذف یا واکشی را انجام می‌دهد.
+5) **ترنسفورمر**: `DepartmentTransformer` خروجی را به ساختار API تبدیل می‌کند و پاسخ استاندارد از `ResponseBuilder` برمی‌گردد.
+6) **بازگشت به وب**: پاسخ JSON شامل داده و متای صفحه‌بندی به کنترلر وب می‌رسد و در ویو `Organization::departments.*` رندر می‌شود.
 
 ## Common Query Parameters
 See: `.claude/presentation/controllers.md` for full query parameter details.
 
 ## Example Usage
 
-### Basic Request
+### List departments (web → api)
 ```http
-GET /api/admin/v1/location/addresses
-Api-Key: {{admin-api-key}}
+GET /api/v1/admin/org/departments?filter[parent_id]=null&includes=children,thumbnail&withCount=users:employees_count,children.users:employees_count
+Authorization: Bearer {{token}}
 ```
 
-### Creating a New Address
+### Create department
 ```http
-POST /api/admin/v1/location/addresses
-Api-Key: {{admin-api-key}}
-Content-Type: application/json
+POST /api/v1/admin/org/departments
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data
 
-{
-  "receiver_name": "John Doe",
-  "postal_code": "12345",
-  "city_id": 1
-}
+name=R&D
+type=DepartmentTypeEnum::Default
+manager_id=123
+parent_id=null
+image=@/path/to/image.jpg
 ```
 
-### Updating an Address
+### Update department
 ```http
-PUT /api/admin/v1/location/addresses/1
-Api-Key: {{admin-api-key}}
-Content-Type: application/json
+PUT /api/v1/admin/org/departments/{id}
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data
 
-{
-  "receiver_name": "Jane Doe"
-}
+name=R&D Updated
 ```
 
-### Deleting an Address
+### Enum key/value (for selects)
 ```http
-DELETE /api/admin/v1/location/addresses/1
-Api-Key: {{admin-api-key}}
+GET /api/v1/admin/enums/DepartmentTypeEnum/key-value-list
+Authorization: Bearer {{token}}
 ```
 
 ## Full Details

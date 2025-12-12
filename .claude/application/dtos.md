@@ -95,6 +95,44 @@ public function __construct(float|string $totalPrice) { }
 public function __construct(public readonly float $totalPrice) { }
 ```
 
+### 6. Enum Handling
+When using enums in DTOs, cast to value in `toArray()`:
+```php
+public function toArray(): array
+{
+    return [
+        'tier' => $this->tier?->value, // ✅ Correct enum handling
+    ];
+}
+```
+
+## Complete Example: JobPositionDTO
+```php
+final readonly class JobPositionDTO implements Arrayable
+{
+    public function __construct(
+        public string    $title,
+        public ?string   $code = null,
+        public ?TierEnum $tier = null,
+        public ?string   $imageUrl = null,
+        public ?string   $description = null,
+        public bool      $isActive = true,
+    ) {}
+
+    public function toArray(): array
+    {
+        return [
+            'title'       => $this->title,
+            'code'        => $this->code,
+            'tier'        => $this->tier?->value, // Enum to value
+            'image_url'   => $this->imageUrl,
+            'description' => $this->description,
+            'is_active'   => $this->isActive,
+        ];
+    }
+}
+```
+
 ## Validation
 
 ### Basic Validation

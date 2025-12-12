@@ -26,6 +26,8 @@ abstract class BaseCollection
 }
 ```
 
+**Note**: In the current codebase, standard Eloquent Collections are used. Custom collections should only be created when specific type-safe operations are needed.
+
 ## Example
 ```php
 class PipelinePayloadCollection extends BaseCollection

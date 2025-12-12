@@ -9,12 +9,12 @@
 <form data-ajax>...</form>
 ```
 
-### `action`
-**Required.** Form/button endpoint URL.
+### `action` / `data-action`
+**Required.** Endpoint URL. Use `action` on forms and `data-action` (or `href`) on buttons/links.
 
 ```html
 <form action="{{ route('users.store') }}">...</form>
-<button action="{{ route('users.destroy') }}" data-ajax>Delete</button>
+<button data-action="{{ route('users.destroy') }}" data-ajax>Delete</button>
 ```
 
 ### `method`
@@ -115,6 +115,20 @@ Show success/error toast messages. Default: true.
 <form data-show-message="false">...</form>
 ```
 
+### `data-confirm` (buttons/links)
+Confirmation prompt before sending the request.
+
+```html
+<button
+  data-ajax
+  data-action="{{ route('posts.destroy', $post->id) }}"
+  data-method="DELETE"
+  data-confirm="Are you sure?"
+>
+  Delete
+</button>
+```
+
 ### `data-validation-error`
 Custom validation error message.
 
@@ -133,6 +147,29 @@ CSS class to add during request. Useful for disabling buttons/forms.
 <form data-loading-class="opacity-50 pointer-events-none">
   <button type="submit">Save</button>
 </form>
+
+<!-- Also supported on buttons/links -->
+<button
+  data-ajax
+  data-action="/api/items"
+  data-loading-class="opacity-50"
+>
+  Create
+</button>
+```
+
+### `data-param-*` (buttons/links)
+Send extra payload without a form. Each `data-param-foo="bar"` becomes `foo: "bar"` in the request body (or query for GET).
+
+```html
+<button
+  data-ajax
+  data-action="{{ route('posts.store') }}"
+  data-param-title="Hello"
+  data-param-status="draft"
+>
+  Quick Add
+</button>
 ```
 
 ---
