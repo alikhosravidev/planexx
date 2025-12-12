@@ -127,6 +127,13 @@
         <td class="px-6 py-4">
             <div class="flex items-center justify-end gap-1">
                 <button
+                    data-copy-text="{{ $file['file_url'] ?? route('web.documents.files.download', ['id' => $file['id']]) }}"
+                    class="w-8 h-8 flex items-center justify-center text-text-muted hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                    title="کپی لینک">
+                    <i class="fa-solid fa-copy"></i>
+                </button>
+
+                <button
                     data-ajax
                     data-method="POST"
                     data-action="{{ route('api.v1.admin.file-manager.files.favorite.toggle', ['fileId' => $file['id']]) }}"

@@ -16,16 +16,25 @@
             @if(! empty($finalStates))
                 @php $finalCount = count($finalStates); @endphp
                 <div class="relative flex-shrink-0 state-arrow" style="margin-right: -18px;">
-                    <div class="relative h-[40px] min-w-[80px] flex flex-col items-center justify-center px-3">
+                    <div data-dropdown-toggle="final-states-dropdown" class="relative h-[40px] min-w-[80px] flex flex-col items-center justify-center px-3 cursor-pointer" style="z-index: 30;">
                         <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 50" preserveAspectRatio="none">
                             <path d="M8,0 C4,0 0,4 0,8 L0,42 C0,46 4,50 8,50 L80,50 L92,25 L80,0 Z" fill="#E8F5E9" />
                         </svg>
                         <div class="relative z-10 text-center mr-1">
                             <div class="text-[11px] font-medium text-gray-700 leading-tight flex items-center gap-1">
                                 <span>پایان</span>
+                                <i class="fa-solid fa-chevron-down text-[10px] transition-transform"></i>
                             </div>
                             <div class="text-[10px] text-gray-500 leading-none mt-0.5">{{ $finalCount }} حالت</div>
                         </div>
+                    </div>
+                    <div id="final-states-dropdown" class="fixed bg-white border border-border-light rounded-lg shadow-lg z-50 min-w-[140px] py-1 hidden" style="pointer-events: auto;" data-dropdown>
+                        @foreach($finalStates as $state)
+                            <div class="px-3 py-2 flex items-center gap-2 text-sm hover:bg-gray-50 cursor-pointer">
+                                <i class="fa-solid fa-check-circle text-xs" style="color: {{ $state['color'] }}"></i>
+                                <span class="text-text-primary">{{ $state['name'] }}</span>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             @endif

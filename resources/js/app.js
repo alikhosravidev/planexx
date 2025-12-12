@@ -26,6 +26,7 @@ document.addEventListener(
     uiComponents.initMobileMenu();
     uiComponents.initMobileSidebar();
     uiComponents.initUserMenu();
+    uiComponents.initCopyToClipboard();
 
     // Initialize form functionality
     forms.initForms();

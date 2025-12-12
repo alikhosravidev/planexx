@@ -257,20 +257,23 @@ function initBpmsWorkflowPage() {
       const color = colorInput?.value || '#E3F2FD';
       const position = positionSelect?.value || 'middle';
 
-      const isLast = index === states.length - 1;
       const isFinal = position.startsWith('final');
       const isStart = position === 'start';
+      const displayIndex = (index + 1).toLocaleString('fa-IR');
+      const statusBadge = isStart
+        ? '<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-medium bg-white/60 text-green-700"><i class="fa-solid fa-play text-[7px]"></i>شروع</span>'
+        : isFinal
+          ? '<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-medium bg-white/60 text-gray-700"><i class="fa-solid fa-flag-checkered text-[7px]"></i>پایان</span>'
+          : '';
 
       const stateBox = document.createElement('div');
-      stateBox.className = 'flex items-stretch flex-shrink-0';
+      stateBox.className = 'relative rounded-lg overflow-hidden mb-1';
       stateBox.innerHTML = `
-        <div class="relative min-w-[120px] px-4 py-3 text-center rounded-lg border border-border-light"
-             style="background-color: ${color}">
-          ${isStart ? '<div class="absolute -top-2 right-2"><i class="fa-solid fa-play text-green-600 text-xs"></i></div>' : ''}
-          ${isFinal ? '<div class="absolute -top-2 left-2"><i class="fa-solid fa-flag-checkered text-gray-600 text-xs"></i></div>' : ''}
-          <div class="text-sm font-medium text-text-primary leading-snug">${name}</div>
+        <div class="relative px-2.5 py-2 flex items-center gap-2" style="background-color: ${color}">
+          <span class="w-6 h-6 flex items-center justify-center text-sm font-bold bg-white/70 text-gray-700 rounded-md flex-shrink-0 shadow-sm">${displayIndex}</span>
+          <div class="flex-1 text-sm font-medium text-gray-800 truncate">${name}</div>
+          ${statusBadge}
         </div>
-        ${!isLast ? '<div class="flex items-center px-1 text-gray-300"><i class="fa-solid fa-chevron-left text-lg"></i></div>' : ''}
       `;
 
       previewContainer.appendChild(stateBox);

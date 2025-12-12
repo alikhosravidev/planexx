@@ -19,6 +19,13 @@ class WorkflowStateTransformer extends BaseTransformer
         'defaultAssignee',
     ];
 
+    protected function getVirtualFieldResolvers(): array
+    {
+        return [
+            'is_final' => fn (WorkflowState $state) => $state->position->isFinal(),
+        ];
+    }
+
     public function includeDefaultAssignee(WorkflowState $state)
     {
         return $this->itemRelation(

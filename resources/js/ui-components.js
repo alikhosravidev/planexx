@@ -117,7 +117,7 @@ export const uiComponents = {
   },
 
   /**
-   * Initialize dropdown functionality
+   * Initialize dropdown functionality with support for fixed dropdowns
    */
   initDropdowns() {
     document.querySelectorAll('[data-dropdown-toggle]').forEach((btn) => {
@@ -128,11 +128,18 @@ export const uiComponents = {
 
         if (dropdown) {
           // Close other dropdowns
-          document.querySelectorAll('[data-dropdown]').forEach((d) => {
-            if (d !== dropdown) d.classList.add('hidden');
-          });
+          document
+            .querySelectorAll('[data-dropdown], [id$="-dropdown"]')
+            .forEach((d) => {
+              if (d !== dropdown) d.classList.add('hidden');
+            });
 
           dropdown.classList.toggle('hidden');
+
+          // For fixed dropdowns, calculate position
+          if (dropdown.classList.contains('fixed')) {
+            this.updateFixedDropdownPosition(btn, dropdown);
+          }
         }
       });
     });
@@ -140,11 +147,50 @@ export const uiComponents = {
     // Close dropdowns when clicking outside
     document.addEventListener('click', (e) => {
       if (!e.target.closest('[data-dropdown-toggle]')) {
-        document.querySelectorAll('[data-dropdown]').forEach((d) => {
-          d.classList.add('hidden');
-        });
+        document
+          .querySelectorAll('[data-dropdown], [id$="-dropdown"]')
+          .forEach((d) => {
+            d.classList.add('hidden');
+          });
       }
     });
+
+    // Update dropdown positions on scroll and resize for fixed dropdowns
+    window.addEventListener(
+      'scroll',
+      () => {
+        document
+          .querySelectorAll('[id$="-dropdown"].fixed:not(.hidden)')
+          .forEach((dropdown) => {
+            const btn = document.querySelector(
+              `[data-dropdown-toggle="${dropdown.id}"]`,
+            );
+            if (btn) this.updateFixedDropdownPosition(btn, dropdown);
+          });
+      },
+      true,
+    );
+
+    window.addEventListener('resize', () => {
+      document
+        .querySelectorAll('[id$="-dropdown"].fixed:not(.hidden)')
+        .forEach((dropdown) => {
+          const btn = document.querySelector(
+            `[data-dropdown-toggle="${dropdown.id}"]`,
+          );
+          if (btn) this.updateFixedDropdownPosition(btn, dropdown);
+        });
+    });
+  },
+
+  /**
+   * Update position of fixed dropdown relative to its toggle button
+   */
+  updateFixedDropdownPosition(btn, dropdown) {
+    const rect = btn.getBoundingClientRect();
+    dropdown.style.top = rect.bottom + window.scrollY + 8 + 'px';
+    dropdown.style.right =
+      window.innerWidth - rect.right + window.scrollX + 'px';
   },
 
   /**
@@ -249,5 +295,96 @@ export const uiComponents = {
 
     userMenuToggle.addEventListener('click', toggleMenu);
     document.addEventListener('click', closeMenu);
+  },
+
+  /**
+   * Fallback method for copying text to clipboard (for older browsers)
+   * @param {string} text - Text to copy
+   * @returns {boolean} Success or failure
+   */
+  _fallbackCopyToClipboard(text) {
+    if (!text) return false;
+
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-9999px';
+    textArea.style.top = '-9999px';
+    textArea.style.opacity = '0';
+
+    document.body.appendChild(textArea);
+
+    try {
+      textArea.select();
+      textArea.setSelectionRange(0, textArea.value.length);
+      const successful = document.execCommand('copy');
+      return successful;
+    } catch (err) {
+      console.error('Fallback copy failed:', err);
+      return false;
+    } finally {
+      document.body.removeChild(textArea);
+    }
+  },
+
+  /**
+   * Copy text to clipboard with fallback support
+   * @param {string} text - Text to copy
+   * @param {HTMLElement} element - Element to add success feedback to
+   * @returns {Promise<boolean>} Success or failure
+   */
+  async copyToClipboard(text, element = null) {
+    if (!text) return false;
+
+    try {
+      // Try modern Clipboard API first
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        // Fallback to older method
+        const success = this._fallbackCopyToClipboard(text);
+        if (!success) {
+          throw new Error('Failed to copy using fallback method');
+        }
+      }
+
+      // Visual feedback with color change and animation
+      if (element) {
+        const originalColor = window.getComputedStyle(element).color;
+        element.style.color = 'rgb(34, 197, 94)'; // green-500
+        element.style.transition = 'color 0.3s ease-out';
+
+        setTimeout(() => {
+          element.style.transition = 'color 0.3s ease-in';
+          element.style.color = originalColor;
+        }, 1000);
+      }
+
+      return true;
+    } catch (err) {
+      console.error('Copy to clipboard error:', err);
+      return false;
+    }
+  },
+
+  /**
+   * Initialize copy-to-clipboard functionality
+   */
+  initCopyToClipboard() {
+    document.addEventListener('click', async (e) => {
+      const btn = e.target.closest('[data-copy-text]');
+      if (!btn) return;
+
+      e.stopPropagation();
+      e.preventDefault();
+
+      const value = btn.dataset.copyText;
+      if (!value) {
+        console.warn('No value provided for copy-to-clipboard');
+        return;
+      }
+
+      await this.copyToClipboard(value, btn);
+    });
   },
 };

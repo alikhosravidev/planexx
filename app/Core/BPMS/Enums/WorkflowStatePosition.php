@@ -22,4 +22,9 @@ enum WorkflowStatePosition: int
             self::FinalClosed  => 'بسته شده',
         };
     }
+
+    public function isFinal(): bool
+    {
+        return str_starts_with($this->name, 'Final');
+    }
 }
