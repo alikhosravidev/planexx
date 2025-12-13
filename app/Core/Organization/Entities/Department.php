@@ -70,7 +70,24 @@ class Department extends BaseEntity
     public function children(): HasMany
     {
         return $this->hasMany(self::class, 'parent_id')
-            ->with(['children', 'thumbnail']);
+            ->with(['children', 'thumbnail', 'manager']);
+    }
+
+    /**
+     * Recursive children relationship with all relations needed for organization chart.
+     * This method loads children recursively with users, thumbnails, and avatars
+     * to avoid N+1 queries and support unlimited nesting levels.
+     */
+    public function childrenWithUsers(): HasMany
+    {
+        return $this->hasMany(self::class, 'parent_id')
+            ->with([
+                'childrenWithUsers',
+                'thumbnail',
+                'manager',
+                'users.avatar',
+                'users.thumbnail',
+            ]);
     }
 
     public function users(): BelongsToMany

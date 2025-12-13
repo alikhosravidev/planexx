@@ -19,7 +19,7 @@ class DepartmentWebController extends BaseWebController
             'api.v1.admin.org.departments.index',
             [
                 'filter'    => ['parent_id' => null],
-                'includes'  => 'children,thumbnail',
+                'includes'  => 'children,thumbnail,manager',
                 'withCount' => 'users:employees_count,children.users:employees_count',
             ],
         );
@@ -76,6 +76,28 @@ class DepartmentWebController extends BaseWebController
             'allDepartments'  => $deptResponse['result']  ?? [],
             'managers'        => $usersResponse['result'] ?? [],
             'departmentTypes' => $typeResponse['result']  ?? [],
+        ]);
+    }
+
+    public function chart(Request $request): View
+    {
+        $pageTitle = 'چارت سازمانی';
+
+        // Use the optimized chart endpoint that handles recursive loading
+        // and avoids N+1 queries regardless of the nesting depth
+        // TODO: remove repetitive keys (children_with_relations, children, childrenWithUsers)
+        $response = $this->apiGet(
+            'api.v1.admin.org.departments.index',
+            [
+                'filter'    => ['parent_id' => null],
+                'includes'  => 'childrenWithUsers,thumbnail,users.avatar,manager',
+                'withCount' => 'users:employees_count,children.users:employees_count',
+            ],
+        );
+
+        return view('Organization::departments.chart', [
+            'departments' => $response['result'] ?? [],
+            'pageTitle'   => $pageTitle,
         ]);
     }
 }

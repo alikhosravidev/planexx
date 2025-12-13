@@ -33,6 +33,7 @@ Route::middleware(['web', 'auth'])
         Route::get('dashboard', [OrganizationDashboardController::class, 'index'])->name('dashboard');
 
         Route::resource('users', UserWebController::class);
+        Route::get('departments/chart', [DepartmentWebController::class, 'chart'])->name('departments.chart');
         Route::resource('departments', DepartmentWebController::class)->except('show');
         Route::resource('roles', RoleWebController::class);
         Route::get('roles/{role}/permissions', [RoleWebController::class, 'permissions'])->name('roles.permissions');

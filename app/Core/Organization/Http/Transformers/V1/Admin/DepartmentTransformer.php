@@ -11,7 +11,18 @@ use App\Services\Transformer\FieldTransformers\EnumTransformer;
 
 class DepartmentTransformer extends BaseTransformer
 {
-    protected array $availableIncludes = ['parent', 'manager', 'children', 'users', 'thumbnail'];
+    protected array $availableIncludes = [
+        'parent',
+        'manager',
+        'children',
+        'users',
+        'thumbnail',
+        'childrenWithUsers',
+    ];
+
+    protected array $includeAliases = [
+        'childrenWithUsers' => 'children',
+    ];
 
     protected array $fieldTransformers = [
         'type' => EnumTransformer::class,
@@ -63,6 +74,27 @@ class DepartmentTransformer extends BaseTransformer
 
         $childTransformer = resolve(self::class);
         $childTransformer->setDefaultIncludes(['children']);
+
+        return $this->collection($children, $childTransformer);
+    }
+
+    /**
+     * Include children recursively with all relations needed for organization chart.
+     * This uses the childrenWithUsers relationship that already eager loads
+     * all necessary data including users with their avatars and thumbnails.
+     */
+    public function includeChildrenWithUsers(Department $department)
+    {
+        $children = $department->childrenWithUsers;
+
+        if ($children->isEmpty()) {
+            return $this->null();
+        }
+
+        $childTransformer = resolve(self::class);
+        $childTransformer->setDefaultIncludes(
+            ['childrenWithUsers', 'users', 'thumbnail']
+        );
 
         return $this->collection($children, $childTransformer);
     }

@@ -23,6 +23,7 @@
         "vite": "^7.0.7"
     },
     "dependencies": {
+        "@balkangraph/orgchart.js": "^8.21.30",
         "@fortawesome/fontawesome-free": "^7.1.0",
         "tom-select": "^2.4.3",
         "ziggy-js": "^2.6.0"

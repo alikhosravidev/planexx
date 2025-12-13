@@ -1,0 +1,2788 @@
+{
+    "status": true,
+    "result": [
+        {
+            "id": 2,
+            "parent_id": null,
+            "name": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af",
+            "code": "holding",
+            "manager_id": 2,
+            "color": "blue-500",
+            "icon": "fa-building",
+            "description": {
+                "short": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af",
+                "full": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af",
+                "lines": 1,
+                "words": 1,
+                "read_times": 1,
+                "toc_menus": []
+            },
+            "type": {
+                "name": "HOLDING",
+                "value": 1,
+                "label": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af",
+                "color": "purple",
+                "has_image": true,
+                "has_icon_and_color": false,
+                "cases": {
+                    "HOLDING": {
+                        "value": 1,
+                        "label": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af"
+                    },
+                    "BRAND": {
+                        "value": 2,
+                        "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647"
+                    },
+                    "DEPARTMENT": {
+                        "value": 3,
+                        "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647"
+                    },
+                    "TEAM": {
+                        "value": 4,
+                        "label": "\u062a\u06cc\u0645"
+                    }
+                }
+            },
+            "is_active": true,
+            "created_at": {
+                "main": "2025-12-06 11:01:24",
+                "default": "2025-12-06",
+                "human": {
+                    "default": "15 \u0622\u0630\u0631 1404",
+                    "short": "1404\/9\/15",
+                    "long": "15 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 11:01",
+                    "dayOfWeek": "\u0634\u0646\u0628\u0647",
+                    "month": "\u0622\u0630\u0631",
+                    "year": 1404,
+                    "dayMonth": "15 \u0622\u0630\u0631",
+                    "diff": "6 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                    "gregorian": {
+                        "default": "25-12-06",
+                        "short": "25-12-06",
+                        "long": "December 6, 2025 11:01",
+                        "dayOfWeek": "Saturday",
+                        "month": "Dec",
+                        "year": 2025,
+                        "diff": "6 days ago"
+                    }
+                }
+            },
+            "updated_at": {
+                "main": "2025-12-06 11:01:24",
+                "default": "2025-12-06",
+                "human": {
+                    "default": "15 \u0622\u0630\u0631 1404",
+                    "short": "1404\/9\/15",
+                    "long": "15 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 11:01",
+                    "dayOfWeek": "\u0634\u0646\u0628\u0647",
+                    "month": "\u0622\u0630\u0631",
+                    "year": 1404,
+                    "dayMonth": "15 \u0622\u0630\u0631",
+                    "diff": "6 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                    "gregorian": {
+                        "default": "25-12-06",
+                        "short": "25-12-06",
+                        "long": "December 6, 2025 11:01",
+                        "dayOfWeek": "Saturday",
+                        "month": "Dec",
+                        "year": 2025,
+                        "diff": "6 days ago"
+                    }
+                }
+            },
+            "deleted_at": null,
+            "core_org_departments_code_unique_deleted_at_unix": 0,
+            "employees_count": 2,
+            "children": [
+                {
+                    "id": 3,
+                    "parent_id": 2,
+                    "name": "\u06f1\u06f8 \u0639\u06cc\u0627\u0631",
+                    "code": "18ayar",
+                    "manager_id": 2,
+                    "color": "blue-500",
+                    "icon": "fa-building",
+                    "description": {
+                        "short": "\u0628\u0631\u0646\u062f \u06f1\u06f8 \u0639\u06cc\u0627\u0631",
+                        "full": "\u0628\u0631\u0646\u062f \u06f1\u06f8 \u0639\u06cc\u0627\u0631",
+                        "lines": 1,
+                        "words": 3,
+                        "read_times": 1,
+                        "toc_menus": []
+                    },
+                    "type": {
+                        "name": "BRAND",
+                        "value": 2,
+                        "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647",
+                        "color": "orange",
+                        "has_image": true,
+                        "has_icon_and_color": false,
+                        "cases": {
+                            "HOLDING": {
+                                "value": 1,
+                                "label": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af"
+                            },
+                            "BRAND": {
+                                "value": 2,
+                                "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647"
+                            },
+                            "DEPARTMENT": {
+                                "value": 3,
+                                "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647"
+                            },
+                            "TEAM": {
+                                "value": 4,
+                                "label": "\u062a\u06cc\u0645"
+                            }
+                        }
+                    },
+                    "is_active": true,
+                    "created_at": {
+                        "main": "2025-12-06 11:09:06",
+                        "default": "2025-12-06",
+                        "human": {
+                            "default": "15 \u0622\u0630\u0631 1404",
+                            "short": "1404\/9\/15",
+                            "long": "15 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 11:09",
+                            "dayOfWeek": "\u0634\u0646\u0628\u0647",
+                            "month": "\u0622\u0630\u0631",
+                            "year": 1404,
+                            "dayMonth": "15 \u0622\u0630\u0631",
+                            "diff": "6 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                            "gregorian": {
+                                "default": "25-12-06",
+                                "short": "25-12-06",
+                                "long": "December 6, 2025 11:09",
+                                "dayOfWeek": "Saturday",
+                                "month": "Dec",
+                                "year": 2025,
+                                "diff": "6 days ago"
+                            }
+                        }
+                    },
+                    "updated_at": {
+                        "main": "2025-12-06 11:09:06",
+                        "default": "2025-12-06",
+                        "human": {
+                            "default": "15 \u0622\u0630\u0631 1404",
+                            "short": "1404\/9\/15",
+                            "long": "15 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 11:09",
+                            "dayOfWeek": "\u0634\u0646\u0628\u0647",
+                            "month": "\u0622\u0630\u0631",
+                            "year": 1404,
+                            "dayMonth": "15 \u0622\u0630\u0631",
+                            "diff": "6 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                            "gregorian": {
+                                "default": "25-12-06",
+                                "short": "25-12-06",
+                                "long": "December 6, 2025 11:09",
+                                "dayOfWeek": "Saturday",
+                                "month": "Dec",
+                                "year": 2025,
+                                "diff": "6 days ago"
+                            }
+                        }
+                    },
+                    "deleted_at": null,
+                    "core_org_departments_code_unique_deleted_at_unix": 0,
+                    "children": [
+                        {
+                            "id": 4,
+                            "parent_id": 3,
+                            "name": "18\u0639\u06cc\u0627\u0631 - \u0633\u062a\u0627\u0631\u0647",
+                            "code": "setare_shiraz",
+                            "manager_id": 2,
+                            "color": "lime-500",
+                            "icon": "fa-certificate",
+                            "description": {
+                                "short": "\u0634\u0639\u0628\u0647",
+                                "full": "\u0634\u0639\u0628\u0647",
+                                "lines": 1,
+                                "words": 1,
+                                "read_times": 1,
+                                "toc_menus": []
+                            },
+                            "type": {
+                                "name": "DEPARTMENT",
+                                "value": 3,
+                                "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647",
+                                "color": "blue",
+                                "has_image": false,
+                                "has_icon_and_color": true,
+                                "cases": {
+                                    "HOLDING": {
+                                        "value": 1,
+                                        "label": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af"
+                                    },
+                                    "BRAND": {
+                                        "value": 2,
+                                        "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647"
+                                    },
+                                    "DEPARTMENT": {
+                                        "value": 3,
+                                        "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647"
+                                    },
+                                    "TEAM": {
+                                        "value": 4,
+                                        "label": "\u062a\u06cc\u0645"
+                                    }
+                                }
+                            },
+                            "is_active": true,
+                            "created_at": {
+                                "main": "2025-12-06 11:11:45",
+                                "default": "2025-12-06",
+                                "human": {
+                                    "default": "15 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/15",
+                                    "long": "15 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 11:11",
+                                    "dayOfWeek": "\u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "15 \u0622\u0630\u0631",
+                                    "diff": "6 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-06",
+                                        "short": "25-12-06",
+                                        "long": "December 6, 2025 11:11",
+                                        "dayOfWeek": "Saturday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "6 days ago"
+                                    }
+                                }
+                            },
+                            "updated_at": {
+                                "main": "2025-12-09 08:24:57",
+                                "default": "2025-12-09",
+                                "human": {
+                                    "default": "18 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/18",
+                                    "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:24",
+                                    "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "18 \u0622\u0630\u0631",
+                                    "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-09",
+                                        "short": "25-12-09",
+                                        "long": "December 9, 2025 08:24",
+                                        "dayOfWeek": "Tuesday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "3 days ago"
+                                    }
+                                }
+                            },
+                            "deleted_at": null,
+                            "core_org_departments_code_unique_deleted_at_unix": 0,
+                            "children": [],
+                            "thumbnail": null
+                        },
+                        {
+                            "id": 11,
+                            "parent_id": 3,
+                            "name": "18\u0639\u06cc\u0627\u0631 - \u0646\u06af\u06cc\u0646",
+                            "code": "18ayar-negin",
+                            "manager_id": 1,
+                            "color": "lime-500",
+                            "icon": "fa-building",
+                            "description": {
+                                "short": "\u0641\u0631\u0648\u0634\u06af\u0627\u0647 \u0646\u06af\u06cc\u0646 18 \u0639\u06cc\u0627\u0631",
+                                "full": "\u0641\u0631\u0648\u0634\u06af\u0627\u0647 \u0646\u06af\u06cc\u0646 18 \u0639\u06cc\u0627\u0631",
+                                "lines": 1,
+                                "words": 3,
+                                "read_times": 1,
+                                "toc_menus": []
+                            },
+                            "type": {
+                                "name": "DEPARTMENT",
+                                "value": 3,
+                                "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647",
+                                "color": "blue",
+                                "has_image": false,
+                                "has_icon_and_color": true,
+                                "cases": {
+                                    "HOLDING": {
+                                        "value": 1,
+                                        "label": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af"
+                                    },
+                                    "BRAND": {
+                                        "value": 2,
+                                        "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647"
+                                    },
+                                    "DEPARTMENT": {
+                                        "value": 3,
+                                        "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647"
+                                    },
+                                    "TEAM": {
+                                        "value": 4,
+                                        "label": "\u062a\u06cc\u0645"
+                                    }
+                                }
+                            },
+                            "is_active": true,
+                            "created_at": {
+                                "main": "2025-12-09 05:50:13",
+                                "default": "2025-12-09",
+                                "human": {
+                                    "default": "18 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/18",
+                                    "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 05:50",
+                                    "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "18 \u0622\u0630\u0631",
+                                    "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-09",
+                                        "short": "25-12-09",
+                                        "long": "December 9, 2025 05:50",
+                                        "dayOfWeek": "Tuesday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "3 days ago"
+                                    }
+                                }
+                            },
+                            "updated_at": {
+                                "main": "2025-12-09 08:25:09",
+                                "default": "2025-12-09",
+                                "human": {
+                                    "default": "18 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/18",
+                                    "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:25",
+                                    "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "18 \u0622\u0630\u0631",
+                                    "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-09",
+                                        "short": "25-12-09",
+                                        "long": "December 9, 2025 08:25",
+                                        "dayOfWeek": "Tuesday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "3 days ago"
+                                    }
+                                }
+                            },
+                            "deleted_at": null,
+                            "core_org_departments_code_unique_deleted_at_unix": 0,
+                            "children": [],
+                            "thumbnail": null
+                        },
+                        {
+                            "id": 12,
+                            "parent_id": 3,
+                            "name": "18\u0639\u06cc\u0627\u0631 - \u062a\u0647\u0631\u0627\u0646\u0633\u0631",
+                            "code": "18ayar tehran sar",
+                            "manager_id": 1,
+                            "color": "lime-500",
+                            "icon": "fa-building",
+                            "description": {
+                                "short": "\u0641\u0631\u0648\u0634\u06af\u0627\u0647 18 \u0639\u06cc\u0627\u0631 \u062a\u0647\u0631\u0627\u0646\u0633\u0631",
+                                "full": "\u0641\u0631\u0648\u0634\u06af\u0627\u0647 18 \u0639\u06cc\u0627\u0631 \u062a\u0647\u0631\u0627\u0646\u0633\u0631",
+                                "lines": 1,
+                                "words": 3,
+                                "read_times": 1,
+                                "toc_menus": []
+                            },
+                            "type": {
+                                "name": "DEPARTMENT",
+                                "value": 3,
+                                "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647",
+                                "color": "blue",
+                                "has_image": false,
+                                "has_icon_and_color": true,
+                                "cases": {
+                                    "HOLDING": {
+                                        "value": 1,
+                                        "label": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af"
+                                    },
+                                    "BRAND": {
+                                        "value": 2,
+                                        "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647"
+                                    },
+                                    "DEPARTMENT": {
+                                        "value": 3,
+                                        "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647"
+                                    },
+                                    "TEAM": {
+                                        "value": 4,
+                                        "label": "\u062a\u06cc\u0645"
+                                    }
+                                }
+                            },
+                            "is_active": true,
+                            "created_at": {
+                                "main": "2025-12-09 06:00:55",
+                                "default": "2025-12-09",
+                                "human": {
+                                    "default": "18 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/18",
+                                    "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 06:00",
+                                    "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "18 \u0622\u0630\u0631",
+                                    "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-09",
+                                        "short": "25-12-09",
+                                        "long": "December 9, 2025 06:00",
+                                        "dayOfWeek": "Tuesday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "3 days ago"
+                                    }
+                                }
+                            },
+                            "updated_at": {
+                                "main": "2025-12-09 08:25:17",
+                                "default": "2025-12-09",
+                                "human": {
+                                    "default": "18 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/18",
+                                    "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:25",
+                                    "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "18 \u0622\u0630\u0631",
+                                    "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-09",
+                                        "short": "25-12-09",
+                                        "long": "December 9, 2025 08:25",
+                                        "dayOfWeek": "Tuesday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "3 days ago"
+                                    }
+                                }
+                            },
+                            "deleted_at": null,
+                            "core_org_departments_code_unique_deleted_at_unix": 0,
+                            "children": [],
+                            "thumbnail": null
+                        }
+                    ],
+                    "thumbnail": {
+                        "id": 17,
+                        "uuid": "969dcbd9-3b68-4a8b-900d-df0194f4ab13",
+                        "entity_type": "core_org_departments",
+                        "entity_id": 3,
+                        "original_name": "photo_2025-12-09_11-19-58.jpg",
+                        "file_name": "7920ea15-5cf6-4a29-b114-a602c10b7794.jpg",
+                        "file_path": "modules\/organization\/2025\/12\/7920ea15-5cf6-4a29-b114-a602c10b7794.jpg",
+                        "file_url": "https:\/\/c146377.parspack.net\/modules\/organization\/2025\/12\/7920ea15-5cf6-4a29-b114-a602c10b7794.jpg",
+                        "disk": "s3",
+                        "title": "\u06f1\u06f8 \u0639\u06cc\u0627\u0631 Image",
+                        "mime_type": "image\/jpeg",
+                        "extension": "jpg",
+                        "file_size": 53282,
+                        "file_hash": "ddecefebb8b174ff7a53f2fc44980c349c3b1b5e8554fcfc50af36eda0ca4643",
+                        "file_type": 0,
+                        "collection": 3,
+                        "is_temporary": false,
+                        "expires_at": null,
+                        "width": 1280,
+                        "height": 1280,
+                        "aspect_ratio": "1",
+                        "duration": null,
+                        "resolution": null,
+                        "frame_rate": null,
+                        "uploaded_by": 1,
+                        "folder_id": null,
+                        "module_name": "organization",
+                        "is_public": true,
+                        "download_count": 0,
+                        "view_count": 0,
+                        "last_accessed_at": null,
+                        "is_active": true,
+                        "created_at": {
+                            "main": "2025-12-09 08:00:09",
+                            "default": "2025-12-09",
+                            "human": {
+                                "default": "18 \u0622\u0630\u0631 1404",
+                                "short": "1404\/9\/18",
+                                "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:00",
+                                "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                "month": "\u0622\u0630\u0631",
+                                "year": 1404,
+                                "dayMonth": "18 \u0622\u0630\u0631",
+                                "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                "gregorian": {
+                                    "default": "25-12-09",
+                                    "short": "25-12-09",
+                                    "long": "December 9, 2025 08:00",
+                                    "dayOfWeek": "Tuesday",
+                                    "month": "Dec",
+                                    "year": 2025,
+                                    "diff": "3 days ago"
+                                }
+                            }
+                        },
+                        "updated_at": {
+                            "main": "2025-12-09 08:00:09",
+                            "default": "2025-12-09",
+                            "human": {
+                                "default": "18 \u0622\u0630\u0631 1404",
+                                "short": "1404\/9\/18",
+                                "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:00",
+                                "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                "month": "\u0622\u0630\u0631",
+                                "year": 1404,
+                                "dayMonth": "18 \u0622\u0630\u0631",
+                                "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                "gregorian": {
+                                    "default": "25-12-09",
+                                    "short": "25-12-09",
+                                    "long": "December 9, 2025 08:00",
+                                    "dayOfWeek": "Tuesday",
+                                    "month": "Dec",
+                                    "year": 2025,
+                                    "diff": "3 days ago"
+                                }
+                            }
+                        },
+                        "deleted_at": null,
+                        "core_file_files_uuid_unique_deleted_at_unix": 0
+                    }
+                },
+                {
+                    "id": 5,
+                    "parent_id": 2,
+                    "name": "\u0633\u0631\u0648\u0631\u06cc\u0627\u0646",
+                    "code": "soroorian",
+                    "manager_id": 22,
+                    "color": "blue-500",
+                    "icon": "fa-building",
+                    "description": {
+                        "short": "\u0628\u0631\u0646\u062f",
+                        "full": "\u0628\u0631\u0646\u062f",
+                        "lines": 1,
+                        "words": 1,
+                        "read_times": 1,
+                        "toc_menus": []
+                    },
+                    "type": {
+                        "name": "BRAND",
+                        "value": 2,
+                        "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647",
+                        "color": "orange",
+                        "has_image": true,
+                        "has_icon_and_color": false,
+                        "cases": {
+                            "HOLDING": {
+                                "value": 1,
+                                "label": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af"
+                            },
+                            "BRAND": {
+                                "value": 2,
+                                "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647"
+                            },
+                            "DEPARTMENT": {
+                                "value": 3,
+                                "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647"
+                            },
+                            "TEAM": {
+                                "value": 4,
+                                "label": "\u062a\u06cc\u0645"
+                            }
+                        }
+                    },
+                    "is_active": true,
+                    "created_at": {
+                        "main": "2025-12-06 11:14:33",
+                        "default": "2025-12-06",
+                        "human": {
+                            "default": "15 \u0622\u0630\u0631 1404",
+                            "short": "1404\/9\/15",
+                            "long": "15 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 11:14",
+                            "dayOfWeek": "\u0634\u0646\u0628\u0647",
+                            "month": "\u0622\u0630\u0631",
+                            "year": 1404,
+                            "dayMonth": "15 \u0622\u0630\u0631",
+                            "diff": "6 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                            "gregorian": {
+                                "default": "25-12-06",
+                                "short": "25-12-06",
+                                "long": "December 6, 2025 11:14",
+                                "dayOfWeek": "Saturday",
+                                "month": "Dec",
+                                "year": 2025,
+                                "diff": "6 days ago"
+                            }
+                        }
+                    },
+                    "updated_at": {
+                        "main": "2025-12-09 09:44:30",
+                        "default": "2025-12-09",
+                        "human": {
+                            "default": "18 \u0622\u0630\u0631 1404",
+                            "short": "1404\/9\/18",
+                            "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 09:44",
+                            "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                            "month": "\u0622\u0630\u0631",
+                            "year": 1404,
+                            "dayMonth": "18 \u0622\u0630\u0631",
+                            "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                            "gregorian": {
+                                "default": "25-12-09",
+                                "short": "25-12-09",
+                                "long": "December 9, 2025 09:44",
+                                "dayOfWeek": "Tuesday",
+                                "month": "Dec",
+                                "year": 2025,
+                                "diff": "3 days ago"
+                            }
+                        }
+                    },
+                    "deleted_at": null,
+                    "core_org_departments_code_unique_deleted_at_unix": 0,
+                    "children": [
+                        {
+                            "id": 6,
+                            "parent_id": 5,
+                            "name": "\u0633\u0631\u0648\u0631\u06cc\u0627\u0646 - \u0627\u06cc\u0631\u0627\u0646 \u0645\u0627\u0644",
+                            "code": "s_iranmall",
+                            "manager_id": 2,
+                            "color": "blue-900",
+                            "icon": "fa-user-tie",
+                            "description": {
+                                "short": "\u0634\u0639\u0628\u0647",
+                                "full": "\u0634\u0639\u0628\u0647",
+                                "lines": 1,
+                                "words": 1,
+                                "read_times": 1,
+                                "toc_menus": []
+                            },
+                            "type": {
+                                "name": "DEPARTMENT",
+                                "value": 3,
+                                "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647",
+                                "color": "blue",
+                                "has_image": false,
+                                "has_icon_and_color": true,
+                                "cases": {
+                                    "HOLDING": {
+                                        "value": 1,
+                                        "label": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af"
+                                    },
+                                    "BRAND": {
+                                        "value": 2,
+                                        "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647"
+                                    },
+                                    "DEPARTMENT": {
+                                        "value": 3,
+                                        "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647"
+                                    },
+                                    "TEAM": {
+                                        "value": 4,
+                                        "label": "\u062a\u06cc\u0645"
+                                    }
+                                }
+                            },
+                            "is_active": true,
+                            "created_at": {
+                                "main": "2025-12-06 11:18:10",
+                                "default": "2025-12-06",
+                                "human": {
+                                    "default": "15 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/15",
+                                    "long": "15 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 11:18",
+                                    "dayOfWeek": "\u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "15 \u0622\u0630\u0631",
+                                    "diff": "6 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-06",
+                                        "short": "25-12-06",
+                                        "long": "December 6, 2025 11:18",
+                                        "dayOfWeek": "Saturday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "6 days ago"
+                                    }
+                                }
+                            },
+                            "updated_at": {
+                                "main": "2025-12-09 08:34:53",
+                                "default": "2025-12-09",
+                                "human": {
+                                    "default": "18 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/18",
+                                    "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:34",
+                                    "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "18 \u0622\u0630\u0631",
+                                    "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-09",
+                                        "short": "25-12-09",
+                                        "long": "December 9, 2025 08:34",
+                                        "dayOfWeek": "Tuesday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "3 days ago"
+                                    }
+                                }
+                            },
+                            "deleted_at": null,
+                            "core_org_departments_code_unique_deleted_at_unix": 0,
+                            "children": [],
+                            "thumbnail": null
+                        },
+                        {
+                            "id": 13,
+                            "parent_id": 5,
+                            "name": "\u0633\u0631\u0648\u0631\u06cc\u0627\u0646 - \u067e\u0627\u0631\u0633",
+                            "code": "sorouriyan pars",
+                            "manager_id": 2,
+                            "color": "blue-900",
+                            "icon": "fa-building",
+                            "description": {
+                                "short": "\u0641\u0631\u0648\u0634\u06af\u0627\u0647 \u0633\u0631\u0648\u0631\u06cc\u0627\u0646 \u067e\u0627\u0631\u0633",
+                                "full": "\u0641\u0631\u0648\u0634\u06af\u0627\u0647 \u0633\u0631\u0648\u0631\u06cc\u0627\u0646 \u067e\u0627\u0631\u0633",
+                                "lines": 1,
+                                "words": 3,
+                                "read_times": 1,
+                                "toc_menus": []
+                            },
+                            "type": {
+                                "name": "DEPARTMENT",
+                                "value": 3,
+                                "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647",
+                                "color": "blue",
+                                "has_image": false,
+                                "has_icon_and_color": true,
+                                "cases": {
+                                    "HOLDING": {
+                                        "value": 1,
+                                        "label": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af"
+                                    },
+                                    "BRAND": {
+                                        "value": 2,
+                                        "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647"
+                                    },
+                                    "DEPARTMENT": {
+                                        "value": 3,
+                                        "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647"
+                                    },
+                                    "TEAM": {
+                                        "value": 4,
+                                        "label": "\u062a\u06cc\u0645"
+                                    }
+                                }
+                            },
+                            "is_active": true,
+                            "created_at": {
+                                "main": "2025-12-09 06:02:04",
+                                "default": "2025-12-09",
+                                "human": {
+                                    "default": "18 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/18",
+                                    "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 06:02",
+                                    "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "18 \u0622\u0630\u0631",
+                                    "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-09",
+                                        "short": "25-12-09",
+                                        "long": "December 9, 2025 06:02",
+                                        "dayOfWeek": "Tuesday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "3 days ago"
+                                    }
+                                }
+                            },
+                            "updated_at": {
+                                "main": "2025-12-09 08:39:07",
+                                "default": "2025-12-09",
+                                "human": {
+                                    "default": "18 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/18",
+                                    "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:39",
+                                    "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "18 \u0622\u0630\u0631",
+                                    "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-09",
+                                        "short": "25-12-09",
+                                        "long": "December 9, 2025 08:39",
+                                        "dayOfWeek": "Tuesday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "3 days ago"
+                                    }
+                                }
+                            },
+                            "deleted_at": null,
+                            "core_org_departments_code_unique_deleted_at_unix": 0,
+                            "children": [],
+                            "thumbnail": null
+                        },
+                        {
+                            "id": 14,
+                            "parent_id": 5,
+                            "name": "\u0633\u0631\u0648\u0631\u06cc\u0627\u0646 - \u0639\u0641\u06cc\u0641 \u0622\u0628\u0627\u062f",
+                            "code": "sorouriyan-afif abad",
+                            "manager_id": null,
+                            "color": "blue-900",
+                            "icon": "fa-building",
+                            "description": {
+                                "short": "\u0633\u0631\u0648\u0631\u06cc\u0627\u0646 \u0639\u0641\u06cc\u0641 \u0622\u0628\u0627\u062f",
+                                "full": "\u0633\u0631\u0648\u0631\u06cc\u0627\u0646 \u0639\u0641\u06cc\u0641 \u0622\u0628\u0627\u062f",
+                                "lines": 1,
+                                "words": 4,
+                                "read_times": 1,
+                                "toc_menus": []
+                            },
+                            "type": {
+                                "name": "DEPARTMENT",
+                                "value": 3,
+                                "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647",
+                                "color": "blue",
+                                "has_image": false,
+                                "has_icon_and_color": true,
+                                "cases": {
+                                    "HOLDING": {
+                                        "value": 1,
+                                        "label": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af"
+                                    },
+                                    "BRAND": {
+                                        "value": 2,
+                                        "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647"
+                                    },
+                                    "DEPARTMENT": {
+                                        "value": 3,
+                                        "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647"
+                                    },
+                                    "TEAM": {
+                                        "value": 4,
+                                        "label": "\u062a\u06cc\u0645"
+                                    }
+                                }
+                            },
+                            "is_active": true,
+                            "created_at": {
+                                "main": "2025-12-09 08:26:43",
+                                "default": "2025-12-09",
+                                "human": {
+                                    "default": "18 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/18",
+                                    "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:26",
+                                    "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "18 \u0622\u0630\u0631",
+                                    "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-09",
+                                        "short": "25-12-09",
+                                        "long": "December 9, 2025 08:26",
+                                        "dayOfWeek": "Tuesday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "3 days ago"
+                                    }
+                                }
+                            },
+                            "updated_at": {
+                                "main": "2025-12-09 08:26:43",
+                                "default": "2025-12-09",
+                                "human": {
+                                    "default": "18 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/18",
+                                    "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:26",
+                                    "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "18 \u0622\u0630\u0631",
+                                    "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-09",
+                                        "short": "25-12-09",
+                                        "long": "December 9, 2025 08:26",
+                                        "dayOfWeek": "Tuesday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "3 days ago"
+                                    }
+                                }
+                            },
+                            "deleted_at": null,
+                            "core_org_departments_code_unique_deleted_at_unix": 0,
+                            "children": [],
+                            "thumbnail": null
+                        }
+                    ],
+                    "thumbnail": {
+                        "id": 29,
+                        "uuid": "bd27a70a-6fa6-4588-9e3e-88524a46b0c5",
+                        "entity_type": "core_org_departments",
+                        "entity_id": 5,
+                        "original_name": "4ec7d6fe-fb74-4143-9f1a-ebbcf641d760.png",
+                        "file_name": "11e78200-3cde-42ab-8fc3-f6ec4803b670.png",
+                        "file_path": "modules\/organization\/2025\/12\/11e78200-3cde-42ab-8fc3-f6ec4803b670.png",
+                        "file_url": "https:\/\/c146377.parspack.net\/modules\/organization\/2025\/12\/11e78200-3cde-42ab-8fc3-f6ec4803b670.png",
+                        "disk": "s3",
+                        "title": "\u0633\u0631\u0648\u0631\u06cc\u0627\u0646 Image",
+                        "mime_type": "image\/png",
+                        "extension": "png",
+                        "file_size": 54881,
+                        "file_hash": "ef8c2f4c60a7123a8291c82c0a09a21066020e5b45dcdf8169df80c888d42e2e",
+                        "file_type": 0,
+                        "collection": 3,
+                        "is_temporary": false,
+                        "expires_at": null,
+                        "width": 1578,
+                        "height": 1578,
+                        "aspect_ratio": "1",
+                        "duration": null,
+                        "resolution": null,
+                        "frame_rate": null,
+                        "uploaded_by": 1,
+                        "folder_id": null,
+                        "module_name": "organization",
+                        "is_public": true,
+                        "download_count": 0,
+                        "view_count": 0,
+                        "last_accessed_at": null,
+                        "is_active": true,
+                        "created_at": {
+                            "main": "2025-12-09 08:24:41",
+                            "default": "2025-12-09",
+                            "human": {
+                                "default": "18 \u0622\u0630\u0631 1404",
+                                "short": "1404\/9\/18",
+                                "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:24",
+                                "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                "month": "\u0622\u0630\u0631",
+                                "year": 1404,
+                                "dayMonth": "18 \u0622\u0630\u0631",
+                                "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                "gregorian": {
+                                    "default": "25-12-09",
+                                    "short": "25-12-09",
+                                    "long": "December 9, 2025 08:24",
+                                    "dayOfWeek": "Tuesday",
+                                    "month": "Dec",
+                                    "year": 2025,
+                                    "diff": "3 days ago"
+                                }
+                            }
+                        },
+                        "updated_at": {
+                            "main": "2025-12-09 08:24:41",
+                            "default": "2025-12-09",
+                            "human": {
+                                "default": "18 \u0622\u0630\u0631 1404",
+                                "short": "1404\/9\/18",
+                                "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:24",
+                                "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                "month": "\u0622\u0630\u0631",
+                                "year": 1404,
+                                "dayMonth": "18 \u0622\u0630\u0631",
+                                "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                "gregorian": {
+                                    "default": "25-12-09",
+                                    "short": "25-12-09",
+                                    "long": "December 9, 2025 08:24",
+                                    "dayOfWeek": "Tuesday",
+                                    "month": "Dec",
+                                    "year": 2025,
+                                    "diff": "3 days ago"
+                                }
+                            }
+                        },
+                        "deleted_at": null,
+                        "core_file_files_uuid_unique_deleted_at_unix": 0
+                    }
+                },
+                {
+                    "id": 7,
+                    "parent_id": 2,
+                    "name": "\u0645\u0627\u0644\u06cc",
+                    "code": "maali",
+                    "manager_id": 11,
+                    "color": "blue-500",
+                    "icon": "fa-building",
+                    "description": {
+                        "short": "\u0645\u0627\u0644\u06cc",
+                        "full": "\u0645\u0627\u0644\u06cc",
+                        "lines": 1,
+                        "words": 1,
+                        "read_times": 1,
+                        "toc_menus": []
+                    },
+                    "type": {
+                        "name": "BRAND",
+                        "value": 2,
+                        "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647",
+                        "color": "orange",
+                        "has_image": true,
+                        "has_icon_and_color": false,
+                        "cases": {
+                            "HOLDING": {
+                                "value": 1,
+                                "label": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af"
+                            },
+                            "BRAND": {
+                                "value": 2,
+                                "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647"
+                            },
+                            "DEPARTMENT": {
+                                "value": 3,
+                                "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647"
+                            },
+                            "TEAM": {
+                                "value": 4,
+                                "label": "\u062a\u06cc\u0645"
+                            }
+                        }
+                    },
+                    "is_active": true,
+                    "created_at": {
+                        "main": "2025-12-07 06:19:24",
+                        "default": "2025-12-07",
+                        "human": {
+                            "default": "16 \u0622\u0630\u0631 1404",
+                            "short": "1404\/9\/16",
+                            "long": "16 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 06:19",
+                            "dayOfWeek": "\u06cc\u06a9\u0634\u0646\u0628\u0647",
+                            "month": "\u0622\u0630\u0631",
+                            "year": 1404,
+                            "dayMonth": "16 \u0622\u0630\u0631",
+                            "diff": "5 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                            "gregorian": {
+                                "default": "25-12-07",
+                                "short": "25-12-07",
+                                "long": "December 7, 2025 06:19",
+                                "dayOfWeek": "Sunday",
+                                "month": "Dec",
+                                "year": 2025,
+                                "diff": "5 days ago"
+                            }
+                        }
+                    },
+                    "updated_at": {
+                        "main": "2025-12-07 19:21:52",
+                        "default": "2025-12-07",
+                        "human": {
+                            "default": "16 \u0622\u0630\u0631 1404",
+                            "short": "1404\/9\/16",
+                            "long": "16 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 19:21",
+                            "dayOfWeek": "\u06cc\u06a9\u0634\u0646\u0628\u0647",
+                            "month": "\u0622\u0630\u0631",
+                            "year": 1404,
+                            "dayMonth": "16 \u0622\u0630\u0631",
+                            "diff": "4 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                            "gregorian": {
+                                "default": "25-12-07",
+                                "short": "25-12-07",
+                                "long": "December 7, 2025 19:21",
+                                "dayOfWeek": "Sunday",
+                                "month": "Dec",
+                                "year": 2025,
+                                "diff": "4 days ago"
+                            }
+                        }
+                    },
+                    "deleted_at": null,
+                    "core_org_departments_code_unique_deleted_at_unix": 0,
+                    "children": [],
+                    "thumbnail": {
+                        "id": 7,
+                        "uuid": "62723006-556f-4228-b71b-e7adf1dd64b6",
+                        "entity_type": "core_org_departments",
+                        "entity_id": 7,
+                        "original_name": "IMG_20251206_121003_841.jpg",
+                        "file_name": "16e6bcb7-7fec-4057-97f1-af4aa196147a.jpg",
+                        "file_path": "modules\/organization\/2025\/12\/16e6bcb7-7fec-4057-97f1-af4aa196147a.jpg",
+                        "file_url": "https:\/\/c146377.parspack.net\/modules\/organization\/2025\/12\/16e6bcb7-7fec-4057-97f1-af4aa196147a.jpg",
+                        "disk": "s3",
+                        "title": "\u0645\u0627\u0644\u06cc Image",
+                        "mime_type": "image\/jpeg",
+                        "extension": "jpg",
+                        "file_size": 439535,
+                        "file_hash": "0ac2f06b974377d74e7d4df04bee88785f113fb7f67259677117b891cb8ce83f",
+                        "file_type": 0,
+                        "collection": 3,
+                        "is_temporary": false,
+                        "expires_at": null,
+                        "width": 1153,
+                        "height": 1280,
+                        "aspect_ratio": "0.9",
+                        "duration": null,
+                        "resolution": null,
+                        "frame_rate": null,
+                        "uploaded_by": 6,
+                        "folder_id": null,
+                        "module_name": "organization",
+                        "is_public": true,
+                        "download_count": 0,
+                        "view_count": 0,
+                        "last_accessed_at": null,
+                        "is_active": true,
+                        "created_at": {
+                            "main": "2025-12-07 15:51:52",
+                            "default": "2025-12-07",
+                            "human": {
+                                "default": "16 \u0622\u0630\u0631 1404",
+                                "short": "1404\/9\/16",
+                                "long": "16 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 15:51",
+                                "dayOfWeek": "\u06cc\u06a9\u0634\u0646\u0628\u0647",
+                                "month": "\u0622\u0630\u0631",
+                                "year": 1404,
+                                "dayMonth": "16 \u0622\u0630\u0631",
+                                "diff": "4 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                "gregorian": {
+                                    "default": "25-12-07",
+                                    "short": "25-12-07",
+                                    "long": "December 7, 2025 15:51",
+                                    "dayOfWeek": "Sunday",
+                                    "month": "Dec",
+                                    "year": 2025,
+                                    "diff": "4 days ago"
+                                }
+                            }
+                        },
+                        "updated_at": {
+                            "main": "2025-12-07 15:51:52",
+                            "default": "2025-12-07",
+                            "human": {
+                                "default": "16 \u0622\u0630\u0631 1404",
+                                "short": "1404\/9\/16",
+                                "long": "16 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 15:51",
+                                "dayOfWeek": "\u06cc\u06a9\u0634\u0646\u0628\u0647",
+                                "month": "\u0622\u0630\u0631",
+                                "year": 1404,
+                                "dayMonth": "16 \u0622\u0630\u0631",
+                                "diff": "4 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                "gregorian": {
+                                    "default": "25-12-07",
+                                    "short": "25-12-07",
+                                    "long": "December 7, 2025 15:51",
+                                    "dayOfWeek": "Sunday",
+                                    "month": "Dec",
+                                    "year": 2025,
+                                    "diff": "4 days ago"
+                                }
+                            }
+                        },
+                        "deleted_at": null,
+                        "core_file_files_uuid_unique_deleted_at_unix": 0
+                    }
+                },
+                {
+                    "id": 10,
+                    "parent_id": 2,
+                    "name": "\u0646\u0628\u0627\u062a",
+                    "code": "nabat",
+                    "manager_id": 8,
+                    "color": "blue-500",
+                    "icon": "fa-building",
+                    "description": {
+                        "short": "\u0628\u0631\u0646\u062f \u0646\u0628\u0627\u062a",
+                        "full": "\u0628\u0631\u0646\u062f \u0646\u0628\u0627\u062a",
+                        "lines": 1,
+                        "words": 2,
+                        "read_times": 1,
+                        "toc_menus": []
+                    },
+                    "type": {
+                        "name": "BRAND",
+                        "value": 2,
+                        "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647",
+                        "color": "orange",
+                        "has_image": true,
+                        "has_icon_and_color": false,
+                        "cases": {
+                            "HOLDING": {
+                                "value": 1,
+                                "label": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af"
+                            },
+                            "BRAND": {
+                                "value": 2,
+                                "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647"
+                            },
+                            "DEPARTMENT": {
+                                "value": 3,
+                                "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647"
+                            },
+                            "TEAM": {
+                                "value": 4,
+                                "label": "\u062a\u06cc\u0645"
+                            }
+                        }
+                    },
+                    "is_active": true,
+                    "created_at": {
+                        "main": "2025-12-08 08:15:57",
+                        "default": "2025-12-08",
+                        "human": {
+                            "default": "17 \u0622\u0630\u0631 1404",
+                            "short": "1404\/9\/17",
+                            "long": "17 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:15",
+                            "dayOfWeek": "\u062f\u0648\u0634\u0646\u0628\u0647",
+                            "month": "\u0622\u0630\u0631",
+                            "year": 1404,
+                            "dayMonth": "17 \u0622\u0630\u0631",
+                            "diff": "4 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                            "gregorian": {
+                                "default": "25-12-08",
+                                "short": "25-12-08",
+                                "long": "December 8, 2025 08:15",
+                                "dayOfWeek": "Monday",
+                                "month": "Dec",
+                                "year": 2025,
+                                "diff": "4 days ago"
+                            }
+                        }
+                    },
+                    "updated_at": {
+                        "main": "2025-12-08 08:15:57",
+                        "default": "2025-12-08",
+                        "human": {
+                            "default": "17 \u0622\u0630\u0631 1404",
+                            "short": "1404\/9\/17",
+                            "long": "17 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:15",
+                            "dayOfWeek": "\u062f\u0648\u0634\u0646\u0628\u0647",
+                            "month": "\u0622\u0630\u0631",
+                            "year": 1404,
+                            "dayMonth": "17 \u0622\u0630\u0631",
+                            "diff": "4 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                            "gregorian": {
+                                "default": "25-12-08",
+                                "short": "25-12-08",
+                                "long": "December 8, 2025 08:15",
+                                "dayOfWeek": "Monday",
+                                "month": "Dec",
+                                "year": 2025,
+                                "diff": "4 days ago"
+                            }
+                        }
+                    },
+                    "deleted_at": null,
+                    "core_org_departments_code_unique_deleted_at_unix": 0,
+                    "children": [
+                        {
+                            "id": 8,
+                            "parent_id": 10,
+                            "name": "\u0646\u0628\u0627\u062a - \u0628\u0647\u0627\u0631",
+                            "code": "Nabat-bahar",
+                            "manager_id": 8,
+                            "color": "orange-500",
+                            "icon": "fa-sun",
+                            "description": {
+                                "short": "\u0641\u0631\u0648\u0634\u06af\u0627\u0647 \u0647\u0627\u06cc \u0646\u0628\u0627\u062a",
+                                "full": "\u0641\u0631\u0648\u0634\u06af\u0627\u0647 \u0647\u0627\u06cc \u0646\u0628\u0627\u062a",
+                                "lines": 1,
+                                "words": 3,
+                                "read_times": 1,
+                                "toc_menus": []
+                            },
+                            "type": {
+                                "name": "DEPARTMENT",
+                                "value": 3,
+                                "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647",
+                                "color": "blue",
+                                "has_image": false,
+                                "has_icon_and_color": true,
+                                "cases": {
+                                    "HOLDING": {
+                                        "value": 1,
+                                        "label": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af"
+                                    },
+                                    "BRAND": {
+                                        "value": 2,
+                                        "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647"
+                                    },
+                                    "DEPARTMENT": {
+                                        "value": 3,
+                                        "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647"
+                                    },
+                                    "TEAM": {
+                                        "value": 4,
+                                        "label": "\u062a\u06cc\u0645"
+                                    }
+                                }
+                            },
+                            "is_active": true,
+                            "created_at": {
+                                "main": "2025-12-07 13:32:31",
+                                "default": "2025-12-07",
+                                "human": {
+                                    "default": "16 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/16",
+                                    "long": "16 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 13:32",
+                                    "dayOfWeek": "\u06cc\u06a9\u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "16 \u0622\u0630\u0631",
+                                    "diff": "5 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-07",
+                                        "short": "25-12-07",
+                                        "long": "December 7, 2025 13:32",
+                                        "dayOfWeek": "Sunday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "5 days ago"
+                                    }
+                                }
+                            },
+                            "updated_at": {
+                                "main": "2025-12-09 09:17:45",
+                                "default": "2025-12-09",
+                                "human": {
+                                    "default": "18 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/18",
+                                    "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 09:17",
+                                    "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "18 \u0622\u0630\u0631",
+                                    "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-09",
+                                        "short": "25-12-09",
+                                        "long": "December 9, 2025 09:17",
+                                        "dayOfWeek": "Tuesday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "3 days ago"
+                                    }
+                                }
+                            },
+                            "deleted_at": null,
+                            "core_org_departments_code_unique_deleted_at_unix": 0,
+                            "children": [],
+                            "thumbnail": null
+                        },
+                        {
+                            "id": 9,
+                            "parent_id": 10,
+                            "name": "\u0646\u0628\u0627\u062a - \u062a\u0647\u0631\u0627\u0646\u067e\u0627\u0631\u0633",
+                            "code": "nabat-tehranpars",
+                            "manager_id": 8,
+                            "color": "amber-500",
+                            "icon": "fa-building",
+                            "description": {
+                                "short": "\u0641\u0631\u0648\u0634\u06af\u0627\u0647 \u0646\u0628\u0627\u062a \u062a\u0647\u0631\u0627\u0646\u067e\u0627\u0631\u0633",
+                                "full": "\u0641\u0631\u0648\u0634\u06af\u0627\u0647 \u0646\u0628\u0627\u062a \u062a\u0647\u0631\u0627\u0646\u067e\u0627\u0631\u0633",
+                                "lines": 1,
+                                "words": 3,
+                                "read_times": 1,
+                                "toc_menus": []
+                            },
+                            "type": {
+                                "name": "DEPARTMENT",
+                                "value": 3,
+                                "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647",
+                                "color": "blue",
+                                "has_image": false,
+                                "has_icon_and_color": true,
+                                "cases": {
+                                    "HOLDING": {
+                                        "value": 1,
+                                        "label": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af"
+                                    },
+                                    "BRAND": {
+                                        "value": 2,
+                                        "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647"
+                                    },
+                                    "DEPARTMENT": {
+                                        "value": 3,
+                                        "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647"
+                                    },
+                                    "TEAM": {
+                                        "value": 4,
+                                        "label": "\u062a\u06cc\u0645"
+                                    }
+                                }
+                            },
+                            "is_active": true,
+                            "created_at": {
+                                "main": "2025-12-07 13:34:22",
+                                "default": "2025-12-07",
+                                "human": {
+                                    "default": "16 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/16",
+                                    "long": "16 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 13:34",
+                                    "dayOfWeek": "\u06cc\u06a9\u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "16 \u0622\u0630\u0631",
+                                    "diff": "5 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-07",
+                                        "short": "25-12-07",
+                                        "long": "December 7, 2025 13:34",
+                                        "dayOfWeek": "Sunday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "5 days ago"
+                                    }
+                                }
+                            },
+                            "updated_at": {
+                                "main": "2025-12-09 09:17:29",
+                                "default": "2025-12-09",
+                                "human": {
+                                    "default": "18 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/18",
+                                    "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 09:17",
+                                    "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "18 \u0622\u0630\u0631",
+                                    "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-09",
+                                        "short": "25-12-09",
+                                        "long": "December 9, 2025 09:17",
+                                        "dayOfWeek": "Tuesday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "3 days ago"
+                                    }
+                                }
+                            },
+                            "deleted_at": null,
+                            "core_org_departments_code_unique_deleted_at_unix": 0,
+                            "children": [],
+                            "thumbnail": null
+                        },
+                        {
+                            "id": 15,
+                            "parent_id": 10,
+                            "name": "\u0646\u0628\u0627\u062a - \u0634\u06cc\u0631\u0627\u0632",
+                            "code": "nabat shiraz",
+                            "manager_id": 8,
+                            "color": "amber-500",
+                            "icon": "fa-building",
+                            "description": {
+                                "short": "\u0641\u0631\u0648\u0634\u06af\u0627\u0647 \u0646\u0628\u0627\u062a \u0634\u06cc\u0631\u0627\u0632",
+                                "full": "\u0641\u0631\u0648\u0634\u06af\u0627\u0647 \u0646\u0628\u0627\u062a \u0634\u06cc\u0631\u0627\u0632",
+                                "lines": 1,
+                                "words": 3,
+                                "read_times": 1,
+                                "toc_menus": []
+                            },
+                            "type": {
+                                "name": "DEPARTMENT",
+                                "value": 3,
+                                "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647",
+                                "color": "blue",
+                                "has_image": false,
+                                "has_icon_and_color": true,
+                                "cases": {
+                                    "HOLDING": {
+                                        "value": 1,
+                                        "label": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af"
+                                    },
+                                    "BRAND": {
+                                        "value": 2,
+                                        "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647"
+                                    },
+                                    "DEPARTMENT": {
+                                        "value": 3,
+                                        "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647"
+                                    },
+                                    "TEAM": {
+                                        "value": 4,
+                                        "label": "\u062a\u06cc\u0645"
+                                    }
+                                }
+                            },
+                            "is_active": true,
+                            "created_at": {
+                                "main": "2025-12-09 08:28:46",
+                                "default": "2025-12-09",
+                                "human": {
+                                    "default": "18 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/18",
+                                    "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:28",
+                                    "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "18 \u0622\u0630\u0631",
+                                    "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-09",
+                                        "short": "25-12-09",
+                                        "long": "December 9, 2025 08:28",
+                                        "dayOfWeek": "Tuesday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "3 days ago"
+                                    }
+                                }
+                            },
+                            "updated_at": {
+                                "main": "2025-12-09 08:28:46",
+                                "default": "2025-12-09",
+                                "human": {
+                                    "default": "18 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/18",
+                                    "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:28",
+                                    "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "18 \u0622\u0630\u0631",
+                                    "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-09",
+                                        "short": "25-12-09",
+                                        "long": "December 9, 2025 08:28",
+                                        "dayOfWeek": "Tuesday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "3 days ago"
+                                    }
+                                }
+                            },
+                            "deleted_at": null,
+                            "core_org_departments_code_unique_deleted_at_unix": 0,
+                            "children": [],
+                            "thumbnail": null
+                        }
+                    ],
+                    "thumbnail": null
+                },
+                {
+                    "id": 19,
+                    "parent_id": 2,
+                    "name": "\u0622\u06a9\u0627\u062f\u0645\u06cc \u06af\u0648\u0647\u0631\u0622\u0641\u0631\u06cc\u0646\u0627\u0646",
+                    "code": "Goharafarina Academy",
+                    "manager_id": 15,
+                    "color": "blue-500",
+                    "icon": "fa-building",
+                    "description": {
+                        "short": "\u0622\u06a9\u0627\u062f\u0645\u06cc \u06af\u0648\u0647\u0631\u0622\u0641\u0631\u06cc\u0646\u0627\u0646",
+                        "full": "\u0622\u06a9\u0627\u062f\u0645\u06cc \u06af\u0648\u0647\u0631\u0622\u0641\u0631\u06cc\u0646\u0627\u0646",
+                        "lines": 1,
+                        "words": 4,
+                        "read_times": 1,
+                        "toc_menus": []
+                    },
+                    "type": {
+                        "name": "BRAND",
+                        "value": 2,
+                        "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647",
+                        "color": "orange",
+                        "has_image": true,
+                        "has_icon_and_color": false,
+                        "cases": {
+                            "HOLDING": {
+                                "value": 1,
+                                "label": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af"
+                            },
+                            "BRAND": {
+                                "value": 2,
+                                "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647"
+                            },
+                            "DEPARTMENT": {
+                                "value": 3,
+                                "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647"
+                            },
+                            "TEAM": {
+                                "value": 4,
+                                "label": "\u062a\u06cc\u0645"
+                            }
+                        }
+                    },
+                    "is_active": true,
+                    "created_at": {
+                        "main": "2025-12-09 08:32:32",
+                        "default": "2025-12-09",
+                        "human": {
+                            "default": "18 \u0622\u0630\u0631 1404",
+                            "short": "1404\/9\/18",
+                            "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:32",
+                            "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                            "month": "\u0622\u0630\u0631",
+                            "year": 1404,
+                            "dayMonth": "18 \u0622\u0630\u0631",
+                            "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                            "gregorian": {
+                                "default": "25-12-09",
+                                "short": "25-12-09",
+                                "long": "December 9, 2025 08:32",
+                                "dayOfWeek": "Tuesday",
+                                "month": "Dec",
+                                "year": 2025,
+                                "diff": "3 days ago"
+                            }
+                        }
+                    },
+                    "updated_at": {
+                        "main": "2025-12-09 08:32:32",
+                        "default": "2025-12-09",
+                        "human": {
+                            "default": "18 \u0622\u0630\u0631 1404",
+                            "short": "1404\/9\/18",
+                            "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:32",
+                            "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                            "month": "\u0622\u0630\u0631",
+                            "year": 1404,
+                            "dayMonth": "18 \u0622\u0630\u0631",
+                            "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                            "gregorian": {
+                                "default": "25-12-09",
+                                "short": "25-12-09",
+                                "long": "December 9, 2025 08:32",
+                                "dayOfWeek": "Tuesday",
+                                "month": "Dec",
+                                "year": 2025,
+                                "diff": "3 days ago"
+                            }
+                        }
+                    },
+                    "deleted_at": null,
+                    "core_org_departments_code_unique_deleted_at_unix": 0,
+                    "children": [],
+                    "thumbnail": null
+                },
+                {
+                    "id": 20,
+                    "parent_id": 2,
+                    "name": "\u0628\u0647\u0627\u0631\u0627\u0646\/\u0631\u0648\u0645\u06cc\u0633\/\u06af\u0648\u0647\u0631\u0627\u0646",
+                    "code": "baharn-romis-goharan",
+                    "manager_id": null,
+                    "color": "blue-500",
+                    "icon": "fa-building",
+                    "description": null,
+                    "type": {
+                        "name": "BRAND",
+                        "value": 2,
+                        "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647",
+                        "color": "orange",
+                        "has_image": true,
+                        "has_icon_and_color": false,
+                        "cases": {
+                            "HOLDING": {
+                                "value": 1,
+                                "label": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af"
+                            },
+                            "BRAND": {
+                                "value": 2,
+                                "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647"
+                            },
+                            "DEPARTMENT": {
+                                "value": 3,
+                                "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647"
+                            },
+                            "TEAM": {
+                                "value": 4,
+                                "label": "\u062a\u06cc\u0645"
+                            }
+                        }
+                    },
+                    "is_active": true,
+                    "created_at": {
+                        "main": "2025-12-09 09:27:37",
+                        "default": "2025-12-09",
+                        "human": {
+                            "default": "18 \u0622\u0630\u0631 1404",
+                            "short": "1404\/9\/18",
+                            "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 09:27",
+                            "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                            "month": "\u0622\u0630\u0631",
+                            "year": 1404,
+                            "dayMonth": "18 \u0622\u0630\u0631",
+                            "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                            "gregorian": {
+                                "default": "25-12-09",
+                                "short": "25-12-09",
+                                "long": "December 9, 2025 09:27",
+                                "dayOfWeek": "Tuesday",
+                                "month": "Dec",
+                                "year": 2025,
+                                "diff": "3 days ago"
+                            }
+                        }
+                    },
+                    "updated_at": {
+                        "main": "2025-12-09 09:27:37",
+                        "default": "2025-12-09",
+                        "human": {
+                            "default": "18 \u0622\u0630\u0631 1404",
+                            "short": "1404\/9\/18",
+                            "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 09:27",
+                            "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                            "month": "\u0622\u0630\u0631",
+                            "year": 1404,
+                            "dayMonth": "18 \u0622\u0630\u0631",
+                            "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                            "gregorian": {
+                                "default": "25-12-09",
+                                "short": "25-12-09",
+                                "long": "December 9, 2025 09:27",
+                                "dayOfWeek": "Tuesday",
+                                "month": "Dec",
+                                "year": 2025,
+                                "diff": "3 days ago"
+                            }
+                        }
+                    },
+                    "deleted_at": null,
+                    "core_org_departments_code_unique_deleted_at_unix": 0,
+                    "children": [
+                        {
+                            "id": 16,
+                            "parent_id": 20,
+                            "name": "\u0628\u0647\u0627\u0631\u0627\u0646",
+                            "code": "baharan",
+                            "manager_id": 21,
+                            "color": "blue-500",
+                            "icon": "fa-building",
+                            "description": {
+                                "short": "\u0641\u0631\u0648\u0634\u06af\u0627\u0647 \u0628\u0647\u0627\u0631\u0627\u0646",
+                                "full": "\u0641\u0631\u0648\u0634\u06af\u0627\u0647 \u0628\u0647\u0627\u0631\u0627\u0646",
+                                "lines": 1,
+                                "words": 2,
+                                "read_times": 1,
+                                "toc_menus": []
+                            },
+                            "type": {
+                                "name": "DEPARTMENT",
+                                "value": 3,
+                                "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647",
+                                "color": "blue",
+                                "has_image": false,
+                                "has_icon_and_color": true,
+                                "cases": {
+                                    "HOLDING": {
+                                        "value": 1,
+                                        "label": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af"
+                                    },
+                                    "BRAND": {
+                                        "value": 2,
+                                        "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647"
+                                    },
+                                    "DEPARTMENT": {
+                                        "value": 3,
+                                        "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647"
+                                    },
+                                    "TEAM": {
+                                        "value": 4,
+                                        "label": "\u062a\u06cc\u0645"
+                                    }
+                                }
+                            },
+                            "is_active": true,
+                            "created_at": {
+                                "main": "2025-12-09 08:29:47",
+                                "default": "2025-12-09",
+                                "human": {
+                                    "default": "18 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/18",
+                                    "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:29",
+                                    "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "18 \u0622\u0630\u0631",
+                                    "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-09",
+                                        "short": "25-12-09",
+                                        "long": "December 9, 2025 08:29",
+                                        "dayOfWeek": "Tuesday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "3 days ago"
+                                    }
+                                }
+                            },
+                            "updated_at": {
+                                "main": "2025-12-09 09:31:17",
+                                "default": "2025-12-09",
+                                "human": {
+                                    "default": "18 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/18",
+                                    "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 09:31",
+                                    "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "18 \u0622\u0630\u0631",
+                                    "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-09",
+                                        "short": "25-12-09",
+                                        "long": "December 9, 2025 09:31",
+                                        "dayOfWeek": "Tuesday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "3 days ago"
+                                    }
+                                }
+                            },
+                            "deleted_at": null,
+                            "core_org_departments_code_unique_deleted_at_unix": 0,
+                            "children": [],
+                            "thumbnail": null
+                        },
+                        {
+                            "id": 17,
+                            "parent_id": 20,
+                            "name": "\u0631\u0648\u0645\u06cc\u0633",
+                            "code": "Romis",
+                            "manager_id": 21,
+                            "color": "blue-500",
+                            "icon": "fa-building",
+                            "description": {
+                                "short": "\u0641\u0631\u0648\u0634\u06af\u0627\u0647 \u0631\u0648\u0645\u06cc\u0633",
+                                "full": "\u0641\u0631\u0648\u0634\u06af\u0627\u0647 \u0631\u0648\u0645\u06cc\u0633",
+                                "lines": 1,
+                                "words": 2,
+                                "read_times": 1,
+                                "toc_menus": []
+                            },
+                            "type": {
+                                "name": "DEPARTMENT",
+                                "value": 3,
+                                "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647",
+                                "color": "blue",
+                                "has_image": false,
+                                "has_icon_and_color": true,
+                                "cases": {
+                                    "HOLDING": {
+                                        "value": 1,
+                                        "label": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af"
+                                    },
+                                    "BRAND": {
+                                        "value": 2,
+                                        "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647"
+                                    },
+                                    "DEPARTMENT": {
+                                        "value": 3,
+                                        "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647"
+                                    },
+                                    "TEAM": {
+                                        "value": 4,
+                                        "label": "\u062a\u06cc\u0645"
+                                    }
+                                }
+                            },
+                            "is_active": true,
+                            "created_at": {
+                                "main": "2025-12-09 08:30:59",
+                                "default": "2025-12-09",
+                                "human": {
+                                    "default": "18 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/18",
+                                    "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:30",
+                                    "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "18 \u0622\u0630\u0631",
+                                    "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-09",
+                                        "short": "25-12-09",
+                                        "long": "December 9, 2025 08:30",
+                                        "dayOfWeek": "Tuesday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "3 days ago"
+                                    }
+                                }
+                            },
+                            "updated_at": {
+                                "main": "2025-12-09 09:30:40",
+                                "default": "2025-12-09",
+                                "human": {
+                                    "default": "18 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/18",
+                                    "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 09:30",
+                                    "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "18 \u0622\u0630\u0631",
+                                    "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-09",
+                                        "short": "25-12-09",
+                                        "long": "December 9, 2025 09:30",
+                                        "dayOfWeek": "Tuesday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "3 days ago"
+                                    }
+                                }
+                            },
+                            "deleted_at": null,
+                            "core_org_departments_code_unique_deleted_at_unix": 0,
+                            "children": [],
+                            "thumbnail": null
+                        },
+                        {
+                            "id": 18,
+                            "parent_id": 20,
+                            "name": "\u06af\u0648\u0647\u0631\u0627\u0646",
+                            "code": "Goharan",
+                            "manager_id": 21,
+                            "color": "blue-500",
+                            "icon": "fa-building",
+                            "description": {
+                                "short": "\u0641\u0631\u0648\u0634\u06af\u0627\u0647 \u06af\u0648\u0647\u0631\u0627\u0646",
+                                "full": "\u0641\u0631\u0648\u0634\u06af\u0627\u0647 \u06af\u0648\u0647\u0631\u0627\u0646",
+                                "lines": 1,
+                                "words": 2,
+                                "read_times": 1,
+                                "toc_menus": []
+                            },
+                            "type": {
+                                "name": "DEPARTMENT",
+                                "value": 3,
+                                "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647",
+                                "color": "blue",
+                                "has_image": false,
+                                "has_icon_and_color": true,
+                                "cases": {
+                                    "HOLDING": {
+                                        "value": 1,
+                                        "label": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af"
+                                    },
+                                    "BRAND": {
+                                        "value": 2,
+                                        "label": "\u0628\u0631\u0646\u062f \/ \u06af\u0631\u0648\u0647"
+                                    },
+                                    "DEPARTMENT": {
+                                        "value": 3,
+                                        "label": "\u062f\u067e\u0627\u0631\u062a\u0645\u0627\u0646 \/ \u0634\u0639\u0628\u0647"
+                                    },
+                                    "TEAM": {
+                                        "value": 4,
+                                        "label": "\u062a\u06cc\u0645"
+                                    }
+                                }
+                            },
+                            "is_active": true,
+                            "created_at": {
+                                "main": "2025-12-09 08:31:39",
+                                "default": "2025-12-09",
+                                "human": {
+                                    "default": "18 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/18",
+                                    "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:31",
+                                    "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "18 \u0622\u0630\u0631",
+                                    "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-09",
+                                        "short": "25-12-09",
+                                        "long": "December 9, 2025 08:31",
+                                        "dayOfWeek": "Tuesday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "3 days ago"
+                                    }
+                                }
+                            },
+                            "updated_at": {
+                                "main": "2025-12-09 09:30:18",
+                                "default": "2025-12-09",
+                                "human": {
+                                    "default": "18 \u0622\u0630\u0631 1404",
+                                    "short": "1404\/9\/18",
+                                    "long": "18 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 09:30",
+                                    "dayOfWeek": "\u0633\u0647 \u0634\u0646\u0628\u0647",
+                                    "month": "\u0622\u0630\u0631",
+                                    "year": 1404,
+                                    "dayMonth": "18 \u0622\u0630\u0631",
+                                    "diff": "3 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                    "gregorian": {
+                                        "default": "25-12-09",
+                                        "short": "25-12-09",
+                                        "long": "December 9, 2025 09:30",
+                                        "dayOfWeek": "Tuesday",
+                                        "month": "Dec",
+                                        "year": 2025,
+                                        "diff": "3 days ago"
+                                    }
+                                }
+                            },
+                            "deleted_at": null,
+                            "core_org_departments_code_unique_deleted_at_unix": 0,
+                            "children": [],
+                            "thumbnail": null
+                        }
+                    ],
+                    "thumbnail": null
+                }
+            ],
+            "manager": {
+                "id": 2,
+                "direct_manager_id": null,
+                "job_position_id": null,
+                "full_name": "\u0644\u0642\u0645\u0627\u0646 \u0622\u0648\u0646\u062f",
+                "first_name": "\u0644\u0642\u0645\u0627\u0646",
+                "last_name": "\u0622\u0648\u0646\u062f",
+                "mobile": "09129619077",
+                "user_type": {
+                    "name": "Employee",
+                    "value": 2,
+                    "label": "\u06a9\u0627\u0631\u0645\u0646\u062f",
+                    "plural": "\u06a9\u0627\u0631\u06a9\u0646\u0627\u0646",
+                    "icon": "fa-user-tie",
+                    "cases": {
+                        "User": {
+                            "value": 1,
+                            "label": "\u06a9\u0627\u0631\u0628\u0631"
+                        },
+                        "Employee": {
+                            "value": 2,
+                            "label": "\u06a9\u0627\u0631\u0645\u0646\u062f"
+                        },
+                        "Customer": {
+                            "value": 3,
+                            "label": "\u0645\u0634\u062a\u0631\u06cc"
+                        }
+                    }
+                },
+                "customer_type": null,
+                "email": "god@loghman.solutions",
+                "national_code": null,
+                "gender": {
+                    "name": "MALE",
+                    "value": 1,
+                    "label": "\u0622\u0642\u0627",
+                    "cases": {
+                        "MALE": {
+                            "value": 1,
+                            "label": "\u0622\u0642\u0627"
+                        },
+                        "FEMALE": {
+                            "value": 2,
+                            "label": "\u062e\u0627\u0646\u0648\u0645"
+                        },
+                        "OTHER": {
+                            "value": 3,
+                            "label": "\u0646\u0627\u0645\u0634\u062e\u0635"
+                        }
+                    }
+                },
+                "is_active": true,
+                "birth_date": null,
+                "mobile_verified_at": {
+                    "main": "2025-12-03 10:03:26",
+                    "default": "2025-12-03",
+                    "human": {
+                        "default": "12 \u0622\u0630\u0631 1404",
+                        "short": "1404\/9\/12",
+                        "long": "12 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 10:03",
+                        "dayOfWeek": "\u0686\u0647\u0627\u0631\u0634\u0646\u0628\u0647",
+                        "month": "\u0622\u0630\u0631",
+                        "year": 1404,
+                        "dayMonth": "12 \u0622\u0630\u0631",
+                        "diff": "1 \u0647\u0641\u062a\u0647 \u067e\u06cc\u0634",
+                        "gregorian": {
+                            "default": "25-12-03",
+                            "short": "25-12-03",
+                            "long": "December 3, 2025 10:03",
+                            "dayOfWeek": "Wednesday",
+                            "month": "Dec",
+                            "year": 2025,
+                            "diff": "1 week ago"
+                        }
+                    }
+                },
+                "email_verified_at": {
+                    "main": "2025-12-03 10:03:26",
+                    "default": "2025-12-03",
+                    "human": {
+                        "default": "12 \u0622\u0630\u0631 1404",
+                        "short": "1404\/9\/12",
+                        "long": "12 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 10:03",
+                        "dayOfWeek": "\u0686\u0647\u0627\u0631\u0634\u0646\u0628\u0647",
+                        "month": "\u0622\u0630\u0631",
+                        "year": 1404,
+                        "dayMonth": "12 \u0622\u0630\u0631",
+                        "diff": "1 \u0647\u0641\u062a\u0647 \u067e\u06cc\u0634",
+                        "gregorian": {
+                            "default": "25-12-03",
+                            "short": "25-12-03",
+                            "long": "December 3, 2025 10:03",
+                            "dayOfWeek": "Wednesday",
+                            "month": "Dec",
+                            "year": 2025,
+                            "diff": "1 week ago"
+                        }
+                    }
+                },
+                "last_login_at": {
+                    "main": "2025-12-03 10:03:26",
+                    "default": "2025-12-03",
+                    "human": {
+                        "default": "12 \u0622\u0630\u0631 1404",
+                        "short": "1404\/9\/12",
+                        "long": "12 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 10:03",
+                        "dayOfWeek": "\u0686\u0647\u0627\u0631\u0634\u0646\u0628\u0647",
+                        "month": "\u0622\u0630\u0631",
+                        "year": 1404,
+                        "dayMonth": "12 \u0622\u0630\u0631",
+                        "diff": "1 \u0647\u0641\u062a\u0647 \u067e\u06cc\u0634",
+                        "gregorian": {
+                            "default": "25-12-03",
+                            "short": "25-12-03",
+                            "long": "December 3, 2025 10:03",
+                            "dayOfWeek": "Wednesday",
+                            "month": "Dec",
+                            "year": 2025,
+                            "diff": "1 week ago"
+                        }
+                    }
+                },
+                "employee_code": null,
+                "employment_date": null,
+                "created_at": {
+                    "main": "2025-12-08 07:55:02",
+                    "default": "2025-12-08",
+                    "human": {
+                        "default": "17 \u0622\u0630\u0631 1404",
+                        "short": "1404\/9\/17",
+                        "long": "17 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 07:55",
+                        "dayOfWeek": "\u062f\u0648\u0634\u0646\u0628\u0647",
+                        "month": "\u0622\u0630\u0631",
+                        "year": 1404,
+                        "dayMonth": "17 \u0622\u0630\u0631",
+                        "diff": "4 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                        "gregorian": {
+                            "default": "25-12-08",
+                            "short": "25-12-08",
+                            "long": "December 8, 2025 07:55",
+                            "dayOfWeek": "Monday",
+                            "month": "Dec",
+                            "year": 2025,
+                            "diff": "4 days ago"
+                        }
+                    }
+                },
+                "updated_at": {
+                    "main": "2025-12-08 07:55:02",
+                    "default": "2025-12-08",
+                    "human": {
+                        "default": "17 \u0622\u0630\u0631 1404",
+                        "short": "1404\/9\/17",
+                        "long": "17 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 07:55",
+                        "dayOfWeek": "\u062f\u0648\u0634\u0646\u0628\u0647",
+                        "month": "\u0622\u0630\u0631",
+                        "year": 1404,
+                        "dayMonth": "17 \u0622\u0630\u0631",
+                        "diff": "4 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                        "gregorian": {
+                            "default": "25-12-08",
+                            "short": "25-12-08",
+                            "long": "December 8, 2025 07:55",
+                            "dayOfWeek": "Monday",
+                            "month": "Dec",
+                            "year": 2025,
+                            "diff": "4 days ago"
+                        }
+                    }
+                },
+                "deleted_at": null,
+                "mobile_deleted_at_unix": 0,
+                "email_deleted_at_unix": 0,
+                "national_code_deleted_at_unix": 0,
+                "employee_code_deleted_at_unix": 0,
+                "avatar": null,
+                "thumbnail": null
+            },
+            "thumbnail": {
+                "id": 4,
+                "uuid": "f3d195e0-21f2-4b5a-8836-6931497a203e",
+                "entity_type": "core_org_departments",
+                "entity_id": 2,
+                "original_name": "logo.png",
+                "file_name": "58fdc24d-b623-4685-94b9-427372d2653b.png",
+                "file_path": "modules\/organization\/2025\/12\/58fdc24d-b623-4685-94b9-427372d2653b.png",
+                "file_url": "https:\/\/c146377.parspack.net\/modules\/organization\/2025\/12\/58fdc24d-b623-4685-94b9-427372d2653b.png",
+                "disk": "s3",
+                "title": "\u0647\u0648\u0644\u062f\u06cc\u0646\u06af Image",
+                "mime_type": "image\/png",
+                "extension": "png",
+                "file_size": 172903,
+                "file_hash": "c04c7041779618e8a3d6944847c3d0c664b5045c18b3aa5d88a1414dc48bb17e",
+                "file_type": {
+                    "name": "IMAGE",
+                    "value": 0,
+                    "label": "image",
+                    "cases": {
+                        "IMAGE": {
+                            "value": 0,
+                            "label": "image"
+                        },
+                        "VIDEO": {
+                            "value": 1,
+                            "label": "video"
+                        },
+                        "AUDIO": {
+                            "value": 2,
+                            "label": "audio"
+                        },
+                        "DOCUMENT": {
+                            "value": 3,
+                            "label": "document"
+                        },
+                        "ARCHIVE": {
+                            "value": 4,
+                            "label": "archive"
+                        },
+                        "OTHER": {
+                            "value": 5,
+                            "label": "other"
+                        }
+                    }
+                },
+                "collection": {
+                    "name": "THUMBNAIL",
+                    "value": 3,
+                    "label": "thumbnail",
+                    "cases": {
+                        "AVATAR": {
+                            "value": 0,
+                            "label": "avatar"
+                        },
+                        "DOCUMENT": {
+                            "value": 1,
+                            "label": "document"
+                        },
+                        "ATTACHMENT": {
+                            "value": 2,
+                            "label": "attachment"
+                        },
+                        "THUMBNAIL": {
+                            "value": 3,
+                            "label": "thumbnail"
+                        },
+                        "TEMP": {
+                            "value": 4,
+                            "label": "temp"
+                        },
+                        "OTHER": {
+                            "value": 5,
+                            "label": "other"
+                        }
+                    }
+                },
+                "is_temporary": false,
+                "expires_at": null,
+                "width": 500,
+                "height": 500,
+                "aspect_ratio": "1",
+                "duration": null,
+                "resolution": null,
+                "frame_rate": null,
+                "uploaded_by": 2,
+                "folder_id": null,
+                "module_name": "organization",
+                "is_public": true,
+                "download_count": 0,
+                "view_count": 0,
+                "last_accessed_at": null,
+                "is_active": true,
+                "created_at": {
+                    "main": "2025-12-06 11:01:24",
+                    "default": "2025-12-06",
+                    "human": {
+                        "default": "15 \u0622\u0630\u0631 1404",
+                        "short": "1404\/9\/15",
+                        "long": "15 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 11:01",
+                        "dayOfWeek": "\u0634\u0646\u0628\u0647",
+                        "month": "\u0622\u0630\u0631",
+                        "year": 1404,
+                        "dayMonth": "15 \u0622\u0630\u0631",
+                        "diff": "6 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                        "gregorian": {
+                            "default": "25-12-06",
+                            "short": "25-12-06",
+                            "long": "December 6, 2025 11:01",
+                            "dayOfWeek": "Saturday",
+                            "month": "Dec",
+                            "year": 2025,
+                            "diff": "6 days ago"
+                        }
+                    }
+                },
+                "updated_at": {
+                    "main": "2025-12-06 11:01:24",
+                    "default": "2025-12-06",
+                    "human": {
+                        "default": "15 \u0622\u0630\u0631 1404",
+                        "short": "1404\/9\/15",
+                        "long": "15 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 11:01",
+                        "dayOfWeek": "\u0634\u0646\u0628\u0647",
+                        "month": "\u0622\u0630\u0631",
+                        "year": 1404,
+                        "dayMonth": "15 \u0622\u0630\u0631",
+                        "diff": "6 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                        "gregorian": {
+                            "default": "25-12-06",
+                            "short": "25-12-06",
+                            "long": "December 6, 2025 11:01",
+                            "dayOfWeek": "Saturday",
+                            "month": "Dec",
+                            "year": 2025,
+                            "diff": "6 days ago"
+                        }
+                    }
+                },
+                "deleted_at": null,
+                "core_file_files_uuid_unique_deleted_at_unix": 0,
+                "file_type_label": "image",
+                "collection_label": "thumbnail",
+                "file_size_human": "168.85 KB",
+                "is_favorite": false
+            },
+            "users": [
+                {
+                    "id": 5,
+                    "direct_manager_id": null,
+                    "job_position_id": null,
+                    "full_name": "\u0645\u0647\u062f\u06cc \u0633\u0631\u0648\u0631\u06cc\u0627\u0646",
+                    "first_name": "\u0645\u062d\u0645\u062f \u0645\u0647\u062f\u06cc",
+                    "last_name": "\u0633\u0631\u0648\u0631\u06cc\u0627\u0646",
+                    "mobile": "09171114174",
+                    "user_type": {
+                        "name": "Employee",
+                        "value": 2,
+                        "label": "\u06a9\u0627\u0631\u0645\u0646\u062f",
+                        "plural": "\u06a9\u0627\u0631\u06a9\u0646\u0627\u0646",
+                        "icon": "fa-user-tie",
+                        "cases": {
+                            "User": {
+                                "value": 1,
+                                "label": "\u06a9\u0627\u0631\u0628\u0631"
+                            },
+                            "Employee": {
+                                "value": 2,
+                                "label": "\u06a9\u0627\u0631\u0645\u0646\u062f"
+                            },
+                            "Customer": {
+                                "value": 3,
+                                "label": "\u0645\u0634\u062a\u0631\u06cc"
+                            }
+                        }
+                    },
+                    "customer_type": null,
+                    "email": null,
+                    "national_code": null,
+                    "gender": {
+                        "name": "MALE",
+                        "value": 1,
+                        "label": "\u0622\u0642\u0627",
+                        "cases": {
+                            "MALE": {
+                                "value": 1,
+                                "label": "\u0622\u0642\u0627"
+                            },
+                            "FEMALE": {
+                                "value": 2,
+                                "label": "\u062e\u0627\u0646\u0648\u0645"
+                            },
+                            "OTHER": {
+                                "value": 3,
+                                "label": "\u0646\u0627\u0645\u0634\u062e\u0635"
+                            }
+                        }
+                    },
+                    "is_active": true,
+                    "birth_date": {
+                        "main": "1986-12-17 20:30:00",
+                        "default": "1986-12-17",
+                        "human": {
+                            "default": "26 \u0622\u0630\u0631 1365",
+                            "short": "1365\/9\/26",
+                            "long": "26 \u0622\u0630\u0631 1365 \u0633\u0627\u0639\u062a 20:30",
+                            "dayOfWeek": "\u0686\u0647\u0627\u0631\u0634\u0646\u0628\u0647",
+                            "month": "\u0622\u0630\u0631",
+                            "year": 1365,
+                            "dayMonth": "26 \u0622\u0630\u0631",
+                            "diff": "38 \u0633\u0627\u0644 \u067e\u06cc\u0634",
+                            "gregorian": {
+                                "default": "86-12-17",
+                                "short": "86-12-17",
+                                "long": "December 17, 1986 20:30",
+                                "dayOfWeek": "Wednesday",
+                                "month": "Dec",
+                                "year": 1986,
+                                "diff": "38 years ago"
+                            }
+                        }
+                    },
+                    "mobile_verified_at": null,
+                    "email_verified_at": null,
+                    "last_login_at": null,
+                    "employee_code": null,
+                    "employment_date": null,
+                    "created_at": {
+                        "main": "2025-12-06 11:22:46",
+                        "default": "2025-12-06",
+                        "human": {
+                            "default": "15 \u0622\u0630\u0631 1404",
+                            "short": "1404\/9\/15",
+                            "long": "15 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 11:22",
+                            "dayOfWeek": "\u0634\u0646\u0628\u0647",
+                            "month": "\u0622\u0630\u0631",
+                            "year": 1404,
+                            "dayMonth": "15 \u0622\u0630\u0631",
+                            "diff": "6 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                            "gregorian": {
+                                "default": "25-12-06",
+                                "short": "25-12-06",
+                                "long": "December 6, 2025 11:22",
+                                "dayOfWeek": "Saturday",
+                                "month": "Dec",
+                                "year": 2025,
+                                "diff": "6 days ago"
+                            }
+                        }
+                    },
+                    "updated_at": {
+                        "main": "2025-12-07 11:31:39",
+                        "default": "2025-12-07",
+                        "human": {
+                            "default": "16 \u0622\u0630\u0631 1404",
+                            "short": "1404\/9\/16",
+                            "long": "16 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 11:31",
+                            "dayOfWeek": "\u06cc\u06a9\u0634\u0646\u0628\u0647",
+                            "month": "\u0622\u0630\u0631",
+                            "year": 1404,
+                            "dayMonth": "16 \u0622\u0630\u0631",
+                            "diff": "5 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                            "gregorian": {
+                                "default": "25-12-07",
+                                "short": "25-12-07",
+                                "long": "December 7, 2025 11:31",
+                                "dayOfWeek": "Sunday",
+                                "month": "Dec",
+                                "year": 2025,
+                                "diff": "5 days ago"
+                            }
+                        }
+                    },
+                    "deleted_at": null,
+                    "mobile_deleted_at_unix": 0,
+                    "email_deleted_at_unix": 0,
+                    "national_code_deleted_at_unix": 0,
+                    "employee_code_deleted_at_unix": 0,
+                    "pivot": {
+                        "department_id": 2,
+                        "user_id": 5,
+                        "is_primary": 1,
+                        "created_at": {
+                            "main": "2025-12-06 07:53:25",
+                            "default": "2025-12-06",
+                            "human": {
+                                "default": "15 \u0622\u0630\u0631 1404",
+                                "short": "1404\/9\/15",
+                                "long": "15 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 07:53",
+                                "dayOfWeek": "\u0634\u0646\u0628\u0647",
+                                "month": "\u0622\u0630\u0631",
+                                "year": 1404,
+                                "dayMonth": "15 \u0622\u0630\u0631",
+                                "diff": "6 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                "gregorian": {
+                                    "default": "25-12-06",
+                                    "short": "25-12-06",
+                                    "long": "December 6, 2025 07:53",
+                                    "dayOfWeek": "Saturday",
+                                    "month": "Dec",
+                                    "year": 2025,
+                                    "diff": "6 days ago"
+                                }
+                            }
+                        },
+                        "updated_at": {
+                            "main": "2025-12-07 08:01:39",
+                            "default": "2025-12-07",
+                            "human": {
+                                "default": "16 \u0622\u0630\u0631 1404",
+                                "short": "1404\/9\/16",
+                                "long": "16 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 08:01",
+                                "dayOfWeek": "\u06cc\u06a9\u0634\u0646\u0628\u0647",
+                                "month": "\u0622\u0630\u0631",
+                                "year": 1404,
+                                "dayMonth": "16 \u0622\u0630\u0631",
+                                "diff": "5 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                "gregorian": {
+                                    "default": "25-12-07",
+                                    "short": "25-12-07",
+                                    "long": "December 7, 2025 08:01",
+                                    "dayOfWeek": "Sunday",
+                                    "month": "Dec",
+                                    "year": 2025,
+                                    "diff": "5 days ago"
+                                }
+                            }
+                        }
+                    },
+                    "avatar": null,
+                    "thumbnail": null
+                },
+                {
+                    "id": 6,
+                    "direct_manager_id": 5,
+                    "job_position_id": null,
+                    "full_name": "\u0645\u062d\u0645\u062f\u062d\u0633\u06cc\u0646 \u0636\u06cc\u0627\u06cc\u06cc\u0627\u0646",
+                    "first_name": "\u0633\u06cc\u062f \u0645\u062d\u0645\u062f \u062d\u0633\u06cc\u0646",
+                    "last_name": "\u0636\u06cc\u0627\u0626\u06cc\u0627\u0646",
+                    "mobile": "09126848452",
+                    "user_type": {
+                        "name": "Employee",
+                        "value": 2,
+                        "label": "\u06a9\u0627\u0631\u0645\u0646\u062f",
+                        "plural": "\u06a9\u0627\u0631\u06a9\u0646\u0627\u0646",
+                        "icon": "fa-user-tie",
+                        "cases": {
+                            "User": {
+                                "value": 1,
+                                "label": "\u06a9\u0627\u0631\u0628\u0631"
+                            },
+                            "Employee": {
+                                "value": 2,
+                                "label": "\u06a9\u0627\u0631\u0645\u0646\u062f"
+                            },
+                            "Customer": {
+                                "value": 3,
+                                "label": "\u0645\u0634\u062a\u0631\u06cc"
+                            }
+                        }
+                    },
+                    "customer_type": null,
+                    "email": "hziaiian@gmail.com",
+                    "national_code": "0082671151",
+                    "gender": {
+                        "name": "MALE",
+                        "value": 1,
+                        "label": "\u0622\u0642\u0627",
+                        "cases": {
+                            "MALE": {
+                                "value": 1,
+                                "label": "\u0622\u0642\u0627"
+                            },
+                            "FEMALE": {
+                                "value": 2,
+                                "label": "\u062e\u0627\u0646\u0648\u0645"
+                            },
+                            "OTHER": {
+                                "value": 3,
+                                "label": "\u0646\u0627\u0645\u0634\u062e\u0635"
+                            }
+                        }
+                    },
+                    "is_active": true,
+                    "birth_date": {
+                        "main": "1996-12-12 20:30:00",
+                        "default": "1996-12-12",
+                        "human": {
+                            "default": "22 \u0622\u0630\u0631 1375",
+                            "short": "1375\/9\/22",
+                            "long": "22 \u0622\u0630\u0631 1375 \u0633\u0627\u0639\u062a 20:30",
+                            "dayOfWeek": "\u067e\u0646\u062c \u0634\u0646\u0628\u0647",
+                            "month": "\u0622\u0630\u0631",
+                            "year": 1375,
+                            "dayMonth": "22 \u0622\u0630\u0631",
+                            "diff": "28 \u0633\u0627\u0644 \u067e\u06cc\u0634",
+                            "gregorian": {
+                                "default": "96-12-12",
+                                "short": "96-12-12",
+                                "long": "December 12, 1996 20:30",
+                                "dayOfWeek": "Thursday",
+                                "month": "Dec",
+                                "year": 1996,
+                                "diff": "28 years ago"
+                            }
+                        }
+                    },
+                    "mobile_verified_at": {
+                        "main": "2025-12-07 18:54:57",
+                        "default": "2025-12-07",
+                        "human": {
+                            "default": "16 \u0622\u0630\u0631 1404",
+                            "short": "1404\/9\/16",
+                            "long": "16 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 18:54",
+                            "dayOfWeek": "\u06cc\u06a9\u0634\u0646\u0628\u0647",
+                            "month": "\u0622\u0630\u0631",
+                            "year": 1404,
+                            "dayMonth": "16 \u0622\u0630\u0631",
+                            "diff": "4 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                            "gregorian": {
+                                "default": "25-12-07",
+                                "short": "25-12-07",
+                                "long": "December 7, 2025 18:54",
+                                "dayOfWeek": "Sunday",
+                                "month": "Dec",
+                                "year": 2025,
+                                "diff": "4 days ago"
+                            }
+                        }
+                    },
+                    "email_verified_at": null,
+                    "last_login_at": {
+                        "main": "2025-12-07 18:54:57",
+                        "default": "2025-12-07",
+                        "human": {
+                            "default": "16 \u0622\u0630\u0631 1404",
+                            "short": "1404\/9\/16",
+                            "long": "16 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 18:54",
+                            "dayOfWeek": "\u06cc\u06a9\u0634\u0646\u0628\u0647",
+                            "month": "\u0622\u0630\u0631",
+                            "year": 1404,
+                            "dayMonth": "16 \u0622\u0630\u0631",
+                            "diff": "4 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                            "gregorian": {
+                                "default": "25-12-07",
+                                "short": "25-12-07",
+                                "long": "December 7, 2025 18:54",
+                                "dayOfWeek": "Sunday",
+                                "month": "Dec",
+                                "year": 2025,
+                                "diff": "4 days ago"
+                            }
+                        }
+                    },
+                    "employee_code": "2",
+                    "employment_date": null,
+                    "created_at": {
+                        "main": "2025-12-06 11:25:34",
+                        "default": "2025-12-06",
+                        "human": {
+                            "default": "15 \u0622\u0630\u0631 1404",
+                            "short": "1404\/9\/15",
+                            "long": "15 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 11:25",
+                            "dayOfWeek": "\u0634\u0646\u0628\u0647",
+                            "month": "\u0622\u0630\u0631",
+                            "year": 1404,
+                            "dayMonth": "15 \u0622\u0630\u0631",
+                            "diff": "6 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                            "gregorian": {
+                                "default": "25-12-06",
+                                "short": "25-12-06",
+                                "long": "December 6, 2025 11:25",
+                                "dayOfWeek": "Saturday",
+                                "month": "Dec",
+                                "year": 2025,
+                                "diff": "6 days ago"
+                            }
+                        }
+                    },
+                    "updated_at": {
+                        "main": "2025-12-07 18:54:57",
+                        "default": "2025-12-07",
+                        "human": {
+                            "default": "16 \u0622\u0630\u0631 1404",
+                            "short": "1404\/9\/16",
+                            "long": "16 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 18:54",
+                            "dayOfWeek": "\u06cc\u06a9\u0634\u0646\u0628\u0647",
+                            "month": "\u0622\u0630\u0631",
+                            "year": 1404,
+                            "dayMonth": "16 \u0622\u0630\u0631",
+                            "diff": "4 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                            "gregorian": {
+                                "default": "25-12-07",
+                                "short": "25-12-07",
+                                "long": "December 7, 2025 18:54",
+                                "dayOfWeek": "Sunday",
+                                "month": "Dec",
+                                "year": 2025,
+                                "diff": "4 days ago"
+                            }
+                        }
+                    },
+                    "deleted_at": null,
+                    "mobile_deleted_at_unix": 0,
+                    "email_deleted_at_unix": 0,
+                    "national_code_deleted_at_unix": 0,
+                    "employee_code_deleted_at_unix": 0,
+                    "pivot": {
+                        "department_id": 2,
+                        "user_id": 6,
+                        "is_primary": 1,
+                        "created_at": {
+                            "main": "2025-12-06 07:56:52",
+                            "default": "2025-12-06",
+                            "human": {
+                                "default": "15 \u0622\u0630\u0631 1404",
+                                "short": "1404\/9\/15",
+                                "long": "15 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 07:56",
+                                "dayOfWeek": "\u0634\u0646\u0628\u0647",
+                                "month": "\u0622\u0630\u0631",
+                                "year": 1404,
+                                "dayMonth": "15 \u0622\u0630\u0631",
+                                "diff": "6 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                "gregorian": {
+                                    "default": "25-12-06",
+                                    "short": "25-12-06",
+                                    "long": "December 6, 2025 07:56",
+                                    "dayOfWeek": "Saturday",
+                                    "month": "Dec",
+                                    "year": 2025,
+                                    "diff": "6 days ago"
+                                }
+                            }
+                        },
+                        "updated_at": {
+                            "main": "2025-12-07 02:32:54",
+                            "default": "2025-12-07",
+                            "human": {
+                                "default": "16 \u0622\u0630\u0631 1404",
+                                "short": "1404\/9\/16",
+                                "long": "16 \u0622\u0630\u0631 1404 \u0633\u0627\u0639\u062a 02:32",
+                                "dayOfWeek": "\u06cc\u06a9\u0634\u0646\u0628\u0647",
+                                "month": "\u0622\u0630\u0631",
+                                "year": 1404,
+                                "dayMonth": "16 \u0622\u0630\u0631",
+                                "diff": "5 \u0631\u0648\u0632 \u067e\u06cc\u0634",
+                                "gregorian": {
+                                    "default": "25-12-07",
+                                    "short": "25-12-07",
+                                    "long": "December 7, 2025 02:32",
+                                    "dayOfWeek": "Sunday",
+                                    "month": "Dec",
+                                    "year": 2025,
+                                    "diff": "5 days ago"
+                                }
+                            }
+                        }
+                    },
+                    "avatar": null,
+                    "thumbnail": null
+                }
+            ]
+        }
+    ],
+    "meta": {
+        "pagination": {
+            "current_page": 1,
+            "per_page": 100,
+            "total": 1,
+            "last_page": 1,
+            "from": 1,
+            "to": 1
+        },
+        "links": {
+            "prev": null,
+            "next": null,
+            "first": "http:\/\/localhost:1111\/api\/v1\/admin\/org\/departments?page=1",
+            "last": "http:\/\/localhost:1111\/api\/v1\/admin\/org\/departments?page=1"
+        }
+    }
+}

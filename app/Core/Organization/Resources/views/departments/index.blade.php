@@ -95,6 +95,11 @@
                     <div class="px-6 py-4 border-b border-border-light flex items-center justify-between">
                         <h2 class="text-lg font-semibold text-text-primary leading-snug">ساختار سازمانی</h2>
                         <div class="flex items-center gap-2">
+                            <a href="{{ route('web.org.departments.chart') }}"
+                               class="bg-primary text-white hover:bg-primary-dark px-5 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 flex items-center gap-2 leading-normal shadow-sm hover:shadow">
+                                <i class="fa-sitemap fa-solid"></i>
+                                <span>نمایش گرافیکی</span>
+                            </a>
                             <button type="button" class="expand-all bg-bg-secondary text-text-secondary border border-border-medium px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition-all duration-200 text-sm leading-normal">
                                 <i class="fa-solid fa-expand ml-2"></i>
                                 <span>باز کردن همه</span>

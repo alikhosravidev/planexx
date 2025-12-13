@@ -33,7 +33,8 @@ class FileTransformer extends BaseTransformer
             'file_type_label'  => fn (File $file) => $file->file_type->label(),
             'collection_label' => fn (File $file) => $file->collection?->label(),
             'file_size_human'  => fn (File $file) => $this->formatBytes($file->file_size),
-            'is_favorite'      => fn (File $file) => $file->favorites()->where('user_id', auth('sanctum')->id() ?? auth('web')->id())->exists(),
+            // TODO: Fix N+1
+            'is_favorite' => fn (File $file) => $file->favorites()->where('user_id', auth('sanctum')->id() ?? auth('web')->id())->exists(),
         ];
     }
 
