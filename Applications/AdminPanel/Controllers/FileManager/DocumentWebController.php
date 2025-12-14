@@ -46,7 +46,7 @@ class DocumentWebController extends BaseWebController
             'total_folders' => count($foldersResponse['result'] ?? []),
         ];
 
-        return view('FileManager::documents.index', [
+        return view('panel::documents.index', [
             'files'       => $filesResponse['result']             ?? [],
             'folders'     => $foldersResponse['result']           ?? [],
             'pagination'  => $filesResponse['meta']['pagination'] ?? [],
@@ -78,7 +78,7 @@ class DocumentWebController extends BaseWebController
             'includes' => 'uploader.avatar,tags',
         ]);
 
-        return view('FileManager::documents.folder', [
+        return view('panel::documents.folder', [
             'folder'      => $folder,
             'files'       => $filesResponse['result']             ?? [],
             'pagination'  => $filesResponse['meta']['pagination'] ?? [],
@@ -98,7 +98,7 @@ class DocumentWebController extends BaseWebController
             'per_page' => 100,
         ]);
 
-        return view('FileManager::documents.favorites', [
+        return view('panel::documents.favorites', [
             'files'       => $favoritesResponse['result']             ?? [],
             'folders'     => $foldersResponse['result']               ?? [],
             'pagination'  => $favoritesResponse['meta']['pagination'] ?? [],
@@ -118,7 +118,7 @@ class DocumentWebController extends BaseWebController
             'per_page' => 100,
         ]);
 
-        return view('FileManager::documents.recent', [
+        return view('panel::documents.recent', [
             'files'       => $filesResponse['result']             ?? [],
             'folders'     => $foldersResponse['result']           ?? [],
             'pagination'  => $filesResponse['meta']['pagination'] ?? [],
@@ -145,7 +145,7 @@ class DocumentWebController extends BaseWebController
             'total_size'  => '0 MB',
         ];
 
-        return view('FileManager::documents.temporary', [
+        return view('panel::documents.temporary', [
             'files'       => $filesResponse['result']             ?? [],
             'folders'     => $foldersResponse['result']           ?? [],
             'pagination'  => $filesResponse['meta']['pagination'] ?? [],
@@ -160,7 +160,7 @@ class DocumentWebController extends BaseWebController
             'per_page' => 100,
         ]);
 
-        return view('FileManager::documents.create-folder', [
+        return view('panel::documents.create-folder', [
             'folders' => $foldersResponse['result'] ?? [],
         ]);
     }
@@ -176,7 +176,7 @@ class DocumentWebController extends BaseWebController
             'per_page' => 100,
         ]);
 
-        return view('FileManager::documents.edit-folder', [
+        return view('panel::documents.edit-folder', [
             'folder'  => $folderResponse['result']  ?? [],
             'folders' => $foldersResponse['result'] ?? [],
         ]);

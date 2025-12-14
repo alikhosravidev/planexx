@@ -10,14 +10,15 @@ class AdminPanelServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->loadViewsFrom(
-            base_path('Applications/AdminPanel/Views'),
-            'panel'
-        );
     }
 
     public function boot(): void
     {
+        $this->loadViewsFrom(
+            base_path('Applications/AdminPanel/Views'),
+            'panel'
+        );
+
         $this->loadRoutesFrom(__DIR__ . '/routes.php');
     }
 }

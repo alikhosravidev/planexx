@@ -53,13 +53,13 @@ class UserWebController extends BaseWebController
             $filters['departments.id'] = $request->get('department_id');
         }
 
-        $queryParams              = $request->except('filter');
-        $queryParams['filter']    = $filters;
-        $queryParams['includes']  = 'avatar,primaryRoles';
+        $queryParams             = $request->except('filter');
+        $queryParams['filter']   = $filters;
+        $queryParams['includes'] = 'avatar,primaryRoles';
 
         $response = $this->apiGet('api.v1.admin.org.users.index', $queryParams);
 
-        return view("Organization::users.index-{$lowerUserType}", [
+        return view("panel::users.index-{$lowerUserType}", [
             'users'       => $response['result']             ?? [],
             'pagination'  => $response['meta']['pagination'] ?? [],
             'pageTitle'   => $pageTitle,
@@ -77,7 +77,7 @@ class UserWebController extends BaseWebController
             'includes' => 'directManager,departments',
         ]);
 
-        return view('Organization::users.show', [
+        return view('panel::users.show', [
             'user' => $response['result'] ?? [],
         ]);
     }
@@ -107,7 +107,7 @@ class UserWebController extends BaseWebController
             );
         }
 
-        return view('Organization::users.add-or-edit', [
+        return view('panel::users.add-or-edit', [
             'userType'       => $userType,
             'userTypeValue'  => $userTypeValue,
             'userTypes'      => $typeResponse['result']  ?? [],
@@ -137,7 +137,7 @@ class UserWebController extends BaseWebController
         $userType      = $user->user_type->name;
         $userTypeValue = $user->user_type->value;
 
-        return view('Organization::users.add-or-edit', [
+        return view('panel::users.add-or-edit', [
             'user'           => $response['result']      ?? [],
             'allDepartments' => $deptResponse['result']  ?? [],
             'users'          => $usersResponse['result'] ?? [],

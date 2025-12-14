@@ -35,7 +35,7 @@ class BPMSDashboardController extends BaseWebController
         $taskDistribution   = $this->distributionManager->getTransformed('bpms.dashboard.task-distribution');
 
         return view(
-            'BPMS::dashboard.index',
+            'panel::dashboard.bpms',
             compact(
                 'pageTitle',
                 'currentPage',

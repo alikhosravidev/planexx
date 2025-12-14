@@ -24,7 +24,7 @@ class DepartmentWebController extends BaseWebController
             ],
         );
 
-        return view('Organization::departments.index', [
+        return view('panel::departments.index', [
             'departments' => $response['result']             ?? [],
             'pagination'  => $response['meta']['pagination'] ?? [],
             'pageTitle'   => $pageTitle,
@@ -45,7 +45,7 @@ class DepartmentWebController extends BaseWebController
 
         $typeResponse = $this->apiGet('api.v1.admin.enums.keyValList', ['enum' => 'DepartmentTypeEnum']);
 
-        return view('Organization::departments.add-or-edit', [
+        return view('panel::departments.add-or-edit', [
             'allDepartments'  => $deptResponse['result']  ?? [],
             'managers'        => $usersResponse['result'] ?? [],
             'departmentTypes' => $typeResponse['result']  ?? [],
@@ -71,7 +71,7 @@ class DepartmentWebController extends BaseWebController
 
         $typeResponse = $this->apiGet('api.v1.admin.enums.keyValList', ['enum' => 'DepartmentTypeEnum']);
 
-        return view('Organization::departments.add-or-edit', [
+        return view('panel::departments.add-or-edit', [
             'department'      => $response['result']      ?? [],
             'allDepartments'  => $deptResponse['result']  ?? [],
             'managers'        => $usersResponse['result'] ?? [],
@@ -95,7 +95,7 @@ class DepartmentWebController extends BaseWebController
             ],
         );
 
-        return view('Organization::departments.chart', [
+        return view('panel::departments.chart', [
             'departments' => $response['result'] ?? [],
             'pageTitle'   => $pageTitle,
         ]);

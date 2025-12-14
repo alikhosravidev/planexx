@@ -42,7 +42,7 @@ class OrganizationDashboardController extends BaseWebController
         );
 
         return view(
-            'Organization::dashboard.index',
+            'panel::dashboard.organization',
             compact(
                 'pageTitle',
                 'currentPage',

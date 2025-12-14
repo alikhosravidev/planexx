@@ -46,10 +46,5 @@ class OrganizationServiceProvider extends ServiceProvider
             ProviderUtility::corePath('Organization/Resources/lang'),
             'Organization'
         );
-
-        $this->loadViewsFrom(
-            ProviderUtility::corePath('Organization/Resources/views'),
-            'Organization'
-        );
     }
 }

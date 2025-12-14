@@ -30,10 +30,6 @@ class FileManagerServiceProvider extends ServiceProvider
             $this->loadTranslationsFrom($path, 'FileManager');
         }
 
-        if ($path = ProviderUtility::corePath('FileManager/Resources/views')) {
-            $this->loadViewsFrom($path, 'FileManager');
-        }
-
         app('menu')->registerBy(FileManagerMenuRegistrar::class);
         app('quick-access')->registerBy(FileManagerQuickAccessRegistrar::class);
     }

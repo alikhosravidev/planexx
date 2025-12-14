@@ -36,7 +36,7 @@ class WorkflowWebController extends BaseWebController
             ['per_page' => 100, 'field' => 'name']
         );
 
-        return view('BPMS::workflows.index', [
+        return view('panel::workflows.index', [
             'workflows'   => $response['result']             ?? [],
             'pagination'  => $response['meta']['pagination'] ?? [],
             'departments' => $deptResponse['result']         ?? [],
@@ -61,7 +61,7 @@ class WorkflowWebController extends BaseWebController
             ['per_page' => 100, 'field' => 'name']
         );
 
-        return view('BPMS::workflows.add-or-edit', [
+        return view('panel::workflows.add-or-edit', [
             'departments' => $deptResponse['result']  ?? [],
             'users'       => $usersResponse['result'] ?? [],
             'roles'       => $rolesResponse['result'] ?? [],
@@ -90,7 +90,7 @@ class WorkflowWebController extends BaseWebController
             ['per_page' => 100, 'field' => 'name']
         );
 
-        return view('BPMS::workflows.add-or-edit', [
+        return view('panel::workflows.add-or-edit', [
             'workflow'    => $workflowResponse['result'] ?? [],
             'departments' => $deptResponse['result']     ?? [],
             'users'       => $usersResponse['result']    ?? [],

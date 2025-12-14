@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use Applications\AdminPanel\Controllers\{AuthWebController,
-    BPMS\BPMSDashboardController,
+use Applications\AdminPanel\Controllers\{BPMS\BPMSDashboardController,
     BPMS\WorkflowWebController,
     DashboardController,
     FileManager\DocumentWebController,
+    Organization\AuthWebController,
     Organization\DepartmentWebController,
     Organization\OrganizationDashboardController,
     Organization\RoleWebController,

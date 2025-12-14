@@ -26,7 +26,7 @@ class DashboardController extends BaseWebController
             ['label' => 'داشبورد'],
         ];
 
-        return view('dashboard.index', [
+        return view('panel::dashboard.index', [
             'stats'              => $stats,
             'quickAccessModules' => $quickAccessModules,
             'breadcrumbs'        => $breadcrumbs,

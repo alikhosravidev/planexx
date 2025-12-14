@@ -21,7 +21,7 @@ class TagWebController extends BaseWebController
             ],
         );
 
-        return view('tags.index', [
+        return view('panel::tags.index', [
             'tags'       => $response['result']             ?? [],
             'pagination' => $response['meta']['pagination'] ?? [],
             'pageTitle'  => $pageTitle,
@@ -34,14 +34,14 @@ class TagWebController extends BaseWebController
             'tag' => $tag->id,
         ]);
 
-        return view('tags.show', [
+        return view('panel::tags.show', [
             'tag' => $response['result'] ?? [],
         ]);
     }
 
     public function create(): View
     {
-        return view('tags.add-or-edit');
+        return view('panel::tags.add-or-edit');
     }
 
     public function edit(Tag $tag): View
@@ -50,7 +50,7 @@ class TagWebController extends BaseWebController
             'tag' => $tag->id,
         ]);
 
-        return view('tags.add-or-edit', [
+        return view('panel::tags.add-or-edit', [
             'tag' => $response['result'] ?? [],
         ]);
     }

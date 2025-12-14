@@ -13,7 +13,7 @@ class AuthWebController extends BaseWebController
 {
     public function login(): View
     {
-        return view('Organization::auth');
+        return view('panel::auth.index');
     }
 
     public function auth(Request $request): JsonResponse

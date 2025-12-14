@@ -21,7 +21,7 @@ class RoleWebController extends BaseWebController
             ],
         );
 
-        return view('Organization::roles.index', [
+        return view('panel::roles.index', [
             'roles'      => $response['result']             ?? [],
             'pagination' => $response['meta']['pagination'] ?? [],
             'pageTitle'  => $pageTitle,
@@ -35,7 +35,7 @@ class RoleWebController extends BaseWebController
             'includes' => 'permissions',
         ]);
 
-        return view('Organization::roles.show', [
+        return view('panel::roles.show', [
             'role' => $response['result'] ?? [],
         ]);
     }
@@ -47,7 +47,7 @@ class RoleWebController extends BaseWebController
             ['per_page' => 200]
         );
 
-        return view('Organization::roles.add-or-edit', [
+        return view('panel::roles.add-or-edit', [
             'permissions' => $permissionsResponse['result'] ?? [],
         ]);
     }
@@ -64,7 +64,7 @@ class RoleWebController extends BaseWebController
             ['per_page' => 200]
         );
 
-        return view('Organization::roles.add-or-edit', [
+        return view('panel::roles.add-or-edit', [
             'role'        => $response['result']            ?? [],
             'permissions' => $permissionsResponse['result'] ?? [],
         ]);
@@ -82,7 +82,7 @@ class RoleWebController extends BaseWebController
             ['per_page' => 200]
         );
 
-        return view('Organization::roles.permissions', [
+        return view('panel::roles.permissions', [
             'role'        => $response['result']            ?? [],
             'permissions' => $permissionsResponse['result'] ?? [],
         ]);
