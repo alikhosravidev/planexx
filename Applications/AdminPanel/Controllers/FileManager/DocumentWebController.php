@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\FileManager\Http\Controllers\Web;
+namespace Applications\AdminPanel\Controllers\FileManager;
 
 use App\Contracts\Controller\BaseWebController;
 use Illuminate\Contracts\View\View;
@@ -178,17 +178,6 @@ class DocumentWebController extends BaseWebController
 
         return view('FileManager::documents.edit-folder', [
             'folder'  => $folderResponse['result']  ?? [],
-            'folders' => $foldersResponse['result'] ?? [],
-        ]);
-    }
-
-    public function upload(): View
-    {
-        $foldersResponse = $this->apiGet('api.v1.admin.file-manager.folders.index', [
-            'per_page' => 100,
-        ]);
-
-        return view('FileManager::documents.upload', [
             'folders' => $foldersResponse['result'] ?? [],
         ]);
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\BPMS\Http\Controllers\Web;
+namespace Applications\AdminPanel\Controllers\BPMS;
 
 use App\Contracts\Controller\BaseWebController;
 use App\Core\BPMS\Entities\Workflow;

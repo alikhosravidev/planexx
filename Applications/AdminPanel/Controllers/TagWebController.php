@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Web;
+namespace Applications\AdminPanel\Controllers;
 
 use App\Contracts\Controller\BaseWebController;
 use App\Entities\Tag;

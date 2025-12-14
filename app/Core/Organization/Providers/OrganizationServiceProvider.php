@@ -8,8 +8,8 @@ use function app;
 
 use App\Core\Organization\Entities\PersonalAccessToken;
 use App\Core\Organization\Http\Middlewares\CheckUserAccessToken;
-use App\Core\Organization\Registrars\OrganizationMenuRegistrar;
 use App\Core\Organization\Registrars\OrganizationDistributionRegistrar;
+use App\Core\Organization\Registrars\OrganizationMenuRegistrar;
 use App\Core\Organization\Registrars\OrganizationQuickAccessRegistrar;
 use App\Core\Organization\Registrars\OrganizationStatsRegistrar;
 use App\Utilities\ProviderUtility;
@@ -36,10 +36,6 @@ class OrganizationServiceProvider extends ServiceProvider
 
         $this->loadRoutesFrom(
             ProviderUtility::corePath('Organization/Routes/API/v1/admin.php')
-        );
-
-        $this->loadRoutesFrom(
-            ProviderUtility::corePath('Organization/Routes/web.php')
         );
 
         $this->loadMigrationsFrom(

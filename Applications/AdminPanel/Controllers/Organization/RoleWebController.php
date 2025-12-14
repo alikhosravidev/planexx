@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Organization\Http\Controllers\Web;
+namespace Applications\AdminPanel\Controllers\Organization;
 
 use App\Contracts\Controller\BaseWebController;
 use App\Core\Organization\Entities\Role;

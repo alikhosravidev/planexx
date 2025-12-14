@@ -27,10 +27,6 @@ class BPMSServiceProvider extends ServiceProvider
             ProviderUtility::corePath('BPMS/Routes/V1/admin.php')
         );
 
-        $this->loadRoutesFrom(
-            ProviderUtility::corePath('BPMS/Routes/web.php')
-        );
-
         $this->loadViewsFrom(
             ProviderUtility::corePath('BPMS/Resources/views'),
             'BPMS'

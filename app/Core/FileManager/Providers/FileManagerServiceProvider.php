@@ -22,10 +22,6 @@ class FileManagerServiceProvider extends ServiceProvider
             $this->loadRoutesFrom($path);
         }
 
-        if ($path = ProviderUtility::corePath('FileManager/Routes/web.php')) {
-            $this->loadRoutesFrom($path);
-        }
-
         if ($path = ProviderUtility::corePath('FileManager/Database/Migrations')) {
             $this->loadMigrationsFrom($path);
         }

@@ -31,6 +31,7 @@ use App\Services\QuickAccess\QuickAccessManager;
 use App\Services\ResourceRegistrar;
 use App\Services\Stats\StatManager;
 use App\Utilities\CustomRequestValidator;
+use Applications\AdminPanel\AdminPanelServiceProvider;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Filesystem\Filesystem;
@@ -50,9 +51,6 @@ class AppServiceProvider extends ServiceProvider
         }
 
         $this->moduleDiscovery();
-        $this->registerCoreProviders();
-        $this->registerModuleProviders();
-
         $this->registerMenu();
         $this->registerStats();
         $this->registerQuickAccess();
@@ -67,6 +65,9 @@ class AppServiceProvider extends ServiceProvider
         //    );
         //});
 
+        $this->registerCoreProviders();
+        $this->registerModuleProviders();
+        $this->registerApplicationsProviders();
     }
 
     public function boot(): void
@@ -83,31 +84,6 @@ class AppServiceProvider extends ServiceProvider
         app('menu')->registerBy(DashboardMenuRegistrar::class);
         app('stat')->registerBy(DashboardStatsRegistrar::class);
         app('quick-access')->registerBy(DashboardQuickAccessRegistrar::class);
-    }
-
-    private function registerCoreProviders(): void
-    {
-        $this->app->register(OrganizationServiceProvider::class);
-        $this->app->register(FileManagerServiceProvider::class);
-        $this->app->register(FormEngineServiceProvider::class);
-        $this->app->register(BPMSServiceProvider::class);
-        $this->app->register(NotifyServiceProvider::class);
-    }
-
-    private function registerModuleProviders(): void
-    {
-        /** @var ModuleManager $manager */
-        $manager = $this->app->make(ModuleManager::class);
-
-        $manager->ensureBootstrapFile();
-
-        foreach ($manager->getEnabledModules() as $module) {
-            $provider = "Modules\\{$module}\\Providers\\{$module}ServiceProvider";
-
-            if (class_exists($provider)) {
-                $this->app->register($provider);
-            }
-        }
     }
 
     private function moduleDiscovery(): void
@@ -139,6 +115,36 @@ class AppServiceProvider extends ServiceProvider
                 $app->make(BootstrapFileManagerInterface::class),
             );
         });
+    }
+
+    private function registerCoreProviders(): void
+    {
+        $this->app->register(OrganizationServiceProvider::class);
+        $this->app->register(FileManagerServiceProvider::class);
+        $this->app->register(FormEngineServiceProvider::class);
+        $this->app->register(BPMSServiceProvider::class);
+        $this->app->register(NotifyServiceProvider::class);
+    }
+
+    private function registerModuleProviders(): void
+    {
+        /** @var ModuleManager $manager */
+        $manager = $this->app->make(ModuleManager::class);
+
+        $manager->ensureBootstrapFile();
+
+        foreach ($manager->getEnabledModules() as $module) {
+            $provider = "Modules\\{$module}\\Providers\\{$module}ServiceProvider";
+
+            if (class_exists($provider)) {
+                $this->app->register($provider);
+            }
+        }
+    }
+
+    private function registerApplicationsProviders(): void
+    {
+        $this->app->register(AdminPanelServiceProvider::class);
     }
 
     private function registerMenu(): void
