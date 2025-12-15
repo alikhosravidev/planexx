@@ -12,26 +12,25 @@ if [ -z "$CONTAINER_NAME" ]; then
 fi
 
 NODE_CONTAINER="${CONTAINER_NAME}_node"
-EXIT_CODE=0
 
 if command -v docker >/dev/null 2>&1; then
     echo "🐳 Trying npm run build inside Docker container: $NODE_CONTAINER"
 
-    if ! docker exec "$NODE_CONTAINER" npm run build; then
-        EXIT_CODE=$?
-    fi
+    docker exec "$NODE_CONTAINER" npm run build || {
+        echo ""
+        echo "⚠️  Docker execution failed. Trying to run 'npm run build' locally..."
+        npm run build || {
+            echo "❌ Failed to run 'npm run build'."
+            exit 1
+        }
+    }
 else
-    EXIT_CODE=1
-fi
-
-if [ "$EXIT_CODE" -ne 0 ]; then
     echo ""
-    echo "⚠️  Docker execution failed or Docker is unavailable. Trying to run 'npm run build' locally..."
-
-    if ! npm run build; then
+    echo "⚠️  Docker is unavailable. Trying to run 'npm run build' locally..."
+    npm run build || {
         echo "❌ Failed to run 'npm run build'."
         exit 1
-    fi
+    }
 fi
 
 echo ""

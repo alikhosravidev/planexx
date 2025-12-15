@@ -34,10 +34,7 @@ echo ""
 echo "📂 Checking imports in directories: $COMMA_SEPARATED_DIRS"
 
 # Try to run in Docker first
-EXIT_CODE=0
-docker exec "${CONTAINER_NAME}_app" php artisan check:imports --folder="$COMMA_SEPARATED_DIRS" 2>/dev/null || EXIT_CODE=$?
-
-if [ "$EXIT_CODE" -ne 0 ]; then
+docker exec "${CONTAINER_NAME}_app" php artisan check:imports --folder="$COMMA_SEPARATED_DIRS" || {
     echo ""
     echo "⚠️  Docker execution failed. Trying locally..."
     php artisan check:imports --folder="$COMMA_SEPARATED_DIRS" || {
@@ -45,7 +42,7 @@ if [ "$EXIT_CODE" -ne 0 ]; then
         echo "❌ Import check failed!"
         exit 1
     }
-fi
+}
 
 echo ""
 echo "✅ Import check finished successfully."

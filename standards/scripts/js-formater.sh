@@ -10,21 +10,22 @@ if [ -z "$CONTAINER_NAME" ]; then
     CONTAINER_NAME=${CONTAINER_NAME:-planexx}
 fi
 
-EXIT_CODE=0
-
 if command -v docker >/dev/null 2>&1; then
-    docker exec -it "${CONTAINER_NAME}_node" npm run format 2>/dev/null || EXIT_CODE=$?
+    docker exec -it "${CONTAINER_NAME}_node" npm run format || {
+        echo ""
+        echo "⚠️  Docker execution failed. Trying locally..."
+        npm run format || {
+            echo "❌ JS formatting failed!"
+            exit 1
+        }
+    }
 else
-    EXIT_CODE=1
-fi
-
-if [ "$EXIT_CODE" -ne 0 ]; then
     echo ""
-    echo "⚠️  Docker execution failed or Docker is unavailable. Trying locally..."
-    if ! npm run format; then
+    echo "⚠️  Docker is unavailable. Trying locally..."
+    npm run format || {
         echo "❌ JS formatting failed!"
         exit 1
-    fi
+    }
 fi
 
 echo ""

@@ -12,37 +12,39 @@ if [ -z "$CONTAINER_NAME" ]; then
 fi
 
 APP_CONTAINER="${CONTAINER_NAME}_app"
-EXIT_CODE=0
 
 if command -v docker >/dev/null 2>&1; then
     echo "🐳 Trying inside Docker container: $APP_CONTAINER"
 
-    if ! docker exec "$APP_CONTAINER" php artisan migrate:rollback; then
-        EXIT_CODE=$?
-    fi
+    docker exec "$APP_CONTAINER" php artisan migrate:rollback || {
+        echo ""
+        echo "⚠️  Docker execution failed. Trying to run commands locally..."
+        php artisan migrate:rollback || {
+            echo "❌ Failed to run 'php artisan migrate:rollback'."
+            exit 1
+        }
+    }
 
-    if [ "$EXIT_CODE" -eq 0 ]; then
-        if ! docker exec "$APP_CONTAINER" php artisan migrate; then
-            EXIT_CODE=$?
-        fi
-    fi
+    docker exec "$APP_CONTAINER" php artisan migrate || {
+        echo ""
+        echo "⚠️  Docker execution failed. Trying to run commands locally..."
+        php artisan migrate || {
+            echo "❌ Failed to run 'php artisan migrate'."
+            exit 1
+        }
+    }
 else
-    EXIT_CODE=1
-fi
-
-if [ "$EXIT_CODE" -ne 0 ]; then
     echo ""
-    echo "⚠️  Docker execution failed or Docker is unavailable. Trying to run commands locally..."
-
-    if ! php artisan migrate:rollback; then
+    echo "⚠️  Docker is unavailable. Trying to run commands locally..."
+    php artisan migrate:rollback || {
         echo "❌ Failed to run 'php artisan migrate:rollback'."
         exit 1
-    fi
+    }
 
-    if ! php artisan migrate; then
+    php artisan migrate || {
         echo "❌ Failed to run 'php artisan migrate'."
         exit 1
-    fi
+    }
 fi
 
 echo ""

@@ -12,44 +12,53 @@ if [ -z "$CONTAINER_NAME" ]; then
 fi
 
 APP_CONTAINER="${CONTAINER_NAME}_app"
-EXIT_CODE=0
 
 if command -v docker >/dev/null 2>&1; then
     echo "🐳 Trying inside Docker container: $APP_CONTAINER"
 
-    if ! docker exec "$APP_CONTAINER" php artisan fetch:events; then
-        EXIT_CODE=$?
-    fi
+    docker exec "$APP_CONTAINER" php artisan fetch:events || {
+        echo ""
+        echo "⚠️  Docker execution failed. Trying to run commands locally..."
+        php artisan fetch:events || {
+            echo "❌ Failed to run 'php artisan fetch:events'."
+            exit 1
+        }
+    }
 
-    if ! docker exec "$APP_CONTAINER" php artisan fetch:entities; then
-        EXIT_CODE=$?
-    fi
+    docker exec "$APP_CONTAINER" php artisan fetch:entities || {
+        echo ""
+        echo "⚠️  Docker execution failed. Trying to run commands locally..."
+        php artisan fetch:entities || {
+            echo "❌ Failed to run 'php artisan fetch:entities'."
+            exit 1
+        }
+    }
 
-    if ! docker exec "$APP_CONTAINER" php artisan fetch:enums; then
-        EXIT_CODE=$?
-    fi
+    docker exec "$APP_CONTAINER" php artisan fetch:enums || {
+        echo ""
+        echo "⚠️  Docker execution failed. Trying to run commands locally..."
+        php artisan fetch:enums || {
+            echo "❌ Failed to run 'php artisan fetch:enums'."
+            exit 1
+        }
+    }
 else
-    EXIT_CODE=1
-fi
-
-if [ "$EXIT_CODE" -ne 0 ]; then
     echo ""
-    echo "⚠️  Docker execution failed or Docker is unavailable. Trying to run commands locally..."
-
-    if ! php artisan fetch:events; then
+    echo "⚠️  Docker is unavailable. Trying to run commands locally..."
+    php artisan fetch:events || {
         echo "❌ Failed to run 'php artisan fetch:events'."
         exit 1
-    fi
+    }
 
-    if ! php artisan fetch:entities; then
+    php artisan fetch:entities || {
         echo "❌ Failed to run 'php artisan fetch:entities'."
         exit 1
-    fi
+    }
 
-    if ! php artisan fetch:enums; then
+    php artisan fetch:enums || {
         echo "❌ Failed to run 'php artisan fetch:enums'."
         exit 1
-    fi
+    }
 fi
 
 echo ""

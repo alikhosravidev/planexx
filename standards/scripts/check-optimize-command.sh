@@ -17,30 +17,30 @@ EXIT_CODE=0
 if command -v docker >/dev/null 2>&1; then
     echo "🐳 Trying inside Docker container: $APP_CONTAINER"
 
-    if ! docker exec "$APP_CONTAINER" php artisan optimize; then
-        EXIT_CODE=$?
-    fi
+    docker exec "$APP_CONTAINER" php artisan optimize || {
+        echo ""
+        echo "❌ Failed to run 'php artisan optimize' in Docker container."
+        exit 1
+    }
 
-    if ! docker exec "$APP_CONTAINER" php artisan optimize:clear; then
-        EXIT_CODE=$?
-    fi
+    docker exec "$APP_CONTAINER" php artisan optimize:clear || {
+        echo ""
+        echo "❌ Failed to run 'php artisan optimize:clear' in Docker container."
+        exit 1
+    }
 else
-    EXIT_CODE=1
-fi
-
-if [ "$EXIT_CODE" -ne 0 ]; then
     echo ""
-    echo "⚠️  Docker execution failed or Docker is unavailable. Trying to run commands locally..."
+    echo "⚠️  Docker is unavailable. Trying to run commands locally..."
 
-    if ! php artisan optimize; then
+    php artisan optimize || {
         echo "❌ Failed to run 'php artisan optimize'."
         exit 1
-    fi
+    }
 
-    if ! php artisan optimize:clear; then
+    php artisan optimize:clear || {
         echo "❌ Failed to run 'php artisan optimize:clear'."
         exit 1
-    fi
+    }
 fi
 
 echo ""
