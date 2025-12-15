@@ -128,11 +128,9 @@ export const uiComponents = {
 
         if (dropdown) {
           // Close other dropdowns
-          document
-            .querySelectorAll('[data-dropdown], [id$="-dropdown"]')
-            .forEach((d) => {
-              if (d !== dropdown) d.classList.add('hidden');
-            });
+          document.querySelectorAll('[data-dropdown]').forEach((d) => {
+            if (d !== dropdown) d.classList.add('hidden');
+          });
 
           dropdown.classList.toggle('hidden');
 
@@ -147,11 +145,9 @@ export const uiComponents = {
     // Close dropdowns when clicking outside
     document.addEventListener('click', (e) => {
       if (!e.target.closest('[data-dropdown-toggle]')) {
-        document
-          .querySelectorAll('[data-dropdown], [id$="-dropdown"]')
-          .forEach((d) => {
-            d.classList.add('hidden');
-          });
+        document.querySelectorAll('[data-dropdown]').forEach((d) => {
+          d.classList.add('hidden');
+        });
       }
     });
 
@@ -160,7 +156,7 @@ export const uiComponents = {
       'scroll',
       () => {
         document
-          .querySelectorAll('[id$="-dropdown"].fixed:not(.hidden)')
+          .querySelectorAll('[data-dropdown].fixed:not(.hidden)')
           .forEach((dropdown) => {
             const btn = document.querySelector(
               `[data-dropdown-toggle="${dropdown.id}"]`,
@@ -173,7 +169,7 @@ export const uiComponents = {
 
     window.addEventListener('resize', () => {
       document
-        .querySelectorAll('[id$="-dropdown"].fixed:not(.hidden)')
+        .querySelectorAll('[data-dropdown].fixed:not(.hidden)')
         .forEach((dropdown) => {
           const btn = document.querySelector(
             `[data-dropdown-toggle="${dropdown.id}"]`,

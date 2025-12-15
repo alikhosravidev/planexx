@@ -21,10 +21,11 @@
             'value' => request('search'),
         ],
         [
-            'type' => 'department',
+            'type' => 'tom-select-ajax',
             'name' => 'department_id',
             'label' => 'دپارتمان',
-            'options' => $departments,
+            'template' => 'departments',
+            'url' => route('api.v1.admin.org.departments.index', ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => ''], 'includes' => 'children']),
             'selected' => request('department_id'),
         ],
         [
@@ -32,6 +33,7 @@
             'name' => 'status',
             'label' => 'وضعیت',
             'options' => [
+                '' => 'همه',
                 'active' => 'فعال',
                 'inactive' => 'غیرفعال',
             ],

@@ -1,44 +1,34 @@
-export const SELECT2_ELEMENTS = [
-  { selector: '.select2', placeholder: 'انتخاب کنید' },
-  {
-    selector: '.select2-sm',
-    placeholder: 'انتخاب کنید',
-    selectionCssClass: 'sm',
-  },
-  {
-    selector: '.select2-solid',
-    placeholder: 'انتخاب کنید',
-    selectionCssClass: 'b-0',
-    dropdownCssClass: 'b-0',
-  },
-  {
-    selector: '.select2-sm-solid',
-    placeholder: 'انتخاب کنید',
-    selectionCssClass: 'sm b-0',
-    dropdownCssClass: 'b-0',
-  },
-  { selector: '.select2-tags', placeholder: 'تایپ کنید', tags: true },
-  {
-    selector: '.select2-tags-sm',
-    placeholder: 'تایپ کنید',
-    selectionCssClass: 'sm',
-    tags: true,
-  },
-  {
-    selector: '.select2-tags-solid',
-    placeholder: 'تایپ کنید',
-    selectionCssClass: 'solid',
-    tags: true,
-  },
-  {
-    selector: '.select2-tags-solid-sm',
-    placeholder: 'تایپ کنید',
-    selectionCssClass: 'solid sm',
-    tags: true,
-  },
-];
+export const SELECTORS = {
+  enhanced: '[data-tom-select]',
+  ajax: '[data-tom-select-ajax]',
+  tags: '[data-tom-select-tags]',
+  multiple: '[data-tom-select-multiple]',
+};
 
 export const DEFAULTS = {
   placeholder: 'انتخاب کنید',
-  loadThrottle: 500,
+  loadThrottle: 300,
+  minSearchLength: 1,
+  maxItems: null,
+  maxOptions: 50,
+  closeAfterSelect: true,
+  hideSelected: false,
+  persist: true,
+  createOnBlur: false,
+  selectOnTab: true,
+};
+
+export const DATA_ATTRIBUTES = {
+  url: 'data-url',
+  searchFields: 'data-search-fields',
+  valueField: 'data-value-field',
+  labelField: 'data-label-field',
+  dataPath: 'data-path',
+  placeholder: 'data-placeholder',
+  maxItems: 'data-max-items',
+  minSearch: 'data-min-search',
+  template: 'data-template',
+  defaultValue: 'data-default-value',
+  preload: 'data-preload',
+  allowCreate: 'data-allow-create',
 };

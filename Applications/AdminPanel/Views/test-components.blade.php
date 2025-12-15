@@ -292,9 +292,95 @@
         </section>
 
         <section>
+            <h2 class="text-xl font-bold mb-4">Tom Select - سلکت پیشرفته</h2>
+            <div class="bg-white border border-border-light rounded-2xl p-6 space-y-6">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-base font-semibold mb-3 text-text-primary">سلکت ساده</h3>
+                        <x-panel::forms.tom-select
+                            name="demo_simple"
+                            label="وضعیت"
+                            :options="['active' => 'فعال', 'inactive' => 'غیرفعال', 'pending' => 'در انتظار']"
+                            value="active"
+                        />
+                    </div>
+
+                    <div>
+                        <h3 class="text-base font-semibold mb-3 text-text-primary">سلکت بدون لیبل</h3>
+                        <div class="ts-standalone">
+                            <select data-tom-select data-placeholder="انتخاب دسته‌بندی...">
+                                <option value="">انتخاب دسته‌بندی...</option>
+                                <option value="tech">فناوری</option>
+                                <option value="sales">فروش</option>
+                                <option value="hr">منابع انسانی</option>
+                                <option value="finance">مالی</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-base font-semibold mb-3 text-text-primary">سلکت چندگانه</h3>
+                        <x-panel::forms.tom-select
+                            name="demo_multiple"
+                            label="مهارت‌ها"
+                            :options="['php' => 'PHP', 'js' => 'JavaScript', 'python' => 'Python', 'go' => 'Go', 'rust' => 'Rust']"
+                            :value="['php', 'js']"
+                            :multiple="true"
+                        />
+                    </div>
+
+                    <div>
+                        <h3 class="text-base font-semibold mb-3 text-text-primary">سلکت با تگ (ایجاد آیتم جدید)</h3>
+                        <x-panel::forms.tom-select-tags
+                            name="demo_tags"
+                            label="برچسب‌ها"
+                            :options="['important' => 'مهم', 'urgent' => 'فوری']"
+                            :value="['important']"
+                        />
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-base font-semibold mb-3 text-text-primary">سلکت با جستجوی AJAX (کاربران)</h3>
+                    <x-panel::forms.tom-select-ajax
+                        name="demo_ajax_user"
+                        label="انتخاب کاربر"
+                        placeholder="جستجوی کاربر..."
+                        url="{{ route('api.v1.admin.org.users.keyValList', ['field' => 'full_name']) }}"
+                        :preload="true"
+                    />
+                    <br />
+                    <x-panel::forms.tom-select-ajax
+                        name="test"
+                        label="دپارتمان"
+                        placeholder="جستجوی دپارتمان..."
+                        url="{{ route('api.v1.admin.org.departments.index', ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => ''], 'includes' => 'children']) }}"
+                        template="departments"
+                    />
+                </div>
+
+                <div>
+                    <h3 class="text-base font-semibold mb-3 text-text-primary">سلکت سایز کوچک</h3>
+                    <div class="max-w-md">
+                        <x-panel::forms.tom-select
+                            name="demo_small"
+                            label="نوع"
+                            :options="['a' => 'نوع A', 'b' => 'نوع B', 'c' => 'نوع C']"
+                            size="sm"
+                        />
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section>
             <h2 class="text-xl font-bold mb-4">فرم‌ها</h2>
             <x-panel::ui.card title="فرم نمونه">
-                <form>
+                <form class="gap-4 flex-col flex">
                     <x-panel::forms.input
                         name="name"
                         label="نام"
@@ -327,6 +413,13 @@
                         label="وضعیت کاربر"
                         :options="['1' => 'فعال', '0' => 'غیرفعال']"
                         value="1"
+                    />
+
+                    <x-panel::forms.tom-select
+                        name="priority"
+                        label="اولویت"
+                        :options="['low' => 'کم', 'medium' => 'متوسط', 'high' => 'زیاد', 'urgent' => 'فوری']"
+                        value="medium"
                     />
 
                     <x-panel::forms.textarea
@@ -478,7 +571,7 @@
         <section>
             <h2 class="text-xl font-bold mb-4">دسترسی‌های نقش (Demo)</h2>
 
-            <x-panel::organization.permissions.role-header roleName="مدیر سیستم" usersCount="2" />
+            <x-panel::permissions.role-header roleName="مدیر سیستم" usersCount="2" />
 
             @php
             $standardPermissions = [
@@ -518,7 +611,7 @@
 
             <div class="space-y-6">
                 @foreach($modules as $module)
-                    <x-panel::organization.permissions.module-card :module="$module" :standard-permissions="$standardPermissions" />
+                    <x-panel::permissions.module-card :module="$module" :standard-permissions="$standardPermissions" />
                 @endforeach
             </div>
         </section>

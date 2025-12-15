@@ -6,7 +6,6 @@ namespace Applications\AdminPanel\Controllers\Organization;
 
 use App\Contracts\Controller\BaseWebController;
 use App\Core\Organization\Entities\Department;
-use App\Core\Organization\Enums\UserTypeEnum;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -33,23 +32,7 @@ class DepartmentWebController extends BaseWebController
 
     public function create(): View
     {
-        $deptResponse = $this->apiGet(
-            'api.v1.admin.org.departments.index',
-            ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => null], 'includes' => 'children'],
-        );
-
-        $usersResponse = $this->apiGet(
-            'api.v1.admin.org.users.keyValList',
-            ['per_page' => 100, 'field' => 'full_name', 'filter' => ['user_type' => UserTypeEnum::Employee]]
-        );
-
-        $typeResponse = $this->apiGet('api.v1.admin.enums.keyValList', ['enum' => 'DepartmentTypeEnum']);
-
-        return view('panel::departments.add-or-edit', [
-            'allDepartments'  => $deptResponse['result']  ?? [],
-            'managers'        => $usersResponse['result'] ?? [],
-            'departmentTypes' => $typeResponse['result']  ?? [],
-        ]);
+        return view('panel::departments.add-or-edit');
     }
 
     public function edit(Department $department): View
@@ -59,23 +42,8 @@ class DepartmentWebController extends BaseWebController
             'includes'   => 'parent,manager,thumbnail',
         ]);
 
-        $deptResponse = $this->apiGet(
-            'api.v1.admin.org.departments.index',
-            ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => null], 'includes' => 'children'],
-        );
-
-        $usersResponse = $this->apiGet(
-            'api.v1.admin.org.users.keyValList',
-            ['per_page' => 100, 'field' => 'full_name', 'filter' => ['user_type' => UserTypeEnum::Employee]]
-        );
-
-        $typeResponse = $this->apiGet('api.v1.admin.enums.keyValList', ['enum' => 'DepartmentTypeEnum']);
-
         return view('panel::departments.add-or-edit', [
-            'department'      => $response['result']      ?? [],
-            'allDepartments'  => $deptResponse['result']  ?? [],
-            'managers'        => $usersResponse['result'] ?? [],
-            'departmentTypes' => $typeResponse['result']  ?? [],
+            'department' => $response['result'] ?? [],
         ]);
     }
 

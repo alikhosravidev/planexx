@@ -32,10 +32,6 @@ class UserWebController extends BaseWebController
             : 'مدیریت کاربران';
 
         if ($userType === UserTypeEnum::Employee) {
-            $deptResponse = $this->apiGet(
-                'api.v1.admin.org.departments.index',
-                ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => null], 'includes' => 'children'],
-            );
             $rolesResponse = $this->apiGet(
                 'api.v1.admin.org.roles.keyValList',
                 ['per_page' => 100, 'field' => 'title']
@@ -68,7 +64,6 @@ class UserWebController extends BaseWebController
             'pagination'  => $response['meta']['pagination'] ?? [],
             'pageTitle'   => $pageTitle,
             'userType'    => $userType,
-            'departments' => $deptResponse['result'] ?? [],
             'currentPage' => "org-{$lowerUserType}",
             'roles'       => $rolesResponse['result'] ?? [],
         ]);
@@ -94,29 +89,9 @@ class UserWebController extends BaseWebController
         $userTypeValue = $userType->value;
         $userType      = $userType->name;
 
-        $typeResponse = $this->apiGet('api.v1.admin.enums.keyValList', ['enum' => 'UserTypeEnum']);
-
-        $deptResponse  = ['result' => []];
-        $usersResponse = ['result' => []];
-
-        if ($userType === UserTypeEnum::Employee->name) {
-            $deptResponse = $this->apiGet(
-                'api.v1.admin.org.departments.index',
-                ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => null], 'includes' => 'children'],
-            );
-
-            $usersResponse = $this->apiGet(
-                'api.v1.admin.org.users.keyValList',
-                ['per_page' => 100, 'field' => 'full_name', 'filter' => ['user_type' => UserTypeEnum::Employee->value]]
-            );
-        }
-
         return view('panel::users.add-or-edit', [
-            'userType'       => $userType,
-            'userTypeValue'  => $userTypeValue,
-            'userTypes'      => $typeResponse['result']  ?? [],
-            'allDepartments' => $deptResponse['result']  ?? [],
-            'users'          => $usersResponse['result'] ?? [],
+            'userType'      => $userType,
+            'userTypeValue' => $userTypeValue,
         ]);
     }
 
@@ -127,27 +102,13 @@ class UserWebController extends BaseWebController
             'includes' => 'directManager,avatar,departments',
         ]);
 
-        $typeResponse = $this->apiGet('api.v1.admin.enums.keyValList', ['enum' => 'UserTypeEnum']);
-
-        $deptResponse = $this->apiGet(
-            'api.v1.admin.org.departments.index',
-            ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => null], 'includes' => 'children'],
-        );
-
-        $usersResponse = $this->apiGet(
-            'api.v1.admin.org.users.keyValList',
-            ['per_page' => 100, 'field' => 'full_name', 'filter' => ['user_type' => UserTypeEnum::Employee->value]]
-        );
         $userType      = $user->user_type->name;
         $userTypeValue = $user->user_type->value;
 
         return view('panel::users.add-or-edit', [
-            'user'           => $response['result']      ?? [],
-            'allDepartments' => $deptResponse['result']  ?? [],
-            'users'          => $usersResponse['result'] ?? [],
-            'userTypes'      => $typeResponse['result']  ?? [],
-            'userType'       => $userType,
-            'userTypeValue'  => $userTypeValue,
+            'user'          => $response['result'] ?? [],
+            'userType'      => $userType,
+            'userTypeValue' => $userTypeValue,
         ]);
     }
 }

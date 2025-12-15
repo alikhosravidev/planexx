@@ -26,15 +26,14 @@
         ],
     ];
 
-    if(!empty($departments)) {
-        $filters[] = [
-            'type' => 'department',
-            'name' => 'department_id',
-            'label' => 'دپارتمان',
-            'options' => $departments,
-            'selected' => request('department_id'),
-        ];
-    }
+    $filters[] = [
+        'type' => 'tom-select-ajax',
+        'name' => 'department_id',
+        'label' => 'دپارتمان',
+        'template' => 'departments',
+        'url' => route('api.v1.admin.org.departments.index', ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => ''], 'includes' => 'children']),
+        'selected' => request('department_id'),
+    ];
 
     $filters[] = [
         'type' => 'select',
@@ -195,5 +194,5 @@
 
     </div>
 
-    <x-panel::organization.access-modal :roles="$roles"/>
+    <x-panel::access-modal :roles="$roles"/>
 </x-panel::layouts.app>

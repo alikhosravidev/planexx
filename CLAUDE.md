@@ -129,7 +129,7 @@ $result = $transformer->transformModel($user);
 ### BaseWebController (API-FIRST Admin Panel)
 ```php
 // PRIMARY: Use Axios for all CRUD operations
-// resources/js/admin/users.js
+// resources/js/admin/key-value-list.js
 axios.post('/users', formData)
   .then(response => {
     showNotification('User created successfully');

@@ -37,20 +37,15 @@ class DocumentWebController extends BaseWebController
         $filesResponse = $this->apiGet('api.v1.admin.file-manager.files.index', $queryParams);
 
         $foldersResponse = $this->apiGet('api.v1.admin.file-manager.folders.index', [
-            'filter'   => ['parent_id' => null],
-            'per_page' => 100,
+            'filter'    => ['parent_id' => null],
+            'withCount' => 'files',
+            'per_page'  => 100,
         ]);
-
-        $stats = [
-            'total_files'   => $filesResponse['meta']['pagination']['total'] ?? 0,
-            'total_folders' => count($foldersResponse['result'] ?? []),
-        ];
 
         return view('panel::documents.index', [
             'files'       => $filesResponse['result']             ?? [],
             'folders'     => $foldersResponse['result']           ?? [],
             'pagination'  => $filesResponse['meta']['pagination'] ?? [],
-            'stats'       => $stats,
             'currentPage' => 'documents-all',
         ]);
     }

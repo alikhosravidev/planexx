@@ -3,14 +3,6 @@
     'currentFolder' => null
 ])
 
-@php
-    $folderOptions = [];
-
-    foreach ($folders as $folder) {
-        $folderOptions[$folder['id']] = $folder['name'];
-    }
-@endphp
-
 <div
     id="uploadModal"
     data-modal
@@ -63,17 +55,15 @@
                     />
                 </div>
 
-                @if(! empty($folderOptions))
-                    <div class="mb-4">
-                        <x-panel::forms.select
-                            name="folder_id"
-                            label="پوشه مقصد"
-                            :options="$folderOptions"
-                            placeholder="ریشه اسناد (بدون پوشه)"
-                            class="min-w-[120px]"
-                        />
-                    </div>
-                @endif
+                <div class="mb-4">
+                    <x-panel::forms.tom-select-ajax
+                        name="folder_id"
+                        label="پوشه مقصد"
+                        :url="route('api.v1.admin.file-manager.folders.keyValList', ['field' => 'name', 'filter' => ['parent_id' => null],'per_page' => 100])"
+                        placeholder="ریشه اسناد (بدون پوشه)"
+                        class="min-w-[120px]"
+                    />
+                </div>
 
                 <div class="mb-6">
                     <label class="flex items-center gap-3 p-4 border border-border-medium rounded-xl cursor-pointer hover:border-primary transition-all duration-200">

@@ -105,35 +105,34 @@
                                         $parentName = $department['parent']['name'] ?? null;
                                     @endphp
 
-                                    <x-panel::organization.department.select
+                                    <x-panel::forms.tom-select-ajax
                                         name="parent_id"
                                         label="دپارتمان والد"
                                         placeholder="بدون والد (دپارتمان اصلی)"
                                         :value="$department['parent_id'] ?? null"
                                         class="min-w-[140px]"
-                                        :options="$allDepartments ?? []"
+                                        url="{{ route('api.v1.admin.org.departments.index', ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => ''], 'includes' => 'children']) }}"
+                                        template="departments"
                                     />
 
-                                    <x-panel::forms.select
+                                    <x-panel::forms.tom-select-ajax
                                         name="type"
                                         label="نوع دپارتمان"
-                                        :value="$department['type']['value'] ?? \App\Core\Organization\Enums\DepartmentTypeEnum::DEPARTMENT->value"
+                                        :value="$department['type']['value'] ?? 3"
                                         class="min-w-[140px]"
-                                        :options="$departmentTypes"
-                                    />
+                                        :url="route('api.v1.admin.enums.keyValList', ['enum' => 'DepartmentTypeEnum'])"/>
 
                                     @php
                                         $managerId = $department['manager']['id'] ?? null;
                                         $managerName = $department['manager']['full_name'] ?? null;
                                     @endphp
 
-                                    <x-panel::forms.select
+                                    <x-panel::forms.tom-select-ajax
                                         name="manager_id"
                                         label="مدیر دپارتمان"
                                         :value="$managerId"
                                         class="min-w-[140px]"
-                                        :options="$managers"
-                                    />
+                                        :url="route('api.v1.admin.org.users.keyValList', ['field' => 'full_name', 'filter' => ['user_type' => 2]])"/>
 
                                     <x-panel::forms.textarea
                                         class="min-w-[140px]"

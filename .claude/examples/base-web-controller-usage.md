@@ -121,7 +121,7 @@ class UserManagementController extends BaseWebController
 ### Frontend (Axios for Actions)
 
 ```javascript
-// resources/js/admin/users.js
+// resources/js/admin/key-value-list.js
 
 // Create User
 const createUserForm = document.getElementById('create-user-form');

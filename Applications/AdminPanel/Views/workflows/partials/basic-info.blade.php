@@ -39,21 +39,20 @@
         />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <x-panel::organization.department.select
+            <x-panel::forms.tom-select-ajax
                 name="department_id"
                 label="دپارتمان"
                 :value="$workflow['department_id'] ?? null"
-                class="min-w-[140px]"
-                :options="$departments ?? []"
-            />
+                template="departments"
+                class="min-w-[100px]"
+                :url="route('api.v1.admin.org.departments.index', ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => ''], 'includes' => 'children'])"/>
 
-            <x-panel::forms.select
+            <x-panel::forms.tom-select-ajax
                 name="workflow_owner_id"
                 label="مالک فرایند"
                 :value="$workflow['owner_id'] ?? null"
                 class="min-w-[100px]"
-                :options="$users ?? []"
-            />
+                :url="route('api.v1.admin.org.users.keyValList', ['field' => 'full_name', 'filter' => ['user_type' => 2]])"/>
         </div>
 
         <x-panel::forms.checkbox-badges

@@ -19,22 +19,26 @@
                 </div>
             @elseif($filter['type'] === 'select')
                 <div class="flex-1 min-w-[100px]">
-                    <x-panel::forms.select
+                    <x-panel::forms.tom-select
                         :name="$filter['name']"
                         :label="$filter['label']"
                         :options="$filter['options']"
+                        :placeholder="$filter['placeholder'] ?? ''"
                         :value="$filter['selected'] ?? ''"
                         class="min-w-[100px]"
                     />
                 </div>
-            @elseif($filter['type'] === 'department')
+            @elseif($filter['type'] === 'tom-select-ajax')
                 <div class="flex-1 min-w-[100px]">
-                    <x-panel::organization.department.select
+                    <x-panel::forms.tom-select-ajax
                         :name="$filter['name']"
                         :label="$filter['label']"
-                        :value="$filter['selected']"
+                        :placeholder="$filter['placeholder'] ?? ''"
+                        :url="$filter['url']"
+                        :value="$filter['selected'] ?? ''"
+                        :template="$filter['template'] ?? 'keyValList'"
+                        :preload="true"
                         class="min-w-[100px]"
-                        :options="$filter['options']"
                     />
                 </div>
             @endif

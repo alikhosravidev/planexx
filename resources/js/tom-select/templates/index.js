@@ -1,15 +1,9 @@
-import deflt from './default';
-import users from './users';
-import simpleUsers from './simple-users';
-import categories from './categories';
-import withIcon from './with-icon';
+import keyValList from './key-value-list.js';
+import departmentsTemplate from './departments.js';
 
 const templates = {
-  default: deflt,
-  users,
-  'simple-users': simpleUsers,
-  categories,
-  'with-icon': withIcon,
+  keyValList: keyValList,
+  departments: departmentsTemplate,
 };
 
 export default templates;

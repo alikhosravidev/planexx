@@ -44,34 +44,29 @@
                 </div>
             </div>
 
-            <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-indigo-600 focus-within:shadow-focus transition-all duration-200">
-                <div class="flex items-stretch">
-                    <label class="bg-bg-label border-l border-border-light min-w-[100px] px-3 py-3 text-sm text-text-secondary flex items-center leading-normal">
-                        موقعیت
-                    </label>
-                    <select name="states[][position]" class="state-position-select flex-1 px-3 py-3 text-base text-text-primary outline-none bg-white cursor-pointer leading-normal">
-                        <option value="start">نقطه شروع</option>
-                        <option value="middle" selected>میانی</option>
-                        <option value="final-success">پایان موفق</option>
-                        <option value="final-failed">پایان ناموفق</option>
-                        <option value="final-closed">بسته شده</option>
-                    </select>
-                </div>
-            </div>
+            <x-panel::forms.select
+                name="states[][position]"
+                label="موقعیت"
+                class="min-w-[100px]"
+                select-class="bg-white state-position-select"
+                value="middle"
+                :options="['start' => 'نقطه شروع', 'middle' => 'میانی', 'final-success' => 'پایان موفق', 'final-failed' => 'پایان ناموفق', 'final-closed' => 'بسته شده']"/>
 
-            <div class="md:col-span-2 border border-border-medium rounded-xl overflow-hidden focus-within:border-indigo-600 focus-within:shadow-focus transition-all duration-200">
-                <div class="flex items-stretch">
-                    <label class="bg-bg-label border-l border-border-light min-w-[120px] px-3 py-3 text-sm text-text-secondary flex items-center leading-normal">
-                        مسئول پیشفرض
-                    </label>
-                    <select name="states[][default_assignee_id]" class="flex-1 px-3 py-3 text-base text-text-primary outline-none bg-white cursor-pointer leading-normal">
-                        <option value="">بدون مسئول پیشفرض</option>
-                        @foreach(($users ?? []) as $userId => $userLabel)
-                            <option value="{{ $userId }}">{{ $userLabel }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
+            {{--<x-panel::forms.tom-select-ajax
+                name="states[][default_assignee_id]"
+                label="مسئول پیشفرض"
+                class="min-w-[120px] md:col-span-2"
+                select-class="bg-white"
+                wrapper-class="md:col-span-2"
+                :url="route('api.v1.admin.org.users.keyValList', ['field' => 'full_name', 'filter' => ['user_type' => 2]])"/>--}}
+            <x-panel::forms.select
+                name="states[][default_assignee_id]"
+                label="مسئول پیشفرض"
+                class="min-w-[120px]"
+                select-class="bg-white"
+                value="middle"
+                wrapper-class="md:col-span-2"
+                :options="$users ?? []"/>
 
             <div class="md:col-span-2 border border-border-medium rounded-xl overflow-hidden focus-within:border-indigo-600 focus-within:shadow-focus transition-all duration-200">
                 <div class="flex">

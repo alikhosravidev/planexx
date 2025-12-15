@@ -64,8 +64,12 @@
                             <x-panel::forms.input class="min-w-[140px] text-left" name="mobile" type="tel" :value="$user['mobile'] ?? ''" label="شماره موبایل" required/>
                             <x-panel::forms.input class="min-w-[140px] text-left" name="email" type="email" :value="$user['email'] ?? ''" label="ایمیل"/>
                             <x-panel::forms.input class="min-w-[140px] text-left" name="national_code" maxlength="10" :value="$user['national_code'] ?? ''" label="کد ملی"/>
-                            <x-panel::forms.select class="min-w-[140px]" name="gender" label="جنسیت" :value="$user['gender']['value'] ?? null" class="min-w-[140px]"
-                                            :options="[1 => 'مرد', 2 => 'زن']"/>
+                            <x-panel::forms.tom-select-ajax
+                                name="gender"
+                                label="جنسیت"
+                                :value="$user['gender']['value'] ?? null"
+                                class="min-w-[140px]"
+                                :url="route('api.v1.admin.enums.keyValList', ['enum' => 'GenderEnum'])"/>
                             <x-panel::forms.date name="birth_date" :value="$user['birth_date']['main'] ?? null" label="تاریخ تولد"/>
                         </div>
                     </div>
@@ -74,8 +78,13 @@
                         <h2 class="text-lg font-semibold text-text-primary leading-snug mb-6">اطلاعات کاربری</h2>
 
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            <x-panel::forms.select name="user_type" label="نوع کاربر" required :value="$userTypeValue" class="min-w-[140px]"
-                                            :options="$userTypes"/>
+                            <x-panel::forms.tom-select-ajax
+                                name="user_type"
+                                label="نوع کاربر"
+                                required
+                                :value="$userTypeValue"
+                                class="min-w-[140px]"
+                                :url="route('api.v1.admin.enums.keyValList', ['enum' => 'UserTypeEnum'])"/>
 
                             <x-panel::forms.input class="min-w-[140px] text-left" name="password" type="password" label="رمز عبور جدید"
                                            placeholder="خالی بگذارید اگر تغییری نمی‌خواهید"/>
@@ -106,16 +115,20 @@
                                 $departmentName = $primaryDepartment['name'] ?? null;
                             @endphp
 
-                            <x-panel::forms.select name="direct_manager_id" label="مدیر مستقیم" :value="$managerId" class="min-w-[140px]"
-                                            :options="$users"/>
+                            <x-panel::forms.tom-select-ajax
+                                name="direct_manager_id"
+                                label="مدیر مستقیم"
+                                :value="$managerId"
+                                class="min-w-[140px]"
+                                :url="route('api.v1.admin.org.users.keyValList', ['field' => 'full_name', 'filter' => ['user_type' => 2]])"/>
 
-                            <x-panel::organization.department.select
+                            <x-panel::forms.tom-select-ajax
                                 name="department_id"
                                 label="دپارتمان اصلی"
                                 :value="$departmentId"
+                                template="departments"
                                 class="min-w-[140px]"
-                                :options="$allDepartments ?? []"
-                            />
+                                :url="route('api.v1.admin.org.departments.index', ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => ''], 'includes' => 'children'])"/>
 
                             <x-panel::forms.date name="employment_date" :value="$user['employment_date']['main'] ?? null" label="تاریخ استخدام"/>
                         </div>
