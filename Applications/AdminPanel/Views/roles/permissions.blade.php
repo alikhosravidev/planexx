@@ -126,14 +126,14 @@
                     @csrf
                     <input type="hidden" name="name" value="{{ $role['name'] }}">
 
-                    <x-panel::permissions.role-header
+                    <x-panel::organization.permissions.role-header
                         :role-name="($role['title'] ?? $role['name'])"
                         :users-count="($role['users_count'] ?? 0)"
                     />
 
                     <div class="space-y-6">
                         @foreach($modules as $module)
-                            <x-panel::permissions.module-card
+                            <x-panel::organization.permissions.module-card
                                 :module="$module"
                                 :standard-permissions="$standardPermissions"
                                 :role-permissions="$rolePermissions"

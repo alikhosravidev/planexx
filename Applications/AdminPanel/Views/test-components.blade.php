@@ -478,7 +478,7 @@
         <section>
             <h2 class="text-xl font-bold mb-4">دسترسی‌های نقش (Demo)</h2>
 
-            <x-panel::permissions.role-header roleName="مدیر سیستم" usersCount="2" />
+            <x-panel::organization.permissions.role-header roleName="مدیر سیستم" usersCount="2" />
 
             @php
             $standardPermissions = [
@@ -518,7 +518,7 @@
 
             <div class="space-y-6">
                 @foreach($modules as $module)
-                    <x-panel::permissions.module-card :module="$module" :standard-permissions="$standardPermissions" />
+                    <x-panel::organization.permissions.module-card :module="$module" :standard-permissions="$standardPermissions" />
                 @endforeach
             </div>
         </section>
