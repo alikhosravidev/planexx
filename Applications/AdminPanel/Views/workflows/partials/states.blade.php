@@ -9,8 +9,8 @@
                 <p class="text-sm text-text-secondary leading-normal mt-1">مراحل مختلف این فرایند را تعریف کنید</p>
             </div>
         </div>
-        <button type="button" id="addStateBtn"
-                class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 transition-all duration-200 flex items-center gap-2 text-sm leading-normal">
+        <button type="button"
+                class="addStateBtn bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 transition-all duration-200 flex items-center gap-2 text-sm leading-normal">
             <i class="fa-solid fa-plus"></i>
             <span>افزودن مرحله</span>
         </button>
@@ -24,8 +24,8 @@
             <i class="fa-solid fa-layer-group text-indigo-600 text-2xl"></i>
         </div>
         <p class="text-text-secondary leading-relaxed mb-4">هنوز مرحله‌ای تعریف نشده است</p>
-        <button type="button" onclick="addState()"
-                class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 transition-all duration-200 text-sm leading-normal">
+        <button type="button"
+                class="addStateBtn bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 transition-all duration-200 text-sm leading-normal">
             <i class="fa-solid fa-plus ml-2"></i>
             افزودن اولین مرحله
         </button>

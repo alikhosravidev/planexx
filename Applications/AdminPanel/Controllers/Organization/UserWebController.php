@@ -33,8 +33,8 @@ class UserWebController extends BaseWebController
 
         if ($userType === UserTypeEnum::Employee) {
             $deptResponse = $this->apiGet(
-                'api.v1.admin.org.departments.keyValList',
-                ['per_page' => 100, 'field' => 'name']
+                'api.v1.admin.org.departments.index',
+                ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => null], 'includes' => 'children'],
             );
             $rolesResponse = $this->apiGet(
                 'api.v1.admin.org.roles.keyValList',
@@ -56,6 +56,10 @@ class UserWebController extends BaseWebController
         $queryParams             = $request->except('filter');
         $queryParams['filter']   = $filters;
         $queryParams['includes'] = 'avatar,primaryRoles';
+
+        if ($userType === UserTypeEnum::Employee) {
+            $queryParams['includes'] = 'avatar,primaryRoles,departments';
+        }
 
         $response = $this->apiGet('api.v1.admin.org.users.index', $queryParams);
 

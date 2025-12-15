@@ -61,7 +61,7 @@
                             @include('panel::workflows.partials.states')
                         </div>
 
-                        <div class="space-y-6">
+                        <div class="lg:sticky lg:top-6 space-y-6 self-start">
                             @include('panel::workflows.partials.preview')
                             @include('panel::workflows.partials.actions')
                         </div>

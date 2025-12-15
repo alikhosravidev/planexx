@@ -27,6 +27,16 @@
                         class="min-w-[100px]"
                     />
                 </div>
+            @elseif($filter['type'] === 'department')
+                <div class="flex-1 min-w-[100px]">
+                    <x-panel::organization.department.select
+                        :name="$filter['name']"
+                        :label="$filter['label']"
+                        :value="$filter['selected']"
+                        class="min-w-[100px]"
+                        :options="$filter['options']"
+                    />
+                </div>
             @endif
         @endforeach
 

@@ -21,7 +21,7 @@
             'value' => request('search'),
         ],
         [
-            'type' => 'select',
+            'type' => 'department',
             'name' => 'department_id',
             'label' => 'دپارتمان',
             'options' => $departments,

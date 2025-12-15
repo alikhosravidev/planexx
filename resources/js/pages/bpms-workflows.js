@@ -35,7 +35,7 @@ function initBpmsWorkflowPage() {
   const statesPreview = document.getElementById('statesPreview');
   const previewContainer = document.getElementById('previewContainer');
   const stateTemplate = document.getElementById('stateTemplate');
-  const addStateBtn = document.getElementById('addStateBtn');
+  const addStateBtns = document.querySelectorAll('.addStateBtn');
 
   if (
     !statesContainer ||
@@ -43,13 +43,16 @@ function initBpmsWorkflowPage() {
     !statesPreview ||
     !previewContainer ||
     !stateTemplate ||
-    !addStateBtn
+    !addStateBtns ||
+    addStateBtns.length === 0
   ) {
     return;
   }
 
-  addStateBtn.addEventListener('click', function () {
-    addState();
+  addStateBtns.forEach(function (elm) {
+    elm.addEventListener('click', function () {
+      addState();
+    });
   });
 
   function renderColorPalette(

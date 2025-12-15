@@ -32,8 +32,8 @@ class WorkflowWebController extends BaseWebController
         $response = $this->apiGet('api.v1.admin.bpms.workflows.index', $queryParams);
 
         $deptResponse = $this->apiGet(
-            'api.v1.admin.org.departments.keyValList',
-            ['per_page' => 100, 'field' => 'name']
+            'api.v1.admin.org.departments.index',
+            ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => null], 'includes' => 'children'],
         );
 
         return view('panel::workflows.index', [
@@ -47,8 +47,8 @@ class WorkflowWebController extends BaseWebController
     public function create(): View
     {
         $deptResponse = $this->apiGet(
-            'api.v1.admin.org.departments.keyValList',
-            ['per_page' => 100, 'field' => 'name']
+            'api.v1.admin.org.departments.index',
+            ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => null], 'includes' => 'children'],
         );
 
         $usersResponse = $this->apiGet(
@@ -58,7 +58,7 @@ class WorkflowWebController extends BaseWebController
 
         $rolesResponse = $this->apiGet(
             'api.v1.admin.org.roles.keyValList',
-            ['per_page' => 100, 'field' => 'name']
+            ['per_page' => 100, 'field' => 'title']
         );
 
         return view('panel::workflows.add-or-edit', [
@@ -76,8 +76,8 @@ class WorkflowWebController extends BaseWebController
         ]);
 
         $deptResponse = $this->apiGet(
-            'api.v1.admin.org.departments.keyValList',
-            ['per_page' => 100, 'field' => 'name']
+            'api.v1.admin.org.departments.index',
+            ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => null], 'includes' => 'children'],
         );
 
         $usersResponse = $this->apiGet(
@@ -87,7 +87,7 @@ class WorkflowWebController extends BaseWebController
 
         $rolesResponse = $this->apiGet(
             'api.v1.admin.org.roles.keyValList',
-            ['per_page' => 100, 'field' => 'name']
+            ['per_page' => 100, 'field' => 'title']
         );
 
         return view('panel::workflows.add-or-edit', [

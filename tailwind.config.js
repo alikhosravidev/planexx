@@ -2,11 +2,10 @@
 import defaultTheme from 'tailwindcss/defaultTheme'
 export default {
   content: [
-    "./resources/**/*.blade.php",
     "./resources/**/*.js",
-    "./resources/**/*.vue",
     "./Modules/**/*.{js,blade.php,vue}",
-    "./app/Core/**/Resources/views/**/*.{js,blade.php}",
+    "./Applications/**/*.{blade.php,vue,js}",
+    "./app/Core/**/Resources/views/**/*.{vue,js}",
     "./node_modules/@fortawesome/fontawesome-free/**/*.js",
   ],
   safelist: [

@@ -39,11 +39,11 @@
         />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <x-panel::forms.select
+            <x-panel::organization.department.select
                 name="department_id"
                 label="دپارتمان"
                 :value="$workflow['department_id'] ?? null"
-                class="min-w-[100px]"
+                class="min-w-[140px]"
                 :options="$departments ?? []"
             />
 

@@ -28,7 +28,7 @@
 
     if(!empty($departments)) {
         $filters[] = [
-            'type' => 'select',
+            'type' => 'department',
             'name' => 'department_id',
             'label' => 'دپارتمان',
             'options' => $departments,
@@ -69,7 +69,7 @@
             'component' => 'text',
         ],
         [
-            'key' => 'department.name',
+            'key' => 'departments.0.name',
             'label' => 'دپارتمان',
             'component' => 'text',
         ],
