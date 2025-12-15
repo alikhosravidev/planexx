@@ -1,14 +1,21 @@
-import { baseTemplate } from './helpers';
+const defaultTemplate = {
+  mapResults: (items, valueField, labelField) =>
+    items.map((item) => ({
+      [valueField]: item[valueField] ?? item.key ?? item.id,
+      [labelField]: item[labelField] ?? item.value ?? item.name ?? item.title,
+      ...item,
+    })),
 
-const tpl = {
-  ...baseTemplate,
-  getResults: (data) => ({
-    results: data.map((item) => ({ id: item.key, text: item.value })),
-  }),
-  setRecentSelected: (data, element, defaultValue) => {
-    const item = data.find((v) => v.key == defaultValue);
-    if (!item) console.warn('Default value not found:', defaultValue);
+  render: {
+    option: (data, escape) => {
+      const label = data.name || data.text || data.title || data.label || '';
+      return `<div class="ts-option-item">${escape(label)}</div>`;
+    },
+    item: (data, escape) => {
+      const label = data.name || data.text || data.title || data.label || '';
+      return `<div class="ts-selected-item">${escape(label)}</div>`;
+    },
   },
 };
 
-export default tpl;
+export default defaultTemplate;

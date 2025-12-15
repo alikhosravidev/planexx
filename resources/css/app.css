@@ -2,6 +2,8 @@
 @import '@fortawesome/fontawesome-free/css/all.min.css';
 @import './variables.css';
 @import '../fonts/fonts.css';
+@import 'tom-select/dist/css/tom-select.css';
+@import './tom-select.css';
 
 @tailwind base;
 @tailwind components;

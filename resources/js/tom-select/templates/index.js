@@ -1,15 +1,11 @@
-import deflt from './default';
-import users from './users';
-import simpleUsers from './simple-users';
-import categories from './categories';
-import withIcon from './with-icon';
+import defaultTemplate from './default.js';
+import usersTemplate from './users.js';
+import departmentsTemplate from './departments.js';
 
 const templates = {
-  default: deflt,
-  users,
-  'simple-users': simpleUsers,
-  categories,
-  'with-icon': withIcon,
+  default: defaultTemplate,
+  users: usersTemplate,
+  departments: departmentsTemplate,
 };
 
 export default templates;

@@ -51,7 +51,7 @@
                     $color = $state['color'] ?? '#E3F2FD';
                     $needsMargin = ! $isLast;
                 @endphp
-                <div class="relative flex-shrink-0 state-arrow" style="{{ $needsMargin ? 'margin-right: -18px;' : '' }}">
+                <div class="relative flex-shrink-0 state-arrow" {{ $needsMargin ? 'style="margin-right: -18px;"' : '' }}>
                     <div class="relative h-[40px] min-w-[80px] flex flex-col items-center justify-center px-3">
                         <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 50" preserveAspectRatio="none">
                             @if($isLast)

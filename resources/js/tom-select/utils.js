@@ -1,69 +1,53 @@
-import { filterBuilderService } from '@resources/js/services/filter-builder-service.js';
-
-/**
- * Read attribute from element with support for snake_case and kebab-case
- */
-export function getDataAttr(el, name) {
-  if (!el) return undefined;
-
-  const camelKey = name.replace(/[_-]([a-z])/g, (_, c) => c.toUpperCase());
-
-  return el.dataset?.[camelKey];
+export function getAttr(el, name, defaultValue = null) {
+  if (!el) return defaultValue;
+  const value = el.getAttribute(name);
+  return value !== null ? value : defaultValue;
 }
 
-/**
- * Safe access to nested value in object
- */
-export function safeGetByPath(obj, path) {
-  if (!obj || !path) return undefined;
-
-  return path.split('.').reduce((acc, key) => acc?.[key], obj);
+export function getBoolAttr(el, name, defaultValue = false) {
+  if (!el) return defaultValue;
+  return el.hasAttribute(name);
 }
 
-/**
- * Build search parameters
- */
-export function buildSearchParams(searchableFields, searchValue) {
-  if (!searchValue?.trim()) return {};
-
-  const trimmedValue = searchValue.trim();
-
-  if (!searchableFields) {
-    return { s: trimmedValue };
-  }
-
-  const fieldsArray = searchableFields.split(',').map((f) => f.trim());
-  const filter = new filterBuilderService('');
-
-  fieldsArray.forEach((field) => filter.addSearchFilter(field, trimmedValue));
-
-  return filter.setOrJoin().getFilters();
+export function getIntAttr(el, name, defaultValue = null) {
+  if (!el) return defaultValue;
+  const value = el.getAttribute(name);
+  if (value === null) return defaultValue;
+  const parsed = parseInt(value, 10);
+  return isNaN(parsed) ? defaultValue : parsed;
 }
 
-/**
- * Normalize received data
- */
+export function getByPath(obj, path, defaultValue = null) {
+  if (!obj || !path) return defaultValue;
+  const result = path.split('.').reduce((acc, key) => acc?.[key], obj);
+  return result !== undefined ? result : defaultValue;
+}
+
 export function normalizeData(data, dataPath) {
-  if (dataPath && data?.[dataPath]) {
-    return data[dataPath];
+  if (!data) return [];
+
+  if (dataPath) {
+    const pathData = getByPath(data, dataPath);
+    if (pathData) return Array.isArray(pathData) ? pathData : [pathData];
   }
 
   const possiblePaths = [
-    data?.data?.terms,
     data?.data?.data?.data,
     data?.data?.data,
+    data?.data,
     data,
   ];
 
-  return possiblePaths.find(Boolean) ?? data;
+  for (const path of possiblePaths) {
+    if (Array.isArray(path)) return path;
+  }
+
+  return Array.isArray(data) ? data : [];
 }
 
-/**
- * Build URL with query string
- */
-export function buildUrl(baseUrl, params) {
-  if (!baseUrl) return null;
-
-  const qs = new URLSearchParams(params).toString();
-  return qs ? `${baseUrl}?${qs}` : baseUrl;
+export function escapeHtml(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
 }

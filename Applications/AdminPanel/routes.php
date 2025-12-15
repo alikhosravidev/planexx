@@ -40,7 +40,7 @@ Route::middleware(['web'])->name('web.')->group(function () {
         ->name('dashboard');
 
     Route::get('/test-components', function () {
-        return view('test-components');
+        return view('panel::test-components');
     })->name('test.components');
 
     Route::middleware(['auth'])
