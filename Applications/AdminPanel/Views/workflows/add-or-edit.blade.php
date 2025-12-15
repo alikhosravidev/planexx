@@ -38,7 +38,7 @@
             color="indigo"
         />
 
-        <main class="flex-1 flex flex-col">
+        <main class="flex-1 flex flex-col min-w-0">
             <x-panel::dashboard.header
                 :title="$pageTitle"
                 :breadcrumbs="$breadcrumbs"

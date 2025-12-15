@@ -342,7 +342,7 @@ function initBpmsWorkflowPage() {
               color: state.color ?? '#E3F2FD',
               position: state.position?.value ?? state.position ?? null,
               default_assignee_id: state.default_assignee_id ?? null,
-              description: state.description.full ?? null,
+              description: state.description?.full ?? null,
               order: state.order ?? null,
             });
           });

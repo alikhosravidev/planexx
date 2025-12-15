@@ -80,7 +80,7 @@
             module-icon="fa-solid fa-sitemap"
         />
 
-        <main class="flex-1 flex flex-col">
+        <main class="flex-1 flex flex-col min-w-0">
             <x-panel::dashboard.header
                 :title="$title"
                 :breadcrumbs="$breadcrumbs"

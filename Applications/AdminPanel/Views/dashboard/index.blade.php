@@ -2,7 +2,7 @@
     <div class="flex min-h-screen">
         <x-panel::dashboard.sidebar current-page="dashboard" name="dashboard.sidebar" />
 
-        <main class="flex-1 flex flex-col">
+        <main class="flex-1 flex flex-col min-w-0">
             <x-panel::dashboard.header title="داشبورد" :breadcrumbs="$breadcrumbs" />
 
             <div class="flex-1 p-6 lg:p-8">

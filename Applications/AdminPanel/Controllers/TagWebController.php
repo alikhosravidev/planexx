@@ -28,17 +28,6 @@ class TagWebController extends BaseWebController
         ]);
     }
 
-    public function show(Tag $tag): View
-    {
-        $response = $this->apiGet('api.v1.admin.tags.show', [
-            'tag' => $tag->id,
-        ]);
-
-        return view('panel::tags.show', [
-            'tag' => $response['result'] ?? [],
-        ]);
-    }
-
     public function create(): View
     {
         return view('panel::tags.add-or-edit');
