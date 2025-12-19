@@ -32,42 +32,6 @@
             'selected' => request('status'),
         ],
     ];
-
-    $resetUrl = route('web.org.departments.index');
-
-    // TODO: Refactor department stats using registry
-    $totalDepartments = count($departments);
-    $countActive = function ($items) use (&$countActive) {
-        $count = 0;
-        foreach ($items as $dept) {
-            if (!empty($dept['is_active'])) {
-                $count++;
-            }
-            if (!empty($dept['children'])) {
-                $count += $countActive($dept['children']);
-            }
-        }
-        return $count;
-    };
-    $activeDepartments = $countActive($departments);
-    $sumEmployees = function ($items) use (&$sumEmployees) {
-        $total = 0;
-        foreach ($items as $dept) {
-            $total += (int) ($dept['employees_count'] ?? 0);
-            if (!empty($dept['children'])) {
-                $total += $sumEmployees($dept['children']);
-            }
-        }
-        return $total;
-    };
-    $totalEmployees = $sumEmployees($departments);
-    $rolesCount = \App\Core\Organization\Entities\Role::query()->count();
-    $stats = [
-        ['title' => 'کل دپارتمان‌ها', 'value' => $totalDepartments, 'icon' => 'fa-solid fa-building', 'color' => 'blue'],
-        ['title' => 'دپارتمان‌های فعال', 'value' => $activeDepartments, 'icon' => 'fa-solid fa-check-circle', 'color' => 'green'],
-        ['title' => 'کل کارمندان', 'value' => $totalEmployees, 'icon' => 'fa-solid fa-users', 'color' => 'purple'],
-        ['title' => 'نقش های سازمانی', 'value' => $rolesCount, 'icon' => 'fa-solid fa-shield-halved', 'color' => 'orange'],
-    ];
 @endphp
 
 <x-panel::layouts.app :title="$title">

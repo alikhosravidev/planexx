@@ -43,6 +43,8 @@ class Department extends BaseEntity
 
     public const TABLE = 'core_org_departments';
 
+    public const USER_PIVOT_TABLE = 'core_org_user_departments';
+
     protected $table = self::TABLE;
 
     protected $fillable = [
@@ -92,7 +94,7 @@ class Department extends BaseEntity
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'core_org_user_departments')
+        return $this->belongsToMany(User::class, self::USER_PIVOT_TABLE)
             ->withPivot('is_primary')
             ->withTimestamps();
     }

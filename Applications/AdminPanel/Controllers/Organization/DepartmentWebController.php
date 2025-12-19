@@ -5,12 +5,18 @@ declare(strict_types=1);
 namespace Applications\AdminPanel\Controllers\Organization;
 
 use App\Core\Organization\Entities\Department;
+use App\Services\Stats\StatManager;
 use Applications\Contracts\BaseWebController;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class DepartmentWebController extends BaseWebController
 {
+    public function __construct(
+        private readonly StatManager $statManager,
+    ) {
+    }
+
     public function index(Request $request): View
     {
         $pageTitle = 'مدیریت دپارتمان‌ها';
@@ -27,6 +33,8 @@ class DepartmentWebController extends BaseWebController
             'departments' => $response['result']             ?? [],
             'pagination'  => $response['meta']['pagination'] ?? [],
             'pageTitle'   => $pageTitle,
+            // TODO: Refactor stats (get data from API)
+            'stats' => $this->statManager->getTransformed('org.department.stats'),
         ]);
     }
 

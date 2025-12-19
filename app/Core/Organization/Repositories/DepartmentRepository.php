@@ -33,4 +33,5 @@ class DepartmentRepository extends BaseRepository
     {
         return Department::class;
     }
+
 }
