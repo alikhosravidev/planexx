@@ -21,6 +21,7 @@ use App\Macros\BlueprintMixin;
 use App\Registrars\DashboardMenuRegistrar;
 use App\Registrars\DashboardQuickAccessRegistrar;
 use App\Registrars\DashboardStatsRegistrar;
+use App\Registrars\TagStatsRegistrar;
 use App\Services\Distribution\DistributionManager;
 use App\Services\FilesystemModuleDiscovery;
 use App\Services\Menu\MenuManager;
@@ -83,6 +84,7 @@ class AppServiceProvider extends ServiceProvider
         $this->loadMacro();
         app('menu')->registerBy(DashboardMenuRegistrar::class);
         app('stat')->registerBy(DashboardStatsRegistrar::class);
+        app('stat')->registerBy(TagStatsRegistrar::class);
         app('quick-access')->registerBy(DashboardQuickAccessRegistrar::class);
     }
 

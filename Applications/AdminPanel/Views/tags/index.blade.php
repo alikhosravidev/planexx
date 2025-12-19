@@ -81,14 +81,6 @@
             'value' => request('search')
         ],
     ];
-
-    // TODO: Refactor tag stats using Registry
-    $stats = [
-        ['title' => 'کل برچسب‌ها', 'value' => \App\Entities\Tag::query()->count(), 'icon' => 'fa-solid fa-tags', 'color' => 'blue'],
-        ['title' => 'موجودیت‌های برچسب زده', 'value' => DB::table('app_entity_has_tags')->select(['entity_type', 'entity_id'])->distinct()->count(), 'icon' => 'fa-solid fa-tag', 'color' => 'green'],
-        ['title' => 'انواع موجودیت', 'value' => DB::table('app_entity_has_tags')->select(['entity_type'])->distinct()->count(), 'icon' => 'fa-solid fa-database', 'color' => 'purple'],
-        ['title' => 'پرکاربردترین', 'value' => 0, 'icon' => 'fa-solid fa-fire', 'color' => 'orange'],
-    ];
 @endphp
 
 <x-panel::layouts.app :title="$title">

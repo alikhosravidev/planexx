@@ -32,6 +32,8 @@ class Tag extends BaseEntity
 
     public const TABLE = 'app_tags';
 
+    public const ENTITY_PIVOT_TABLE = 'app_entity_has_tags';
+
     protected $table = self::TABLE;
 
     protected $fillable = [
@@ -71,7 +73,7 @@ class Tag extends BaseEntity
 
     public function entitiesOfType(string $modelClass): MorphToMany
     {
-        return $this->morphedByMany($modelClass, 'entity', 'app_entity_has_tags')
+        return $this->morphedByMany($modelClass, 'entity', self::ENTITY_PIVOT_TABLE)
             ->withTimestamps();
     }
 }

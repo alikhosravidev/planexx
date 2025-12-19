@@ -10,13 +10,9 @@ use App\Entities\Tag;
 class TagRepository extends BaseRepository
 {
     public array $fieldSearchable = [
-        'id'          => '=',
-        'name'        => 'like',
-        'slug'        => '=',
-        'description' => 'like',
-        'color'       => '=',
-        'icon'        => '=',
-        'usage_count' => '=',
+        'id'   => '=',
+        'name' => 'like',
+        'slug' => 'like',
     ];
 
     public array $sortableFields = [
