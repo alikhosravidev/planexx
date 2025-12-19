@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Applications\AdminPanel\Controllers;
 
-use App\Contracts\Controller\BaseWebController;
 use App\Services\QuickAccess\QuickAccessManager;
 use App\Services\Stats\StatManager;
+use Applications\Contracts\BaseWebController;
 use Illuminate\Contracts\View\View;
 
 class DashboardController extends BaseWebController

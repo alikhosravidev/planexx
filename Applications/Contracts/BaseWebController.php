@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Contracts\Controller;
+namespace Applications\Contracts;
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;

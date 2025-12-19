@@ -322,6 +322,10 @@ component('head', ['pageTitle' => $pageTitle]);
         <div class="px-6 py-4 border-b border-border-light flex items-center justify-between">
           <h2 class="text-lg font-semibold text-text-primary leading-snug">ساختار سازمانی</h2>
           <div class="flex items-center gap-2">
+            <a href="chart.php" class="bg-primary text-white px-4 py-2 rounded-lg font-medium hover:-translate-y-0.5 hover:shadow-button transition-all duration-200 text-sm leading-normal flex items-center">
+              <i class="fa-solid fa-sitemap ml-2"></i>
+              <span>ساختار گرافیکی</span>
+            </a>
             <button class="expand-all bg-bg-secondary text-text-secondary border border-border-medium px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition-all duration-200 text-sm leading-normal">
               <i class="fa-solid fa-expand ml-2"></i>
               <span>باز کردن همه</span>

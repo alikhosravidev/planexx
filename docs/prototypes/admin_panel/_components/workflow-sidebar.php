@@ -20,9 +20,15 @@ $workflowMenuItems = [
     ],
     [
         'id'    => 'workflow-tasks',
-        'label' => 'کارهای جاری',
+        'label' => 'کارها و وظایف',
         'url'   => '/dashboard/workflows/tasks.php',
         'icon'  => 'fa-solid fa-list-check',
+    ],
+    [
+        'id'    => 'workflow-reports',
+        'label' => 'گزارشات',
+        'url'   => '/dashboard/workflows/reports.php',
+        'icon'  => 'fa-solid fa-chart-bar',
     ],
 ];
 ?>

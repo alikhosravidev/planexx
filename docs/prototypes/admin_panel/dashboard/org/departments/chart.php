@@ -1,9 +1,10 @@
 <?php
+// تنظیمات اولیه
 define('PROJECT_ROOT', dirname(dirname(dirname(__DIR__))));
-require_once __DIR__ . '/_components/config.php';
+require_once PROJECT_ROOT . '/_components/config.php';
 
 // تنظیمات صفحه
-$pageTitle   = 'چارت سازمانی - نسخه پیشرفته';
+$pageTitle = 'چارت سازمانی - نسخه پیشرفته';
 $currentPage = 'organizational-chart-v2';
 ?>
 <!DOCTYPE html>
@@ -12,11 +13,11 @@ $currentPage = 'organizational-chart-v2';
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= $pageTitle ?> | <?= $siteConfig['name'] ?></title>
-
+  
   <link href="https://cdn.jsdelivr.net/npm/sahel-font@3.4.0/dist/font-face.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
-
+  
   <script>
     tailwind.config = {
       theme: {
@@ -40,7 +41,7 @@ $currentPage = 'organizational-chart-v2';
   body, button, input, textarea, select, p, div, span, h1, h2, h3, h4, h5, h6 {
     font-family: 'Sahel', sans-serif !important;
   }
-
+  
   /* آیکون های Font Awesome نباید فونت Sahel داشته باشند */
   .fa, .fas, .far, .fal, .fab {
     font-family: 'Font Awesome 6 Free', 'Font Awesome 6 Pro', 'Font Awesome 6 Brands' !important;
@@ -63,7 +64,7 @@ $currentPage = 'organizational-chart-v2';
   .boc-link {
     z-index: 0 !important;
   }
-
+  
   .boc-node {
     z-index: 1 !important;
   }
@@ -73,7 +74,7 @@ $currentPage = 'organizational-chart-v2';
     background: #9ca3af !important;
     opacity: 0.6 !important;
   }
-
+  
   .boc-expander-icon:hover {
     opacity: 0.9 !important;
   }
@@ -102,22 +103,22 @@ $currentPage = 'organizational-chart-v2';
   <button onclick="chart.exportToPDF({filename: 'organizational-chart.pdf'})" class="w-12 h-12 bg-primary text-white rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center group">
     <i class="fa-solid fa-file-pdf text-lg"></i>
   </button>
-
+  
   <!-- دکمه دانلود SVG -->
   <button onclick="chart.exportToSVG({filename: 'organizational-chart.svg'})" class="w-12 h-12 bg-primary text-white rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center group">
     <i class="fa-solid fa-file-image text-lg"></i>
   </button>
-
+  
   <!-- دکمه زوم این -->
   <button onclick="chart.zoom(true, [0.5, 0.5], true)" class="w-12 h-12 bg-primary text-white rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center group">
     <i class="fa-solid fa-magnifying-glass-plus text-lg"></i>
   </button>
-
+  
   <!-- دکمه زوم اوت -->
   <button onclick="chart.zoom(false, [0.5, 0.5], true)" class="w-12 h-12 bg-primary text-white rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center group">
     <i class="fa-solid fa-magnifying-glass-minus text-lg"></i>
   </button>
-
+  
   <!-- دکمه Fit (تنظیم اندازه به صفحه) -->
   <button onclick="chart.fit()" class="w-12 h-12 bg-primary text-white rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center group">
     <i class="fa-solid fa-compress text-lg"></i>
@@ -200,425 +201,425 @@ let chart = new OrgChart(document.getElementById("tree"), {
 
 chart.load([
     // سطح 1: هولدینگ (آبی تیره - Blue 900)
-    {
-        id: "1",
-        name: "گروه هولدینگ پارسیان",
-        title: "هولدینگ",
+    { 
+        id: "1", 
+        name: "گروه هولدینگ پارسیان", 
+        title: "هولدینگ", 
         tags: ["holding"],
-        img: "https://cdn.balkan.app/shared/1.jpg"
+        img: "https://cdn.balkan.app/shared/1.jpg" 
     },
-
+    
     // سطح 2: برندها (آبی روشن - Sky 500)
-    {
-        id: "2",
-        pid: "1",
-        name: "برند تکنولوژی پارس",
-        title: "شرکت فناوری",
+    { 
+        id: "2", 
+        pid: "1", 
+        name: "برند تکنولوژی پارس", 
+        title: "شرکت فناوری", 
         tags: ["brand"],
-        img: "https://cdn.balkan.app/shared/2.jpg"
+        img: "https://cdn.balkan.app/shared/2.jpg" 
     },
-    {
-        id: "3",
-        pid: "1",
-        name: "برند صنایع نوین",
-        title: "شرکت صنعتی",
+    { 
+        id: "3", 
+        pid: "1", 
+        name: "برند صنایع نوین", 
+        title: "شرکت صنعتی", 
         tags: ["brand"],
-        img: "https://cdn.balkan.app/shared/3.jpg"
+        img: "https://cdn.balkan.app/shared/3.jpg" 
     },
-    {
-        id: "4",
-        pid: "1",
-        name: "برند بازرگانی آریا",
-        title: "شرکت تجاری",
+    { 
+        id: "4", 
+        pid: "1", 
+        name: "برند بازرگانی آریا", 
+        title: "شرکت تجاری", 
         tags: ["brand"],
-        img: "https://cdn.balkan.app/shared/4.jpg"
+        img: "https://cdn.balkan.app/shared/4.jpg" 
     },
-
+    
     // سطح 3: دپارتمان‌ها (سبز - Emerald 600)
     // دپارتمان‌های برند تکنولوژی
-    {
-        id: "5",
-        pid: "2",
-        name: "دپارتمان توسعه نرم‌افزار",
-        title: "واحد فنی",
+    { 
+        id: "5", 
+        pid: "2", 
+        name: "دپارتمان توسعه نرم‌افزار", 
+        title: "واحد فنی", 
         tags: ["department"],
-        img: "https://cdn.balkan.app/shared/5.jpg"
+        img: "https://cdn.balkan.app/shared/5.jpg" 
     },
-    {
-        id: "6",
-        pid: "2",
-        name: "دپارتمان تضمین کیفیت",
-        title: "واحد QA",
+    { 
+        id: "6", 
+        pid: "2", 
+        name: "دپارتمان تضمین کیفیت", 
+        title: "واحد QA", 
         tags: ["department"],
-        img: "https://cdn.balkan.app/shared/6.jpg"
+        img: "https://cdn.balkan.app/shared/6.jpg" 
     },
-
+    
     // دپارتمان‌های برند صنایع
-    {
-        id: "7",
-        pid: "3",
-        name: "دپارتمان تولید",
-        title: "واحد ساخت",
+    { 
+        id: "7", 
+        pid: "3", 
+        name: "دپارتمان تولید", 
+        title: "واحد ساخت", 
         tags: ["department"],
-        img: "https://cdn.balkan.app/shared/7.jpg"
+        img: "https://cdn.balkan.app/shared/7.jpg" 
     },
-    {
-        id: "8",
-        pid: "3",
-        name: "دپارتمان کنترل کیفیت",
-        title: "واحد بازرسی",
+    { 
+        id: "8", 
+        pid: "3", 
+        name: "دپارتمان کنترل کیفیت", 
+        title: "واحد بازرسی", 
         tags: ["department"],
-        img: "https://cdn.balkan.app/shared/8.jpg"
+        img: "https://cdn.balkan.app/shared/8.jpg" 
     },
-
+    
     // دپارتمان‌های برند بازرگانی
-    {
-        id: "9",
-        pid: "4",
-        name: "دپارتمان فروش",
-        title: "واحد تجاری",
+    { 
+        id: "9", 
+        pid: "4", 
+        name: "دپارتمان فروش", 
+        title: "واحد تجاری", 
         tags: ["department"],
-        img: "https://cdn.balkan.app/shared/9.jpg"
+        img: "https://cdn.balkan.app/shared/9.jpg" 
     },
-    {
-        id: "10",
-        pid: "4",
-        name: "دپارتمان بازاریابی",
-        title: "واحد تبلیغات",
+    { 
+        id: "10", 
+        pid: "4", 
+        name: "دپارتمان بازاریابی", 
+        title: "واحد تبلیغات", 
         tags: ["department"],
-        img: "https://cdn.balkan.app/shared/10.jpg"
+        img: "https://cdn.balkan.app/shared/10.jpg" 
     },
 
     // سطح 4: تیم‌ها (نارنجی - Amber 600)
     // تیم‌های دپارتمان توسعه نرم‌افزار
-    {
-        id: "11",
-        pid: "5",
-        name: "تیم فرانت‌اند",
-        title: "تیم رابط کاربری",
+    { 
+        id: "11", 
+        pid: "5", 
+        name: "تیم فرانت‌اند", 
+        title: "تیم رابط کاربری", 
         tags: ["team"],
-        img: "https://cdn.balkan.app/shared/11.jpg"
+        img: "https://cdn.balkan.app/shared/11.jpg" 
     },
-    {
-        id: "12",
-        pid: "5",
-        name: "تیم بک‌اند",
-        title: "تیم زیرساخت",
+    { 
+        id: "12", 
+        pid: "5", 
+        name: "تیم بک‌اند", 
+        title: "تیم زیرساخت", 
         tags: ["team"],
-        img: "https://cdn.balkan.app/shared/12.jpg"
+        img: "https://cdn.balkan.app/shared/12.jpg" 
     },
-
+    
     // تیم‌های دپارتمان QA
-    {
-        id: "13",
-        pid: "6",
-        name: "تیم تست اتوماتیک",
-        title: "تیم خودکارسازی",
+    { 
+        id: "13", 
+        pid: "6", 
+        name: "تیم تست اتوماتیک", 
+        title: "تیم خودکارسازی", 
         tags: ["team"],
-        img: "https://cdn.balkan.app/shared/13.jpg"
+        img: "https://cdn.balkan.app/shared/13.jpg" 
     },
-    {
-        id: "14",
-        pid: "6",
-        name: "تیم تست دستی",
-        title: "تیم بازرسی کیفیت",
+    { 
+        id: "14", 
+        pid: "6", 
+        name: "تیم تست دستی", 
+        title: "تیم بازرسی کیفیت", 
         tags: ["team"],
-        img: "https://cdn.balkan.app/shared/14.jpg"
+        img: "https://cdn.balkan.app/shared/14.jpg" 
     },
-
+    
     // تیم‌های دپارتمان تولید
-    {
-        id: "15",
-        pid: "7",
-        name: "تیم خط تولید A",
-        title: "واحد تولید اول",
+    { 
+        id: "15", 
+        pid: "7", 
+        name: "تیم خط تولید A", 
+        title: "واحد تولید اول", 
         tags: ["team"],
-        img: "https://cdn.balkan.app/shared/15.jpg"
+        img: "https://cdn.balkan.app/shared/15.jpg" 
     },
-    {
-        id: "16",
-        pid: "7",
-        name: "تیم خط تولید B",
-        title: "واحد تولید دوم",
+    { 
+        id: "16", 
+        pid: "7", 
+        name: "تیم خط تولید B", 
+        title: "واحد تولید دوم", 
         tags: ["team"],
-        img: "https://cdn.balkan.app/shared/16.jpg"
+        img: "https://cdn.balkan.app/shared/16.jpg" 
     },
-
+    
     // تیم‌های دپارتمان کنترل کیفیت
-    {
-        id: "17",
-        pid: "8",
-        name: "تیم بازرسی ورودی",
-        title: "کنترل مواد اولیه",
+    { 
+        id: "17", 
+        pid: "8", 
+        name: "تیم بازرسی ورودی", 
+        title: "کنترل مواد اولیه", 
         tags: ["team"],
-        img: "https://cdn.balkan.app/shared/1.jpg"
+        img: "https://cdn.balkan.app/shared/1.jpg" 
     },
-    {
-        id: "18",
-        pid: "8",
-        name: "تیم بازرسی نهایی",
-        title: "کنترل محصول",
+    { 
+        id: "18", 
+        pid: "8", 
+        name: "تیم بازرسی نهایی", 
+        title: "کنترل محصول", 
         tags: ["team"],
-        img: "https://cdn.balkan.app/shared/2.jpg"
+        img: "https://cdn.balkan.app/shared/2.jpg" 
     },
-
+    
     // تیم‌های دپارتمان فروش
-    {
-        id: "19",
-        pid: "9",
-        name: "تیم فروش داخلی",
-        title: "فروش کشوری",
+    { 
+        id: "19", 
+        pid: "9", 
+        name: "تیم فروش داخلی", 
+        title: "فروش کشوری", 
         tags: ["team"],
-        img: "https://cdn.balkan.app/shared/3.jpg"
+        img: "https://cdn.balkan.app/shared/3.jpg" 
     },
-    {
-        id: "20",
-        pid: "9",
-        name: "تیم فروش بین‌المللی",
-        title: "صادرات",
+    { 
+        id: "20", 
+        pid: "9", 
+        name: "تیم فروش بین‌المللی", 
+        title: "صادرات", 
         tags: ["team"],
-        img: "https://cdn.balkan.app/shared/4.jpg"
+        img: "https://cdn.balkan.app/shared/4.jpg" 
     },
-
+    
     // تیم‌های دپارتمان بازاریابی
-    {
-        id: "21",
-        pid: "10",
-        name: "تیم دیجیتال مارکتینگ",
-        title: "بازاریابی آنلاین",
+    { 
+        id: "21", 
+        pid: "10", 
+        name: "تیم دیجیتال مارکتینگ", 
+        title: "بازاریابی آنلاین", 
         tags: ["team"],
-        img: "https://cdn.balkan.app/shared/5.jpg"
+        img: "https://cdn.balkan.app/shared/5.jpg" 
     },
-    {
-        id: "22",
-        pid: "10",
-        name: "تیم برندینگ",
-        title: "مدیریت برند",
+    { 
+        id: "22", 
+        pid: "10", 
+        name: "تیم برندینگ", 
+        title: "مدیریت برند", 
         tags: ["team"],
-        img: "https://cdn.balkan.app/shared/6.jpg"
+        img: "https://cdn.balkan.app/shared/6.jpg" 
     },
-
+    
     // سطح 5: کارکنان (بنفش - Violet 600)
     // کارکنان تیم فرانت‌اند
-    {
-        id: "101",
-        pid: "11",
-        name: "علی احمدی",
-        title: "توسعه‌دهنده ارشد",
+    { 
+        id: "101", 
+        pid: "11", 
+        name: "علی احمدی", 
+        title: "توسعه‌دهنده ارشد", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/7.jpg"
+        img: "https://cdn.balkan.app/shared/7.jpg" 
     },
-    {
-        id: "102",
-        pid: "11",
-        name: "زهرا کریمی",
-        title: "توسعه‌دهنده فرانت‌اند",
+    { 
+        id: "102", 
+        pid: "11", 
+        name: "زهرا کریمی", 
+        title: "توسعه‌دهنده فرانت‌اند", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/8.jpg"
+        img: "https://cdn.balkan.app/shared/8.jpg" 
     },
-
+    
     // کارکنان تیم بک‌اند
-    {
-        id: "103",
-        pid: "12",
-        name: "رضا محمدی",
-        title: "توسعه‌دهنده بک‌اند",
+    { 
+        id: "103", 
+        pid: "12", 
+        name: "رضا محمدی", 
+        title: "توسعه‌دهنده بک‌اند", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/9.jpg"
+        img: "https://cdn.balkan.app/shared/9.jpg" 
     },
-    {
-        id: "104",
-        pid: "12",
-        name: "مریم نوری",
-        title: "مهندس دیتابیس",
+    { 
+        id: "104", 
+        pid: "12", 
+        name: "مریم نوری", 
+        title: "مهندس دیتابیس", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/10.jpg"
+        img: "https://cdn.balkan.app/shared/10.jpg" 
     },
-
+    
     // کارکنان تیم تست اتوماتیک
-    {
-        id: "105",
-        pid: "13",
-        name: "محمد رضایی",
-        title: "تحلیلگر کیفیت",
+    { 
+        id: "105", 
+        pid: "13", 
+        name: "محمد رضایی", 
+        title: "تحلیلگر کیفیت", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/11.jpg"
+        img: "https://cdn.balkan.app/shared/11.jpg" 
     },
-    {
-        id: "106",
-        pid: "13",
-        name: "فاطمه محمدی",
-        title: "تستر اتوماسیون",
+    { 
+        id: "106", 
+        pid: "13", 
+        name: "فاطمه محمدی", 
+        title: "تستر اتوماسیون", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/12.jpg"
+        img: "https://cdn.balkan.app/shared/12.jpg" 
     },
-
+    
     // کارکنان تیم تست دستی
-    {
-        id: "107",
-        pid: "14",
-        name: "حسین علوی",
-        title: "تستر نرم‌افزار",
+    { 
+        id: "107", 
+        pid: "14", 
+        name: "حسین علوی", 
+        title: "تستر نرم‌افزار", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/13.jpg"
+        img: "https://cdn.balkan.app/shared/13.jpg" 
     },
-    {
-        id: "108",
-        pid: "14",
-        name: "سارا حسینی",
-        title: "کارشناس QA",
+    { 
+        id: "108", 
+        pid: "14", 
+        name: "سارا حسینی", 
+        title: "کارشناس QA", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/14.jpg"
+        img: "https://cdn.balkan.app/shared/14.jpg" 
     },
-
+    
     // کارکنان تیم خط تولید A
-    {
-        id: "109",
-        pid: "15",
-        name: "امیر جعفری",
-        title: "سرپرست خط تولید",
+    { 
+        id: "109", 
+        pid: "15", 
+        name: "امیر جعفری", 
+        title: "سرپرست خط تولید", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/15.jpg"
+        img: "https://cdn.balkan.app/shared/15.jpg" 
     },
-    {
-        id: "110",
-        pid: "15",
-        name: "نرگس مرادی",
-        title: "اپراتور تولید",
+    { 
+        id: "110", 
+        pid: "15", 
+        name: "نرگس مرادی", 
+        title: "اپراتور تولید", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/16.jpg"
+        img: "https://cdn.balkan.app/shared/16.jpg" 
     },
-
+    
     // کارکنان تیم خط تولید B
-    {
-        id: "111",
-        pid: "16",
-        name: "پوریا کاظمی",
-        title: "سرپرست شیفت",
+    { 
+        id: "111", 
+        pid: "16", 
+        name: "پوریا کاظمی", 
+        title: "سرپرست شیفت", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/1.jpg"
+        img: "https://cdn.balkan.app/shared/1.jpg" 
     },
-    {
-        id: "112",
-        pid: "16",
-        name: "لیلا صادقی",
-        title: "تکنسین تولید",
+    { 
+        id: "112", 
+        pid: "16", 
+        name: "لیلا صادقی", 
+        title: "تکنسین تولید", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/2.jpg"
+        img: "https://cdn.balkan.app/shared/2.jpg" 
     },
-
+    
     // کارکنان تیم بازرسی ورودی
-    {
-        id: "113",
-        pid: "17",
-        name: "مهدی باقری",
-        title: "بازرس کیفیت",
+    { 
+        id: "113", 
+        pid: "17", 
+        name: "مهدی باقری", 
+        title: "بازرس کیفیت", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/3.jpg"
+        img: "https://cdn.balkan.app/shared/3.jpg" 
     },
-    {
-        id: "114",
-        pid: "17",
-        name: "آرزو فتحی",
-        title: "کارشناس آزمایشگاه",
+    { 
+        id: "114", 
+        pid: "17", 
+        name: "آرزو فتحی", 
+        title: "کارشناس آزمایشگاه", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/4.jpg"
+        img: "https://cdn.balkan.app/shared/4.jpg" 
     },
-
+    
     // کارکنان تیم بازرسی نهایی
-    {
-        id: "115",
-        pid: "18",
-        name: "سعید رحمانی",
-        title: "تحلیلگر فنی",
+    { 
+        id: "115", 
+        pid: "18", 
+        name: "سعید رحمانی", 
+        title: "تحلیلگر فنی", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/5.jpg"
+        img: "https://cdn.balkan.app/shared/5.jpg" 
     },
-    {
-        id: "116",
-        pid: "18",
-        name: "ساناز موسوی",
-        title: "بازرس کنترل کیفیت",
+    { 
+        id: "116", 
+        pid: "18", 
+        name: "ساناز موسوی", 
+        title: "بازرس کنترل کیفیت", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/6.jpg"
+        img: "https://cdn.balkan.app/shared/6.jpg" 
     },
-
+    
     // کارکنان تیم فروش داخلی
-    {
-        id: "117",
-        pid: "19",
-        name: "رامین احمدی",
-        title: "مدیر فروش",
+    { 
+        id: "117", 
+        pid: "19", 
+        name: "رامین احمدی", 
+        title: "مدیر فروش", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/7.jpg"
+        img: "https://cdn.balkan.app/shared/7.jpg" 
     },
-    {
-        id: "118",
-        pid: "19",
-        name: "شیدا کریمی",
-        title: "کارشناس فروش",
+    { 
+        id: "118", 
+        pid: "19", 
+        name: "شیدا کریمی", 
+        title: "کارشناس فروش", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/8.jpg"
+        img: "https://cdn.balkan.app/shared/8.jpg" 
     },
-
+    
     // کارکنان تیم فروش بین‌المللی
-    {
-        id: "119",
-        pid: "20",
-        name: "بهزاد نصیری",
-        title: "مدیر صادرات",
+    { 
+        id: "119", 
+        pid: "20", 
+        name: "بهزاد نصیری", 
+        title: "مدیر صادرات", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/9.jpg"
+        img: "https://cdn.balkan.app/shared/9.jpg" 
     },
-    {
-        id: "120",
-        pid: "20",
-        name: "نیلوفر رضوی",
-        title: "کارشناس بازرگانی",
+    { 
+        id: "120", 
+        pid: "20", 
+        name: "نیلوفر رضوی", 
+        title: "کارشناس بازرگانی", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/10.jpg"
+        img: "https://cdn.balkan.app/shared/10.jpg" 
     },
-
+    
     // کارکنان تیم دیجیتال مارکتینگ
-    {
-        id: "121",
-        pid: "21",
-        name: "کامیار اسدی",
-        title: "متخصص SEO",
+    { 
+        id: "121", 
+        pid: "21", 
+        name: "کامیار اسدی", 
+        title: "متخصص SEO", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/11.jpg"
+        img: "https://cdn.balkan.app/shared/11.jpg" 
     },
-    {
-        id: "122",
-        pid: "21",
-        name: "نگار جوادی",
-        title: "مدیر محتوا",
+    { 
+        id: "122", 
+        pid: "21", 
+        name: "نگار جوادی", 
+        title: "مدیر محتوا", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/12.jpg"
+        img: "https://cdn.balkan.app/shared/12.jpg" 
     },
-
+    
     // کارکنان تیم برندینگ
-    {
-        id: "123",
-        pid: "22",
-        name: "داریوش قاسمی",
-        title: "مدیر برند",
+    { 
+        id: "123", 
+        pid: "22", 
+        name: "داریوش قاسمی", 
+        title: "مدیر برند", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/13.jpg"
+        img: "https://cdn.balkan.app/shared/13.jpg" 
     },
-    {
-        id: "124",
-        pid: "22",
-        name: "پریسا امیری",
-        title: "طراح گرافیک",
+    { 
+        id: "124", 
+        pid: "22", 
+        name: "پریسا امیری", 
+        title: "طراح گرافیک", 
         tags: ["employee"],
-        img: "https://cdn.balkan.app/shared/14.jpg"
+        img: "https://cdn.balkan.app/shared/14.jpg" 
     }
 ]);
 
 
-
+    
   </script>
-
+  
 </body>
 </html>

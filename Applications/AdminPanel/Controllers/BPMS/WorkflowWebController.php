@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Applications\AdminPanel\Controllers\BPMS;
 
-use App\Contracts\Controller\BaseWebController;
 use App\Core\BPMS\Entities\Workflow;
 use App\Core\Organization\Enums\UserTypeEnum;
+use Applications\Contracts\BaseWebController;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 

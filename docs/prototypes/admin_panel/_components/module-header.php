@@ -56,8 +56,20 @@ $userAvatar = $userAvatar ?? null;
                 'secondary' => 'bg-bg-secondary text-text-primary hover:bg-slate-200',
                 'outline'   => 'border-2 border-border-light text-text-primary hover:border-primary hover:text-primary',
             ];
-            $classes = $btnClasses[$btnType] ?? $btnClasses['secondary'];
+            $classes    = $btnClasses[$btnType] ?? $btnClasses['secondary'];
+            $hasOnclick = isset($button['onclick']);
             ?>
+          <?php if ($hasOnclick): ?>
+          <button 
+            type="button"
+            onclick="<?= $button['onclick'] ?>"
+            class="<?= $classes ?> px-5 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 flex items-center gap-2 leading-normal shadow-sm hover:shadow">
+            <?php if (isset($button['icon'])): ?>
+              <i class="<?= $button['icon'] ?>"></i>
+            <?php endif; ?>
+            <span><?= $button['label'] ?></span>
+          </button>
+          <?php else: ?>
           <a 
             href="<?= $button['url'] ?? '#' ?>" 
             class="<?= $classes ?> px-5 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 flex items-center gap-2 leading-normal shadow-sm hover:shadow">
@@ -66,6 +78,7 @@ $userAvatar = $userAvatar ?? null;
             <?php endif; ?>
             <span><?= $button['label'] ?></span>
           </a>
+          <?php endif; ?>
         <?php endforeach; ?>
       </div>
       <?php endif; ?>

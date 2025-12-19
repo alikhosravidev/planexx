@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Applications\AdminPanel\Controllers\FileManager;
 
-use App\Contracts\Controller\BaseWebController;
+use Applications\Contracts\BaseWebController;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

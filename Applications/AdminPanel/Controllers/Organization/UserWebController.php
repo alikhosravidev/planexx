@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Applications\AdminPanel\Controllers\Organization;
 
-use App\Contracts\Controller\BaseWebController;
 use App\Core\Organization\Entities\User;
 use App\Core\Organization\Enums\UserTypeEnum;
 use App\Services\Transformer\FieldTransformers\EnumTransformer;
+use Applications\Contracts\BaseWebController;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;

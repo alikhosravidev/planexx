@@ -162,9 +162,7 @@ $response = $this->forwardToApi(string $routeName, array $data = [], string $met
 
 namespace App\Core\User\Http\Controllers\Web;
 
-use App\Contracts\Controller\BaseWebController;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Applications\Contracts\BaseWebController;use Illuminate\Http\Request;use Illuminate\View\View;
 
 class UserManagementController extends BaseWebController
 {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Applications\AdminPanel\Controllers\Organization;
 
-use App\Contracts\Controller\BaseWebController;
+use Applications\Contracts\BaseWebController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;

@@ -76,8 +76,8 @@ $quickAccessModules = [
         'title'   => 'گزارش‌گیری',
         'icon'    => 'fa-solid fa-chart-bar',
         'color'   => 'purple',
-        'url'     => '#',
-        'enabled' => false,
+        'url'     => '/dashboard/workflows/reports.php',
+        'enabled' => true,
     ],
 ];
 

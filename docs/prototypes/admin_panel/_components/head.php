@@ -23,6 +23,16 @@ $fullTitle = $pageTitle . ' | ' . $siteConfig['name'];
   <!-- Font Awesome - آیکون‌ها -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
+  <!-- Force Sahel Font -->
+  <style>
+    * {
+      font-family: 'Sahel', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    }
+    .fa, .fas, .far, .fal, .fab, [class^="fa-"], [class*=" fa-"] {
+      font-family: 'Font Awesome 6 Free', 'Font Awesome 6 Pro', 'Font Awesome 6 Brands' !important;
+    }
+  </style>
+  
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   

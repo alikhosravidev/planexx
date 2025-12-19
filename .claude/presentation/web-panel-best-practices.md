@@ -428,10 +428,7 @@ public function test_user_creation(): void
 
 namespace App\Core\User\Http\Controllers\Web;
 
-use App\Contracts\Controller\BaseWebController;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
+use Applications\Contracts\BaseWebController;use Illuminate\Http\RedirectResponse;use Illuminate\Http\Request;use Illuminate\View\View;
 
 class UserManagementController extends BaseWebController
 {
