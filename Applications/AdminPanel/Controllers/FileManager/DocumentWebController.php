@@ -149,34 +149,6 @@ class DocumentWebController extends BaseWebController
         ]);
     }
 
-    public function createFolder(): View
-    {
-        $foldersResponse = $this->apiGet('api.v1.admin.file-manager.folders.index', [
-            'per_page' => 100,
-        ]);
-
-        return view('panel::documents.create-folder', [
-            'folders' => $foldersResponse['result'] ?? [],
-        ]);
-    }
-
-    public function editFolder(int $folderId): View
-    {
-        $folderResponse = $this->apiGet('api.v1.admin.file-manager.folders.show', [
-            'folder'   => $folderId,
-            'includes' => 'parent',
-        ]);
-
-        $foldersResponse = $this->apiGet('api.v1.admin.file-manager.folders.index', [
-            'per_page' => 100,
-        ]);
-
-        return view('panel::documents.edit-folder', [
-            'folder'  => $folderResponse['result']  ?? [],
-            'folders' => $foldersResponse['result'] ?? [],
-        ]);
-    }
-
     public function download(int $id): RedirectResponse
     {
         $response = $this->apiGet('api.v1.admin.file-manager.files.show', ['file' => $id]);
