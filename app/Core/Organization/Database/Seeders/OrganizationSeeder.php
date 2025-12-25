@@ -6,6 +6,7 @@ namespace App\Core\Organization\Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class OrganizationSeeder extends Seeder
 {
@@ -13,11 +14,8 @@ class OrganizationSeeder extends Seeder
 
     public function run(): void
     {
-        $this->call(
-            [
-                UserSeeder::class,
-                DepartmentSeeder::class,
-            ]
-        );
+        DB::unprepared(file_get_contents(__DIR__ . '/../seed_users.sql'));
+
+        DB::unprepared(file_get_contents(__DIR__ . '/../seed_departments.sql'));
     }
 }

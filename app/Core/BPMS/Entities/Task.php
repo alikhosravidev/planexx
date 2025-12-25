@@ -7,8 +7,11 @@ namespace App\Core\BPMS\Entities;
 use App\Contracts\Entity\BaseEntity;
 use App\Core\BPMS\Database\Factories\TaskFactory;
 use App\Core\BPMS\Enums\TaskPriority;
+use App\Core\FileManager\Traits\HasFile;
 use App\Core\Organization\Entities\User;
 use App\Core\Organization\Traits\HasCreator;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -32,6 +35,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Carbon\Carbon              $updated_at
  * @property \Carbon\Carbon|null         $deleted_at
  *
+ * Accessors
+ * @property-read int $progress_percentage
+ * @property-read int $current_state_order
+ * @property-read int $remaining_days
+ *
  * Relations:
  * @property Workflow                     $workflow
  * @property WorkflowState                $currentState
@@ -44,6 +52,7 @@ class Task extends BaseEntity
     use HasFactory;
     use SoftDeletes;
     use HasCreator;
+    use HasFile;
 
     public const TABLE = 'bpms_tasks';
     protected $table   = self::TABLE;
@@ -96,6 +105,44 @@ class Task extends BaseEntity
         return $this->belongsToMany(User::class, 'bpms_watchlist', 'task_id', 'watcher_id')
             ->withPivot(['watch_status', 'watch_reason', 'comment'])
             ->withTimestamps();
+    }
+
+    protected function progressPercentage(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if (!$this->relationLoaded('workflow') || !$this->workflow->relationLoaded('states')) {
+                    return 0;
+                }
+                $totalStates  = $this->workflow->states->count();
+                $currentOrder = $this->current_state_order;
+
+                return $totalStates > 0 ? (int) round(($currentOrder / $totalStates) * 100) : 0;
+            }
+        );
+    }
+
+    protected function currentStateOrder(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->currentState?->order ?? 1;
+            }
+        );
+    }
+
+    protected function remainingDays(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if (!$this->due_date) {
+                    return null;
+                }
+                $now = Carbon::now()->startOfDay();
+
+                return (int) $now->diffInDays($this->due_date, false);
+            }
+        );
     }
 
     protected static function newFactory(): TaskFactory

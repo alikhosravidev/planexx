@@ -11,6 +11,7 @@ use App\Services\Transformer\ModelTransformationContext;
 use App\Services\Transformer\Steps\BlacklistFilterStep;
 use App\Services\Transformer\Steps\DataExtractionStep;
 use App\Services\Transformer\Steps\FieldTransformationStep;
+use App\Services\Transformer\Steps\VirtualFieldResolutionStep;
 use App\Services\Transformer\TransformationPipeline;
 use App\Services\Transformer\TransformerConfig;
 use App\Services\Transformer\VirtualFieldResolver;
@@ -215,7 +216,7 @@ abstract class BaseTransformer extends TransformerAbstract implements Transforme
      */
     protected function createVirtualFieldResolutionStep(): TransformationStepInterface
     {
-        return new \App\Services\Transformer\Steps\VirtualFieldResolutionStep(
+        return new VirtualFieldResolutionStep(
             $this->createVirtualFieldResolver(),
             $this->logger
         );

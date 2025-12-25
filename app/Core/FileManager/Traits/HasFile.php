@@ -6,6 +6,7 @@ namespace App\Core\FileManager\Traits;
 
 use App\Core\FileManager\Entities\File;
 use App\Core\FileManager\Enums\FileCollectionEnum;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 /**
@@ -33,5 +34,11 @@ trait HasFile
         return $this->morphOne(File::class, 'entity')
             ->where('mime_type', 'LIKE', 'image%')
             ->where('collection', '=', FileCollectionEnum::AVATAR);
+    }
+
+    public function attachments(): MorphMany
+    {
+        return $this->morphMany(File::class, 'entity')
+            ->where('collection', '=', FileCollectionEnum::ATTACHMENT);
     }
 }

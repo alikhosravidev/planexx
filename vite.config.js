@@ -24,6 +24,7 @@ function getInputFiles() {
         'resources/js/app.js',
         'resources/js/pages/documents.js',
         'resources/js/pages/bpms-workflows.js',
+        'resources/js/pages/bpms-tasks.js',
         'app/Core/Organization/Resources/js/organization-chart.js',
     ];
 

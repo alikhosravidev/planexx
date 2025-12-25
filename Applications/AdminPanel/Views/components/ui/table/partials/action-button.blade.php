@@ -59,7 +59,7 @@
 
     $alpineClick = $action['x-click'] ?? null;
     if ($alpineClick) {
-        $onclick = $alpineClick;
+        $onclick = is_callable($alpineClick) ? $alpineClick($item) : $alpineClick;
     }
 
     $dataAttrs = $action['data_attrs'] ?? [];

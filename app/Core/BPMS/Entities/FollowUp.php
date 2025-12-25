@@ -7,6 +7,7 @@ namespace App\Core\BPMS\Entities;
 use App\Contracts\Entity\BaseEntity;
 use App\Core\BPMS\Database\Factories\FollowUpFactory;
 use App\Core\BPMS\Enums\FollowUpType;
+use App\Core\FileManager\Traits\HasFile;
 use App\Core\Organization\Entities\User;
 use App\Core\Organization\Traits\HasCreator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,6 +36,7 @@ class FollowUp extends BaseEntity
 {
     use HasFactory;
     use HasCreator;
+    use HasFile;
 
     public $timestamps = false;
 

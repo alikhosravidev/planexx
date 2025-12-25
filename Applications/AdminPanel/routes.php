@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Applications\AdminPanel\Controllers\{BPMS\BPMSDashboardController,
+    BPMS\TaskWebController,
     BPMS\WorkflowWebController,
     DashboardController,
     FileManager\DocumentWebController,
@@ -85,5 +86,8 @@ Route::middleware(['web', 'auth'])->name('web.')->group(function () {
 
             Route::resource('workflows', WorkflowWebController::class)
                 ->except(['destroy', 'store', 'update', 'show']);
+
+            Route::resource('tasks', TaskWebController::class)
+                ->except(['destroy', 'store', 'update']);
         });
 });

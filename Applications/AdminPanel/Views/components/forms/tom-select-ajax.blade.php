@@ -33,7 +33,7 @@
         @endif
         {{ $label }}
         @if($required)
-            <span class="required">*</span>
+            <span class="text-red-500">*</span>
         @endif
     </label>
     <select

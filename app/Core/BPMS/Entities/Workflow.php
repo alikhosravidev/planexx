@@ -18,18 +18,19 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @property int                         $id
- * @property string                      $name
- * @property string|null                 $slug
- * @property string|null                 $description
- * @property int|null                    $department_id
- * @property bool                        $is_active
- * @property \Carbon\Carbon              $created_at
- * @property \Carbon\Carbon              $updated_at
- * @property \Carbon\Carbon|null         $deleted_at
+ * @property int                 $id
+ * @property string              $name
+ * @property string|null         $slug
+ * @property string|null         $description
+ * @property int|null            $department_id
+ * @property bool                $is_active
+ * @property float               $estimated_hours
+ * @property \Carbon\Carbon      $created_at
+ * @property \Carbon\Carbon      $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  *
  * Relations:
- * @property Department|null             $department
+ * @property Department|null $department
  * @property \Illuminate\Database\Eloquent\Collection<int, WorkflowState> $states
  * @property \Illuminate\Database\Eloquent\Collection<int, Role> $allowedRoles
  */
@@ -54,7 +55,8 @@ class Workflow extends BaseEntity
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
+        'is_active'       => 'boolean',
+        'estimated_hours' => 'float',
     ];
 
     public function department(): BelongsTo

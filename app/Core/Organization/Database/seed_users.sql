@@ -1,3 +1,6 @@
+SET FOREIGN_KEY_CHECKS = 0;
+DELETE FROM `core_org_users` WHERE id >= 3;
+
 INSERT INTO `core_org_users` (`id`, `direct_manager_id`, `job_position_id`, `full_name`, `first_name`, `last_name`, `mobile`, `user_type`, `customer_type`, `email`, `national_code`, `password`, `gender`, `is_active`, `birth_date`, `mobile_verified_at`, `email_verified_at`, `last_login_at`, `employee_code`, `employment_date`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (3, NULL, NULL, NULL, NULL, NULL, '09125029564', 1, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2025-12-03 09:55:11', NULL, '2025-12-03 09:55:11', NULL, NULL, NOW(), NOW(), NULL),
 (4, NULL, NULL, 'علی خسروی', 'علی', 'خسروی', '09398561673', 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, '2025-12-03 12:14:19', NOW(), NOW()),
@@ -14,4 +17,8 @@ INSERT INTO `core_org_users` (`id`, `direct_manager_id`, `job_position_id`, `ful
 (15, 6, NULL, 'امیرحسین اعظمی', 'امیرحسین', 'اعظمی', '09121834562', 2, NULL, NULL, NULL, '$2y$12$/f2i5ZVoiPbOqRcws40rXeJJxznAxKI8MlupFi1yIErmG4JEcomme', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NOW(), NOW(), NULL),
 (16, NULL, NULL, 'سمانه پور گل افشان', 'سمانه', 'پور گل افشان', '09124495744', 2, NULL, 'samaanpourgolafshan@gmail.com', '0064686833', '$2y$12$4WxaEs7esOZucp8K6.E9vOka3aFmrLdjNdNQMwDoSze33KGfCRhiu', 2, 1, NULL, NULL, NULL, NULL, '8', NULL, NOW(), NOW(), NULL),
 (17, 16, NULL, 'راضیه رضی', 'راضیه', 'رضی', '09354059503', 2, NULL, 'raziehraziii@gmail.com', '0019920733', '$2y$12$26CmCayiUFXr2QApUnz3vODIBT6wwR2I1ImE0lLKWVBQ9lKvfL1YO', 2, 1, NULL, NULL, NULL, NULL, '523', NULL, NOW(), NOW(), NULL),
-(18, 16, NULL, 'عارفه گرجی', 'عارفه', 'گرجی', '09920764430', 2, NULL, 'arefegorji39@gmail.com', '1230068821', '$2y$12$2buOn1.euqElpF1fYnzjB.jcDMiUqK5F5zvajR/TLqtmC0tVPjqhu', 2, 1, NULL, NULL, NULL, NULL, '5526', NULL, '2025-12-07 11:13:11', '2025-12-07 11:13:27', NULL);
+(18, 16, NULL, 'عارفه گرجی', 'عارفه', 'گرجی', '09920764430', 2, NULL, 'arefegorji39@gmail.com', '1230068821', '$2y$12$2buOn1.euqElpF1fYnzjB.jcDMiUqK5F5zvajR/TLqtmC0tVPjqhu', 2, 1, NULL, NULL, NULL, NULL, '5526', NULL, '2025-12-07 11:13:11', '2025-12-07 11:13:27', NULL),
+(21, NULL, NULL, 'Manager 21', 'Manager', '21', '09000000021', 2, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NOW(), NOW(), NULL),
+(22, NULL, NULL, 'Manager 22', 'Manager', '22', '09000000022', 2, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NOW(), NOW(), NULL);
+
+SET FOREIGN_KEY_CHECKS = 1;

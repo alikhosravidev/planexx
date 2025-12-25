@@ -1,6 +1,7 @@
 @props([
     'filters' => [],
     'resetUrl' => null,
+    'size' => 100,
 ])
 
 <div class="bg-bg-primary border border-border-light rounded-2xl p-6" {{ $attributes }}>
@@ -8,28 +9,28 @@
 
         @foreach($filters as $filter)
             @if($filter['type'] === 'text')
-                <div class="flex-1 min-w-[100px]">
+                <div class="flex-1 min-w-[{{ $size }}px]">
                     <x-panel::forms.input
                         :name="$filter['name']"
                         :label="$filter['label']"
                         :value="$filter['value'] ?? ''"
                         :placeholder="$filter['placeholder'] ?? ''"
-                        class="min-w-[100px]"
+                        class="min-w-[{{ $size }}px]"
                     />
                 </div>
             @elseif($filter['type'] === 'select')
-                <div class="flex-1 min-w-[100px]">
+                <div class="flex-1 min-w-[{{ $size }}px]">
                     <x-panel::forms.tom-select
                         :name="$filter['name']"
                         :label="$filter['label']"
                         :options="$filter['options']"
                         :placeholder="$filter['placeholder'] ?? ''"
                         :value="$filter['selected'] ?? ''"
-                        class="min-w-[100px]"
+                        class="min-w-[{{ $size }}px]"
                     />
                 </div>
             @elseif($filter['type'] === 'tom-select-ajax')
-                <div class="flex-1 min-w-[100px]">
+                <div class="flex-1 min-w-[{{ $size }}px]">
                     <x-panel::forms.tom-select-ajax
                         :name="$filter['name']"
                         :label="$filter['label']"
@@ -38,7 +39,7 @@
                         :value="$filter['selected'] ?? ''"
                         :template="$filter['template'] ?? 'keyValList'"
                         :preload="true"
-                        class="min-w-[100px]"
+                        class="min-w-[{{ $size }}px]"
                     />
                 </div>
             @endif

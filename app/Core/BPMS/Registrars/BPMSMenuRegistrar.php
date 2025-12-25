@@ -29,6 +29,16 @@ class BPMSMenuRegistrar implements MenuRegistrar
                 ->route('web.bpms.workflows.index')
                 ->icon('fa-solid fa-diagram-project')
                 ->order(2);
+
+            $menu->item('کارها و وظایف', 'bpms-tasks')
+                ->route('web.bpms.tasks.index')
+                ->icon('fa-solid fa-list-check')
+                ->order(3);
+
+            $menu->item('گزارشات', 'bpms-reports')
+                ->route('#')
+                ->icon('fa-solid fa-chart-bar')
+                ->order(4);
         });
     }
 }

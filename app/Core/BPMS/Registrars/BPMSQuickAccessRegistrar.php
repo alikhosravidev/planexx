@@ -40,7 +40,6 @@ class BPMSQuickAccessRegistrar implements RegistrarInterface
                 ->route('web.bpms.tasks.index')
                 ->icon('fa-solid fa-list-check')
                 ->color('blue')
-                ->enabled(false)
                 ->order(3);
 
             $builder->item('گزارش‌گیری', 'bpms-reports')

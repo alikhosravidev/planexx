@@ -33,6 +33,9 @@ class DateTimeTransformer implements FieldTransformerInterface
         return [
             'main'    => $main,
             'default' => $default,
+            'hour'    => $date->hour,
+            'minute'  => $date->minute,
+            'second'  => $date->second,
             'human'   => array_merge(
                 $this->getJalaliData($date),
                 ['gregorian' => $this->getGregorianData($date)]

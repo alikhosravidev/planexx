@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Core\BPMS\Http\Controllers\API\V1\Admin\FollowUpAPIController;
+use App\Core\BPMS\Http\Controllers\API\V1\Admin\TaskAPIController;
 use App\Core\BPMS\Http\Controllers\API\V1\Admin\WorkflowAPIController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,5 +15,7 @@ Route::prefix('api/v1/admin')
             ->prefix('bpms')
             ->group(static function (): void {
                 Route::apiResource('workflows', WorkflowAPIController::class);
+                Route::apiResource('tasks', TaskAPIController::class);
+                Route::post('follow-ups', [FollowUpAPIController::class, 'store'])->name('follow-ups.store');
             });
     });

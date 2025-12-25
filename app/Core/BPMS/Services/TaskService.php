@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Core\BPMS\Services;
 
-use App\Core\BPMS\Contracts\FollowUpServiceInterface;
 use App\Core\BPMS\Contracts\TaskServiceInterface;
 use App\Core\BPMS\DTOs\FollowUpDTO;
 use App\Core\BPMS\DTOs\TaskDTO;
@@ -27,7 +26,7 @@ readonly class TaskService implements TaskServiceInterface
     public function __construct(
         private TaskRepository $taskRepository,
         private WorkflowStateRepository $workflowStateRepository,
-        private FollowUpServiceInterface $followUpService,
+        private FollowUpService $followUpService,
     ) {
     }
 
@@ -57,7 +56,30 @@ readonly class TaskService implements TaskServiceInterface
             $this->validateStateInWorkflow($data['current_state_id'], $dto->workflowId->value);
         }
 
-        return $this->taskRepository->update($task->id, $data);
+        // Check if assignee is changing
+        $isAssigneeChanging = isset($data['assignee_id']) && $data['assignee_id'] !== $task->assignee_id;
+        $previousAssigneeId = $isAssigneeChanging ? $task->assignee_id : null;
+
+        $task = $this->taskRepository->update($task->id, $data);
+
+        // Create follow-up if assignee changed
+        if ($isAssigneeChanging) {
+            $followUpDTO = new FollowUpDTO(
+                taskId: new TaskId($task->id),
+                type: FollowUpType::REFER,
+                createdBy: new UserId(auth()->id()),
+                content: $data['description'] ?? null,
+                newAssigneeId: new UserId($data['assignee_id']),
+                newStateId: null,
+            );
+
+            $this->followUpService->create(
+                dto: $followUpDTO,
+                previousAssigneeId: $previousAssigneeId,
+            );
+        }
+
+        return $task;
     }
 
     public function changeState(Task $task, WorkflowState $newState, int $actorId): Task
@@ -138,8 +160,8 @@ readonly class TaskService implements TaskServiceInterface
 
         $this->followUpService->create(
             dto: $followUpDTO,
-            previousAssigneeId: null,
-            previousStateId: $task->current_state_id !== $finalSuccessState->id ? $task->current_state_id : null,
+            previousStateId: $task->current_state_id !== $finalSuccessState->id
+                     ? $task->current_state_id : null,
         );
 
         TaskCompleted::dispatch($task, $finalSuccessState, $actorId);
@@ -189,7 +211,9 @@ readonly class TaskService implements TaskServiceInterface
         $state = $this->workflowStateRepository->find($stateId);
 
         if (! $state || $state->workflow_id !== $workflowId) {
-            throw new \InvalidArgumentException("State ID {$stateId} does not belong to workflow ID {$workflowId}");
+            throw new \InvalidArgumentException(
+                "State ID {$stateId} does not belong to workflow ID {$workflowId}"
+            );
         }
     }
 }

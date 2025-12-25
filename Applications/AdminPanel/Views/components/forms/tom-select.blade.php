@@ -20,7 +20,7 @@
 
 @if($label)
 <div class="ts-field-wrapper {{ $sizeClass }}" {{ $attributes->only('class') }}>
-    <label for="{{ $name }}" class="ts-field-label">
+    <label for="{{ $name }}" {{ $attributes->merge(['class' => 'ts-field-label']) }}>
         @if($icon)
             <i class="{{ $icon }} ml-2"></i>
         @endif

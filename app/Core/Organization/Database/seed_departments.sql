@@ -1,3 +1,8 @@
+SET FOREIGN_KEY_CHECKS = 0;
+DELETE FROM `core_org_departments`;
+DELETE FROM `core_org_user_departments`;
+DELETE FROM `core_file_files` WHERE id in (4,5,6,7);
+
 INSERT INTO `core_org_departments` (`id`, `parent_id`, `name`, `code`, `manager_id`, `color`, `icon`, `description`, `type`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, NULL, 'فروش', '098', 4, 'pink-500', 'fa-sack-dollar', NULL, 3, 1, '2025-12-03 12:13:49', '2025-12-06 11:00:01', '2025-12-06 11:00:01'),
 (2, NULL, 'هولدینگ', 'holding', 2, 'blue-500', 'fa-building', 'هولدینگ', 1, 1, '2025-12-06 11:01:24', '2025-12-06 11:01:24', NULL),
@@ -37,3 +42,5 @@ INSERT INTO `core_file_files` (`id`, `uuid`, `entity_type`, `entity_id`, `origin
 (5, '057c3e3c-b59f-4cfb-9e03-667bb9f6afd0', 'core_org_departments', 3, 'logo gold.png', '67f7a57f-0529-49f5-8887-a0fe4d92bdf9.png', 'modules/organization/2025/12/67f7a57f-0529-49f5-8887-a0fe4d92bdf9.png', 'https://c146377.parspack.net/modules/organization/2025/12/67f7a57f-0529-49f5-8887-a0fe4d92bdf9.png', 's3', '۱۸ عیار Image', 'image/png', 'png', 288347, 'a4457c6a3407795b764671dd48382a1a237d1c89b9ae17a0f8e6a2e4a96996b8', 0, 3, 0, NULL, 600, 600, '1', NULL, NULL, NULL, 2, NULL, 'organization', 1, 0, 0, NULL, 1, '2025-12-06 11:09:06', '2025-12-06 11:09:06', NULL),
 (6, '297dd5c0-ff05-4eb7-8342-2daa4d15bf1c', 'core_org_departments', 5, 'logo gold.png', 'bddf6716-5529-42ca-9329-817fb0a4a094.png', 'modules/organization/2025/12/bddf6716-5529-42ca-9329-817fb0a4a094.png', 'https://c146377.parspack.net/modules/organization/2025/12/bddf6716-5529-42ca-9329-817fb0a4a094.png', 's3', 'سروریان Image', 'image/png', 'png', 288347, 'a4457c6a3407795b764671dd48382a1a237d1c89b9ae17a0f8e6a2e4a96996b8', 0, 3, 0, NULL, 600, 600, '1', NULL, NULL, NULL, 2, NULL, 'organization', 1, 0, 0, NULL, 1, '2025-12-06 11:14:34', '2025-12-06 11:14:34', NULL),
 (7, '62723006-556f-4228-b71b-e7adf1dd64b6', 'core_org_departments', 7, 'IMG_20251206_121003_841.jpg', '16e6bcb7-7fec-4057-97f1-af4aa196147a.jpg', 'modules/organization/2025/12/16e6bcb7-7fec-4057-97f1-af4aa196147a.jpg', 'https://c146377.parspack.net/modules/organization/2025/12/16e6bcb7-7fec-4057-97f1-af4aa196147a.jpg', 's3', 'مالی Image', 'image/jpeg', 'jpg', 439535, '0ac2f06b974377d74e7d4df04bee88785f113fb7f67259677117b891cb8ce83f', 0, 3, 0, NULL, 1153, 1280, '0.9', NULL, NULL, NULL, 6, NULL, 'organization', 1, 0, 0, NULL, 1, '2025-12-07 19:21:52', '2025-12-07 19:21:52', NULL);
+
+SET FOREIGN_KEY_CHECKS = 1;

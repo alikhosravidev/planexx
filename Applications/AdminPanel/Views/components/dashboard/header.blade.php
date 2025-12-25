@@ -40,7 +40,14 @@
                             ];
                             $classes = $map[$type] ?? $map['secondary'];
                         @endphp
-                        <a href="{{ $button['url'] ?? '#' }}" class="{{ $classes }} px-5 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 flex items-center gap-2 leading-normal shadow-sm hover:shadow">
+                        <a href="{{ $button['url'] ?? '#' }}"
+                           @if(!empty($button['onclick'])) onclick="{{ $button['onclick'] }}; return false;" @endif
+                           @if(!empty($button['data_attrs']))
+                               @foreach($button['data_attrs'] as $attr => $value)
+                                   {{ $attr }}="{{ $value }}"
+                               @endforeach
+                           @endif
+                           class="{{ $classes }} px-5 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 flex items-center gap-2 leading-normal shadow-sm hover:shadow">
                             @if(!empty($button['icon']))
                                 <i class="{{ $button['icon'] }}"></i>
                             @endif
@@ -65,7 +72,14 @@
                         ];
                         $classes = $map[$type] ?? $map['secondary'];
                     @endphp
-                    <a href="{{ $button['url'] ?? '#' }}" class="{{ $classes }} px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 flex items-center gap-2 leading-normal whitespace-nowrap">
+                    <a href="{{ $button['url'] ?? '#' }}"
+                       @if(!empty($button['onclick'])) onclick="{{ $button['onclick'] }}; return false;" @endif
+                       @if(!empty($button['data_attrs']))
+                           @foreach($button['data_attrs'] as $attr => $value)
+                               {{ $attr }}="{{ $value }}"
+                           @endforeach
+                       @endif
+                       class="{{ $classes }} px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 flex items-center gap-2 leading-normal whitespace-nowrap">
                         @if(!empty($button['icon']))
                             <i class="{{ $button['icon'] }}"></i>
                         @endif

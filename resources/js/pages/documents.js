@@ -6,72 +6,84 @@
 
 // File Drop Zone
 const initDropZone = () => {
-  const dropZone = document.querySelector('[data-drop-zone]');
-  const fileInput = document.querySelector('[data-file-input]');
+  const dropZones = document.querySelectorAll('[data-drop-zone]');
 
-  if (!dropZone || !fileInput) return;
+  dropZones.forEach((dropZone) => {
+    const fileInput = dropZone.querySelector('input[type="file"]');
 
-  const highlightClasses = ['border-primary', 'bg-primary/10'];
+    if (!fileInput) return;
 
-  // Prevent default drag behaviors
-  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach((eventName) => {
-    dropZone.addEventListener(eventName, preventDefaults, false);
-    document.body.addEventListener(eventName, preventDefaults, false);
-  });
+    const highlightClasses = ['border-primary', 'bg-primary/10'];
 
-  function preventDefaults(e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-
-  // Highlight drop zone when item is dragged over it
-  ['dragenter', 'dragover'].forEach((eventName) => {
-    dropZone.addEventListener(
-      eventName,
-      () => {
-        dropZone.classList.add(...highlightClasses);
-      },
-      false,
-    );
-  });
-
-  ['dragleave', 'drop'].forEach((eventName) => {
-    dropZone.addEventListener(
-      eventName,
-      () => {
-        dropZone.classList.remove(...highlightClasses);
-      },
-      false,
-    );
-  });
-
-  // Handle dropped files
-  dropZone.addEventListener(
-    'drop',
-    (e) => {
-      const dt = e.dataTransfer;
-      const files = dt.files;
-
-      if (files.length > 0) {
-        fileInput.files = files;
-        handleFileSelect(files[0], dropZone, highlightClasses);
-      }
-    },
-    false,
-  );
-
-  // Handle file input change
-  fileInput.addEventListener('change', (e) => {
-    if (e.target.files.length > 0) {
-      handleFileSelect(e.target.files[0], dropZone, highlightClasses);
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
     }
+
+    // Prevent default drag behaviors
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach((eventName) => {
+      dropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    // Highlight drop zone when item is dragged over it
+    ['dragenter', 'dragover'].forEach((eventName) => {
+      dropZone.addEventListener(
+        eventName,
+        () => {
+          dropZone.classList.add(...highlightClasses);
+        },
+        false,
+      );
+    });
+
+    ['dragleave', 'drop'].forEach((eventName) => {
+      dropZone.addEventListener(
+        eventName,
+        () => {
+          dropZone.classList.remove(...highlightClasses);
+        },
+        false,
+      );
+    });
+
+    // Handle dropped files
+    dropZone.addEventListener(
+      'drop',
+      (e) => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+
+        if (files.length > 0) {
+          fileInput.files = files;
+          handleFileSelect(files[0], fileInput);
+        }
+      },
+      false,
+    );
+
+    // Handle file input change
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        handleFileSelect(e.target.files[0], fileInput);
+      }
+    });
   });
 };
 
-// Handle file selection
-const handleFileSelect = (file, dropZone, highlightClasses = []) => {
-  if (dropZone && highlightClasses.length) {
-    dropZone.classList.add(...highlightClasses);
+// Handle file selection and display file name
+const handleFileSelect = (file, fileInput) => {
+  const fileInputId = fileInput.id;
+
+  if (fileInputId === 'followUpFileInput') {
+    const placeholder = document.getElementById('followUpFilePlaceholder');
+    const selected = document.getElementById('followUpFileSelected');
+    const fileName = document.getElementById('followUpFileName');
+
+    if (placeholder && selected && fileName) {
+      fileName.textContent = file.name;
+      placeholder.classList.add('hidden');
+      selected.classList.remove('hidden');
+    }
   }
 };
 
