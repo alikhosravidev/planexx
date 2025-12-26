@@ -6,12 +6,17 @@ use Applications\PWA\Controllers\{
     PWAAuthController,
     PWADashboardController,
 };
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web'])
     ->domain(config('app.domains.pwa'))
     ->group(static function () {
         Route::get('/', function () {
+            if (Auth::guard('web')->check()) {
+                return response()->redirectTo('/dashboard');
+            }
+
             return response()->redirectTo('/login');
         });
 

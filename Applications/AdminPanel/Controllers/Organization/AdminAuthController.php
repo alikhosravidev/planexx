@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class AuthWebController extends BaseWebController
+class AdminAuthController extends BaseWebController
 {
     public function login(): View
     {

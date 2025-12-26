@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Core\Organization\Http\Middlewares\CheckUserAccessToken;
+use App\Middlewares\Authenticate;
 use App\Middlewares\EncryptCookies;
 use App\Middlewares\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -20,6 +22,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->alias([
+            'auth' => Authenticate::class,
+        ]);
+
         $middleware->group('web', [
             EncryptCookies::class,
             AddQueuedCookiesToResponse::class,
@@ -27,6 +33,7 @@ return Application::configure(basePath: dirname(__DIR__))
             ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
             SubstituteBindings::class,
+            CheckUserAccessToken::class,
         ]);
         $middleware->group('api', [
             SubstituteBindings::class,

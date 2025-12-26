@@ -81,8 +81,6 @@ class CheckUserAccessToken
             return;
         }
 
-        if (method_exists(Auth::guard(), 'login')) {
-            Auth::login($user);
-        }
+        Auth::guard('web')->login($user);
     }
 }

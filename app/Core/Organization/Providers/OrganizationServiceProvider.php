@@ -7,13 +7,11 @@ namespace App\Core\Organization\Providers;
 use function app;
 
 use App\Core\Organization\Entities\PersonalAccessToken;
-use App\Core\Organization\Http\Middlewares\CheckUserAccessToken;
 use App\Core\Organization\Registrars\OrganizationDistributionRegistrar;
 use App\Core\Organization\Registrars\OrganizationMenuRegistrar;
 use App\Core\Organization\Registrars\OrganizationQuickAccessRegistrar;
 use App\Core\Organization\Registrars\OrganizationStatsRegistrar;
 use App\Utilities\ProviderUtility;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Sanctum;
 
@@ -32,7 +30,6 @@ class OrganizationServiceProvider extends ServiceProvider
         app('quick-access')->registerBy(OrganizationQuickAccessRegistrar::class);
         app('distribution')->registerBy(OrganizationDistributionRegistrar::class);
         Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
-        Route::pushMiddlewareToGroup('web', CheckUserAccessToken::class);
 
         $this->loadRoutesFrom(
             ProviderUtility::corePath('Organization/Routes/V1/admin.php')

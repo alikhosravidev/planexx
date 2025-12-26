@@ -4,11 +4,11 @@
     <x-panel::auth.back-button id="back-button" />
 
     <x-panel::auth.card>
-        <x-panel::auth.mobile-step :action="route('api.v1.admin.user.initiate.auth')" />
+        <x-panel::auth.mobile-step :action="route('api.v1.client.user.initiate.auth')" />
 
         <x-panel::auth.otp-step
-            :action="route('auth')"
-            :resend-action="route('api.v1.admin.user.initiate.auth')"
+            :action="route('pwa.auth')"
+            :resend-action="route('api.v1.client.user.initiate.auth')"
         />
     </x-panel::auth.card>
 

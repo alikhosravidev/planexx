@@ -7,7 +7,7 @@ use Applications\AdminPanel\Controllers\{BPMS\BPMSDashboardController,
     BPMS\WorkflowWebController,
     DashboardController,
     FileManager\DocumentWebController,
-    Organization\AuthWebController,
+    Organization\AdminAuthController,
     Organization\DepartmentWebController,
     Organization\OrganizationDashboardController,
     Organization\RoleWebController,
@@ -20,18 +20,22 @@ Route::middleware(['web'])
     ->domain(config('app.domains.admin_panel'))
     ->group(static function () {
         Route::get('/', function () {
+            if (Auth::guard('web')->check()) {
+                return response()->redirectTo('/dashboard');
+            }
+
             return response()->redirectTo('/login');
         });
 
         Route::middleware(['web', 'guest'])
             ->group(static function (): void {
-                Route::get('login', [AuthWebController::class, 'login'])->name('login');
-                Route::post('auth', [AuthWebController::class, 'auth'])->name('auth');
+                Route::get('login', [AdminAuthController::class, 'login'])->name('login');
+                Route::post('auth', [AdminAuthController::class, 'auth'])->name('auth');
             });
 
         Route::middleware(['web', 'auth'])
             ->group(static function (): void {
-                Route::post('logout', [AuthWebController::class, 'logout'])->name('logout');
+                Route::post('logout', [AdminAuthController::class, 'logout'])->name('logout');
             });
 
         Route::middleware(['web', 'auth'])->name('web.')->group(function () {

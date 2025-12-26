@@ -38,12 +38,15 @@ use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\ResourceRegistrar as BaseResourceRegistrar;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->setDynamicAppUrl();
+
         $this->app->bind(BaseResourceRegistrar::class, ResourceRegistrar::class);
         $this->app->register(QueryServiceProvider::class);
 
@@ -194,5 +197,28 @@ class AppServiceProvider extends ServiceProvider
     private function loadMacro(): void
     {
         Blueprint::mixin(new BlueprintMixin());
+    }
+
+    private function setDynamicAppUrl(): void
+    {
+        if ($this->app->runningInConsole()) {
+            return;
+        }
+
+        $request = request();
+        $scheme  = $request->getScheme();
+        $host    = $request->getHost();
+        $port    = $request->getPort();
+
+        $url = $scheme . '://' . $host;
+
+        if ($port && !in_array($port, [80, 443], true)) {
+            $url .= ':' . $port;
+        }
+
+        URL::useOrigin($url);
+
+        config(['session.domain' => $host]);
+        config(['app.url' => $url]);
     }
 }

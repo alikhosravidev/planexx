@@ -6,6 +6,7 @@ namespace Applications\PWA\Controllers;
 
 use Applications\Contracts\BaseWebController;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,16 +18,26 @@ class PWAAuthController extends BaseWebController
         return view('pwa::auth.index');
     }
 
-    public function auth(Request $request): RedirectResponse
+    public function auth(Request $request): JsonResponse
     {
-        $this->apiPost(
-            'api.v1.client.user.auth',
-            $request->only(['email', 'password', 'remember']),
-        );
+        $response = $this->apiPost('api.v1.client.user.auth', $request->all());
 
-        return redirect()->intended(
-            route('pwa.dashboard')
-        );
+        if ($response['status'] === false) {
+            return response()->json($response['message']);
+        }
+
+        return response()->json($response)
+            ->cookie(
+                'token',
+                $response['result']['token'],
+                60 * 24 * 30,
+                '/',
+                null,
+                config('session.secure', false),
+                false,
+                false,
+                'strict'
+            );
     }
 
     public function logout(Request $request): RedirectResponse
