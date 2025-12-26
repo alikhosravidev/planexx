@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-use App\Core\Organization\Http\Controllers\V1\Admin\AddressAPIController;
-use App\Core\Organization\Http\Controllers\V1\Admin\AuthAPIController;
-use App\Core\Organization\Http\Controllers\V1\Admin\CityAPIController;
-use App\Core\Organization\Http\Controllers\V1\Admin\DepartmentAPIController;
-use App\Core\Organization\Http\Controllers\V1\Admin\JobPositionAPIController;
-use App\Core\Organization\Http\Controllers\V1\Admin\PermissionAPIController;
-use App\Core\Organization\Http\Controllers\V1\Admin\RoleAPIController;
-use App\Core\Organization\Http\Controllers\V1\Admin\UserAPIController;
-use App\Core\Organization\Http\Controllers\V1\Admin\UserRoleAPIController;
+use App\Core\Organization\Http\Controllers\V1\Admin\AddressAdminController;
+use App\Core\Organization\Http\Controllers\V1\Admin\AuthAdminController;
+use App\Core\Organization\Http\Controllers\V1\Admin\CityAdminController;
+use App\Core\Organization\Http\Controllers\V1\Admin\DepartmentAdminController;
+use App\Core\Organization\Http\Controllers\V1\Admin\JobPositionAdminController;
+use App\Core\Organization\Http\Controllers\V1\Admin\PermissionAdminController;
+use App\Core\Organization\Http\Controllers\V1\Admin\RoleAdminController;
+use App\Core\Organization\Http\Controllers\V1\Admin\UserAdminController;
+use App\Core\Organization\Http\Controllers\V1\Admin\UserRoleAdminController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('api/v1/admin')
@@ -20,40 +20,40 @@ Route::prefix('api/v1/admin')
             ->name('org.')
             ->prefix('org')
             ->group(function () {
-                Route::apiResource('users', UserAPIController::class);
-                Route::apiResource('departments', DepartmentAPIController::class);
-                Route::apiResource('roles', RoleAPIController::class);
-                Route::apiResource('permissions', PermissionAPIController::class)->only(['index', 'show', 'keyValList']);
+                Route::apiResource('users', UserAdminController::class);
+                Route::apiResource('departments', DepartmentAdminController::class);
+                Route::apiResource('roles', RoleAdminController::class);
+                Route::apiResource('permissions', PermissionAdminController::class)->only(['index', 'show', 'keyValList']);
 
-                Route::apiResource('addresses', AddressAPIController::class);
+                Route::apiResource('addresses', AddressAdminController::class);
 
-                Route::get('cities', [CityAPIController::class, 'index'])->name('cities.index');
-                Route::get('cities/{city}', [CityAPIController::class, 'show'])->name('cities.show');
+                Route::get('cities', [CityAdminController::class, 'index'])->name('cities.index');
+                Route::get('cities/{city}', [CityAdminController::class, 'show'])->name('cities.show');
 
-                Route::apiResource('job-positions', JobPositionAPIController::class);
+                Route::apiResource('job-positions', JobPositionAdminController::class);
 
                 // User sub-resources
-                Route::get('users/{user}/roles', [UserRoleAPIController::class, 'show'])
+                Route::get('users/{user}/roles', [UserRoleAdminController::class, 'show'])
                     ->name('users.roles.show');
-                Route::put('users/{user}/roles', [UserRoleAPIController::class, 'update'])
+                Route::put('users/{user}/roles', [UserRoleAdminController::class, 'update'])
                     ->name('users.roles.update');
             });
 
         Route::middleware(['throttle:' . config('authService.auth_max_attempts')])
             ->group(static function (): void {
-                Route::get('auth', [AuthAPIController::class, 'initiateAuth'])
+                Route::get('auth', [AuthAdminController::class, 'initiateAuth'])
                     ->name('user.initiate.auth');
-                Route::post('auth', [AuthAPIController::class, 'auth'])
+                Route::post('auth', [AuthAdminController::class, 'auth'])
                     ->name('user.auth');
 
-                Route::get('reset-password', [AuthAPIController::class, 'initiateResetPassword'])
+                Route::get('reset-password', [AuthAdminController::class, 'initiateResetPassword'])
                     ->name('user.initiate.resetPassword');
-                Route::put('reset-password', [AuthAPIController::class, 'resetPassword'])
+                Route::put('reset-password', [AuthAdminController::class, 'resetPassword'])
                     ->name('user.resetPassword');
 
                 Route::middleware(['auth:sanctum', 'throttle:20'])
                     ->group(static function (): void {
-                        Route::post('logout', [AuthAPIController::class, 'logout'])->name('user.logout');
+                        Route::post('logout', [AuthAdminController::class, 'logout'])->name('user.logout');
                     });
             });
     });

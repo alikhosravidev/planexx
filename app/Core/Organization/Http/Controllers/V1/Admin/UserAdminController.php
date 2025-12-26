@@ -15,7 +15,7 @@ use App\Core\Organization\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class UserAPIController extends BaseAPIController
+class UserAdminController extends BaseAPIController
 {
     public function __construct(
         UserRepository               $repository,

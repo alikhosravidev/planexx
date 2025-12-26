@@ -15,6 +15,7 @@ class StatItem extends BaseRegistryItem
     protected ?string $color                       = null;
     protected ?string $change                      = null;
     protected ?string $changeType                  = null;
+    protected array $payload                       = [];
 
     protected function getDefaultType(): string
     {
@@ -54,6 +55,13 @@ class StatItem extends BaseRegistryItem
         return $this;
     }
 
+    public function payload(array $payload): static
+    {
+        $this->payload = $payload;
+
+        return $this;
+    }
+
     public function change(string $change, string $changeType = 'neutral'): static
     {
         $this->change     = $change;
@@ -81,6 +89,7 @@ class StatItem extends BaseRegistryItem
             'color'       => $this->color,
             'change'      => $this->change,
             'change_type' => $this->changeType,
+            'payload'     => $this->payload,
         ]);
     }
 }

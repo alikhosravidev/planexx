@@ -8,7 +8,7 @@ use App\Contracts\Controller\BaseAPIController;
 use App\Core\Organization\Http\Transformers\V1\Admin\CityTransformer;
 use App\Core\Organization\Repositories\CityRepository;
 
-class CityAPIController extends BaseAPIController
+class CityAdminController extends BaseAPIController
 {
     public function __construct(
         CityRepository  $repository,

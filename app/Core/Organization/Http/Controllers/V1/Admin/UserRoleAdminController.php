@@ -12,7 +12,7 @@ use App\Core\Organization\Services\RoleService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class UserRoleAPIController extends BaseAPIController
+class UserRoleAdminController extends BaseAPIController
 {
     public function __construct(
         UserRepository                 $repository,

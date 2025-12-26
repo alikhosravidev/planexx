@@ -13,7 +13,7 @@ use App\Core\Organization\Repositories\DepartmentRepository;
 use App\Core\Organization\Services\DepartmentService;
 use Illuminate\Http\JsonResponse;
 
-class DepartmentAPIController extends BaseAPIController
+class DepartmentAdminController extends BaseAPIController
 {
     public function __construct(
         DepartmentRepository               $repository,

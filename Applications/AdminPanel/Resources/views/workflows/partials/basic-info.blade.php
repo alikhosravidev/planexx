@@ -45,6 +45,7 @@
                 :value="$workflow['department_id'] ?? null"
                 template="departments"
                 class="min-w-[100px]"
+                :preload="true"
                 :url="route('api.v1.admin.org.departments.index', ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => ''], 'includes' => 'children'])"/>
 
             <x-panel::forms.tom-select-ajax
@@ -52,6 +53,7 @@
                 label="مالک فرایند"
                 :value="$workflow['owner_id'] ?? null"
                 class="min-w-[100px]"
+                :preload="true"
                 :url="route('api.v1.admin.org.users.keyValList', ['field' => 'full_name', 'filter' => ['user_type' => 2]])"/>
         </div>
 

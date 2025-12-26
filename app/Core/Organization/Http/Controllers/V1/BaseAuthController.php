@@ -1,16 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
-namespace App\Core\Organization\Http\Controllers\V1\Admin;
+namespace App\Core\Organization\Http\Controllers\V1;
 
 use App\Contracts\Controller\BaseAPIController;
+use App\Contracts\Repository\BaseRepository;
+use App\Contracts\Transformer\BaseTransformer;
 use App\Core\Organization\Http\Requests\V1\Admin\AuthInitiateRequest;
 use App\Core\Organization\Http\Requests\V1\Admin\AuthRequest;
 use App\Core\Organization\Http\Requests\V1\Admin\InitiateResetPasswordRequest;
 use App\Core\Organization\Http\Requests\V1\Admin\ResetPasswordRequest;
-use App\Core\Organization\Http\Transformers\V1\Admin\AuthTransformer;
-use App\Core\Organization\Repositories\UserRepository;
 use App\Core\Organization\Services\Auth\AuthService;
 use App\Core\Organization\Services\Auth\DTOs\AuthRequestDto;
 use App\Core\Organization\Services\Auth\DTOs\ClientMetadataDto;
@@ -20,15 +18,15 @@ use App\Services\HttpRequestService;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
-class AuthAPIController extends BaseAPIController
+abstract class BaseAuthController extends BaseAPIController
 {
     public function __construct(
-        UserRepository $userRepository,
-        AuthTransformer $authTransformer,
         private readonly AuthService $authService,
         private readonly HttpRequestService $requestService,
+        BaseRepository  $repository,
+        BaseTransformer $transformer,
     ) {
-        parent::__construct($userRepository, $authTransformer);
+        parent::__construct($repository, $transformer);
     }
 
     public function initiateAuth(AuthInitiateRequest $request): JsonResponse
@@ -50,10 +48,10 @@ class AuthAPIController extends BaseAPIController
                 identifier    : $identifier,
                 password      : (string) $request->get('password'),
                 clientMetadata: new ClientMetadataDto(
-                    ipAddress  : (string) $request->ip(),
-                    userAgent  : $request->userAgent(),
-                    fingerprint: $request->get('fingerprint'),
-                ),
+                                    ipAddress  : (string) $request->ip(),
+                                    userAgent  : $request->userAgent(),
+                                    fingerprint: $request->get('fingerprint'),
+                                ),
                 authType      : $request->get('authType'),
             )
         );
@@ -85,10 +83,10 @@ class AuthAPIController extends BaseAPIController
                 password      : (string) $request->get('password'),
                 repeatPassword: (string) $request->get('repeat_password'),
                 clientMetadata: new ClientMetadataDto(
-                    ipAddress  : (string) $request->ip(),
-                    userAgent  : $request->userAgent(),
-                    fingerprint: $request->get('fingerprint'),
-                ),
+                                    ipAddress  : (string) $request->ip(),
+                                    userAgent  : $request->userAgent(),
+                                    fingerprint: $request->get('fingerprint'),
+                                ),
             )
         );
 
@@ -116,4 +114,5 @@ class AuthAPIController extends BaseAPIController
             trans('Organization::success.logout')
         );
     }
+
 }

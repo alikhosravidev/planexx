@@ -29,17 +29,28 @@ class BPMSTopWorkflowsRegistrar implements RegistrarInterface
             $items = $this->workflowRepository->newQuery()
                 ->selectRaw("{$workflowTable}.id, {$workflowTable}.name, {$workflowTable}.slug, {$workflowTable}.department_id, COUNT({$taskTable}.id) as tasks_count")
                 ->leftJoin($taskTable, $taskTable . '.workflow_id', '=', $workflowTable . '.id')
+                ->with(['department:id,name'])
+                ->withCount(['states'])
                 ->groupBy("{$workflowTable}.id", "{$workflowTable}.name", "{$workflowTable}.slug", "{$workflowTable}.department_id")
                 ->orderByDesc('tasks_count')
                 ->limit(4)
                 ->get();
 
+            $order = 1;
+
             foreach ($items as $workflow) {
                 $builder->stat($workflow->name, (string) $workflow->id)
                     ->value($workflow->tasks_count)
+                    ->payload([
+                                'id'           => $workflow->id,
+                                'slug'         => $workflow->slug,
+                                'department'   => $workflow->department?->name,
+                                'states_count' => $workflow->states_count,
+                              ])
                     ->icon('fa-solid fa-diagram-project')
                     ->color('indigo')
-                    ->order((int) $workflow->id);
+                    ->order($order);
+                ++$order;
             }
         });
     }

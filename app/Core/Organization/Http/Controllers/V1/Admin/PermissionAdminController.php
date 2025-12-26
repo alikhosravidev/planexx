@@ -8,7 +8,7 @@ use App\Contracts\Controller\BaseAPIController;
 use App\Core\Organization\Http\Transformers\V1\Admin\PermissionTransformer;
 use App\Core\Organization\Repositories\PermissionRepository;
 
-class PermissionAPIController extends BaseAPIController
+class PermissionAdminController extends BaseAPIController
 {
     public function __construct(
         PermissionRepository $repository,

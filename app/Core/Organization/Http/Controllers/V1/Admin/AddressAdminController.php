@@ -13,7 +13,7 @@ use App\Core\Organization\Repositories\AddressRepository;
 use App\Core\Organization\Services\AddressService;
 use Illuminate\Http\JsonResponse;
 
-class AddressAPIController extends BaseAPIController
+class AddressAdminController extends BaseAPIController
 {
     public function __construct(
         AddressRepository               $repository,

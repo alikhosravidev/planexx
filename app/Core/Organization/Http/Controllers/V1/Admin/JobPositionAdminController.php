@@ -13,7 +13,7 @@ use App\Core\Organization\Repositories\JobPositionRepository;
 use App\Core\Organization\Services\JobPositionService;
 use Illuminate\Http\JsonResponse;
 
-class JobPositionAPIController extends BaseAPIController
+class JobPositionAdminController extends BaseAPIController
 {
     public function __construct(
         JobPositionRepository               $repository,

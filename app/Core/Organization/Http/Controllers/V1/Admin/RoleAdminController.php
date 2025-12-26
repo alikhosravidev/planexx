@@ -13,7 +13,7 @@ use App\Core\Organization\Repositories\RoleRepository;
 use App\Core\Organization\Services\RoleService;
 use Illuminate\Http\JsonResponse;
 
-class RoleAPIController extends BaseAPIController
+class RoleAdminController extends BaseAPIController
 {
     public function __construct(
         RoleRepository               $repository,
