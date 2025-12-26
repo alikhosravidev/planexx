@@ -224,8 +224,7 @@
         </main>
     </div>
 
-    {{-- Create Task Modal --}}
-    <x-panel::bpms.create-task-modal />
+    @include('panel::tasks.modals.form-task-modal')
 
     @vite('resources/js/pages/bpms-tasks.js')
 </x-panel::layouts.app>

@@ -6,13 +6,12 @@
 
 import { get } from '../api/request.js';
 import { uiComponents } from '../ui-components.js';
-// TODO: load upload file drop zone for all pages
+import { getTomSelectInstance } from '../tom-select/index.js';
 import { initDocuments } from './documents.js';
 
 const MODAL_ID = 'taskModal';
 
 let workflowsData = [];
-let usersData = [];
 let selectedWorkflow = null;
 let isEditMode = false;
 let editTaskId = null;
@@ -45,26 +44,8 @@ const elements = {
   get selectedWorkflowId() {
     return document.getElementById('selectedWorkflowId');
   },
-  get assigneeSearchInput() {
-    return document.getElementById('assigneeSearchInput');
-  },
-  get assigneeDropdown() {
-    return document.getElementById('assigneeDropdown');
-  },
-  get selectedAssigneeId() {
-    return document.getElementById('selectedAssigneeId');
-  },
-  get selectedAssigneeDisplay() {
-    return document.getElementById('selectedAssigneeDisplay');
-  },
-  get selectedAssigneeAvatar() {
-    return document.getElementById('selectedAssigneeAvatar');
-  },
-  get selectedAssigneeName() {
-    return document.getElementById('selectedAssigneeName');
-  },
-  get defaultAssigneeNotice() {
-    return document.getElementById('defaultAssigneeNotice');
+  get assigneeSelect() {
+    return document.querySelector('#taskForm [name="assignee"]');
   },
   get modalTitle() {
     return document.getElementById('taskModalTitle');
@@ -106,7 +87,7 @@ const renderWorkflowOptions = () => {
       (wf) => `
       <label class="workflow-option cursor-pointer" data-workflow-id="${wf.id}">
         <input type="radio" name="workflow_select" value="${wf.id}" class="hidden"
-               data-name="${wf.name}" data-states='${JSON.stringify(wf.states || [])}'>
+               data-name="${wf.name}">
         <div class="border-2 border-border-medium rounded-xl p-4 hover:border-indigo-300 transition-all">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
@@ -142,45 +123,6 @@ const renderWorkflowOptions = () => {
   });
 };
 
-const renderUserOptions = (filter = '') => {
-  if (!elements.assigneeDropdown) return;
-
-  const filtered = filter
-    ? usersData.filter((u) =>
-        (u.full_name || u.name || '')
-          .toLowerCase()
-          .includes(filter.toLowerCase()),
-      )
-    : usersData;
-
-  elements.assigneeDropdown.innerHTML = filtered
-    .map(
-      (user) => `
-      <div class="assignee-option flex items-center gap-3 px-4 py-3 hover:bg-gray-50 cursor-pointer transition-colors"
-           data-id="${user.id}" data-name="${user.full_name || user.name}" data-avatar="${user.avatar?.file_url || ''}">
-        <img src="${user.avatar?.file_url || '/images/default-avatar.png'}" alt="${user.full_name || user.name}" class="w-8 h-8 rounded-full object-cover">
-        <div class="flex-1 min-w-0">
-          <p class="text-sm font-medium text-text-primary">${user.full_name || user.name}</p>
-          <p class="text-xs text-text-muted">${user.position?.name || ''}</p>
-        </div>
-      </div>
-    `,
-    )
-    .join('');
-
-  document.querySelectorAll('.assignee-option').forEach((opt) => {
-    opt.addEventListener('click', function () {
-      selectAssignee(
-        this.dataset.id,
-        this.dataset.name,
-        this.dataset.avatar,
-        false,
-      );
-      elements.assigneeDropdown.classList.add('hidden');
-    });
-  });
-};
-
 const goToStep2 = () => {
   if (!selectedWorkflow) return;
 
@@ -194,22 +136,6 @@ const goToStep2 = () => {
   if (elements.selectedWorkflowId) {
     elements.selectedWorkflowId.value = selectedWorkflow.id;
   }
-
-  const states = selectedWorkflow.states || [];
-  const firstState = states.find((s) => s.position === 'start') || states[0];
-  if (firstState?.default_assignee_id && !isEditMode) {
-    const defaultUser = usersData.find(
-      (u) => u.id === firstState.default_assignee_id,
-    );
-    if (defaultUser) {
-      selectAssignee(
-        defaultUser.id,
-        defaultUser.full_name || defaultUser.name,
-        defaultUser.avatar?.file_url || '',
-        true,
-      );
-    }
-  }
 };
 
 const goToStep1 = () => {
@@ -218,49 +144,18 @@ const goToStep1 = () => {
   elements.footer?.classList.add('hidden');
 };
 
-const selectAssignee = (id, name, avatar, isDefault) => {
-  if (elements.selectedAssigneeId) {
-    elements.selectedAssigneeId.value = id;
-  }
-  if (elements.assigneeSearchInput) {
-    elements.assigneeSearchInput.value = '';
-  }
-  if (elements.selectedAssigneeDisplay) {
-    elements.selectedAssigneeDisplay.classList.remove('hidden');
-  }
-  if (elements.selectedAssigneeAvatar) {
-    elements.selectedAssigneeAvatar.src =
-      avatar || '/images/default-avatar.png';
-  }
-  if (elements.selectedAssigneeName) {
-    elements.selectedAssigneeName.textContent = name;
-  }
-
-  if (elements.defaultAssigneeNotice) {
-    if (isDefault) {
-      elements.defaultAssigneeNotice.classList.remove('hidden');
-    } else {
-      elements.defaultAssigneeNotice.classList.add('hidden');
-    }
-  }
-};
-
-const clearAssignee = () => {
-  if (elements.selectedAssigneeId) {
-    elements.selectedAssigneeId.value = '';
-  }
-  if (elements.selectedAssigneeDisplay) {
-    elements.selectedAssigneeDisplay.classList.add('hidden');
-  }
-  if (elements.defaultAssigneeNotice) {
-    elements.defaultAssigneeNotice.classList.add('hidden');
-  }
-};
-
 const resetModal = () => {
   elements.form?.reset();
   goToStep1();
-  clearAssignee();
+
+  const assigneeSelect = elements.assigneeSelect;
+  if (assigneeSelect) {
+    const tomSelectInstance = getTomSelectInstance(assigneeSelect);
+    if (tomSelectInstance) {
+      tomSelectInstance.clear();
+      tomSelectInstance.clearOptions();
+    }
+  }
 
   document
     .querySelectorAll('.workflow-option input')
@@ -320,10 +215,10 @@ const populateFormWithTask = (taskData) => {
   );
 
   if (titleInput) titleInput.value = taskData.title || '';
-  if (descriptionInput) descriptionInput.value = taskData.description || '';
+  if (descriptionInput) descriptionInput.value = taskData.description?.full || '';
   if (priorityInput)
     priorityInput.value = taskData.priority?.value ?? taskData.priority ?? 1;
-  if (dueDateInput) dueDateInput.value = taskData.due_date || '';
+  if (dueDateInput) dueDateInput.value = taskData.due_date?.main || '';
   if (estimatedHoursInput)
     estimatedHoursInput.value = taskData.estimated_hours || '';
 
@@ -344,14 +239,23 @@ const populateFormWithTask = (taskData) => {
     }
   }
 
-  if (taskData.assignee_id && taskData.assignee) {
-    selectAssignee(
-      taskData.assignee_id,
-      taskData.assignee.full_name || taskData.assignee.name || '',
-      taskData.assignee.avatar?.file_url || '',
-      false,
-    );
-  }
+};
+
+const setAssigneeDefaultValue = (taskData) => {
+  if (!taskData?.assignee_id) return;
+
+  const assigneeSelect = elements.assigneeSelect;
+  if (!assigneeSelect) return;
+
+  const tomSelectInstance = getTomSelectInstance(assigneeSelect);
+  if (!tomSelectInstance) return;
+
+  const assigneeLabel = taskData.assignee?.full_name || `User ${taskData.assignee_id}`;
+  tomSelectInstance.addOption({
+    id: taskData.assignee_id,
+    label: assigneeLabel,
+  });
+  tomSelectInstance.setValue(taskData.assignee_id, false);
 };
 
 const openTaskModal = async (taskData = null) => {
@@ -362,6 +266,19 @@ const openTaskModal = async (taskData = null) => {
     editTaskId = taskData.id;
     updateFormAction();
     updateModalTexts();
+  }
+
+  const handleModalOpened = () => {
+    setTimeout(() => {
+      if (taskData) {
+        setAssigneeDefaultValue(taskData);
+      }
+    }, 100);
+    elements.modal?.removeEventListener('modal:opened', handleModalOpened);
+  };
+
+  if (taskData) {
+    elements.modal?.addEventListener('modal:opened', handleModalOpened);
   }
 
   uiComponents.openModal(MODAL_ID);
@@ -377,28 +294,6 @@ const initEventListeners = () => {
   document
     .getElementById('changeWorkflowBtn')
     ?.addEventListener('click', goToStep1);
-
-  document
-    .getElementById('clearAssigneeBtn')
-    ?.addEventListener('click', clearAssignee);
-
-  elements.assigneeSearchInput?.addEventListener('focus', () => {
-    elements.assigneeDropdown?.classList.remove('hidden');
-  });
-
-  elements.assigneeSearchInput?.addEventListener('input', function () {
-    renderUserOptions(this.value);
-    elements.assigneeDropdown?.classList.remove('hidden');
-  });
-
-  document.addEventListener('click', (e) => {
-    if (
-      !e.target.closest('#assigneeSearchInput') &&
-      !e.target.closest('#assigneeDropdown')
-    ) {
-      elements.assigneeDropdown?.classList.add('hidden');
-    }
-  });
 
   elements.modal?.addEventListener('modal:closed', () => {
     resetModal();

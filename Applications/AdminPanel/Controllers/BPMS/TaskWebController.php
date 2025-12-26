@@ -70,18 +70,6 @@ class TaskWebController extends BaseWebController
         ]);
     }
 
-    public function edit(Task $task): View
-    {
-        $response = $this->apiGet('api.v1.admin.bpms.tasks.show', [
-            'task'     => $task->id,
-            'includes' => 'workflow,workflow.states,currentState,assignee,creator',
-        ]);
-
-        return view('panel::tasks.add-or-edit', [
-            'task' => $response['result'] ?? [],
-        ]);
-    }
-
     private function calculateStats(array $tasks): array
     {
         $total   = count($tasks);

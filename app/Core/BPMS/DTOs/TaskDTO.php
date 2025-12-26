@@ -9,7 +9,6 @@ use App\Domains\User\UserId;
 use App\Domains\Workflow\WorkflowId;
 use App\Domains\WorkflowState\WorkflowStateId;
 use App\ValueObjects\Hours;
-use App\ValueObjects\Slug;
 use Illuminate\Contracts\Support\Arrayable;
 
 final readonly class TaskDTO implements Arrayable
@@ -20,7 +19,6 @@ final readonly class TaskDTO implements Arrayable
         public UserId $assigneeId,
         public UserId $createdBy,
         public TaskPriority $priority,
-        public ?Slug $slug = null,
         public ?string $description = null,
         public ?WorkflowStateId $currentStateId = null,
         public ?Hours $estimatedHours = null,
@@ -34,7 +32,6 @@ final readonly class TaskDTO implements Arrayable
     public function toArray(): array
     {
         return [
-            'slug'                => $this->slug?->__toString(),
             'title'               => $this->title,
             'description'         => $this->description,
             'workflow_id'         => $this->workflowId->value,

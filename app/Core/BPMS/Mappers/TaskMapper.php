@@ -13,7 +13,6 @@ use App\Domains\User\UserId;
 use App\Domains\Workflow\WorkflowId;
 use App\Domains\WorkflowState\WorkflowStateId;
 use App\ValueObjects\Hours;
-use App\ValueObjects\Slug;
 
 class TaskMapper
 {
@@ -25,9 +24,6 @@ class TaskMapper
             assigneeId    : new UserId((int) $request->input('assignee_id')),
             createdBy     : new UserId($request->user()->id),
             priority      : TaskPriority::from((int) $request->input('priority')),
-            slug          : $request->filled('slug')
-                ? new Slug($request->string('slug')->toString())
-                : null,
             description   : $request->input('description'),
             currentStateId: $request->filled('current_state_id')
                 ? new WorkflowStateId((int) $request->input('current_state_id'))
@@ -49,9 +45,6 @@ class TaskMapper
             assigneeId    : new UserId((int) $request->input('assignee_id', $task->assignee_id)),
             createdBy     : new UserId($task->created_by),
             priority      : TaskPriority::from((int) $request->input('priority', $task->priority->value)),
-            slug          : $request->filled('slug')
-                ? new Slug($request->string('slug')->toString())
-                : ($task->slug ? new Slug($task->slug) : null),
             description   : $request->input('description', $task->description),
             currentStateId: $request->filled('current_state_id')
                 ? new WorkflowStateId((int) $request->input('current_state_id'))

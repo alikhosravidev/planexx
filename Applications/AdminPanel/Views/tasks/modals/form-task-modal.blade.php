@@ -1,7 +1,3 @@
-@props([
-    'task' => null,
-])
-
 @php
     $isEdit = isset($task['id']);
     $priorityOptions = [
@@ -81,16 +77,14 @@
                     />
 
                     {{-- Assignee --}}
-                    <div>
-                        <x-panel::forms.tom-select-ajax
-                            name="assignee"
-                            label="مسئول انجام"
-                            placeholder="جستجو و انتخاب مسئول"
-                            required
-                            :url="route('api.v1.admin.org.users.keyValList', ['per_page' => 100, 'field' => 'full_name', 'filter' => ['user_type' => 2]])"
-                            class="min-w-[120px]"
-                        />
-                    </div>
+                    <x-panel::forms.tom-select-ajax
+                        name="assignee"
+                        label="مسئول انجام"
+                        placeholder="جستجو و انتخاب مسئول"
+                        required
+                        :url="route('api.v1.admin.org.users.keyValList', ['per_page' => 100, 'field' => 'full_name', 'filter' => ['user_type' => 2]])"
+                        class="min-w-[120px]"
+                    />
 
                     {{-- Description --}}
                     <x-panel::forms.textarea
@@ -117,21 +111,6 @@
                             label="ددلاین"
                             class="min-w-[80px]"
                         />
-                    </div>
-
-                    {{-- Selected Assignee --}}
-                    <div id="selectedAssigneeDisplay" class="hidden mt-2 flex items-center gap-2 px-3 py-2 bg-green-50 border border-green-200 rounded-lg">
-                        <img id="selectedAssigneeAvatar" src="" alt="" class="w-6 h-6 rounded-full object-cover">
-                        <span id="selectedAssigneeName" class="text-sm font-medium text-green-700"></span>
-                        <button type="button" id="clearAssigneeBtn" class="mr-auto text-green-600 hover:text-green-800">
-                            <i class="fa-solid fa-times"></i>
-                        </button>
-                    </div>
-
-                    {{-- Default Assignee Notice --}}
-                    <div id="defaultAssigneeNotice" class="hidden mt-2 flex items-center gap-2 px-3 py-2 bg-blue-50 border border-blue-200 rounded-lg">
-                        <i class="fa-solid fa-info-circle text-blue-500"></i>
-                        <span class="text-xs text-blue-700">مسئول پیش‌فرض این مرحله انتخاب شده است</span>
                     </div>
 
                     {{-- Estimated Hours --}}

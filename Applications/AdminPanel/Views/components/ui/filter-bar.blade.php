@@ -38,7 +38,6 @@
                         :url="$filter['url']"
                         :value="$filter['selected'] ?? ''"
                         :template="$filter['template'] ?? 'keyValList'"
-                        :preload="true"
                         class="min-w-[{{ $size }}px]"
                     />
                 </div>

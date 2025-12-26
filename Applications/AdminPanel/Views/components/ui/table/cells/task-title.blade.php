@@ -6,7 +6,6 @@
 
 @php
     $title = $value ?? $item['title'] ?? '-';
-    $slug = $item['slug'] ?? '';
     $followUpsCount = $item['follow_ups_count'] ?? 0;
     $attachmentsCount = $item['files_count'] ?? 0;
     $priority = ($item['priority']['value'] ?? 1) ?? 1;
@@ -32,9 +31,6 @@
             {{ $title }}
         </h3>
         <div class="flex flex-wrap items-center gap-3 text-xs text-text-muted">
-            @if($slug)
-                <span class="font-mono bg-gray-100 px-1.5 py-0.5 rounded text-[11px]">{{ $slug }}</span>
-            @endif
             @if($followUpsCount > 0)
                 <span class="flex items-center gap-1">
                     <i class="fa-solid fa-message"></i>

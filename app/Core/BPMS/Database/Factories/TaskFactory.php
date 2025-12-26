@@ -18,7 +18,6 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'slug'                => $this->faker->unique()->slug(2),
             'title'               => $this->faker->sentence(4),
             'description'         => $this->faker->optional()->paragraph(),
             'workflow_id'         => Workflow::factory(),

@@ -88,6 +88,6 @@ Route::middleware(['web', 'auth'])->name('web.')->group(function () {
                 ->except(['destroy', 'store', 'update', 'show']);
 
             Route::resource('tasks', TaskWebController::class)
-                ->except(['destroy', 'store', 'update']);
+                ->except(['edit', 'destroy', 'store', 'update']);
         });
 });

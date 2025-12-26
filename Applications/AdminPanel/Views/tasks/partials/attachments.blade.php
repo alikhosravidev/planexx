@@ -63,7 +63,7 @@
             @endforeach
         </div>
     @else
-        <div class="flex flex-col items-center justify-center py-12 text-center">
+        <div class="flex flex-col items-center justify-center py-8 text-center">
             <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mb-4">
                 <i class="fa-solid fa-paperclip text-2xl text-slate-400"></i>
             </div>

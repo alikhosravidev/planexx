@@ -8,10 +8,10 @@
         ['label' => 'خانه', 'url' => route('web.dashboard')],
         ['label' => 'مدیریت وظایف', 'url' => route('web.bpms.dashboard')],
         ['label' => $listTitle, 'url' => $listUrl],
-        ['label' => $task['slug'] ?? $pageTitle],
+        ['label' => $pageTitle],
     ];
 
-    $taskJson = json_encode($task, JSON_HEX_APOS | JSON_HEX_QUOT);
+    $taskJson = json_encode($task, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE);
     $actionButtons = array_values(array_filter([
         isset($task['id']) ? [
             'label' => 'ویرایش کار',
@@ -87,10 +87,8 @@
         </main>
     </div>
 
-    {{-- Follow-up Modal --}}
-    <x-panel::bpms.follow-up-modal :task-id="$task['id'] ?? null" />
+    @include('panel::tasks.modals.follow-up-modal', ['taskId' => $task['id'] ?? null])
 
-    {{-- Forward Modal --}}
     @php
         $currentStateIndex = 0;
         foreach ($workflowStates as $index => $state) {
@@ -101,14 +99,9 @@
         }
         $nextState = $workflowStates[$currentStateIndex + 1] ?? null;
     @endphp
-    <x-panel::bpms.forward-modal
-        :task-id="$task['id'] ?? null"
-        :current-state="$task['current_state'] ?? null"
-        :next-state="$nextState"
-    />
 
-    {{-- Task Modal (Create/Edit) --}}
-    <x-panel::bpms.create-task-modal />
+    @include('panel::tasks.modals.forward-modal', ['taskId' => $task['id'] ?? null, 'currentState' => $task['current_state'] ?? null, 'nextState' => $nextState])
+    @include('panel::tasks.modals.form-task-modal')
 
     @vite('resources/js/pages/bpms-tasks.js')
 </x-panel::layouts.app>

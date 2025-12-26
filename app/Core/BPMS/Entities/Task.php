@@ -20,7 +20,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int                         $id
- * @property string|null                 $slug
  * @property string                      $title
  * @property string|null                 $description
  * @property int                         $workflow_id
@@ -58,7 +57,6 @@ class Task extends BaseEntity
     protected $table   = self::TABLE;
 
     protected $fillable = [
-        'slug',
         'title',
         'description',
         'workflow_id',

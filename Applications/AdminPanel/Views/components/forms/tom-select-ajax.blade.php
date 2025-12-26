@@ -11,7 +11,7 @@
     'labelField' => 'label',
     'dataPath' => 'result',
     'template' => 'keyValList',
-    'preload' => true,
+    'preload' => false,
     'minSearch' => 1,
     'multiple' => false,
     'maxItems' => null,

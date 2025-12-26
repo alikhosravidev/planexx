@@ -1,10 +1,3 @@
-@props([
-    'taskId' => null,
-    'currentState' => null,
-    'nextState' => null,
-    'assignableUsers' => [],
-])
-
 <div id="forwardModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" data-modal data-modal-backdrop>
     <div  class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-visible shadow-2xl">
 
