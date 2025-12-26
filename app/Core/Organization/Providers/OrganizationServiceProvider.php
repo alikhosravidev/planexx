@@ -38,6 +38,10 @@ class OrganizationServiceProvider extends ServiceProvider
             ProviderUtility::corePath('Organization/Routes/V1/admin.php')
         );
 
+        $this->loadRoutesFrom(
+            ProviderUtility::corePath('Organization/Routes/V1/client.php')
+        );
+
         $this->loadMigrationsFrom(
             ProviderUtility::corePath('Organization/Database/Migrations')
         );

@@ -33,6 +33,7 @@ use App\Services\ResourceRegistrar;
 use App\Services\Stats\StatManager;
 use App\Utilities\CustomRequestValidator;
 use Applications\AdminPanel\AdminPanelServiceProvider;
+use Applications\PWA\PWAServiceProvider;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Filesystem\Filesystem;
@@ -147,6 +148,7 @@ class AppServiceProvider extends ServiceProvider
     private function registerApplicationsProviders(): void
     {
         $this->app->register(AdminPanelServiceProvider::class);
+        $this->app->register(PWAServiceProvider::class);
     }
 
     private function registerMenu(): void

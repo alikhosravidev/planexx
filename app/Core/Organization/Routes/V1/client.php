@@ -5,8 +5,8 @@ declare(strict_types=1);
 use App\Core\Organization\Http\Controllers\V1\Client\AuthClientController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('api/v1/admin')
-    ->name('api.v1.admin.')
+Route::prefix('api/v1/client')
+    ->name('api.v1.client.')
     ->group(function () {
         Route::middleware(['throttle:' . config('authService.auth_max_attempts')])
             ->group(static function (): void {
