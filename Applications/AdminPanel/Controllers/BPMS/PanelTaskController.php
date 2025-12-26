@@ -10,7 +10,7 @@ use Applications\Contracts\BaseWebController;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
-class TaskWebController extends BaseWebController
+class PanelTaskController extends BaseWebController
 {
     public function index(Request $request): View
     {
@@ -61,15 +61,7 @@ class TaskWebController extends BaseWebController
         ]);
     }
 
-    public function create(Request $request): View
-    {
-        $workflowId = $request->get('workflow_id');
-
-        return view('panel::tasks.add-or-edit', [
-            'workflowId' => $workflowId,
-        ]);
-    }
-
+    // TODO: get task stats using registry.
     private function calculateStats(array $tasks): array
     {
         $total   = count($tasks);

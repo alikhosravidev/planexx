@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class FileAPIController extends BaseAPIController
+class AdminFileController extends BaseAPIController
 {
     public function __construct(
         FileRepository               $repository,

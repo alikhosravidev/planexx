@@ -10,7 +10,7 @@ use Applications\Contracts\BaseWebController;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
-class DepartmentWebController extends BaseWebController
+class PanelDepartmentController extends BaseWebController
 {
     public function __construct(
         private readonly StatManager $statManager,

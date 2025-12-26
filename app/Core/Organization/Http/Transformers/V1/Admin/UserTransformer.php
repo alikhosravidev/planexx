@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace App\Core\Organization\Http\Transformers\V1\Admin;
 
 use App\Contracts\Transformer\BaseTransformer;
+use App\Core\BPMS\Http\Transformers\V1\Client\TaskTransformer;
 use App\Core\Organization\Entities\User;
 use App\Services\Transformer\FieldTransformers\DateTimeTransformer;
 use App\Services\Transformer\FieldTransformers\EnumTransformer;
@@ -45,7 +46,17 @@ class UserTransformer extends BaseTransformer
         'avatar',
         'roles',
         'primaryRoles',
+        'tasks',
     ];
+
+    public function includeTasks(User $user)
+    {
+        return $this->collectionRelation(
+            model: $user,
+            relationName: 'tasks',
+            transformer: TaskTransformer::class,
+        );
+    }
 
     public function includeDirectManager(User $user)
     {

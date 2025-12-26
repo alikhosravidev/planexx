@@ -9,7 +9,7 @@ use App\Services\Stats\StatManager;
 use Applications\Contracts\BaseWebController;
 use Illuminate\Contracts\View\View;
 
-class DashboardController extends BaseWebController
+class PanelDashboardController extends BaseWebController
 {
     public function __construct(
         private readonly StatManager        $statManager,

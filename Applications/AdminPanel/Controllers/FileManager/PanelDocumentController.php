@@ -10,7 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class DocumentWebController extends BaseWebController
+class PanelDocumentController extends BaseWebController
 {
     public function index(Request $request): View
     {

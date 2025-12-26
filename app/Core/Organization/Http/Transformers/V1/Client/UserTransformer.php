@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace App\Core\Organization\Http\Transformers\V1\Client;
 
 use App\Contracts\Transformer\BaseTransformer;
+use App\Core\BPMS\Http\Transformers\V1\Client\TaskTransformer;
 use App\Core\Organization\Entities\User;
 use App\Core\Organization\Http\Transformers\V1\Admin\DepartmentTransformer;
 use App\Core\Organization\Http\Transformers\V1\Admin\JobPositionTransformer;
@@ -47,6 +48,7 @@ class UserTransformer extends BaseTransformer
         'avatar',
         'roles',
         'primaryRoles',
+        'tasks',
     ];
 
     public function includeAvatar(User $user)
@@ -58,6 +60,7 @@ class UserTransformer extends BaseTransformer
         );
     }
 
+    // TODO: remove job position
     public function includeJobPosition(User $user)
     {
         return $this->itemRelation(
@@ -74,6 +77,15 @@ class UserTransformer extends BaseTransformer
             model: $user,
             relationName: 'departments',
             transformer: DepartmentTransformer::class,
+        );
+    }
+
+    public function includeTasks(User $user)
+    {
+        return $this->collectionRelation(
+            model: $user,
+            relationName: 'tasks',
+            transformer: TaskTransformer::class,
         );
     }
 

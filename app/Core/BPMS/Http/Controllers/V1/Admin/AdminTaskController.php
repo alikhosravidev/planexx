@@ -14,7 +14,7 @@ use App\Core\BPMS\Repositories\TaskRepository;
 use App\Core\BPMS\Services\TaskService;
 use Illuminate\Http\JsonResponse;
 
-class TaskAPIController extends BaseAPIController
+class AdminTaskController extends BaseAPIController
 {
     public function __construct(
         TaskRepository                  $repository,

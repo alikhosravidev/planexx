@@ -12,7 +12,7 @@ use App\Services\Stats\StatManager;
 use Applications\Contracts\BaseWebController;
 use Illuminate\Contracts\View\View;
 
-class OrganizationDashboardController extends BaseWebController
+class PanelOrganizationDashboardController extends BaseWebController
 {
     public function __construct(
         private readonly StatManager $statManager,

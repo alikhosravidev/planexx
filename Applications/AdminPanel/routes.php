@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-use Applications\AdminPanel\Controllers\{BPMS\BPMSDashboardController,
-    BPMS\TaskWebController,
-    BPMS\WorkflowWebController,
-    DashboardController,
-    FileManager\DocumentWebController,
-    Organization\AdminAuthController,
-    Organization\DepartmentWebController,
-    Organization\OrganizationDashboardController,
-    Organization\RoleWebController,
-    Organization\UserWebController,
-    TagWebController,
+use Applications\AdminPanel\Controllers\{
+    BPMS\PanelBPMSDashboardController,
+    BPMS\PanelTaskController,
+    BPMS\PanelWorkflowController,
+    FileManager\PanelDocumentController,
+    Organization\PanelAuthController,
+    Organization\PanelDepartmentController,
+    Organization\PanelOrganizationDashboardController,
+    Organization\PanelRoleController,
+    Organization\PanelUserController,
+    PanelDashboardController,
+    PanelTagController,
 };
 use Illuminate\Support\Facades\Route;
 
@@ -29,68 +30,68 @@ Route::middleware(['web'])
 
         Route::middleware(['web', 'guest'])
             ->group(static function (): void {
-                Route::get('login', [AdminAuthController::class, 'login'])->name('login');
-                Route::post('auth', [AdminAuthController::class, 'auth'])->name('auth');
+                Route::get('login', [PanelAuthController::class, 'login'])->name('login');
+                Route::post('auth', [PanelAuthController::class, 'auth'])->name('auth');
             });
 
         Route::middleware(['web', 'auth'])
             ->group(static function (): void {
-                Route::post('logout', [AdminAuthController::class, 'logout'])->name('logout');
+                Route::post('logout', [PanelAuthController::class, 'logout'])->name('logout');
             });
 
         Route::middleware(['web', 'auth'])->name('web.')->group(function () {
 
             Route::view('/test-components', 'panel::test-components')->name('test.components');
 
-            Route::get('dashboard', [DashboardController::class, 'index'])
+            Route::get('dashboard', [PanelDashboardController::class, 'index'])
                 ->name('dashboard');
 
-            Route::name('app')->resource('org/tags', TagWebController::class)
-                ->except(['destroy', 'store', 'update']);
+            Route::name('app')->resource('org/tags', PanelTagController::class)
+                ->except(['show', 'destroy', 'store', 'update']);
 
             Route::prefix('org')
                 ->name('org.')
                 ->group(static function (): void {
-                    Route::get('dashboard', [OrganizationDashboardController::class, 'index'])->name('dashboard');
+                    Route::get('dashboard', [PanelOrganizationDashboardController::class, 'index'])->name('dashboard');
 
-                    Route::resource('users', UserWebController::class)
+                    Route::resource('users', PanelUserController::class)
                         ->except(['destroy', 'store', 'update']);
 
-                    Route::get('departments/chart', [DepartmentWebController::class, 'chart'])
+                    Route::get('departments/chart', [PanelDepartmentController::class, 'chart'])
                         ->name('departments.chart');
 
-                    Route::resource('departments', DepartmentWebController::class)
+                    Route::resource('departments', PanelDepartmentController::class)
                         ->except(['destroy', 'store', 'update', 'show']);
 
-                    Route::resource('roles', RoleWebController::class)
-                        ->except(['destroy', 'store', 'update']);
+                    Route::resource('roles', PanelRoleController::class)
+                        ->except(['show', 'destroy', 'store', 'update']);
 
-                    Route::get('roles/{role}/permissions', [RoleWebController::class, 'permissions'])
+                    Route::get('roles/{role}/permissions', [PanelRoleController::class, 'permissions'])
                         ->name('roles.permissions');
                 });
 
             Route::prefix('documents')
                 ->name('documents.')
                 ->group(function () {
-                    Route::get('/', [DocumentWebController::class, 'index'])->name('index');
-                    Route::get('/folder/{folderId}', [DocumentWebController::class, 'folder'])->name('folder');
-                    Route::get('/favorites', [DocumentWebController::class, 'favorites'])->name('favorites');
-                    Route::get('/recent', [DocumentWebController::class, 'recent'])->name('recent');
-                    Route::get('/temporary', [DocumentWebController::class, 'temporary'])->name('temporary');
+                    Route::get('/', [PanelDocumentController::class, 'index'])->name('index');
+                    Route::get('/folder/{folderId}', [PanelDocumentController::class, 'folder'])->name('folder');
+                    Route::get('/favorites', [PanelDocumentController::class, 'favorites'])->name('favorites');
+                    Route::get('/recent', [PanelDocumentController::class, 'recent'])->name('recent');
+                    Route::get('/temporary', [PanelDocumentController::class, 'temporary'])->name('temporary');
 
-                    Route::get('/files/{id}/download', [DocumentWebController::class, 'download'])->name('files.download');
+                    Route::get('/files/{id}/download', [PanelDocumentController::class, 'download'])->name('files.download');
                 });
 
             Route::name('bpms.')
                 ->prefix('bpms')
                 ->group(function () {
-                    Route::get('dashboard', [BPMSDashboardController::class, 'index'])->name('dashboard');
+                    Route::get('dashboard', [PanelBPMSDashboardController::class, 'index'])->name('dashboard');
 
-                    Route::resource('workflows', WorkflowWebController::class)
+                    Route::resource('workflows', PanelWorkflowController::class)
                         ->except(['destroy', 'store', 'update', 'show']);
 
-                    Route::resource('tasks', TaskWebController::class)
-                        ->except(['edit', 'destroy', 'store', 'update']);
+                    Route::resource('tasks', PanelTaskController::class)
+                        ->except(['create', 'edit', 'destroy', 'store', 'update']);
                 });
         });
     });

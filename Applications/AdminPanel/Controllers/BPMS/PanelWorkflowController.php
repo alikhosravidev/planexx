@@ -10,7 +10,7 @@ use Applications\Contracts\BaseWebController;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
-class WorkflowWebController extends BaseWebController
+class PanelWorkflowController extends BaseWebController
 {
     public function index(Request $request): View
     {

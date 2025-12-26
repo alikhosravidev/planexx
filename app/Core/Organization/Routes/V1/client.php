@@ -3,11 +3,20 @@
 declare(strict_types=1);
 
 use App\Core\Organization\Http\Controllers\V1\Client\AuthClientController;
+use App\Core\Organization\Http\Controllers\V1\Client\UserClientController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('api/v1/client')
     ->name('api.v1.client.')
     ->group(function () {
+        Route::middleware('auth:sanctum')
+            ->name('org.')
+            ->prefix('org')
+            ->group(function () {
+                Route::apiResource('users', UserClientController::class)
+                    ->only(['show']);
+            });
+
         Route::middleware(['throttle:' . config('authService.auth_max_attempts')])
             ->group(static function (): void {
                 Route::get('auth', [AuthClientController::class, 'initiateAuth'])

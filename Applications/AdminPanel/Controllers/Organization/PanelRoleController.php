@@ -9,7 +9,7 @@ use Applications\Contracts\BaseWebController;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
-class RoleWebController extends BaseWebController
+class PanelRoleController extends BaseWebController
 {
     public function index(Request $request): View
     {
@@ -25,18 +25,6 @@ class RoleWebController extends BaseWebController
             'roles'      => $response['result']             ?? [],
             'pagination' => $response['meta']['pagination'] ?? [],
             'pageTitle'  => $pageTitle,
-        ]);
-    }
-
-    public function show(Role $role): View
-    {
-        $response = $this->apiGet('api.v1.admin.org.roles.show', [
-            'role'     => $role->id,
-            'includes' => 'permissions',
-        ]);
-
-        return view('panel::roles.show', [
-            'role' => $response['result'] ?? [],
         ]);
     }
 

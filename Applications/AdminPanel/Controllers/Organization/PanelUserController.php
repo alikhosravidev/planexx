@@ -12,7 +12,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class UserWebController extends BaseWebController
+class PanelUserController extends BaseWebController
 {
     public function __construct(
         private readonly EnumTransformer $enumTransformer,

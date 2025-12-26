@@ -6,6 +6,7 @@ namespace App\Core\Organization\Entities;
 
 use App\Contracts\Entity\BaseEntity;
 use App\Contracts\Entity\RoleableEntity;
+use App\Core\BPMS\Traits\HasTasks;
 use App\Core\FileManager\Traits\HasFile;
 use App\Core\Organization\Database\Factories\UserFactory;
 use App\Core\Organization\Enums\CustomerTypeEnum;
@@ -75,6 +76,7 @@ class User extends BaseEntity implements
     use HasJobPosition;
     use HasFile;
     use HasDepartment;
+    use HasTasks;
 
     public const TABLE = 'core_org_users';
 
