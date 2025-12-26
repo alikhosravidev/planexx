@@ -110,6 +110,7 @@
                             name="due_date"
                             label="ددلاین"
                             class="min-w-[80px]"
+                            :show-time="true"
                         />
                     </div>
 

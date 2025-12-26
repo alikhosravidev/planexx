@@ -3,6 +3,7 @@
 @import './variables.css';
 @import '../fonts/fonts.css';
 @import './tom-select.css';
+@import './datepicker.css';
 
 @tailwind base;
 @tailwind components;

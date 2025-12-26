@@ -21,4 +21,41 @@
   /* Transitions */
   --transition-fast: all 0.2s ease;
   --transition-normal: all 0.3s ease;
+
+  /* Datepicker Variables */
+  --font: 'Sahel', sans-serif;
+  --base-font-family: 'Sahel', sans-serif;
+  --primary: #0f172a;
+  --secondary: #64748b;
+  --secondary-7: #f1f5f9;
+  --secondary-50: #94a3b8;
+  --success: #10b981;
+  --warning: #f59e0b;
+
+  --calendar-bg: #ffffff;
+  --calendar-color: #0f172a;
+  --calendar-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --calendar-radius: 12px;
+
+  --calendar-header-bg: #0f172a;
+  --calendar-header-color: #ffffff;
+  --calendar-header-arrow-color: #ffffff;
+  --calendar-header-arrow-color-hover: #e2e8f0;
+
+  --calendar-dows-bg: #f8fafc;
+  --calendar-dows-color: #475569;
+  --calendar-dows-radius: 8px;
+
+  --calendar-cell-bg: #ffffff;
+  --calendar-cell-color: #0f172a;
+  --calendar-cell-bg-hover: #f1f5f9;
+  --calendar-cell-color-hover: #0f172a;
+  --calendar-cell-radius: 6px;
+
+  --calendar-today-bg: #0f172a;
+  --calendar-today-color: #ffffff;
+
+  --calendar-friday-bg: #fef2f2;
+  --calendar-friday-color: #dc2626;
 }

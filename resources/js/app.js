@@ -10,6 +10,7 @@ import { uiComponents } from './ui-components.js';
 import { forms } from './forms/index.js';
 import { initPersianDigits } from './utils/persian-digits.js';
 import { initTomSelect } from './tom-select/index.js';
+import { initDatepicker } from './datepicker/index.js';
 
 // Initialize Persian digits conversion with configurable skip classes
 initPersianDigits({
@@ -34,6 +35,9 @@ document.addEventListener(
 
     // Initialize Tom Select
     initTomSelect();
+
+    // Initialize Datepicker
+    initDatepicker();
   },
   { once: true },
 );

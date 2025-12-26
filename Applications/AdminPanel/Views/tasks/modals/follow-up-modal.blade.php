@@ -41,6 +41,7 @@
                         name="next_follow_up_date"
                         label="تاریخ پیگیری بعدی"
                         class="min-w-[140px]"
+                        :show-time="true"
                     />
                 </div>
 

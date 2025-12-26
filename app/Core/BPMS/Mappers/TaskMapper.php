@@ -56,9 +56,12 @@ class TaskMapper
             estimatedHours: $request->filled('estimated_hours')
                 ? new Hours((int) $request->input('estimated_hours'))
                 : ($task->estimated_hours ? new Hours((int) $task->estimated_hours) : null),
-            nextFollowUpDate: $request->filled('due_date')
-                ? new \DateTimeImmutable($request->input('due_date'))
-                : $task->next_follow_up_date,
+            nextFollowUpDate: $request->filled('next_follow_up_date')
+                                ? new \DateTimeImmutable($request->input('next_follow_up_date'))
+                                : $task->next_follow_up_date,
+            dueDate: $request->filled('due_date')
+                                ? new \DateTimeImmutable($request->input('due_date'))
+                                : $task->next_follow_up_date,
         );
     }
 

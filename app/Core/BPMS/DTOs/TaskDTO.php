@@ -23,6 +23,7 @@ final readonly class TaskDTO implements Arrayable
         public ?WorkflowStateId $currentStateId = null,
         public ?Hours $estimatedHours = null,
         public ?\DateTimeInterface $nextFollowUpDate = null,
+        public ?\DateTimeInterface $dueDate = null,
     ) {
     }
 
@@ -38,6 +39,7 @@ final readonly class TaskDTO implements Arrayable
             'priority'            => $this->priority,
             'estimated_hours'     => $this->estimatedHours?->asString(),
             'next_follow_up_date' => $this->nextFollowUpDate?->format('Y-m-d H:i:s'),
+            'due_date'            => $this->dueDate?->format('Y-m-d H:i:s'),
         ];
     }
 }
