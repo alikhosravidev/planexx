@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App\Core\BPMS\Mappers;
 
+use App\Core\BPMS\DTOs\AddNoteDTO;
+use App\Core\BPMS\DTOs\ForwardTaskDTO;
 use App\Core\BPMS\DTOs\TaskDTO;
+use App\Core\BPMS\DTOs\UpdateTaskActionDTO;
 use App\Core\BPMS\Entities\Task;
+use App\Core\BPMS\Enums\TaskAction;
 use App\Core\BPMS\Enums\TaskPriority;
-use App\Core\BPMS\Http\Requests\StoreTaskRequest;
-use App\Core\BPMS\Http\Requests\UpdateTaskRequest;
+use App\Core\BPMS\Http\Requests\API\V1\Admin\StoreTaskRequest;
+use App\Core\BPMS\Http\Requests\API\V1\Admin\UpdateTaskRequest;
 use App\Domains\User\UserId;
 use App\Domains\Workflow\WorkflowId;
 use App\Domains\WorkflowState\WorkflowStateId;
@@ -56,5 +60,42 @@ class TaskMapper
                 ? new \DateTimeImmutable($request->input('due_date'))
                 : $task->next_follow_up_date,
         );
+    }
+
+    public function toUpdateActionDTO(UpdateTaskRequest $request, Task $task): UpdateTaskActionDTO
+    {
+        $action  = TaskAction::fromString($request->input('action', 'edit'));
+        $actorId = $request->user()->id;
+
+        return match ($action) {
+            TaskAction::EDIT => new UpdateTaskActionDTO(
+                action: $action,
+                taskDTO: $this->fromUpdateRequest($request, $task),
+            ),
+
+            TaskAction::ADD_NOTE => new UpdateTaskActionDTO(
+                action: $action,
+                addNoteDTO: new AddNoteDTO(
+                    content: $request->input('content'),
+                    actorId: $actorId,
+                    nextFollowUpDate: $request->filled('next_follow_up_date')
+                        ? new \DateTimeImmutable($request->input('next_follow_up_date'))
+                        : null,
+                    attachment: $request->file('attachment'),
+                ),
+            ),
+
+            TaskAction::FORWARD => new UpdateTaskActionDTO(
+                action: $action,
+                forwardTaskDTO: new ForwardTaskDTO(
+                    newAssigneeId: (int) $request->input('assignee_id'),
+                    actorId: $actorId,
+                    note: $request->input('description'),
+                    nextStateId: $request->filled('next_state_id')
+                        ? (int) $request->input('next_state_id')
+                        : null,
+                ),
+            ),
+        };
     }
 }

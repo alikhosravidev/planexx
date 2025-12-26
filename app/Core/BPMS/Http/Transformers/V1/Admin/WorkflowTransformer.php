@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\BPMS\Http\Transformers;
+namespace App\Core\BPMS\Http\Transformers\V1\Admin;
 
 use App\Contracts\Transformer\BaseTransformer;
 use App\Core\BPMS\Entities\Workflow;

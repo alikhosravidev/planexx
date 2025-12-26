@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\BPMS\Http\Requests;
+namespace App\Core\BPMS\Http\Requests\API\V1\Admin;
 
 use App\Contracts\Requests\BaseRequest;
 use App\Core\BPMS\Entities\Workflow;

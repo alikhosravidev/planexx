@@ -29,6 +29,11 @@
                   data-on-success="reload">
                 @csrf
 
+                <input type="hidden" name="action" value="forward">
+                @if($nextState)
+                    <input type="hidden" name="next_state_id" value="{{ $nextState['id'] }}">
+                @endif
+
                 {{-- Forward Note --}}
                 <div class="mb-5">
                     <x-panel::forms.textarea

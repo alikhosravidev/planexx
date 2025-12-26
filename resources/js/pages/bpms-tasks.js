@@ -215,7 +215,8 @@ const populateFormWithTask = (taskData) => {
   );
 
   if (titleInput) titleInput.value = taskData.title || '';
-  if (descriptionInput) descriptionInput.value = taskData.description?.full || '';
+  if (descriptionInput)
+    descriptionInput.value = taskData.description?.full || '';
   if (priorityInput)
     priorityInput.value = taskData.priority?.value ?? taskData.priority ?? 1;
   if (dueDateInput) dueDateInput.value = taskData.due_date?.main || '';
@@ -238,7 +239,6 @@ const populateFormWithTask = (taskData) => {
       goToStep2();
     }
   }
-
 };
 
 const setAssigneeDefaultValue = (taskData) => {
@@ -250,7 +250,8 @@ const setAssigneeDefaultValue = (taskData) => {
   const tomSelectInstance = getTomSelectInstance(assigneeSelect);
   if (!tomSelectInstance) return;
 
-  const assigneeLabel = taskData.assignee?.full_name || `User ${taskData.assignee_id}`;
+  const assigneeLabel =
+    taskData.assignee?.full_name || `User ${taskData.assignee_id}`;
   tomSelectInstance.addOption({
     id: taskData.assignee_id,
     label: assigneeLabel,

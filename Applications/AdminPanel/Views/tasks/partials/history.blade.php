@@ -1,15 +1,11 @@
-{{--
-    History timeline section
---}}
-
 @if(!empty($task['follow_ups']))
     @php
         $followUpStyles = [
-            'FOLLOW_UP' => ['icon' => 'fa-arrow-right-arrow-left', 'bg' => 'bg-blue-50', 'text' => 'text-blue-600', 'border' => 'border-blue-200'],
-            'STATE_TRANSITION' => ['icon' => 'fa-comment', 'bg' => 'bg-purple-50', 'text' => 'text-purple-600', 'border' => 'border-purple-200'],
+            'FOLLOW_UP' => ['icon' => 'fa-comment', 'bg' => 'bg-blue-50', 'text' => 'text-blue-600', 'border' => 'border-blue-200'],
+            'STATE_TRANSITION' => ['icon' => 'fa-arrow-right-arrow-left', 'bg' => 'bg-purple-50', 'text' => 'text-purple-600', 'border' => 'border-purple-200'],
             'USER_ACTION' => ['icon' => 'fa-hand-pointer', 'bg' => 'bg-amber-50', 'text' => 'text-amber-600', 'border' => 'border-amber-200'],
             'WATCHER_REVIEW' => ['icon' => 'fa-eye', 'bg' => 'bg-green-50', 'text' => 'text-green-600', 'border' => 'border-green-200'],
-            'REFER' => ['icon' => 'fa-arrow-right-arrow-left', 'bg' => 'bg-blue-50', 'text' => 'text-blue-600', 'border' => 'border-blue-200'],
+            'REFER' => ['icon' => 'fa-share', 'bg' => 'bg-blue-50', 'text' => 'text-blue-600', 'border' => 'border-blue-200'],
         ];
     @endphp
     <div class="bg-bg-primary border border-border-light rounded-2xl p-6">
@@ -31,8 +27,8 @@
             <div class="space-y-5">
                 @foreach($task['followUps'] as $index => $followUp)
                     @php
-                        $type = $followUp['type']['name'] ?? 'follow_up';
-                        $style = $followUpStyles[$type] ?? $followUpStyles['follow_up'];
+                        $type = $followUp['type']['name'] ?? 'FOLLOW_UP';
+                        $style = $followUpStyles[$type] ?? $followUpStyles['FOLLOW_UP'];
                     @endphp
                     <div class="relative flex gap-4 pr-2">
                         {{-- Timeline Dot --}}
@@ -66,9 +62,21 @@
                                 </div>
                             @endif
 
-                            @if(!empty($followUp['content']))
-                                <p class="text-text-secondary text-sm leading-relaxed">{{ $followUp['content']['full'] }}</p>
-                            @endif
+                            <div class="flex items-center">
+                                @if(!empty($followUp['content']))
+                                    <p class="text-text-secondary text-sm leading-relaxed">{{ $followUp['content']['full'] }}</p>
+                                @endif
+                                <div class="mr-auto">
+                                    @foreach($followUp['attachments'] as $attachment)
+                                        <a
+                                            href="{{ route('web.documents.files.download', ['id' => $attachment['id']]) }}"
+                                            class="w-8 h-8 flex items-center justify-center text-text-muted hover:text-primary hover:bg-bg-secondary rounded-lg transition-all duration-200"
+                                            title="دانلود پیوست">
+                                            <i class="fa-solid fa-download text-slate-400 group-hover:text-indigo-600 transition-colors"></i>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
                     </div>
                 @endforeach

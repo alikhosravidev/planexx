@@ -32,19 +32,13 @@
                     <input type="hidden" name="folder_id" value="{{ $currentFolder['id'] }}">
                 @endif
 
-                <label
-                    data-drop-zone
-                    class="border-2 border-dashed border-border-medium rounded-2xl p-10 text-center mb-6 hover:border-primary hover:bg-primary/5 transition-all duration-200 cursor-pointer block">
-                    <div class="w-16 h-16 bg-bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fa-solid fa-cloud-arrow-up text-2xl text-primary"></i>
-                    </div>
-                    <h4 class="text-lg font-semibold text-text-primary mb-2">فایل‌ها را اینجا رها کنید</h4>
-                    <p class="text-sm text-text-muted mb-4">یا کلیک کنید تا فایل انتخاب شود</p>
-                    <input type="file" name="file" class="hidden" required data-file-input>
-                    <span class="bg-bg-secondary text-text-secondary px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-border-light transition-all duration-200 inline-block">
-                        انتخاب فایل
-                    </span>
-                </label>
+                <x-panel::file-drop-zone
+                    name="file"
+                    :required="true"
+                    placeholderText="فایل‌ها را اینجا رها کنید"
+                    placeholderSubtext="یا کلیک کنید تا فایل انتخاب شود"
+                    selectFileText="انتخاب فایل"
+                />
 
                 <div class="mb-4">
                     <x-panel::forms.input

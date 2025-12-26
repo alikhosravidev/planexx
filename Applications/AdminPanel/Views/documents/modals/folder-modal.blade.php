@@ -1,6 +1,5 @@
-@props(['folders' => [], 'folder' => null])
-
 @php
+    $folder = $folder ?? null;
     $isEdit = isset($folder['id']);
     $modalTitle = $isEdit ? 'ویرایش پوشه' : 'ایجاد پوشه جدید';
     $submitUrl = $isEdit

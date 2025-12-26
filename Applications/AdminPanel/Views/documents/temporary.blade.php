@@ -148,7 +148,7 @@
         </main>
     </div>
 
-    <x-panel::file-manager.upload-modal :folders="$folders" />
+    <x-panel::modals.upload-modal :folders="$folders" />
 
     @vite('resources/js/pages/documents.js')
 </x-panel::layouts.app>

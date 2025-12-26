@@ -1,19 +1,5 @@
 @php
-    $allAttachments = [];
-
-    foreach ($task['attachments'] ?? [] as $attachment) {
-        $allAttachments[] = array_merge($attachment, ['source' => 'task']);
-    }
-
-    foreach ($task['followUps'] ?? [] as $followUp) {
-        foreach ($followUp['attachments'] ?? [] as $attachment) {
-            $allAttachments[] = array_merge($attachment, [
-                'source' => 'follow_up',
-                'follow_up_id' => $followUp['id'],
-                'follow_up_type' => $followUp['type']['label'] ?? 'پیگیری'
-            ]);
-        }
-    }
+    $allAttachments = $task['attachments'];
 @endphp
 
 <div class="bg-bg-primary border border-border-light rounded-2xl p-6">
@@ -25,7 +11,7 @@
                 <span class="text-xs font-normal text-text-muted">({{ count($allAttachments) }})</span>
             @endif
         </h3>
-        <button class="text-sm text-indigo-600 hover:text-indigo-700 font-medium transition-colors">
+        <button data-modal-open="attachmentModal" class="text-sm text-indigo-600 hover:text-indigo-700 font-medium transition-colors">
             <i class="fa-solid fa-plus ml-1"></i>
             افزودن پیوست
         </button>
@@ -45,8 +31,6 @@
                         'audio' => ['bg' => 'bg-yellow-100', 'text' => 'text-yellow-600', 'icon' => 'fa-file-audio'],
                     ];
                     $style = $typeStyles[$fileTypeLabel] ?? ['bg' => 'bg-blue-100', 'text' => 'text-blue-600', 'icon' => 'fa-file'];
-
-                    $sourceLabel = $attachment['source'] === 'task' ? 'پیوست تسک' : $attachment['follow_up_type'];
                 @endphp
                 <div class="flex items-center gap-3 p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-all cursor-pointer group">
                     <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 {{ $style['bg'] }} {{ $style['text'] }}">
@@ -55,10 +39,15 @@
                     <div class="flex-1 min-w-0">
                         <h4 class="text-text-primary text-sm font-medium truncate">{{ $attachment['title'] ?? $attachment['original_name'] ?? '-' }}</h4>
                         <p class="text-text-muted text-xs">
-                            {{ $attachment['file_size_human'] ?? '-' }} • {{ $sourceLabel }}
+                            {{ $attachment['file_size_human'] ?? '-' }}
                         </p>
                     </div>
-                    <i class="fa-solid fa-download text-slate-400 group-hover:text-indigo-600 transition-colors"></i>
+                    <a
+                        href="{{ route('web.documents.files.download', ['id' => $attachment['id']]) }}"
+                        class="w-8 h-8 flex items-center justify-center text-text-muted hover:text-primary hover:bg-bg-secondary rounded-lg transition-all duration-200"
+                        title="دانلود">
+                        <i class="fa-solid fa-download text-slate-400 group-hover:text-indigo-600 transition-colors"></i>
+                    </a>
                 </div>
             @endforeach
         </div>

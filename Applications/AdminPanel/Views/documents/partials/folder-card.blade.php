@@ -1,9 +1,6 @@
-@props([
-    'folder' => [],
-    'url' => '#',
-])
-
 @php
+    $url = route('web.documents.folder', ['folderId' => $folder['id']]);
+
     $colorClasses = [
         'purple' => ['main' => '#7C3AED', 'tab' => '#A78BFA'],
         'pink'   => ['main' => '#EC4899', 'tab' => '#F472B6'],

@@ -31,7 +31,7 @@ class TaskWebController extends BaseWebController
             $filters['priority'] = $request->get('priority');
         }
 
-        $queryParams['includes']  = 'workflow,currentState,assignee,creator';
+        $queryParams['includes']  = 'workflow.states,currentState,assignee,creator';
         $queryParams['withCount'] = 'followUps,attachments';
         $queryParams['filter']    = $filters;
 

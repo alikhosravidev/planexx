@@ -72,18 +72,17 @@ const initDropZone = () => {
 
 // Handle file selection and display file name
 const handleFileSelect = (file, fileInput) => {
-  const fileInputId = fileInput.id;
+  const dropZone = fileInput.closest('[data-drop-zone]');
+  if (!dropZone) return;
 
-  if (fileInputId === 'followUpFileInput') {
-    const placeholder = document.getElementById('followUpFilePlaceholder');
-    const selected = document.getElementById('followUpFileSelected');
-    const fileName = document.getElementById('followUpFileName');
+  const placeholder = dropZone.querySelector('[data-file-placeholder]');
+  const selected = dropZone.querySelector('[data-file-selected]');
+  const fileName = dropZone.querySelector('[data-file-name]');
 
-    if (placeholder && selected && fileName) {
-      fileName.textContent = file.name;
-      placeholder.classList.add('hidden');
-      selected.classList.remove('hidden');
-    }
+  if (placeholder && selected && fileName) {
+    fileName.textContent = file.name;
+    placeholder.classList.add('hidden');
+    selected.classList.remove('hidden');
   }
 };
 

@@ -101,7 +101,10 @@
     @endphp
 
     @include('panel::tasks.modals.forward-modal', ['taskId' => $task['id'] ?? null, 'currentState' => $task['current_state'] ?? null, 'nextState' => $nextState])
+
     @include('panel::tasks.modals.form-task-modal')
+
+    <x-panel::modals.attachment-modal module-name="bpms" :entity-type="$task['morph_class']" :entity-id="$task['id']"/>
 
     @vite('resources/js/pages/bpms-tasks.js')
 </x-panel::layouts.app>

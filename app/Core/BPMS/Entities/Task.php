@@ -94,7 +94,8 @@ class Task extends BaseEntity
 
     public function followUps(): HasMany
     {
-        return $this->hasMany(FollowUp::class, 'task_id');
+        return $this->hasMany(FollowUp::class, 'task_id')
+            ->orderBy('created_at', 'desc');
     }
 
     public function watchers(): BelongsToMany

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\BPMS\Http\Transformers;
+namespace App\Core\BPMS\Http\Transformers\V1\Admin;
 
 use App\Contracts\Transformer\BaseTransformer;
 use App\Core\BPMS\Entities\Task;
@@ -31,6 +31,8 @@ class TaskTransformer extends BaseTransformer
             'current_state_order' => fn (Task $task) => $task->current_state_order,
             'progress_percentage' => fn (Task $task) => $task->progress_percentage,
             'remaining_days'      => fn (Task $task) => $task->remaining_days,
+            'morph_class'         => fn (Task $task) => $task->getMorphClass(),
+            'morph_class'         => fn (Task $task) => $task->getMorphClass(),
         ];
     }
 

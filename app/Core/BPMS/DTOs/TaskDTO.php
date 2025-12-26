@@ -24,9 +24,6 @@ final readonly class TaskDTO implements Arrayable
         public ?Hours $estimatedHours = null,
         public ?\DateTimeInterface $nextFollowUpDate = null,
     ) {
-        if ($this->nextFollowUpDate && $this->nextFollowUpDate <= new \DateTimeImmutable('now')) {
-            throw new \InvalidArgumentException('next_follow_up_date must be in the future');
-        }
     }
 
     public function toArray(): array

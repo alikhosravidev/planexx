@@ -15,47 +15,45 @@
         <div class="px-6 py-5 overflow-y-auto max-h-[calc(90vh-160px)]">
             <form id="followUpForm"
                   data-ajax
-                  method="POST"
-                  action="{{ route('api.v1.admin.bpms.follow-ups.store') }}"
+                  data-method="PUT"
+                  action="{{ $taskId ? route('api.v1.admin.bpms.tasks.update', ['task' => $taskId]) : '#' }}"
                   enctype="multipart/form-data"
                   data-on-success="reload">
                 @csrf
 
-                <input type="hidden" name="task_id" value="{{ $taskId }}">
+                <input type="hidden" name="action" value="add_note">
 
                 {{-- Follow-up Content --}}
                 <div class="mb-5">
-                    <label class="text-text-secondary text-sm font-medium mb-2 block">متن یادداشت</label>
-                    <textarea id="followUpContent" name="content" rows="4"
-                              class="w-full border border-border-medium rounded-xl px-4 py-3 text-base text-text-primary resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
-                              placeholder="یادداشت یا توضیحات خود را بنویسید..." required></textarea>
+                    <x-panel::forms.textarea
+                        name="content"
+                        label="متن یادداشت"
+                        placeholder="توضیحات لازم برای نفر بعدی..."
+                        rows="4"
+                        required
+                        class="min-w-[140px]"
+                    />
                 </div>
 
                 {{-- Next Follow-up Date --}}
                 <div class="mb-5">
-                    <label class="text-text-secondary text-sm font-medium mb-2 block">تاریخ پیگیری بعدی</label>
-                    <div class="relative">
-                        <input type="date" name="next_follow_up_date"
-                               class="w-full border border-border-medium rounded-xl px-4 py-3 text-base text-text-primary focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
-                        <i class="fa-regular fa-calendar absolute left-4 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none"></i>
-                    </div>
+                    <x-panel::forms.date
+                        name="next_follow_up_date"
+                        label="تاریخ پیگیری بعدی"
+                        class="min-w-[140px]"
+                    />
                 </div>
 
                 {{-- Attach File --}}
                 <div class="mb-5">
                     <label class="text-text-secondary text-sm font-medium mb-2 block">پیوست فایل (اختیاری)</label>
-                    <label data-drop-zone class="border-2 border-dashed border-border-medium rounded-xl p-6 text-center cursor-pointer hover:border-indigo-500 transition-all block">
-                        <input type="file" name="attachment" class="hidden" id="followUpFileInput">
-                        <div id="followUpFilePlaceholder">
-                            <i class="fa-solid fa-cloud-arrow-up text-text-muted text-2xl mb-2"></i>
-                            <p class="text-text-muted text-sm">برای آپلود فایل کلیک کنید</p>
-                        </div>
-                        <div id="followUpFileSelected" class="hidden">
-                            <i class="fa-solid fa-file-check text-green-500 text-2xl mb-2"></i>
-                            <p id="followUpFileName" class="text-text-primary text-sm font-medium"></p>
-                            <p class="text-text-muted text-xs mt-1">برای تغییر کلیک کنید</p>
-                        </div>
-                    </label>
+                    <x-panel::file-drop-zone
+                        name="attachment"
+                        :required="false"
+                        placeholderText="برای آپلود فایل کلیک کنید"
+                        placeholderSubtext=""
+                        selectFileText="آپلود"
+                    />
                 </div>
             </form>
         </div>

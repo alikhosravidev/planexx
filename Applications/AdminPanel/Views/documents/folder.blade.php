@@ -155,9 +155,9 @@
         </main>
     </div>
 
-    <x-panel::file-manager.upload-modal :currentFolder="$folder"/>
+    <x-panel::modals.upload-modal :currentFolder="$folder"/>
 
-    <x-panel::file-manager.folder-modal :folder="$folder"/>
+    @include('panel::documents.modals.folder-modal', ['folder' => $folder])
 
     @vite('resources/js/pages/documents.js')
 </x-panel::layouts.app>

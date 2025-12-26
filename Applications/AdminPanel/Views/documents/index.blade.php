@@ -104,10 +104,7 @@
 
                     <div class="flex flex-wrap gap-5">
                         @foreach ($folders as $folder)
-                            <x-panel::file-manager.folder-card
-                                :folder="$folder"
-                                :url="route('web.documents.folder', ['folderId' => $folder['id']])"
-                            />
+                            @include('panel::documents.partials.folder-card', ['folder' => $folder])
                         @endforeach
                     </div>
                 </div>
@@ -167,9 +164,9 @@
         </main>
     </div>
 
-    <x-panel::file-manager.upload-modal :folders="$folders"/>
+    <x-panel::modals.upload-modal :folders="$folders"/>
 
-    <x-panel::file-manager.folder-modal/>
+    @include('panel::documents.modals.folder-modal')
 
     @vite('resources/js/pages/documents.js')
 </x-panel::layouts.app>

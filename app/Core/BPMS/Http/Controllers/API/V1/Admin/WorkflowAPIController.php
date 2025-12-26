@@ -6,9 +6,9 @@ namespace App\Core\BPMS\Http\Controllers\API\V1\Admin;
 
 use App\Contracts\Controller\BaseAPIController;
 use App\Core\BPMS\Entities\Workflow;
-use App\Core\BPMS\Http\Requests\StoreWorkflowRequest;
-use App\Core\BPMS\Http\Requests\UpdateWorkflowRequest;
-use App\Core\BPMS\Http\Transformers\WorkflowTransformer;
+use App\Core\BPMS\Http\Requests\API\V1\Admin\StoreWorkflowRequest;
+use App\Core\BPMS\Http\Requests\API\V1\Admin\UpdateWorkflowRequest;
+use App\Core\BPMS\Http\Transformers\V1\Admin\WorkflowTransformer;
 use App\Core\BPMS\Mappers\WorkflowMapper;
 use App\Core\BPMS\Repositories\WorkflowRepository;
 use App\Core\BPMS\Repositories\WorkflowStateRepository;

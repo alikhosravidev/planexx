@@ -6,9 +6,9 @@ namespace App\Core\BPMS\Http\Controllers\API\V1\Admin;
 
 use App\Contracts\Controller\BaseAPIController;
 use App\Core\BPMS\Entities\Task;
-use App\Core\BPMS\Http\Requests\StoreTaskRequest;
-use App\Core\BPMS\Http\Requests\UpdateTaskRequest;
-use App\Core\BPMS\Http\Transformers\TaskTransformer;
+use App\Core\BPMS\Http\Requests\API\V1\Admin\StoreTaskRequest;
+use App\Core\BPMS\Http\Requests\API\V1\Admin\UpdateTaskRequest;
+use App\Core\BPMS\Http\Transformers\V1\Admin\TaskTransformer;
 use App\Core\BPMS\Mappers\TaskMapper;
 use App\Core\BPMS\Repositories\TaskRepository;
 use App\Core\BPMS\Services\TaskService;
@@ -44,12 +44,12 @@ class TaskAPIController extends BaseAPIController
         /** @var Task $task */
         $task = $this->repository->findOrFail($id);
 
-        $dto     = $this->mapper->fromUpdateRequest($request, $task);
-        $updated = $this->service->update($task, $dto);
+        $actionDTO = $this->mapper->toUpdateActionDTO($request, $task);
+        $updated   = $this->service->processUpdate($task, $actionDTO);
 
         return $this->response->success(
             $this->transformer->transformOne($updated),
-            'کار مورد نظر بروزرسانی شد.',
+            $actionDTO->action->getSuccessMessage(),
         );
     }
 
