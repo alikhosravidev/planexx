@@ -6,7 +6,7 @@
  */
 
 import axios from 'axios';
-import { getCookie } from '@/utils/cookie.js';
+import { getCookie } from '../utils/cookie.js';
 
 /**
  * Get CSRF token from meta tag or cookie

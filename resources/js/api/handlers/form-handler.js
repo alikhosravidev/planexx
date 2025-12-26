@@ -3,7 +3,7 @@
  * Handles AJAX form submissions
  */
 
-import { resolve } from '@/utils/di-container.js';
+import { resolve } from '../../utils/di-container.js';
 import { executeAction, executeActions } from '../actions/executor.js';
 
 // Get dependencies from DI container (can be mocked in tests)

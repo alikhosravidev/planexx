@@ -4,36 +4,9 @@
  * Auth actions are registered in bootstrap.js
  */
 
-import { utilities } from '@/utilities.js';
-import { useForm } from '@/composables/use-form.js';
+import { useForm } from './use-form.js';
 
 let isFormsInitialized = false;
-
-// ============================================
-// Search Functionality
-// ============================================
-
-/**
- * Initialize search functionality
- */
-export const initSearch = () => {
-  document.querySelectorAll('[data-search]').forEach((input) => {
-    input.addEventListener(
-      'input',
-      utilities.debounce((e) => {
-        const searchTerm = e.target.value.toLowerCase().trim();
-        const targetSelector = input.dataset.search;
-        const items = document.querySelectorAll(targetSelector);
-
-        items.forEach((item) => {
-          const text = item.textContent.toLowerCase();
-          const matches = searchTerm === '' || text.includes(searchTerm);
-          item.style.display = matches ? '' : 'none';
-        });
-      }, 300),
-    );
-  });
-};
 
 // ============================================
 // Auto Initialize
@@ -48,7 +21,6 @@ export const initForms = () => {
     return;
   }
   isFormsInitialized = true;
-  initSearch();
 };
 
 // ============================================
@@ -56,7 +28,6 @@ export const initForms = () => {
 // ============================================
 
 export const forms = {
-  initSearch,
   initForms,
 };
 

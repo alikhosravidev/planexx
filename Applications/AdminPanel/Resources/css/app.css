@@ -1,0 +1,270 @@
+/**
+ * AdminPanel Main CSS
+ * این فایل entry point اصلی CSS پنل ادمین است
+ */
+
+/* Tailwind CSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset و Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Sahel', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-secondary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* فونت Sahel برای همه عناصر به جز آیکون‌ها */
+body,
+button,
+input,
+textarea,
+select,
+p,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Sahel', sans-serif !important;
+}
+
+/* آیکون‌های Font Awesome نباید فونت Sahel داشته باشند */
+.fa,
+.fas,
+.far,
+.fal,
+.fab {
+  font-family:
+    'Font Awesome 6 Free', 'Font Awesome 6 Pro', 'Font Awesome 6 Brands' !important;
+}
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* لینک‌ها */
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition-fast);
+}
+
+/* دکمه‌ها */
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+/* Input‌ها */
+input,
+textarea,
+select {
+  font-family: 'Sahel', sans-serif;
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+/* تصاویر */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* لیست‌ها */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Scrollbar سفارشی */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-dark);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}
+
+/* Spinner / Loading states for buttons */
+.spinner,
+[class^='spinner-'],
+[class*=' spinner-'],
+.btn-submit:disabled,
+.btn-submit[disabled] {
+  --spinner-size: 24px;
+  --spinner-m-t: calc((var(--spinner-size) / 2) * -1);
+  --spinner-p: 48px;
+  --spinner-pos: 12px;
+  --spinner-border: 3px;
+  --spinner-color: white;
+  position: relative !important;
+}
+
+.spinner::before,
+[class^='spinner-']::before,
+[class*=' spinner-']::before,
+.btn-submit:disabled::before,
+.btn-submit[disabled]::before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  margin-top: var(--spinner-m-t);
+  width: var(--spinner-size);
+  height: var(--spinner-size);
+  border-radius: 50%;
+  border: var(--spinner-border) solid transparent;
+  border-top-color: var(--spinner-color);
+  border-left-color: var(--spinner-color);
+  border-bottom-color: var(--spinner-color);
+  animation: spinner 0.45s linear infinite;
+}
+
+.spinner.sm,
+[class^='spinner-'].sm,
+[class*=' spinner-'].sm,
+.btn-submit.sm:disabled,
+.btn-submit.sm[disabled] {
+  --spinner-size: 14px;
+  --spinner-border: 2px;
+  --spinner-p: 42px;
+  --spinner-pos: 14px;
+}
+
+.spinner.lg,
+[class^='spinner-'].lg,
+[class*=' spinner-'].lg,
+.btn-submit.lg:disabled,
+.btn-submit.lg[disabled] {
+  --spinner-size: 54px;
+  --spinner-border: 4px;
+  --spinner-p: 104px;
+  --spinner-pos: 24px;
+}
+
+.spinner.xl,
+[class^='spinner-'].xl,
+[class*=' spinner-'].xl,
+.btn-submit.xl:disabled,
+.btn-submit.xl[disabled] {
+  --spinner-size: 72px;
+  --spinner-border: 5px;
+  --spinner-p: 144px;
+  --spinner-pos: 36px;
+}
+
+.spinner.xxl,
+[class^='spinner-'].xxl,
+[class*=' spinner-'].xxl,
+.btn-submit.xxl:disabled,
+.btn-submit.xxl[disabled] {
+  --spinner-size: 96px;
+  --spinner-border: 6px;
+  --spinner-p: 192px;
+  --spinner-pos: 48px;
+}
+
+.spinner.xxxl,
+[class^='spinner-'].xxxl,
+[class*=' spinner-'].xxxl,
+.btn-submit.xxxl:disabled,
+.btn-submit.xxxl[disabled] {
+  --spinner-size: 120px;
+  --spinner-border: 7px;
+  --spinner-p: 240px;
+  --spinner-pos: 60px;
+}
+
+.spinner.secondary,
+[class^='spinner-'].secondary,
+[class*=' spinner-'].secondary,
+.btn-submit.secondary:disabled,
+.btn-submit.secondary[disabled] {
+  --spinner-color: var(--secondary);
+}
+
+.spinner.gray,
+[class^='spinner-'].gray,
+[class*=' spinner-'].gray,
+.btn-submit.gray:disabled,
+.btn-submit.gray[disabled] {
+  --spinner-color: var(--secondary-50);
+}
+
+.spinner.success,
+[class^='spinner-'].success,
+[class*=' spinner-'].success,
+.btn-submit.success:disabled,
+.btn-submit.success[disabled] {
+  --spinner-color: var(--success);
+}
+
+.spinner {
+  width: var(--spinner-size);
+  height: var(--spinner-size);
+}
+
+.spinner::before {
+  right: 0;
+}
+
+.spinner-right {
+  padding-right: var(--spinner-p) !important;
+}
+
+.spinner-right::before {
+  right: var(--spinner-pos);
+}
+
+.spinner-left,
+.btn-submit:disabled,
+.btn-submit[disabled] {
+  padding-left: var(--spinner-p) !important;
+}
+
+.spinner-left::before,
+.btn-submit:disabled::before,
+.btn-submit[disabled]::before {
+  left: var(--spinner-pos);
+}
+
+.btn-submit:disabled i,
+.btn-submit[disabled] i {
+  display: none;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}

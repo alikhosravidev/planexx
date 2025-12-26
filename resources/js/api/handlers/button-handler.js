@@ -3,7 +3,7 @@
  * Handles AJAX button/link clicks
  */
 
-import { resolve } from '@/utils/di-container.js';
+import { resolve } from '../../utils/di-container.js';
 import { executeAction } from '../actions/executor.js';
 import { getAction } from '../actions/registry.js';
 

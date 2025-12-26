@@ -3,7 +3,7 @@
  * Centralized handling for API responses and errors
  */
 
-import { notifications } from '@/notifications.js';
+import { notifications } from '../notifications.js';
 
 /**
  * Handle successful response

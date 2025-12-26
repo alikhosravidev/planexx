@@ -15,7 +15,7 @@ class AdminPanelServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->loadViewsFrom(
-            base_path('Applications/AdminPanel/Views'),
+            base_path('Applications/AdminPanel/Resources/views'),
             'panel'
         );
 

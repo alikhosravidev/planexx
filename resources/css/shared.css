@@ -1,0 +1,12 @@
+/* Font Awesome Icons - مشترک برای همه */
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+/* CSS Variables - Design Tokens مشترک */
+@import './variables.css';
+
+/* Fonts - فونت‌های مشترک */
+@import '../fonts/fonts.css';
+
+/* Shared UI Components */
+@import './tom-select.css';
+@import './datepicker.css';

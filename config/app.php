@@ -125,4 +125,9 @@ return [
         'store'  => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'domains' => [
+        'admin_panel' => env('APP_DOMAIN_ADMIN_PANEL', 'core.goharafarinan.com'),
+        'pwa'         => env('APP_DOMAIN_PWA', 'goharafarinan.com'),
+    ],
+
 ];

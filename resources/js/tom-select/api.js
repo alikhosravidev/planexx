@@ -1,4 +1,4 @@
-import { httpClient } from '@resources/js/api/http-client.js';
+import { httpClient } from '@shared-js/api/http-client.js';
 
 class TomSelectApi {
   async fetch(url, params = {}) {

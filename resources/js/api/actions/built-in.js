@@ -3,7 +3,7 @@
  * Standard actions for common UI operations
  */
 
-import { formService } from '@/services/form-service.js';
+import { formService } from '../../services/form-service.js';
 import { getAction } from './registry.js';
 
 const CONFIG = {

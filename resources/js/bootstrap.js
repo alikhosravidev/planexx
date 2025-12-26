@@ -6,7 +6,6 @@
 // Initialize DI container first
 import './bootstrap-di.js';
 
-// Then initialize modules
+// Then initialize core modules (api, auth are available globally)
 import './api/index.js';
-import './forms/index.js';
 import './auth/index.js';
