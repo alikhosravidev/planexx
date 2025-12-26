@@ -35,7 +35,7 @@ class OrganizationServiceProvider extends ServiceProvider
         Route::pushMiddlewareToGroup('web', CheckUserAccessToken::class);
 
         $this->loadRoutesFrom(
-            ProviderUtility::corePath('Organization/Routes/API/v1/admin.php')
+            ProviderUtility::corePath('Organization/Routes/V1/admin.php')
         );
 
         $this->loadMigrationsFrom(

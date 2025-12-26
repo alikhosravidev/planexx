@@ -6,8 +6,8 @@ namespace App\Core\BPMS\Mappers;
 
 use App\Core\BPMS\DTOs\WorkflowDTO;
 use App\Core\BPMS\Entities\Workflow;
-use App\Core\BPMS\Http\Requests\API\V1\Admin\StoreWorkflowRequest;
-use App\Core\BPMS\Http\Requests\API\V1\Admin\UpdateWorkflowRequest;
+use App\Core\BPMS\Http\Requests\V1\Admin\StoreWorkflowRequest;
+use App\Core\BPMS\Http\Requests\V1\Admin\UpdateWorkflowRequest;
 use App\Domains\Department\DepartmentId;
 use App\Domains\User\UserId;
 use App\ValueObjects\Slug;

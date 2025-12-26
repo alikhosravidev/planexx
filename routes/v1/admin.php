@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\API\V1\Admin\EnumController;
+use App\Http\Controllers\V1\Admin\EnumController;
 use App\Http\Controllers\V1\Admin\TagAPIController;
 use Illuminate\Support\Facades\Route;
 

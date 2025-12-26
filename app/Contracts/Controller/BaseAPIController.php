@@ -6,7 +6,7 @@ namespace App\Contracts\Controller;
 
 use App\Contracts\Repository\BaseRepository;
 use App\Contracts\Transformer\BaseTransformer;
-use App\Http\Transformers\API\V1\KeyValTransformer;
+use App\Http\Transformers\V1\Admin\KeyValTransformer;
 use App\Services\ResponseBuilder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\Paginator;

@@ -6,7 +6,7 @@ namespace App\Core\BPMS\Mappers;
 
 use App\Core\BPMS\DTOs\FollowUpDTO;
 use App\Core\BPMS\Enums\FollowUpType;
-use App\Core\BPMS\Http\Requests\API\V1\Admin\StoreFollowUpRequest;
+use App\Core\BPMS\Http\Requests\V1\Admin\StoreFollowUpRequest;
 use App\Domains\Task\TaskId;
 use App\Domains\User\UserId;
 

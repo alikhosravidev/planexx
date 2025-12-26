@@ -18,7 +18,7 @@ class FileManagerServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        if ($path = ProviderUtility::corePath('FileManager/Routes/API/v1/admin.php')) {
+        if ($path = ProviderUtility::corePath('FileManager/Routes/V1/admin.php')) {
             $this->loadRoutesFrom($path);
         }
 

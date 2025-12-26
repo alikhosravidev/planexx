@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Applications\AdminPanel\Controllers\Organization;
 
-use App\Http\Transformers\Web\ActivityLogTransformer;
+use App\Http\Transformers\V1\Admin\ActivityLogTransformer;
 use App\Repositories\ActivityLogRepository;
 use App\Services\Distribution\DistributionManager;
 use App\Services\QuickAccess\QuickAccessManager;
@@ -33,10 +33,12 @@ class OrganizationDashboardController extends BaseWebController
             ['label' => $pageTitle],
         ];
 
+        // TODO: get stats, quick access and distribution from API.
         $stats              = $this->statManager->getTransformed('org.dashboard.stats');
         $quickAccessModules = $this->quickAccessManager->getTransformed('org.dashboard.quick-access');
         $distribution       = $this->distributionManager->getTransformed('org.dashboard.distribution');
 
+        // TODO: get activities from API.
         $activities = $this->transformer->transformCollection(
             $this->activityLogRepository->getOrganizationActivities(4)
         );

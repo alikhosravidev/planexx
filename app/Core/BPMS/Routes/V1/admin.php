@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Core\BPMS\Http\Controllers\API\V1\Admin\TaskAPIController;
-use App\Core\BPMS\Http\Controllers\API\V1\Admin\WorkflowAPIController;
+use App\Core\BPMS\Http\Controllers\V1\Admin\TaskAPIController;
+use App\Core\BPMS\Http\Controllers\V1\Admin\WorkflowAPIController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('api/v1/admin')
