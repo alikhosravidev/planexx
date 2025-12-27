@@ -43,13 +43,50 @@ class UserTransformer extends BaseTransformer
     ];
 
     protected array $availableIncludes = [
+        'directManager',
         'jobPosition',
         'departments',
         'avatar',
         'roles',
         'primaryRoles',
         'tasks',
+        'files',
     ];
+
+    protected function getVirtualFieldResolvers(): array
+    {
+        return [
+            'collaboration_days' => function (User $user) {
+                return $user->created_at ? now()->diff($user->created_at)->days : 0;
+            },
+            'waiting_tasks' => function (User $user) {
+                return $user->tasks()->where('completed_at', '=', null)->count();
+            },
+            'completed_tasks' => function (User $user) {
+                return $user->tasks()->where('completed_at', '!=', null)->count();
+            },
+        ];
+    }
+
+    public function includeDirectManager(User $user)
+    {
+        return $this->itemRelation(
+            model: $user,
+            relationName: 'directManager',
+            transformer: $this,
+            foreignKey: 'direct_manager_id',
+        );
+    }
+
+    public function includeFiles(User $user)
+    {
+        return $this->itemRelation(
+            model: $user,
+            relationName: 'files',
+            transformer: $this,
+            foreignKey: 'uploaded_by',
+        );
+    }
 
     public function includeAvatar(User $user)
     {

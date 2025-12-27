@@ -70,7 +70,7 @@
                                 :value="$user['gender']['value'] ?? null"
                                 class="min-w-[140px]"
                                 :url="route('api.v1.admin.enums.keyValList', ['enum' => 'GenderEnum'])"/>
-                            <x-panel::forms.date name="birth_date" :value="$user['birth_date']['main'] ?? null" label="تاریخ تولد"/>
+                            <x-panel::forms.date name="birth_date" class="min-w-[140px]" :value="$user['birth_date']['main'] ?? null" label="تاریخ تولد"/>
                         </div>
                     </div>
 
@@ -82,6 +82,7 @@
                                 name="user_type"
                                 label="نوع کاربر"
                                 required
+                                :preload="true"
                                 :value="$userTypeValue"
                                 class="min-w-[140px]"
                                 :url="route('api.v1.admin.enums.keyValList', ['enum' => 'UserTypeEnum'])"/>

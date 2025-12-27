@@ -377,6 +377,22 @@ abstract class BaseAPIController
             return ['field' => $field, 'operator' => 'not_in', 'value' => $value['not_in']];
         }
 
+        if (isset($value['!='])) {
+            return ['field' => $field, 'operator' => '!=', 'value' => $value['!=']];
+        }
+
+        if (isset($value['<>'])) {
+            return ['field' => $field, 'operator' => '<>', 'value' => $value['<>']];
+        }
+
+        if (isset($value['is_null'])) {
+            return ['field' => $field, 'operator' => 'is_null', 'value' => (bool) $value['is_null']];
+        }
+
+        if (isset($value['not_null'])) {
+            return ['field' => $field, 'operator' => 'not_null', 'value' => (bool) $value['not_null']];
+        }
+
         return null;
     }
 
@@ -524,10 +540,12 @@ abstract class BaseAPIController
         }
 
         return match ($operator) {
-            'in'      => $query->whereIn($field, is_array($value) ? $value : [$value]),
-            'not_in'  => $query->whereNotIn($field, is_array($value) ? $value : [$value]),
-            'between' => $query->whereBetween($field, $value),
-            'like'    => $query->where($field, 'like', $value),
+            'in'       => $query->whereIn($field, is_array($value) ? $value : [$value]),
+            'not_in'   => $query->whereNotIn($field, is_array($value) ? $value : [$value]),
+            'between'  => $query->whereBetween($field, $value),
+            'like'     => $query->where($field, 'like', $value),
+            'is_null'  => $value ? $query->whereNull($field) : $query->whereNotNull($field),
+            'not_null' => $value ? $query->whereNotNull($field) : $query->whereNull($field),
             '!=', '<>', '>', '>=', '<', '<=' => $query->where($field, $operator, $value),
             default => $query->where($field, $value),
         };
@@ -545,10 +563,12 @@ abstract class BaseAPIController
                 : $q->getModel()->qualifyColumn($relationField);
 
             match ($operator) {
-                'in'      => $q->whereIn($qualifiedField, is_array($value) ? $value : [$value]),
-                'not_in'  => $q->whereNotIn($qualifiedField, is_array($value) ? $value : [$value]),
-                'between' => $q->whereBetween($qualifiedField, $value),
-                'like'    => $q->where($qualifiedField, 'like', $value),
+                'in'       => $q->whereIn($qualifiedField, is_array($value) ? $value : [$value]),
+                'not_in'   => $q->whereNotIn($qualifiedField, is_array($value) ? $value : [$value]),
+                'between'  => $q->whereBetween($qualifiedField, $value),
+                'like'     => $q->where($qualifiedField, 'like', $value),
+                'is_null'  => $value ? $q->whereNull($qualifiedField) : $q->whereNotNull($qualifiedField),
+                'not_null' => $value ? $q->whereNotNull($qualifiedField) : $q->whereNull($qualifiedField),
                 '!=', '<>', '>', '>=', '<', '<=' => $q->where($qualifiedField, $operator, $value),
                 default => $q->where($qualifiedField, $value),
             };
@@ -580,10 +600,12 @@ abstract class BaseAPIController
                             : $rel->getModel()->qualifyColumn($relationField);
 
                         match ($operator) {
-                            'in'      => $rel->whereIn($qualifiedField, is_array($value) ? $value : [$value]),
-                            'not_in'  => $rel->whereNotIn($qualifiedField, is_array($value) ? $value : [$value]),
-                            'between' => $rel->whereBetween($qualifiedField, $value),
-                            'like'    => $rel->where($qualifiedField, 'like', $value),
+                            'in'       => $rel->whereIn($qualifiedField, is_array($value) ? $value : [$value]),
+                            'not_in'   => $rel->whereNotIn($qualifiedField, is_array($value) ? $value : [$value]),
+                            'between'  => $rel->whereBetween($qualifiedField, $value),
+                            'like'     => $rel->where($qualifiedField, 'like', $value),
+                            'is_null'  => $value ? $rel->whereNull($qualifiedField) : $rel->whereNotNull($qualifiedField),
+                            'not_null' => $value ? $rel->whereNotNull($qualifiedField) : $rel->whereNull($qualifiedField),
                             '!=', '<>', '>', '>=', '<', '<=' => $rel->where($qualifiedField, $operator, $value),
                             default => $rel->where($qualifiedField, $value),
                         };

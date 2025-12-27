@@ -8,6 +8,7 @@ use App\Services\QuickAccess\QuickAccessManager;
 use App\Services\Stats\StatManager;
 use Applications\Contracts\BaseWebController;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 
 class PWADashboardController extends BaseWebController
 {
@@ -19,17 +20,34 @@ class PWADashboardController extends BaseWebController
 
     public function index(): View
     {
-        $stats              = $this->statManager->getTransformed('pwa.dashboard.stats');
-        $quickAccessModules = $this->quickAccessManager->getTransformed('pwa.dashboard.quick-access');
+        $user = Auth::user();
 
-        $breadcrumbs = [
-            ['label' => 'داشبورد'],
-        ];
+        $userResponse = $this->apiGet('api.v1.client.org.users.show', [
+            'user'      => $user->id,
+            'includes'  => 'avatar,departments,primaryRoles',
+            'withCount' => 'files,tasks',
+        ]);
 
-        return view('pwa::dashboard.index', [
-            'stats'              => $stats,
-            'quickAccessModules' => $quickAccessModules,
-            'breadcrumbs'        => $breadcrumbs,
+        $tasksResponse = $this->apiGet('api.v1.client.bpms.tasks.index', [
+            'includes' => 'currentState,workflow',
+            'per_page' => 10,
+            'sort'     => '-priority,-created_at',
+            'filter'   => [
+                'assignee_id' => $user->id,
+            ],
+        ]);
+
+        $documentsResponse = $this->apiGet('api.v1.client.files.index', [
+            'per_page' => 5,
+            'sort'     => '-created_at',
+        ]);
+
+        return view('pwa::pages.index', [
+            'user'               => $userResponse['result']              ?? [],
+            'tasks'              => $tasksResponse['result']             ?? [],
+            'tasksPagination'    => $tasksResponse['meta']['pagination'] ?? [],
+            'documents'          => $documentsResponse['result']         ?? [],
+            'notificationsCount' => 0,
         ]);
     }
 }

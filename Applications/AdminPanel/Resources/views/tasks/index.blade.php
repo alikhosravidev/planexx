@@ -198,7 +198,6 @@
                         empty-message="کاری یافت نشد"
                         empty-description="با تغییر فیلترها یا جستجو، کار مورد نظر را پیدا کنید"
                         :empty-action-text="$createLabel"
-                        :empty-action-url="route('web.bpms.tasks.create')"
                     />
 
                     @if(!empty($tasks) && !empty($pagination))

@@ -10,17 +10,21 @@ use App\Core\BPMS\Entities\Task;
 class TaskRepository extends BaseRepository
 {
     public array $fieldSearchable = [
-        'id'               => '=',
-        'workflow_id'      => '=',
-        'current_state_id' => '=',
+        'id'          => '=',
+        'workflow_id' => '=',
+        'title'       => 'like',
+    ];
+
+    public array $filterableFields = [
         'assignee_id'      => '=',
         'created_by'       => '=',
-        'title'            => 'like',
+        'current_state_id' => '=',
         'priority'         => '=',
+        'completed_at'     => '=',
     ];
 
     public array $sortableFields = [
-        'id', 'title', 'priority', 'due_date', 'created_at', 'updated_at',
+        'id', 'priority', 'due_date', 'created_at', 'updated_at',
     ];
 
     public function model(): string

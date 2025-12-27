@@ -1,7 +1,4 @@
-/**
- * PWA Main CSS
- * این فایل entry point اصلی CSS اپلیکیشن PWA است
- */
+@import '@shared-css/shared.css';
 
 /* Tailwind CSS */
 @tailwind base;

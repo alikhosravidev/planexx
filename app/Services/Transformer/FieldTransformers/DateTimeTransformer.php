@@ -49,6 +49,7 @@ class DateTimeTransformer implements FieldTransformerInterface
         $diffForHuman = $date->diffForHumans();
 
         return [
+            'main'      => $jalaliDate->format('Y-m-d H:i:s'),
             'default'   => $jalaliDate->format('j %B Y'),
             'short'     => $jalaliDate->format('Y/n/j'),
             'long'      => $jalaliDate->format('j %B Y ساعت H:i'),

@@ -15,7 +15,7 @@ class PWAAuthController extends BaseWebController
 {
     public function login(): View
     {
-        return view('pwa::auth.index');
+        return view('pwa::pages.auth');
     }
 
     public function auth(Request $request): JsonResponse

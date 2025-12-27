@@ -2,7 +2,9 @@
 @props([
     'title' => 'Planexx',
     'showBackButton' => false,
+    'showHeader' => true,
     'headerActions' => null,
+    'currentTab' => 'home',
 ])
 
 <!DOCTYPE html>
@@ -10,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#3b82f6">
+    <meta name="theme-color" content="#0f172a">
     <title>{{ $title }} | Planexx PWA</title>
     <meta name="description" content="سیستم مدیریت هوشمند پروژه - نسخه موبایل">
 
@@ -27,96 +29,84 @@
     <link rel="manifest" href="/manifest.json">
 
     <!-- Icons -->
-    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png">
+    {{--<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512x512.png">
-    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">--}}
 
     <!-- Ziggy Routes -->
     @routes
 
+    <!-- Font Awesome - آیکون‌ها -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <!-- Vite Assets - PWA Resources -->
     @vite([
-        'resources/css/shared.css',
         'Applications/PWA/Resources/css/app.css',
         'Applications/PWA/Resources/js/app.js'
     ])
+
+    {{ $head ?? '' }}
 </head>
 
-<body class="bg-bg-secondary">
+<body class="bg-gray-100">
     <!-- Offline Indicator -->
     <div id="offline-indicator" class="offline-indicator hidden">
-        <i class="fas fa-wifi-slash"></i>
+        <i class="fa-solid fa-wifi-slash"></i>
         <span>شما آفلاین هستید</span>
     </div>
 
-    <!-- Pull to Refresh Indicator -->
-    <div id="pull-to-refresh" class="pull-to-refresh">
-        <div class="pwa-loading"></div>
-    </div>
+    <!-- App Container -->
+    <div class="max-w-[480px] mx-auto bg-gray-100 min-h-screen shadow-xl relative pb-24">
 
-    <!-- PWA Header -->
-    <header class="pwa-header">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                @if($showBackButton)
-                    <button onclick="history.back()" class="text-text-secondary hover:text-primary">
-                        <i class="fas fa-arrow-right text-xl"></i>
-                    </button>
-                @endif
-                <h1 class="text-lg font-semibold">{{ $title }}</h1>
-            </div>
+        @if($showHeader && !isset($customHeader))
+            <!-- Default Header -->
+            <header class="pwa-header bg-white border-b border-gray-200">
+                <div class="flex items-center justify-between px-5 py-4">
+                    <div class="flex items-center gap-3">
+                        @if($showBackButton)
+                            <button onclick="history.back()" class="text-slate-500 hover:text-slate-900">
+                                <i class="fa-solid fa-arrow-right text-xl"></i>
+                            </button>
+                        @endif
+                        <h1 class="text-lg font-bold text-slate-900">{{ $title }}</h1>
+                    </div>
 
-            @if($headerActions)
-                <div class="flex items-center gap-3">
-                    {{ $headerActions }}
+                    @if($headerActions)
+                        <div class="flex items-center gap-3">
+                            {{ $headerActions }}
+                        </div>
+                    @endif
                 </div>
-            @endif
-        </div>
-    </header>
+            </header>
+        @endif
 
-    <!-- PWA Content Area -->
-    <main class="pwa-content">
-        {{ $slot }}
-    </main>
+        <!-- Custom Header Slot -->
+        {{ $customHeader ?? '' }}
 
-    <!-- PWA Bottom Navigation -->
-    <nav class="pwa-nav">
-        <div class="flex items-center justify-around">
-            <a href="{{ route('pwa.dashboard') }}" class="pwa-nav-item">
-                <i class="fas fa-home text-xl"></i>
-                <span class="text-xs">خانه</span>
-            </a>
+        <!-- PWA Content Area -->
+        <main>
+            {{ $slot }}
+        </main>
 
-            <a href="#" class="pwa-nav-item">
-                <i class="fas fa-tasks text-xl"></i>
-                <span class="text-xs">وظایف</span>
-            </a>
+        <!-- PWA Bottom Navigation -->
+        <x-pwa::bottom-nav :current-tab="$currentTab" />
 
-            <a href="#" class="pwa-nav-item">
-                <i class="fas fa-bell text-xl"></i>
-                <span class="text-xs">اعلان‌ها</span>
-            </a>
-
-            <a href="#" class="pwa-nav-item">
-                <i class="fas fa-user text-xl"></i>
-                <span class="text-xs">پروفایل</span>
-            </a>
-        </div>
-    </nav>
+    </div>
 
     <!-- Install Prompt -->
     <div id="pwa-install-prompt" class="install-prompt hidden">
         <div class="flex items-center justify-between">
             <div class="flex-1">
                 <h3 class="font-semibold text-lg mb-1">نصب اپلیکیشن</h3>
-                <p class="text-sm text-text-secondary">برای دسترسی سریع‌تر، اپلیکیشن را نصب کنید</p>
+                <p class="text-sm text-slate-500">برای دسترسی سریع‌تر، اپلیکیشن را نصب کنید</p>
             </div>
-            <button id="pwa-install-button" class="btn-pwa bg-primary text-white mr-4">
+            <button id="pwa-install-button" class="btn-pwa bg-slate-900 text-white mr-4">
                 نصب
             </button>
         </div>
     </div>
 
     @stack('scripts')
+    {{ $scripts ?? '' }}
 </body>
 </html>

@@ -10,7 +10,6 @@
     @routes
 
     @vite([
-        'resources/css/shared.css',
         'Applications/AdminPanel/Resources/css/app.css',
         'Applications/AdminPanel/Resources/js/app.js'
     ])

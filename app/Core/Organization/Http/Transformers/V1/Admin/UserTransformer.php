@@ -47,6 +47,7 @@ class UserTransformer extends BaseTransformer
         'roles',
         'primaryRoles',
         'tasks',
+        'files',
     ];
 
     public function includeTasks(User $user)
@@ -55,6 +56,16 @@ class UserTransformer extends BaseTransformer
             model: $user,
             relationName: 'tasks',
             transformer: TaskTransformer::class,
+        );
+    }
+
+    public function includeFiles(User $user)
+    {
+        return $this->itemRelation(
+            model: $user,
+            relationName: 'files',
+            transformer: $this,
+            foreignKey: 'uploaded_by',
         );
     }
 

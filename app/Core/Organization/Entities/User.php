@@ -7,6 +7,7 @@ namespace App\Core\Organization\Entities;
 use App\Contracts\Entity\BaseEntity;
 use App\Contracts\Entity\RoleableEntity;
 use App\Core\BPMS\Traits\HasTasks;
+use App\Core\FileManager\Entities\File;
 use App\Core\FileManager\Traits\HasFile;
 use App\Core\Organization\Database\Factories\UserFactory;
 use App\Core\Organization\Enums\CustomerTypeEnum;
@@ -146,6 +147,11 @@ class User extends BaseEntity implements
     public function directManager(): BelongsTo
     {
         return $this->belongsTo(self::class, 'direct_manager_id');
+    }
+
+    public function files(): HasMany
+    {
+        return $this->hasMany(File::class, 'uploaded_by');
     }
 
     protected function mobile(): Attribute
