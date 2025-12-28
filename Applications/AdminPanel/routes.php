@@ -18,7 +18,6 @@ use Applications\AdminPanel\Controllers\{
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web'])
-    ->domain(config('app.domains.admin_panel'))
     ->group(static function () {
         Route::get('/', function () {
             if (Auth::guard('web')->check()) {

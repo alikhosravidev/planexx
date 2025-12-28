@@ -230,7 +230,7 @@
                 <button type="button" onclick="closeLogoutModal()" class="flex-1 bg-gray-100 text-slate-700 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-all">
                     انصراف
                 </button>
-                <form action="{{ route('pwa.logout') }}" method="POST" class="flex-1">
+                <form action="{{ route('logout') }}" method="POST" class="flex-1">
                     @csrf
                     <button type="submit" class="w-full bg-red-600 text-white py-3 rounded-xl font-semibold hover:bg-red-700 transition-all">
                         خروج
