@@ -43,12 +43,6 @@ function discoverApplications() {
 function getInputFiles() {
     const input = [];
 
-    const sharedCss = 'resources/css/shared.css';
-    const sharedJs = 'resources/js/shared.js';
-
-    if (fs.existsSync(sharedCss)) input.push(sharedCss);
-    if (fs.existsSync(sharedJs)) input.push(sharedJs);
-
     // Auto-discover Application Resources
     const applications = discoverApplications();
 

@@ -29,13 +29,14 @@
     }
 
     $attachments = $task['attachments'] ?? [];
-    $followUps = $task['follow_ups'] ?? [];
+    $followUps = $task['followUps'] ?? [];
 
     $followUpStyles = [
-        'state_transition' => ['icon' => 'fa-arrow-right-arrow-left', 'bg' => 'bg-blue-50', 'text' => 'text-blue-600', 'border' => 'border-blue-200'],
-        'follow_up'        => ['icon' => 'fa-comment', 'bg' => 'bg-purple-50', 'text' => 'text-purple-600', 'border' => 'border-purple-200'],
-        'user_action'      => ['icon' => 'fa-hand-pointer', 'bg' => 'bg-amber-50', 'text' => 'text-amber-600', 'border' => 'border-amber-200'],
-        'watcher_review'   => ['icon' => 'fa-eye', 'bg' => 'bg-green-50', 'text' => 'text-green-600', 'border' => 'border-green-200'],
+        'FOLLOW_UP' => ['icon' => 'fa-comment', 'bg' => 'bg-blue-50', 'text' => 'text-blue-600', 'border' => 'border-blue-200'],
+        'STATE_TRANSITION' => ['icon' => 'fa-arrow-right-arrow-left', 'bg' => 'bg-purple-50', 'text' => 'text-purple-600', 'border' => 'border-purple-200'],
+        'USER_ACTION' => ['icon' => 'fa-hand-pointer', 'bg' => 'bg-amber-50', 'text' => 'text-amber-600', 'border' => 'border-amber-200'],
+        'WATCHER_REVIEW' => ['icon' => 'fa-eye', 'bg' => 'bg-green-50', 'text' => 'text-green-600', 'border' => 'border-green-200'],
+        'REFER' => ['icon' => 'fa-share', 'bg' => 'bg-blue-50', 'text' => 'text-blue-600', 'border' => 'border-blue-200'],
     ];
 
     $creator = $task['creator'] ?? [];
@@ -57,7 +58,7 @@
                             <p class="text-slate-500 text-xs">{{ $task['slug'] ?? '' }}</p>
                         </div>
                     </div>
-                    <button onclick="openTaskInfoModal()" class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center hover:bg-gray-200 transition-all">
+                    <button data-modal-open="taskInfoModal" class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center hover:bg-gray-200 transition-all">
                         <i class="fa-solid fa-circle-info text-slate-600"></i>
                     </button>
                 </div>
@@ -136,7 +137,7 @@
                     </div>
                     <div class="flex-1">
                         <p class="text-white/80 text-xs mb-0.5">مهلت تکمیل</p>
-                        <p class="text-white font-bold">{{ $task['due_date']['human']['full'] ?? $task['due_date']['formatted'] ?? '—' }}</p>
+                        <p class="text-white font-bold">{{ $task['due_date']['human']['default'] ?? $task['due_date']['formatted'] ?? '—' }}</p>
                     </div>
                     <div class="text-left">
                         <span class="bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-lg text-xs font-semibold">
@@ -163,8 +164,8 @@
                 <div class="flex items-center justify-between">
                     <span class="text-slate-500 text-xs">ایجاد کننده</span>
                     <div class="flex items-center gap-2">
-                        @if(!empty($creator['avatar']['url']))
-                            <img src="{{ $creator['avatar']['url'] }}" alt="" class="w-6 h-6 rounded-full">
+                        @if(!empty($creator['avatar']['file_url']))
+                            <img src="{{ $creator['avatar']['file_url'] }}" alt="" class="w-6 h-6 rounded-full">
                         @else
                             <div class="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center">
                                 <i class="fa-solid fa-user text-slate-500 text-xs"></i>
@@ -175,12 +176,12 @@
                 </div>
                 <div class="flex items-center justify-between">
                     <span class="text-slate-500 text-xs">تاریخ ایجاد</span>
-                    <span class="text-slate-900 text-sm font-medium">{{ $task['created_at']['human']['full'] ?? '—' }}</span>
+                    <span class="text-slate-900 text-sm font-medium">{{ $task['created_at']['human']['default'] ?? '—' }}</span>
                 </div>
                 @if(!empty($task['next_follow_up_date']))
                     <div class="flex items-center justify-between">
                         <span class="text-slate-500 text-xs">پیگیری بعدی</span>
-                        <span class="text-slate-900 text-sm font-medium">{{ $task['next_follow_up_date']['human']['full'] ?? '—' }}</span>
+                        <span class="text-slate-900 text-sm font-medium">{{ $task['next_follow_up_date']['human']['long'] ?? '—' }}</span>
                     </div>
                 @endif
             </div>
@@ -201,20 +202,27 @@
                 <div class="space-y-2">
                     @foreach($attachments as $attachment)
                         @php
-                            $mimeType = $attachment['mime_type'] ?? '';
-                            $isPdf = str_contains($mimeType, 'pdf');
-                            $isImage = str_contains($mimeType, 'image');
+                            $fileTypeLabel = $attachment['file_type_label'] ?? 'file';
+                            $typeStyles = [
+                                'document' => ['bg' => 'bg-red-100', 'text' => 'text-red-600', 'icon' => 'fa-file-pdf'],
+                                'excel' => ['bg' => 'bg-green-100', 'text' => 'text-green-600', 'icon' => 'fa-file-excel'],
+                                'word' => ['bg' => 'bg-blue-100', 'text' => 'text-blue-600', 'icon' => 'fa-file-word'],
+                                'image' => ['bg' => 'bg-purple-100', 'text' => 'text-purple-600', 'icon' => 'fa-file-image'],
+                                'video' => ['bg' => 'bg-pink-100', 'text' => 'text-pink-600', 'icon' => 'fa-file-video'],
+                                'audio' => ['bg' => 'bg-yellow-100', 'text' => 'text-yellow-600', 'icon' => 'fa-file-audio'],
+                                'archive' => ['bg' => 'bg-amber-100', 'text' => 'text-amber-600', 'icon' => 'fa-file-zipper'],
+                            ];
+                            $style = $typeStyles[$fileTypeLabel] ?? ['bg' => 'bg-blue-100', 'text' => 'text-blue-600', 'icon' => 'fa-file'];
                         @endphp
-                        <a href="{{ $attachment['url'] ?? '#' }}" target="_blank" class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-all cursor-pointer">
-                            <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0
-                                {{ $isPdf ? 'bg-red-100 text-red-600' : ($isImage ? 'bg-blue-100 text-blue-600' : 'bg-slate-100 text-slate-600') }}">
-                                <i class="fa-solid {{ $isPdf ? 'fa-file-pdf' : ($isImage ? 'fa-image' : 'fa-file') }}"></i>
+                        <a href="{{ $attachment['url'] ?? '#' }}" target="_blank" class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-all cursor-pointer group">
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 {{ $style['bg'] }} {{ $style['text'] }}">
+                                <i class="fa-solid {{ $style['icon'] }}"></i>
                             </div>
                             <div class="flex-1 min-w-0">
-                                <h4 class="text-slate-900 text-sm font-medium truncate">{{ $attachment['title'] ?? $attachment['name'] ?? 'فایل' }}</h4>
-                                <p class="text-slate-500 text-xs">{{ $attachment['file_size'] ?? '' }}</p>
+                                <h4 class="text-slate-900 text-sm font-medium truncate">{{ $attachment['title'] ?? $attachment['original_name'] ?? 'فایل' }}</h4>
+                                <p class="text-slate-500 text-xs">{{ $attachment['file_size_human'] ?? $attachment['file_size'] ?? '' }}</p>
                             </div>
-                            <i class="fa-solid fa-download text-slate-400"></i>
+                            <i class="fa-solid fa-download text-slate-400 group-hover:text-indigo-600 transition-colors"></i>
                         </a>
                     @endforeach
                 </div>
@@ -229,6 +237,9 @@
                         <i class="fa-solid fa-clock-rotate-left text-slate-600"></i>
                         تاریخچه اقدامات
                     </h3>
+                    <span class="bg-slate-100 text-slate-600 px-2 py-1 rounded-lg text-xs font-medium">
+                        {{ count($followUps) }} رویداد
+                    </span>
                 </div>
 
                 <div class="relative">
@@ -239,8 +250,8 @@
                     <div class="space-y-4">
                         @foreach($followUps as $index => $followUp)
                             @php
-                                $type = $followUp['type'] ?? 'follow_up';
-                                $style = $followUpStyles[$type] ?? $followUpStyles['follow_up'];
+                                $type = $followUp['type']['name'] ?? 'FOLLOW_UP';
+                                $style = $followUpStyles[$type] ?? $followUpStyles['FOLLOW_UP'];
                                 $followUpCreator = $followUp['creator'] ?? [];
                             @endphp
                             <div class="relative flex gap-4 pr-2">
@@ -253,8 +264,8 @@
                                 <div class="flex-1 pb-4 {{ $index !== count($followUps) - 1 ? 'border-b border-gray-100' : '' }}">
                                     <div class="flex items-start justify-between gap-2 mb-1">
                                         <div class="flex items-center gap-2">
-                                            @if(!empty($followUpCreator['avatar']['url']))
-                                                <img src="{{ $followUpCreator['avatar']['url'] }}" alt="" class="w-5 h-5 rounded-full">
+                                            @if(!empty($followUpCreator['avatar']['file_url']))
+                                                <img src="{{ $followUpCreator['avatar']['file_url'] }}" alt="" class="w-5 h-5 rounded-full">
                                             @else
                                                 <div class="w-5 h-5 rounded-full bg-slate-200 flex items-center justify-center">
                                                     <i class="fa-solid fa-user text-slate-500 text-[8px]"></i>
@@ -262,18 +273,39 @@
                                             @endif
                                             <span class="text-slate-900 text-xs font-semibold">{{ $followUpCreator['full_name'] ?? '—' }}</span>
                                         </div>
-                                        <span class="text-slate-400 text-[10px]">{{ $followUp['created_at']['human']['full'] ?? '—' }}</span>
+                                        <span class="text-slate-400 text-[10px]">{{ isset($followUp['created_at']) ? $followUp['created_at']['human']['short'] . ' - ' . $followUp['created_at']['hour'] . ':' . $followUp['created_at']['minute'] : '—' }}</span>
                                     </div>
 
-                                    @if($type === 'state_transition' && !empty($followUp['previous_state']) && !empty($followUp['new_state']))
+                                    @if($type === 'STATE_TRANSITION' && (isset($followUp['previous_state']) || isset($followUp['new_state'])))
                                         <div class="flex items-center gap-2 mb-2">
-                                            <span class="bg-slate-100 text-slate-600 px-2 py-1 rounded text-[10px] font-medium">{{ $followUp['previous_state']['name'] ?? '' }}</span>
-                                            <i class="fa-solid fa-arrow-left text-slate-400 text-[10px]"></i>
-                                            <span class="bg-slate-900 text-white px-2 py-1 rounded text-[10px] font-medium">{{ $followUp['new_state']['name'] ?? '' }}</span>
+                                            @if(isset($followUp['previous_state']))
+                                                <span class="bg-slate-100 text-slate-600 px-2 py-1 rounded text-[10px] font-medium">{{ $followUp['previous_state']['name'] ?? $followUp['previous_state'] }}</span>
+                                                <i class="fa-solid fa-arrow-left text-slate-400 text-[10px]"></i>
+                                            @endif
+                                            @if(isset($followUp['new_state']))
+                                                <span class="bg-slate-900 text-white px-2 py-1 rounded text-[10px] font-medium">{{ $followUp['new_state']['name'] ?? $followUp['new_state'] }}</span>
+                                            @endif
                                         </div>
                                     @endif
 
-                                    <p class="text-slate-600 text-xs leading-relaxed">{{ $followUp['content']['full'] ?? '' }}</p>
+                                    <div class="flex items-center gap-2">
+                                        @if(!empty($followUp['content']))
+                                            <p class="text-slate-600 text-xs leading-relaxed flex-1">{{ $followUp['content']['default'] ?? '' }}</p>
+                                        @endif
+                                        @if(!empty($followUp['attachments']))
+                                            <div class="flex gap-1">
+                                                @foreach($followUp['attachments'] as $attachment)
+                                                    <a
+                                                        href="{{ route('web.documents.files.download', ['id' => $attachment['id']]) }}"
+                                                        download="download"
+                                                        class="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-indigo-600 hover:bg-gray-100 rounded-lg transition-all duration-200"
+                                                        title="دانلود پیوست">
+                                                        <i class="fa-solid fa-download text-xs"></i>
+                                                    </a>
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -288,11 +320,11 @@
     <div class="fixed bottom-0 left-0 right-0 z-50">
         <div class="max-w-[480px] mx-auto bg-white border-t border-gray-200 px-5 py-4 shadow-lg">
             <div class="flex items-center gap-3">
-                <button onclick="openFollowUpModal()" class="flex-1 h-12 bg-gray-100 hover:bg-gray-200 text-slate-700 rounded-xl font-medium transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                <button data-modal-open="followUpModal" class="flex-1 h-12 bg-gray-100 hover:bg-gray-200 text-slate-700 rounded-xl font-medium transition-all active:scale-[0.98] flex items-center justify-center gap-2">
                     <i class="fa-solid fa-comment"></i>
                     ثبت یادداشت
                 </button>
-                <button onclick="openForwardModal()" class="flex-1 h-12 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-medium transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                <button data-modal-open="forwardModal" class="flex-1 h-12 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-medium transition-all active:scale-[0.98] flex items-center justify-center gap-2">
                     <i class="fa-solid fa-paper-plane"></i>
                     ارجاع به مرحله بعد
                 </button>
@@ -309,72 +341,5 @@
     <!-- Task Info Modal -->
     <x-pwa::modals.task-info-modal :task="$task" :workflow="$workflow" :priority-style="$priorityStyle" />
 
-    <x-slot:scripts>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const container = document.getElementById('workflowProgress');
-                const currentStep = document.getElementById('currentStep');
 
-                if (container && currentStep) {
-                    const containerWidth = container.offsetWidth;
-                    const stepLeft = currentStep.offsetLeft;
-                    const stepWidth = currentStep.offsetWidth;
-                    const scrollPosition = stepLeft - (containerWidth / 2) + (stepWidth / 2);
-
-                    container.scrollTo({
-                        left: scrollPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-
-            function openFollowUpModal() {
-                document.getElementById('followUpModal').classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-            }
-
-            function closeFollowUpModal() {
-                document.getElementById('followUpModal').classList.add('hidden');
-                document.body.style.overflow = '';
-            }
-
-            function openForwardModal() {
-                document.getElementById('forwardModal').classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-            }
-
-            function closeForwardModal() {
-                document.getElementById('forwardModal').classList.add('hidden');
-                document.body.style.overflow = '';
-            }
-
-            function openTaskInfoModal() {
-                document.getElementById('taskInfoModal').classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-            }
-
-            function closeTaskInfoModal() {
-                document.getElementById('taskInfoModal').classList.add('hidden');
-                document.body.style.overflow = '';
-            }
-
-            document.querySelectorAll('#followUpModal, #forwardModal, #taskInfoModal').forEach(modal => {
-                modal.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        this.classList.add('hidden');
-                        document.body.style.overflow = '';
-                    }
-                });
-            });
-
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    document.querySelectorAll('#followUpModal, #forwardModal, #taskInfoModal').forEach(modal => {
-                        modal.classList.add('hidden');
-                    });
-                    document.body.style.overflow = '';
-                }
-            });
-        </script>
-    </x-slot:scripts>
 </x-pwa::layouts.app>

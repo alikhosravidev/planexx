@@ -5,7 +5,8 @@ import '@shared-js/bootstrap.js';
 
 // Import PWA specific modules
 import { pwaInit } from './pwa-init.js';
-import { uiComponents } from './ui-components.js';
+import { uiComponents } from '@shared-js/ui-components.js';
+import { pwaUiComponents } from './pwa-ui-components.js';
 import { forms } from '@shared-js/forms/index.js';
 import { initPersianDigits } from '@shared-js/utils/persian-digits.js';
 import { initTomSelect } from '@shared-js/tom-select/index.js';
@@ -20,6 +21,15 @@ initPersianDigits({
 document.addEventListener(
   'DOMContentLoaded',
   () => {
+    // Initialize global UI components
+    uiComponents.initModals();
+    uiComponents.initDropdowns();
+    uiComponents.initAlerts();
+    uiComponents.initMobileMenu();
+    uiComponents.initMobileSidebar();
+    uiComponents.initUserMenu();
+    uiComponents.initCopyToClipboard();
+
     // Initialize PWA features
     pwaInit.registerServiceWorker();
     pwaInit.initInstallPrompt();
@@ -27,10 +37,7 @@ document.addEventListener(
     pwaInit.initPullToRefresh();
 
     // Initialize global UI components
-    uiComponents.initBottomNav();
-    uiComponents.initModals();
-    uiComponents.initAlerts();
-    uiComponents.initCopyToClipboard();
+    pwaUiComponents.initBottomNav();
 
     forms.initForms();
 
@@ -39,6 +46,22 @@ document.addEventListener(
 
     // Initialize Datepicker (if needed for PWA)
     initDatepicker();
+
+    // Auto-scroll workflow progress to current step
+    const workflowContainer = document.getElementById('workflowProgress');
+    const currentStep = document.getElementById('currentStep');
+
+    if (workflowContainer && currentStep) {
+      const containerWidth = workflowContainer.offsetWidth;
+      const stepLeft = currentStep.offsetLeft;
+      const stepWidth = currentStep.offsetWidth;
+      const scrollPosition = stepLeft - (containerWidth / 2) + (stepWidth / 2);
+
+      workflowContainer.scrollTo({
+        left: scrollPosition,
+        behavior: 'smooth',
+      });
+    }
   },
   { once: true },
 );

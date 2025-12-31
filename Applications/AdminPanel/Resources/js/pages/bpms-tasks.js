@@ -5,7 +5,7 @@
  */
 
 import { get } from '@shared-js/api/request.js';
-import { uiComponents } from '../ui-components.js';
+import { uiComponents } from '@shared-js/ui-components.js';
 import { getTomSelectInstance } from '@shared-js/tom-select/index.js';
 import { initDocuments } from './documents.js';
 

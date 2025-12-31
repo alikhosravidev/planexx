@@ -31,7 +31,7 @@ class PanelTaskController extends BaseWebController
             $filters['priority'] = $request->get('priority');
         }
 
-        $queryParams['includes']  = 'workflow.states,currentState,assignee,creator';
+        $queryParams['includes']  = 'workflow.states,currentState,assignee.avatar,creator.avatar';
         $queryParams['withCount'] = 'followUps,attachments';
         $queryParams['filter']    = $filters;
 
@@ -53,7 +53,7 @@ class PanelTaskController extends BaseWebController
     {
         $response = $this->apiGet('api.v1.admin.bpms.tasks.show', [
             'task'     => $task->id,
-            'includes' => 'attachments,workflow.states,workflow.department,workflow.owner,currentState,assignee,creator,followUps.creator,followUps.attachments',
+            'includes' => 'attachments,workflow.states,workflow.department,workflow.owner,currentState,assignee,creator,followUps.creator.avatar,followUps.attachments',
         ]);
 
         return view('panel::tasks.show', [

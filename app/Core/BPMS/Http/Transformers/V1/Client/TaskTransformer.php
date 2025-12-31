@@ -11,12 +11,14 @@ use App\Core\BPMS\Http\Transformers\V1\Admin\WorkflowStateTransformer;
 use App\Core\BPMS\Http\Transformers\V1\Admin\WorkflowTransformer;
 use App\Core\FileManager\Http\Transformers\V1\Admin\FileTransformer;
 use App\Core\Organization\Http\Transformers\V1\Admin\UserTransformer;
+use App\Services\Transformer\FieldTransformers\DateTimeTransformer;
 use App\Services\Transformer\FieldTransformers\EnumTransformer;
 
 class TaskTransformer extends BaseTransformer
 {
     protected array $fieldTransformers = [
-        'priority' => EnumTransformer::class,
+        'priority'            => EnumTransformer::class,
+        'next_follow_up_date' => DateTimeTransformer::class,
     ];
 
     protected array $availableIncludes = [

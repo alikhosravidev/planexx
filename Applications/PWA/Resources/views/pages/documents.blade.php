@@ -3,12 +3,14 @@
     $pageTitle = 'اسناد من';
 
     $typeIcons = [
-        'pdf'   => ['icon' => 'fa-file-pdf', 'color' => 'text-red-600', 'bg' => 'bg-red-50'],
-        'excel' => ['icon' => 'fa-file-excel', 'color' => 'text-green-600', 'bg' => 'bg-green-50'],
-        'word'  => ['icon' => 'fa-file-word', 'color' => 'text-blue-600', 'bg' => 'bg-blue-50'],
-        'ppt'   => ['icon' => 'fa-file-powerpoint', 'color' => 'text-orange-600', 'bg' => 'bg-orange-50'],
-        'image' => ['icon' => 'fa-image', 'color' => 'text-purple-600', 'bg' => 'bg-purple-50'],
-        'default' => ['icon' => 'fa-file', 'color' => 'text-slate-600', 'bg' => 'bg-slate-100'],
+        'document' => ['icon' => 'fa-file-pdf', 'color' => 'text-red-600', 'bg' => 'bg-red-100'],
+        'excel'    => ['icon' => 'fa-file-excel', 'color' => 'text-green-600', 'bg' => 'bg-green-100'],
+        'word'     => ['icon' => 'fa-file-word', 'color' => 'text-blue-600', 'bg' => 'bg-blue-100'],
+        'image'    => ['icon' => 'fa-file-image', 'color' => 'text-purple-600', 'bg' => 'bg-purple-100'],
+        'video'    => ['icon' => 'fa-file-video', 'color' => 'text-pink-600', 'bg' => 'bg-pink-100'],
+        'audio'    => ['icon' => 'fa-file-audio', 'color' => 'text-yellow-600', 'bg' => 'bg-yellow-100'],
+        'archive'  => ['icon' => 'fa-file-zipper', 'color' => 'text-amber-600', 'bg' => 'bg-amber-100'],
+        'default'  => ['icon' => 'fa-file', 'color' => 'text-blue-600', 'bg' => 'bg-blue-100'],
     ];
 
     $counts = $counts ?? [
@@ -83,25 +85,11 @@
             <div class="space-y-3">
                 @foreach($documents as $doc)
                     @php
-                        $mimeType = $doc['mime_type'] ?? '';
-                        $fileType = 'default';
-
-                        if (str_contains($mimeType, 'pdf')) {
-                            $fileType = 'pdf';
-                        } elseif (str_contains($mimeType, 'excel') || str_contains($mimeType, 'spreadsheet')) {
-                            $fileType = 'excel';
-                        } elseif (str_contains($mimeType, 'word') || str_contains($mimeType, 'document')) {
-                            $fileType = 'word';
-                        } elseif (str_contains($mimeType, 'powerpoint') || str_contains($mimeType, 'presentation')) {
-                            $fileType = 'ppt';
-                        } elseif (str_contains($mimeType, 'image')) {
-                            $fileType = 'image';
-                        }
-
-                        $typeStyle = $typeIcons[$fileType];
+                        $fileTypeLabel = $doc['file_type_label'] ?? 'default';
+                        $typeStyle = $typeIcons[$fileTypeLabel] ?? $typeIcons['default'];
                         $isNew = isset($doc['created_at']) && strtotime($doc['created_at']['raw'] ?? '') > strtotime('-2 days');
                     @endphp
-                    <div onclick="openFileModal(@js($doc))" class="bg-white rounded-2xl p-4 shadow-sm hover:shadow-lg transition-all cursor-pointer active:scale-[0.98] {{ $isNew ? 'border-r-4 border-r-blue-500' : '' }}">
+                    <div data-modal-open="fileModal" data-modal-data='@json($doc)' class="bg-white rounded-2xl p-4 shadow-sm hover:shadow-lg transition-all cursor-pointer active:scale-[0.98] {{ $isNew ? 'border-r-4 border-r-blue-500' : '' }}">
                         <div class="flex items-center gap-3">
                             <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 {{ $typeStyle['bg'] }}">
                                 <i class="fa-solid {{ $typeStyle['icon'] }} text-xl {{ $typeStyle['color'] }}"></i>
@@ -131,8 +119,8 @@
     </div>
 
     <!-- File Modal -->
-    <div id="fileModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4" onclick="closeFileModal()">
-        <div onclick="event.stopPropagation()" class="bg-white rounded-t-3xl sm:rounded-3xl w-full max-w-[480px] max-h-[85vh] overflow-hidden shadow-2xl transform transition-all">
+    <div id="fileModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4" data-modal data-modal-backdrop>
+        <div class="bg-white rounded-t-3xl sm:rounded-3xl w-full max-w-[480px] max-h-[85vh] overflow-hidden shadow-2xl transform transition-all">
 
             <!-- Modal Header -->
             <div class="sticky top-0 bg-white border-b border-gray-100 px-6 py-4">
@@ -148,7 +136,7 @@
                             </div>
                         </div>
                     </div>
-                    <button onclick="closeFileModal()" class="w-9 h-9 rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-all flex-shrink-0">
+                    <button type="button" data-modal-close class="w-9 h-9 rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-all flex-shrink-0">
                         <i class="fa-solid fa-xmark text-slate-600"></i>
                     </button>
                 </div>
@@ -194,10 +182,10 @@
             <!-- Modal Footer -->
             <div class="sticky bottom-0 bg-white border-t border-gray-100 px-6 py-4">
                 <div class="grid grid-cols-2 gap-3">
-                    <button onclick="closeFileModal()" class="h-12 bg-gray-100 hover:bg-gray-200 text-slate-700 rounded-xl font-medium transition-all active:scale-[0.98]">
+                    <button type="button" data-modal-close class="h-12 bg-gray-100 hover:bg-gray-200 text-slate-700 rounded-xl font-medium transition-all active:scale-[0.98]">
                         بستن
                     </button>
-                    <button onclick="downloadFile()" class="h-12 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-medium transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                    <button type="button" id="downloadFileBtn" class="h-12 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-medium transition-all active:scale-[0.98] flex items-center justify-center gap-2">
                         <i class="fa-solid fa-download"></i>
                         دانلود فایل
                     </button>
@@ -209,86 +197,53 @@
 
     <x-slot:scripts>
         <script>
-            let currentFile = null;
-
-            function openFileModal(file) {
-                currentFile = file;
+            document.addEventListener('DOMContentLoaded', function() {
                 const modal = document.getElementById('fileModal');
-                const modalIcon = document.getElementById('fileModalIcon');
-                const modalTitle = document.getElementById('fileModalTitle');
-                const modalType = document.getElementById('fileModalType');
-                const modalSize = document.getElementById('fileModalSize');
-                const modalDescription = document.getElementById('fileModalDescription');
-                const modalDateTime = document.getElementById('fileModalDateTime');
-                const modalUploader = document.getElementById('fileModalUploader');
+                const typeIcons = {
+                    'document': { icon: 'fa-file-pdf', bg: 'bg-red-100', color: 'text-red-600' },
+                    'excel': { icon: 'fa-file-excel', bg: 'bg-green-100', color: 'text-green-600' },
+                    'word': { icon: 'fa-file-word', bg: 'bg-blue-100', color: 'text-blue-600' },
+                    'image': { icon: 'fa-file-image', bg: 'bg-purple-100', color: 'text-purple-600' },
+                    'video': { icon: 'fa-file-video', bg: 'bg-pink-100', color: 'text-pink-600' },
+                    'audio': { icon: 'fa-file-audio', bg: 'bg-yellow-100', color: 'text-yellow-600' },
+                    'archive': { icon: 'fa-file-zipper', bg: 'bg-amber-100', color: 'text-amber-600' },
+                    'default': { icon: 'fa-file', bg: 'bg-blue-100', color: 'text-blue-600' }
+                };
 
-                const mimeType = file.mime_type || file.type || 'file';
-                const isPdf = mimeType.includes('pdf');
-                const isExcel = mimeType.includes('excel') || mimeType.includes('spreadsheet');
-                const isWord = mimeType.includes('word') || mimeType.includes('document');
-                const isImage = mimeType.includes('image');
+                let currentFile = null;
 
-                if (isPdf) {
-                    modalIcon.className = 'w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 bg-red-50 text-red-600';
-                    modalIcon.innerHTML = '<i class="fa-solid fa-file-pdf"></i>';
-                } else if (isExcel) {
-                    modalIcon.className = 'w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 bg-green-50 text-green-600';
-                    modalIcon.innerHTML = '<i class="fa-solid fa-file-excel"></i>';
-                } else if (isWord) {
-                    modalIcon.className = 'w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 bg-blue-50 text-blue-600';
-                    modalIcon.innerHTML = '<i class="fa-solid fa-file-word"></i>';
-                } else if (isImage) {
-                    modalIcon.className = 'w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 bg-purple-50 text-purple-600';
-                    modalIcon.innerHTML = '<i class="fa-solid fa-image"></i>';
-                } else {
-                    modalIcon.className = 'w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 bg-slate-100 text-slate-600';
-                    modalIcon.innerHTML = '<i class="fa-solid fa-file"></i>';
-                }
+                modal.addEventListener('modal:data-loaded', function(e) {
+                    currentFile = e.detail;
+                    const fileTypeLabel = currentFile.file_type_label || 'default';
+                    const style = typeIcons[fileTypeLabel] || typeIcons['default'];
 
-                modalTitle.textContent = file.title || file.name || 'بدون عنوان';
-                modalType.textContent = file.file_type_label || 'فایل';
-                modalSize.textContent = file.file_size_human || '—';
-                modalDescription.textContent = file.description || '';
-                modalDateTime.textContent = file.created_at?.human?.default || '—';
-                modalUploader.textContent = file.uploaded_by?.full_name || 'نامشخص';
+                    const modalIcon = document.getElementById('fileModalIcon');
+                    const modalTitle = document.getElementById('fileModalTitle');
+                    const modalType = document.getElementById('fileModalType');
+                    const modalSize = document.getElementById('fileModalSize');
+                    const modalDescription = document.getElementById('fileModalDescription');
+                    const modalDateTime = document.getElementById('fileModalDateTime');
+                    const modalUploader = document.getElementById('fileModalUploader');
 
-                modal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-            }
+                    modalIcon.className = `w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${style.bg} ${style.color}`;
+                    modalIcon.innerHTML = `<i class="fa-solid ${style.icon}"></i>`;
 
-            function closeFileModal() {
-                const modal = document.getElementById('fileModal');
-                modal.classList.add('hidden');
-                document.body.style.overflow = '';
-                currentFile = null;
-            }
+                    modalTitle.textContent = currentFile.title || currentFile.name || 'بدون عنوان';
+                    modalType.textContent = currentFile.file_type_label || 'فایل';
+                    modalSize.textContent = currentFile.file_size_human || '—';
+                    modalDescription.textContent = currentFile.description || '';
+                    modalDateTime.textContent = currentFile.created_at?.human?.default || '—';
+                    modalUploader.textContent = currentFile.uploaded_by?.full_name || 'نامشخص';
+                });
 
-            function downloadFile() {
-                if (currentFile && currentFile.id) {
-                    window.location.href = '{{ route("pwa.documents.index") }}/' + currentFile.id + '/download';
-                } else if (currentFile && currentFile.url) {
-                    window.open(currentFile.url, '_blank');
-                }
-            }
-
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    const fileModal = document.getElementById('fileModal');
-                    if (!fileModal.classList.contains('hidden')) {
-                        closeFileModal();
+                document.getElementById('downloadFileBtn').addEventListener('click', function() {
+                    if (currentFile && currentFile.id) {
+                        window.location.href = '{{ route("pwa.documents.index") }}/' + currentFile.id + '/download';
+                    } else if (currentFile && currentFile.url) {
+                        window.open(currentFile.url, '_blank');
                     }
-                }
+                });
             });
         </script>
-
-        <style>
-            .scrollbar-hide::-webkit-scrollbar {
-                display: none;
-            }
-            .scrollbar-hide {
-                -ms-overflow-style: none;
-                scrollbar-width: none;
-            }
-        </style>
     </x-slot:scripts>
 </x-pwa::layouts.app>

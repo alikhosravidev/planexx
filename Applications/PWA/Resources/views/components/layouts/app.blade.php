@@ -36,9 +36,6 @@
     <!-- Ziggy Routes -->
     @routes
 
-    <!-- Font Awesome - آیکون‌ها -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
     <!-- Vite Assets - PWA Resources -->
     @vite([
         'Applications/PWA/Resources/css/app.css',

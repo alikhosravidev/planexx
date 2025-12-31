@@ -2,7 +2,7 @@
     $currentTab = 'profile';
 
     $userName = $user['full_name'] ?? 'کاربر';
-    $avatar = $user['avatar']['url'] ?? null;
+    $avatar = $user['avatar']['file_url'] ?? null;
     $department = $user['departments'][0]['name'] ?? '';
     $position = $user['job_position']['name'] ?? ($user['primary_roles'][0]['title'] ?? '');
 
@@ -209,7 +209,7 @@
         </div>
 
         <!-- Logout Button -->
-        <button type="button" onclick="confirmLogout()" class="w-full bg-red-600 text-white py-4 rounded-2xl font-bold text-base hover:bg-red-700 active:bg-red-800 transition-all flex items-center justify-center gap-2 shadow-lg">
+        <button type="button" data-modal-open="logoutModal" class="w-full bg-red-600 text-white py-4 rounded-2xl font-bold text-base hover:bg-red-700 active:bg-red-800 transition-all flex items-center justify-center gap-2 shadow-lg">
             <i class="fa-solid fa-right-from-bracket"></i>
             خروج از حساب کاربری
         </button>
@@ -217,8 +217,8 @@
     </div>
 
     <!-- Logout Confirmation Modal -->
-    <div id="logoutModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[100]" onclick="closeLogoutModal()">
-        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl" onclick="event.stopPropagation()">
+    <div id="logoutModal" data-modal class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[100]">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl">
             <div class="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <i class="fa-solid fa-right-from-bracket text-red-600 text-2xl"></i>
             </div>
@@ -227,15 +227,20 @@
                 آیا مطمئن هستید که می‌خواهید از حساب کاربری خود خارج شوید؟
             </p>
             <div class="flex gap-3">
-                <button type="button" onclick="closeLogoutModal()" class="flex-1 bg-gray-100 text-slate-700 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-all">
+                <button type="button" data-modal-close class="flex-1 bg-gray-100 text-slate-700 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-all">
                     انصراف
                 </button>
-                <form action="{{ route('logout') }}" method="POST" class="flex-1">
-                    @csrf
-                    <button type="submit" class="w-full bg-red-600 text-white py-3 rounded-xl font-semibold hover:bg-red-700 transition-all">
-                        خروج
+                <div class="flex-1">
+                    <button
+                        type="button"
+                        data-ajax
+                        data-action="{{ route('logout') }}"
+                        data-method="POST"
+                        data-on-success="reload"
+                        class="w-full bg-red-600 text-white py-3 rounded-xl font-semibold hover:bg-red-700 transition-all">
+                        <span>خروج</span>
                     </button>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -261,25 +266,6 @@
                     knob.classList.add('mr-[22px]');
                 }
             }
-
-            function confirmLogout() {
-                document.getElementById('logoutModal').classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-            }
-
-            function closeLogoutModal() {
-                document.getElementById('logoutModal').classList.add('hidden');
-                document.body.style.overflow = '';
-            }
-
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    const logoutModal = document.getElementById('logoutModal');
-                    if (!logoutModal.classList.contains('hidden')) {
-                        closeLogoutModal();
-                    }
-                }
-            });
         </script>
     </x-slot:scripts>
 </x-pwa::layouts.app>

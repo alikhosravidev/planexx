@@ -105,7 +105,7 @@
                                 'showViewCountColumn' => true,
                                 'showDateColumn' => true,
                                 'dateType' => 'last_viewed_jalali',
-                                'uploaderAvatarType' => 'image_url',
+                                'uploaderAvatarType' => 'file_url',
                                 'emptyIcon' => 'fa-clock-rotate-left',
                                 'emptyText' => 'هیچ فایل اخیری وجود ندارد',
                             ])

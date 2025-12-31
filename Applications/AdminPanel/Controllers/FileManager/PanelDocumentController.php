@@ -106,7 +106,7 @@ class PanelDocumentController extends BaseWebController
         $filesResponse = $this->apiGet('api.v1.admin.file-manager.files.index', [
             'sort'     => '-last_accessed_at',
             'per_page' => $request->get('per_page', 20),
-            'includes' => 'folder,uploader,tags',
+            'includes' => 'folder,uploader.avatar,tags',
         ]);
 
         $foldersResponse = $this->apiGet('api.v1.admin.file-manager.folders.index', [
@@ -128,7 +128,7 @@ class PanelDocumentController extends BaseWebController
             'filter'   => ['is_temporary' => true],
             'sort'     => '-created_at',
             'per_page' => $request->get('per_page', 20),
-            'includes' => 'folder,uploader,tags',
+            'includes' => 'folder,uploader.avatar,tags',
         ]);
 
         $foldersResponse = $this->apiGet('api.v1.admin.file-manager.folders.index', [

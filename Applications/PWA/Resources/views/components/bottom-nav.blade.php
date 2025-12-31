@@ -33,7 +33,7 @@
 @endphp
 
 <!-- Bottom Navigation -->
-<nav class="fixed bottom-0 left-0 right-0 bg-white px-4 py-2 z-50 max-w-[480px] mx-auto shadow-[0_-8px_24px_rgba(0,0,0,0.08)]">
+<nav class="fixed bottom-0 left-0 right-0 bg-white px-4 py-2 z-40 max-w-[480px] mx-auto shadow-[0_-8px_24px_rgba(0,0,0,0.08)]">
     <div class="flex items-center justify-around">
         @foreach($navItems as $item)
             <a href="{{ $item['url'] }}"

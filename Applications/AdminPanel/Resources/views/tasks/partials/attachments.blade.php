@@ -23,12 +23,13 @@
                 @php
                     $fileTypeLabel = $attachment['file_type_label'] ?? 'file';
                     $typeStyles = [
-                        'pdf' => ['bg' => 'bg-red-100', 'text' => 'text-red-600', 'icon' => 'fa-file-pdf'],
+                        'document' => ['bg' => 'bg-red-100', 'text' => 'text-red-600', 'icon' => 'fa-file-pdf'],
                         'excel' => ['bg' => 'bg-green-100', 'text' => 'text-green-600', 'icon' => 'fa-file-excel'],
                         'word' => ['bg' => 'bg-blue-100', 'text' => 'text-blue-600', 'icon' => 'fa-file-word'],
                         'image' => ['bg' => 'bg-purple-100', 'text' => 'text-purple-600', 'icon' => 'fa-file-image'],
                         'video' => ['bg' => 'bg-pink-100', 'text' => 'text-pink-600', 'icon' => 'fa-file-video'],
                         'audio' => ['bg' => 'bg-yellow-100', 'text' => 'text-yellow-600', 'icon' => 'fa-file-audio'],
+                        'archive' => ['bg' => 'bg-amber-100', 'text' => 'text-amber-600', 'icon' => 'fa-file-zipper'],
                     ];
                     $style = $typeStyles[$fileTypeLabel] ?? ['bg' => 'bg-blue-100', 'text' => 'text-blue-600', 'icon' => 'fa-file'];
                 @endphp

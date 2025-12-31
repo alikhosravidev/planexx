@@ -4,7 +4,7 @@
 import '@shared-js/bootstrap.js';
 
 // Import UI component initializers
-import { uiComponents } from './ui-components.js';
+import { uiComponents } from '@shared-js/ui-components.js';
 import { forms } from '@shared-js/forms/index.js';
 import { initPersianDigits } from '@shared-js/utils/persian-digits.js';
 import { initTomSelect } from '@shared-js/tom-select/index.js';

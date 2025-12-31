@@ -45,12 +45,9 @@ h6 {
 .fas,
 .far,
 .fal,
-.fab,
-.fa-solid,
-.fa-regular,
-.fa-light,
-.fa-brands {
-  font-family: 'Font Awesome 6 Free', 'Font Awesome 6 Pro', 'Font Awesome 6 Brands' !important;
+.fab {
+    font-family:
+        'Font Awesome 6 Free', 'Font Awesome 6 Pro', 'Font Awesome 6 Brands' !important;
 }
 
 /* PWA Specific Styles */

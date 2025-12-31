@@ -45,8 +45,8 @@
 
             <!-- Creator -->
             <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl mb-3">
-                @if(!empty($creator['avatar']['url']))
-                    <img src="{{ $creator['avatar']['url'] }}" alt="" class="w-10 h-10 rounded-full">
+                @if(!empty($creator['avatar']['file_url']))
+                    <img src="{{ $creator['avatar']['file_url'] }}" alt="" class="w-10 h-10 rounded-full">
                 @else
                     <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center">
                         <i class="fa-solid fa-user text-slate-500"></i>
@@ -65,7 +65,7 @@
                 </div>
                 <div class="flex-1">
                     <p class="text-slate-400 text-xs mb-0.5">تاریخ ایجاد</p>
-                    <p class="text-slate-900 text-sm font-medium">{{ $task['created_at']['human']['full'] ?? '—' }}</p>
+                    <p class="text-slate-900 text-sm font-medium">{{ $task['created_at']['human']['default'] ?? '—' }}</p>
                 </div>
             </div>
 
@@ -143,8 +143,8 @@
                                 $watcherUser = $watcher['user'] ?? $watcher;
                             @endphp
                             <div class="flex items-center gap-2 bg-slate-100 rounded-full pl-3 pr-1 py-1">
-                                @if(!empty($watcherUser['avatar']['url']))
-                                    <img src="{{ $watcherUser['avatar']['url'] }}" alt="" class="w-6 h-6 rounded-full">
+                                @if(!empty($watcherUser['avatar']['file_url']))
+                                    <img src="{{ $watcherUser['avatar']['file_url'] }}" alt="" class="w-6 h-6 rounded-full">
                                 @else
                                     <div class="w-6 h-6 rounded-full bg-slate-300 flex items-center justify-center">
                                         <i class="fa-solid fa-user text-slate-500 text-xs"></i>
