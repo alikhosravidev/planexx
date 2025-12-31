@@ -52,21 +52,15 @@
                 value="middle"
                 :options="['start' => 'نقطه شروع', 'middle' => 'میانی', 'final-success' => 'پایان موفق', 'final-failed' => 'پایان ناموفق', 'final-closed' => 'بسته شده']"/>
 
-            {{--<x-panel::forms.tom-select-ajax
-                name="states[][default_assignee_id]"
-                label="مسئول پیشفرض"
-                class="min-w-[120px] md:col-span-2"
-                select-class="bg-white"
+            <x-panel::forms.tom-select-ajax
+                name="states[][allowed_roles][]"
+                label="نقش‌های مجاز برای ارجاع به مرحله بعد"
+                :value="null"
+                :multiple="true"
+                class="min-w-[100px]"
+                :preload="true"
                 wrapper-class="md:col-span-2"
-                :url="route('api.v1.admin.org.users.keyValList', ['field' => 'full_name', 'filter' => ['user_type' => 2]])"/>--}}
-            <x-panel::forms.select
-                name="states[][default_assignee_id]"
-                label="مسئول پیشفرض"
-                class="min-w-[120px]"
-                select-class="bg-white"
-                value="middle"
-                wrapper-class="md:col-span-2"
-                :options="$users ?? []"/>
+                :url="route('api.v1.admin.org.roles.keyValList', ['per_page' => 100, 'field' => 'title'])"/>
 
             <div class="md:col-span-2 border border-border-medium rounded-xl overflow-hidden focus-within:border-indigo-600 focus-within:shadow-focus transition-all duration-200">
                 <div class="flex">

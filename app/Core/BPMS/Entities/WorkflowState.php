@@ -8,13 +8,16 @@ use App\Contracts\Entity\BaseEntity;
 use App\Contracts\Entity\SortableEntity;
 use App\Core\BPMS\Database\Factories\WorkflowStateFactory;
 use App\Core\BPMS\Enums\WorkflowStatePosition;
+use App\Core\Organization\Entities\Role;
 use App\Core\Organization\Entities\User;
+use App\Core\Organization\Traits\HasRoles;
 use App\Traits\HasSorting;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Traits\HasPermissions;
 
 /**
  * @property int                         $id
@@ -35,12 +38,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Workflow                     $workflow
  * @property User|null                    $defaultAssignee
  * @property \Illuminate\Database\Eloquent\Collection<int, Task> $tasks
+ * @property \Illuminate\Database\Eloquent\Collection<int, Role> $allowedRoles
  */
 class WorkflowState extends BaseEntity implements SortableEntity
 {
     use HasFactory;
     use SoftDeletes;
     use HasSorting;
+    use HasRoles;
+    use HasPermissions;
 
     protected $table = 'bpms_workflow_states';
 
@@ -89,5 +95,10 @@ class WorkflowState extends BaseEntity implements SortableEntity
     protected static function newFactory(): WorkflowStateFactory
     {
         return WorkflowStateFactory::new();
+    }
+
+    public function allowedRoles()
+    {
+        return $this->roles();
     }
 }

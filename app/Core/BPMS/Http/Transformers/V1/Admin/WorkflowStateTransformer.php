@@ -6,6 +6,7 @@ namespace App\Core\BPMS\Http\Transformers\V1\Admin;
 
 use App\Contracts\Transformer\BaseTransformer;
 use App\Core\BPMS\Entities\WorkflowState;
+use App\Core\Organization\Http\Transformers\V1\Admin\RoleTransformer;
 use App\Core\Organization\Http\Transformers\V1\Admin\UserTransformer;
 use App\Services\Transformer\FieldTransformers\EnumTransformer;
 
@@ -17,6 +18,7 @@ class WorkflowStateTransformer extends BaseTransformer
 
     protected array $availableIncludes = [
         'defaultAssignee',
+        'allowedRoles',
     ];
 
     protected function getVirtualFieldResolvers(): array
@@ -33,6 +35,15 @@ class WorkflowStateTransformer extends BaseTransformer
             relationName: 'defaultAssignee',
             transformer: UserTransformer::class,
             foreignKey: 'default_assignee_id',
+        );
+    }
+
+    public function includeAllowedRoles(WorkflowState $state)
+    {
+        return $this->collectionRelation(
+            model: $state,
+            relationName: 'allowedRoles',
+            transformer: RoleTransformer::class,
         );
     }
 }

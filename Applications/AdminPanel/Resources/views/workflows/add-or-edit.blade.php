@@ -17,11 +17,6 @@
 
     $isActive = ! isset($workflow) || ! empty($workflow['is_active']);
 
-    $selectedRoleIds = [];
-    if (isset($workflow['allowed_roles']) && is_array($workflow['allowed_roles'])) {
-        $selectedRoleIds = array_column($workflow['allowed_roles'], 'id');
-    }
-
     $initialStates = $workflow['states'] ?? [];
 
     $selectedRoleIds = collect($workflow['allowedRoles'] ?? [])->pluck('id')->toArray();

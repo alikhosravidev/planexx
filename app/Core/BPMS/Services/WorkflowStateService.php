@@ -96,6 +96,7 @@ readonly class WorkflowStateService implements WorkflowStateServiceInterface
                 'default_assignee_id' => $stateData['default_assignee_id'] ?? null,
                 'is_active'           => true,
                 'position'            => $this->resolvePosition($stateData['position'] ?? 'middle'),
+                'allowed_roles'       => $stateData['allowed_roles'] ?? [],
             ];
         });
     }
@@ -112,10 +113,15 @@ readonly class WorkflowStateService implements WorkflowStateServiceInterface
     protected function persistStates(Workflow $workflow, Collection $formattedStates): void
     {
         foreach ($formattedStates as $attributes) {
-            $workflow->states()->updateOrCreate(
+            $allowedRoles = $attributes['allowed_roles'] ?? [];
+            unset($attributes['allowed_roles']);
+
+            $state = $workflow->states()->updateOrCreate(
                 ['id' => $attributes['id']],
                 $attributes
             );
+
+            $this->syncStateAllowedRoles($state, $allowedRoles);
         }
     }
 
@@ -133,5 +139,20 @@ readonly class WorkflowStateService implements WorkflowStateServiceInterface
     private function generateSlug(array $stateData, int $index): string
     {
         return $stateData['slug'] ?? $stateData['name'] ?? 'state-' . ($index + 1);
+    }
+
+    private function syncStateAllowedRoles(WorkflowState $state, array $allowedRoles): void
+    {
+        if (empty($allowedRoles)) {
+            $state->allowedRoles()->detach();
+
+            return;
+        }
+
+        $roleIds = array_filter(array_map('intval', $allowedRoles));
+
+        if (method_exists($state, 'allowedRoles')) {
+            $state->allowedRoles()->sync($roleIds);
+        }
     }
 }

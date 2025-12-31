@@ -201,27 +201,36 @@ class FormService {
 
   normalizeFormData(formData) {
     const data = {};
-    const nested = {};
 
     formData.forEach((value, key) => {
-      const nestedMatch = key.match(/^([^\[]+)\[\]\[([^\]]+)]$/);
+      // Handle indexed nested arrays: states[0][field] or states[0][field][]
+      const indexedNestedMatch = key.match(/^([^\[]+)\[(\d+)\]\[([^\]]+)\](\[\])?$/);
+      if (indexedNestedMatch) {
+        const baseKey = indexedNestedMatch[1];
+        const index = parseInt(indexedNestedMatch[2], 10);
+        const fieldKey = indexedNestedMatch[3];
+        const isArray = indexedNestedMatch[4] === '[]';
 
-      if (nestedMatch) {
-        const baseKey = nestedMatch[1];
-        const fieldKey = nestedMatch[2];
-
-        if (!nested[baseKey]) {
-          nested[baseKey] = {};
+        if (!Array.isArray(data[baseKey])) {
+          data[baseKey] = [];
         }
 
-        if (!nested[baseKey][fieldKey]) {
-          nested[baseKey][fieldKey] = [];
+        if (!data[baseKey][index]) {
+          data[baseKey][index] = {};
         }
 
-        nested[baseKey][fieldKey].push(value);
+        if (isArray) {
+          if (!Array.isArray(data[baseKey][index][fieldKey])) {
+            data[baseKey][index][fieldKey] = [];
+          }
+          data[baseKey][index][fieldKey].push(value);
+        } else {
+          data[baseKey][index][fieldKey] = value;
+        }
         return;
       }
 
+      // Handle simple arrays: field[]
       if (key.endsWith('[]')) {
         const cleanKey = key.slice(0, -2);
         if (!Array.isArray(data[cleanKey])) {
@@ -235,37 +244,6 @@ class FormService {
         data[key].push(value);
       } else {
         data[key] = value;
-      }
-    });
-
-    Object.entries(nested).forEach(([baseKey, fields]) => {
-      const lengths = Object.values(fields).map(
-        (fieldValues) => fieldValues.length,
-      );
-
-      if (lengths.length === 0) {
-        return;
-      }
-
-      const maxLength = Math.max(...lengths);
-
-      if (!Array.isArray(data[baseKey])) {
-        data[baseKey] = [];
-      }
-
-      for (let i = 0; i < maxLength; i += 1) {
-        const item =
-          data[baseKey][i] && typeof data[baseKey][i] === 'object'
-            ? data[baseKey][i]
-            : {};
-
-        Object.entries(fields).forEach(([fieldKey, fieldValues]) => {
-          if (i < fieldValues.length) {
-            item[fieldKey] = fieldValues[i];
-          }
-        });
-
-        data[baseKey][i] = item;
       }
     });
 

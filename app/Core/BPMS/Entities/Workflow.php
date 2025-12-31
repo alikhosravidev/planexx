@@ -11,11 +11,12 @@ use App\Core\Organization\Entities\Role;
 use App\Core\Organization\Entities\User;
 use App\Core\Organization\Traits\HasCreator;
 use App\Core\Organization\Traits\HasOwner;
+use App\Core\Organization\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Traits\HasPermissions;
 
 /**
  * @property int                 $id
@@ -40,6 +41,8 @@ class Workflow extends BaseEntity
     use SoftDeletes;
     use HasCreator;
     use HasOwner;
+    use HasRoles;
+    use HasPermissions;
 
     public const TABLE = 'bpms_workflows';
     protected $table   = self::TABLE;
@@ -80,15 +83,9 @@ class Workflow extends BaseEntity
         return $this->hasMany(Task::class, 'workflow_id');
     }
 
-    public function allowedRoles(): MorphToMany
+    public function allowedRoles()
     {
-        return $this->morphToMany(
-            related: Role::class,
-            name: 'model',
-            table: 'core_org_entity_has_roles',
-            foreignPivotKey: 'model_id',
-            relatedPivotKey: 'role_id'
-        );
+        return $this->roles();
     }
 
     protected static function newFactory(): WorkflowFactory

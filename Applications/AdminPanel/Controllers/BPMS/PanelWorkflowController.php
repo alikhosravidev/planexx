@@ -72,7 +72,7 @@ class PanelWorkflowController extends BaseWebController
     {
         $workflowResponse = $this->apiGet('api.v1.admin.bpms.workflows.show', [
             'workflow' => $workflow->id,
-            'includes' => 'states,allowedRoles',
+            'includes' => 'states.allowedRoles,allowedRoles',
         ]);
 
         $deptResponse = $this->apiGet(
