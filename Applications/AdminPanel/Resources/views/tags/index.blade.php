@@ -102,7 +102,7 @@
 
             <div class="flex-1 p-6 lg:p-8">
 
-                <x-panel::dashboard.stats :items="$stats" cols="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"/>
+                <x-panel::dashboard.stats :items="$stats" cols="grid-cols-1 grid-cols-2 lg:grid-cols-4"/>
 
                 <form method="GET" action="{{ route('web.app.tags.index') }}" class="mb-6">
                     <x-panel::ui.filter-bar :filters="$filters" :resetUrl="route('web.app.tags.index')" />

@@ -616,5 +616,97 @@
             </div>
         </section>
 
+        <!-- Tooltip Testing Section -->
+        <section>
+            <h2 class="text-xl font-bold mb-4">تست Tooltip</h2>
+            <div class="bg-white border border-border-light rounded-2xl p-6">
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3">Tooltip با title attribute</h3>
+                        <div class="flex flex-wrap gap-4">
+                            <button class="btn btn-primary" title="این یک tooltip با title است">
+                                <i class="fa-solid fa-info-circle ml-2"></i>
+                                نمایش Tooltip
+                            </button>
+                            <button class="btn btn-secondary" title="این دکمه عملیات ذخیره را انجام می‌دهد">
+                                <i class="fa-solid fa-save ml-2"></i>
+                                ذخیره
+                            </button>
+                            <a href="#" class="btn btn-success" title="برای دانلود فایل کلیک کنید">
+                                <i class="fa-solid fa-download ml-2"></i>
+                                دانلود
+                            </a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3">Tooltip با data-tooltip attribute</h3>
+                        <div class="flex flex-wrap gap-4">
+                            <button class="btn btn-warning" data-tooltip="این tooltip با data-tooltip است">
+                                <i class="fa-solid fa-exclamation-triangle ml-2"></i>
+                                هشدار
+                            </button>
+                            <button class="btn btn-danger" data-tooltip="حذف دائمی - این عمل قابل بازگشت نیست!">
+                                <i class="fa-solid fa-trash ml-2"></i>
+                                حذف
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3">Tooltip با aria-label</h3>
+                        <div class="flex flex-wrap gap-4">
+                            <button class="btn btn-outline" aria-label="ویرایش اطلاعات کاربر">
+                                <i class="fa-solid fa-edit"></i>
+                            </button>
+                            <button class="btn btn-outline" aria-label="مشاهده جزئیات">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                            <button class="btn btn-outline" aria-label="اشتراک‌گذاری با دیگران">
+                                <i class="fa-solid fa-share"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3">آیکون‌ها با Tooltip</h3>
+                        <div class="flex flex-wrap gap-4">
+                            <i class="fa-solid fa-home text-2xl text-blue-500 cursor-pointer" title="صفحه اصلی"></i>
+                            <i class="fa-solid fa-user text-2xl text-green-500 cursor-pointer" title="پروفایل کاربر"></i>
+                            <i class="fa-solid fa-cog text-2xl text-gray-500 cursor-pointer" title="تنظیمات"></i>
+                            <i class="fa-solid fa-bell text-2xl text-yellow-500 cursor-pointer" title="اعلان‌ها"></i>
+                            <i class="fa-solid fa-envelope text-2xl text-red-500 cursor-pointer" title="پیام‌ها"></i>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3">Input fields با Tooltip</h3>
+                        <div class="space-y-3">
+                            <input type="text" class="form-input" placeholder="نام کاربری" title="نام کاربری باید حداقل 3 کاراکتر باشد">
+                            <input type="email" class="form-input" placeholder="ایمیل" title="ایمیل معتبر وارد کنید">
+                            <input type="password" class="form-input" placeholder="رمز عبور" data-tooltip="رمز عبور باید حداقل 8 کاراکتر و شامل حروف و اعداد باشد">
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3">Links با Tooltip</h3>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="#" class="text-blue-600 hover:text-blue-800" title="مشاهده مستندات کامل">مستندات</a>
+                            <a href="#" class="text-green-600 hover:text-green-800" title="تماس با پشتیبانی فنی">پشتیبانی</a>
+                            <a href="#" class="text-purple-600 hover:text-purple-800" title="درباره شرکت و تیم ما">درباره ما</a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3">متن بلند در Tooltip</h3>
+                        <button class="btn btn-info" title="این یک tooltip با متن بلندتر است که برای نمایش اطلاعات بیشتر استفاده می‌شود و باید به درستی نمایش داده شود">
+                            <i class="fa-solid fa-question-circle ml-2"></i>
+                            راهنما
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </div>
 </x-panel::layouts.dashboard>

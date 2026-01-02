@@ -1,6 +1,6 @@
 @props([
     'items',
-    'cols' => 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4',
+    'cols' => 'grid-cols-1 grid-cols-2 lg:grid-cols-4',
 ])
 
 <div class="grid {{ $cols }} gap-4 lg:gap-6 mb-8">
@@ -21,8 +21,8 @@
         @endphp
 
         <div class="bg-bg-primary border border-border-light rounded-2xl p-6 hover:shadow-md hover:border-{{ $color }}-200 transition-all duration-200 relative overflow-hidden group">
-            <div class="absolute left-4 top-1/2 -translate-y-1/2 opacity-[0.05] group-hover:opacity-[0.12] transition-opacity duration-300">
-                <i class="{{ $icon }} text-[108px] {{ $iconColor }}"></i>
+            <div class="absolute left-3 top-1/2 -translate-y-1/2 opacity-[0.05] group-hover:opacity-[0.12] transition-opacity duration-300">
+                <i class="{{ $icon }} text-6xl md:text-7xl lg:text-[108px] {{ $iconColor }}"></i>
             </div>
             <div class="relative z-10">
                 <div class="text-sm text-text-secondary mb-2 font-medium leading-normal">{{ $title }}</div>

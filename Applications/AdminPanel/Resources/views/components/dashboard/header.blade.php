@@ -10,21 +10,7 @@
                 @endif
 
                 @if($breadcrumbs)
-                    <nav class="flex items-center gap-2 text-xs text-text-muted">
-                        @foreach($breadcrumbs as $index => $crumb)
-                            @if($index > 0)
-                                <i class="fa-solid fa-chevron-left text-[10px]"></i>
-                            @endif
-
-                            @if(isset($crumb['url']) && $index < count($breadcrumbs) - 1)
-                                <a href="{{ $crumb['url'] }}" class="hover:text-primary transition-colors leading-normal">
-                                    {{ $crumb['label'] }}
-                                </a>
-                            @else
-                                <span class="text-text-primary font-medium leading-normal">{{ $crumb['label'] }}</span>
-                            @endif
-                        @endforeach
-                    </nav>
+                    <x-panel::ui.breadcrumb :items="$breadcrumbs" />
                 @endif
             </div>
 

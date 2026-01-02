@@ -53,7 +53,7 @@
 
             <div class="flex-1 p-6 lg:p-8">
 
-                <x-panel::dashboard.stats :items="$stats" cols="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"/>
+                <x-panel::dashboard.stats :items="$stats" cols="grid-cols-1 grid-cols-2 lg:grid-cols-4"/>
 
                 <div class="bg-bg-primary border border-border-light rounded-2xl overflow-hidden">
                     <div class="px-6 py-4 border-b border-border-light flex items-center justify-between">

@@ -30,7 +30,7 @@
         ['label' => 'ایمیل', 'value' => $user['email'] ?? '-'],
         ['label' => 'کد ملی', 'value' => $user['national_code'] ?? '-'],
         ['label' => 'جنسیت', 'value' => $user['gender']['label'] ?? '-'],
-        ['label' => 'تاریخ تولد', 'value' => $user['birth_date'] ?? '-'],
+        ['label' => 'تاریخ تولد', 'value' => $user['birth_date']['default'] ?? '-'],
     ];
 
     $employmentInfoItems = [];

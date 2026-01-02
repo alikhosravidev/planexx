@@ -9,6 +9,7 @@ import { forms } from '@shared-js/forms/index.js';
 import { initPersianDigits } from '@shared-js/utils/persian-digits.js';
 import { initTomSelect } from '@shared-js/tom-select/index.js';
 import { initDatepicker } from '@shared-js/datepicker/index.js';
+import { tooltipper } from '@shared-js/services/tooltiper.js';
 
 // Initialize Persian digits conversion with configurable skip classes
 initPersianDigits({
@@ -27,6 +28,7 @@ document.addEventListener(
     uiComponents.initMobileSidebar();
     uiComponents.initUserMenu();
     uiComponents.initCopyToClipboard();
+    uiComponents.initBreadcrumbScroll();
 
     forms.initForms();
 

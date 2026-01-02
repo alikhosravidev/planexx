@@ -381,4 +381,42 @@ export const uiComponents = {
       await this.copyToClipboard(value, icon || btn);
     });
   },
+
+  /**
+   * Initialize breadcrumb auto-scroll to end
+   */
+  initBreadcrumbScroll() {
+    const breadcrumbs = document.querySelectorAll(
+      'nav[data-breadcrumb-scroll]',
+    );
+
+    breadcrumbs.forEach((nav) => {
+      // Function to scroll to end
+      const scrollToEnd = () => {
+        // Use requestAnimationFrame for smooth timing
+        requestAnimationFrame(() => {
+          // Check if the element is in RTL mode
+          const isRTL = window.getComputedStyle(nav).direction === 'rtl';
+
+          if (isRTL) {
+            // For RTL, scroll to the leftmost position (which is the end in RTL)
+            nav.scrollLeft = -(nav.scrollWidth - nav.clientWidth);
+          } else {
+            // For LTR, scroll to the rightmost position
+            nav.scrollLeft = nav.scrollWidth;
+          }
+        });
+      };
+
+      // Initial scroll on load
+      scrollToEnd();
+
+      // Also scroll on window resize
+      window.addEventListener('resize', scrollToEnd);
+
+      // Use MutationObserver in case content changes
+      const observer = new MutationObserver(scrollToEnd);
+      observer.observe(nav, { childList: true, subtree: true });
+    });
+  },
 };
