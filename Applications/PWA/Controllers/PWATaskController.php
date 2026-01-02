@@ -50,9 +50,24 @@ class PWATaskController extends BaseWebController
 
     public function show(Task $task): View
     {
+        $includes = [
+            'attachments',
+            'workflow.states',
+            'workflow.department',
+            'workflow.owner',
+            'currentState',
+            'assignee',
+            'creator',
+            'followUps.creator.avatar',
+            'followUps.attachments',
+            'followUps.previousAssignee.avatar',
+            'followUps.newAssignee.avatar',
+            'followUps.previousState',
+            'followUps.newState',
+        ];
         $response = $this->apiGet('api.v1.client.bpms.tasks.show', [
             'task'     => $task->id,
-            'includes' => 'attachments,workflow.states,workflow.department,workflow.owner,currentState,assignee,creator,followUps.creator.avatar,followUps.attachments',
+            'includes' => implode(',', $includes),
         ]);
 
         return view('pwa::pages.task-detail', [

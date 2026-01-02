@@ -39,26 +39,44 @@
                         {{-- Content --}}
                         <div class="flex-1 pb-4 {{ $index !== count($task['followUps']) - 1 ? 'border-b border-gray-100' : '' }}">
                             <div class="flex items-start justify-between gap-3 mb-2">
-                                <div class="flex items-center gap-2">
-                                    <x-panel::ui.avatar
-                                        name="{{ $followUp['creator']['full_name'] ?? '' }}"
-                                        image="{{ $followUp['creator']['avatar']['file_url'] ?? null }}"
-                                        size="sm"
-                                    />
-                                    <span class="text-text-primary text-sm font-semibold">{{ $followUp['creator']['full_name'] ?? '-' }}</span>
-                                </div>
+                                @if(isset($followUp['previous_assignee']) && isset($followUp['new_assignee']) && $followUp['previous_assignee_id'] !== $followUp['new_assignee_id'])
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <div class="flex items-center gap-2">
+                                            <x-panel::ui.avatar
+                                                name="{{ $followUp['previous_assignee']['full_name'] ?? '' }}"
+                                                image="{{ $followUp['previous_assignee']['avatar']['file_url'] ?? null }}"
+                                                size="sm"
+                                            />
+                                            <span class="text-text-primary text-sm font-semibold">{{ $followUp['previous_assignee']['full_name'] ?? '-' }}</span>
+                                        </div>
+                                        <i class="fa-solid fa-arrow-left text-slate-400 text-xs"></i>
+                                        <div class="flex items-center gap-2">
+                                            <x-panel::ui.avatar
+                                                name="{{ $followUp['new_assignee']['full_name'] ?? '' }}"
+                                                image="{{ $followUp['new_assignee']['avatar']['file_url'] ?? null }}"
+                                                size="sm"
+                                            />
+                                            <span class="text-text-primary text-sm font-semibold">{{ $followUp['new_assignee']['full_name'] ?? '-' }}</span>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="flex items-center gap-2">
+                                        <x-panel::ui.avatar
+                                            name="{{ $followUp['creator']['full_name'] ?? '' }}"
+                                            image="{{ $followUp['creator']['avatar']['file_url'] ?? null }}"
+                                            size="sm"
+                                        />
+                                        <span class="text-text-primary text-sm font-semibold">{{ $followUp['creator']['full_name'] ?? '-' }}</span>
+                                    </div>
+                                @endif
                                 <span class="text-text-muted text-xs">{{ isset($followUp) ? $followUp['created_at']['human']['short'] . ' - ' . $followUp['created_at']['hour'] . ':' . $followUp['created_at']['minute'] : '-' }}</span>
                             </div>
 
-                            @if($type === 'STATE_TRANSITION' && (isset($followUp['previous_state']) || isset($followUp['new_state'])))
+                            @if(isset($followUp['previous_state']) && isset($followUp['new_state']) && $followUp['previous_state_id'] !== $followUp['new_state_id'])
                                 <div class="flex items-center gap-2 mb-2">
-                                    @if(isset($followUp['previous_state']))
-                                        <span class="bg-slate-100 text-slate-600 px-2.5 py-1 rounded text-xs font-medium">{{ $followUp['previous_state']['name'] ?? $followUp['previous_state'] }}</span>
-                                        <i class="fa-solid fa-arrow-left text-slate-400 text-xs"></i>
-                                    @endif
-                                    @if(isset($followUp['new_state']))
-                                        <span class="bg-indigo-600 text-white px-2.5 py-1 rounded text-xs font-medium">{{ $followUp['new_state']['name'] ?? $followUp['new_state'] }}</span>
-                                    @endif
+                                    <span class="bg-slate-100 text-slate-600 px-2.5 py-1 rounded text-xs font-medium">{{ $followUp['previous_state']['name'] ?? $followUp['previous_state'] }}</span>
+                                    <i class="fa-solid fa-arrow-left text-slate-400 text-xs"></i>
+                                    <span class="bg-indigo-600 text-white px-2.5 py-1 rounded text-xs font-medium">{{ $followUp['new_state']['name'] ?? $followUp['new_state'] }}</span>
                                 </div>
                             @endif
 

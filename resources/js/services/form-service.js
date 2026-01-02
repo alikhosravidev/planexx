@@ -204,7 +204,9 @@ class FormService {
 
     formData.forEach((value, key) => {
       // Handle indexed nested arrays: states[0][field] or states[0][field][]
-      const indexedNestedMatch = key.match(/^([^\[]+)\[(\d+)\]\[([^\]]+)\](\[\])?$/);
+      const indexedNestedMatch = key.match(
+        /^([^\[]+)\[(\d+)\]\[([^\]]+)\](\[\])?$/,
+      );
       if (indexedNestedMatch) {
         const baseKey = indexedNestedMatch[1];
         const index = parseInt(indexedNestedMatch[2], 10);
