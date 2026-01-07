@@ -208,7 +208,7 @@
   color: var(--color-text-secondary, #6b7280);
   white-space: nowrap;
   padding: 0.875rem 1rem;
-  max-height: 52px;
+  height: 50px;
 }
 
 .ts-field-wrapper .ts-field-label .required {
@@ -229,7 +229,7 @@
 }
 
 .single .ts-control {
-  min-height: 52px;
+  height: 50px;
 }
 
 .ts-control > input {
@@ -256,4 +256,11 @@
   padding: 12px 0.625rem;
   font-size: 0.8125rem;
   min-height: 2.25rem;
+}
+
+.ts-dropdown .option,
+.ts-dropdown .optgroup-header,
+.ts-dropdown .no-results,
+.ts-dropdown .create {
+  padding: 12px;
 }

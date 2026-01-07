@@ -186,7 +186,7 @@
 
 .pdp-default .today {
   color: #fff;
-  background: var(--primary);
+  background: var(--secondary);
 }
 
 .pdp-default .today:hover {

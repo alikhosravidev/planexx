@@ -14,7 +14,7 @@
     <div class="flex items-stretch">
         @if($label)
             <label for="{{ $name }}"
-                   {{ $attributes->merge(['class' => 'bg-bg-label border-l border-border-light px-lg py-3.5 text-sm text-text-secondary flex items-center leading-normal']) }}
+                   {{ $attributes->merge(['class' => 'bg-bg-label border-l border-border-light px-lg py-3 text-sm text-text-secondary flex items-center leading-normal']) }}
             >
                 @if($icon)
                     <i class="{{ $icon }} ml-2"></i>
@@ -30,7 +30,7 @@
             name="{{ $name }}"
             id="{{ $name }}"
             {{ $required ? 'required' : '' }}
-            {{ $attributes->merge(['class' => "flex-1 px-lg py-3.5 text-base text-text-primary outline-none bg-transparent cursor-pointer leading-normal {$selectClass}"]) }}
+            {{ $attributes->merge(['class' => "flex-1 px-lg py-3 text-base text-text-primary outline-none bg-transparent cursor-pointer leading-normal {$selectClass}"]) }}
         >
             <option value="">{{ $placeholder }}</option>
             @foreach($options as $valueOption => $labelOption)
