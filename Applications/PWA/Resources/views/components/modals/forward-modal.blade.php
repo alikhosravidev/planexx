@@ -1,12 +1,8 @@
 @props([
     'taskId' => null,
     'currentState' => null,
+    'nextState' => null,
 ])
-
-@php
-    $nextStateName = $currentState['name'] ?? 'مرحله بعد';
-    $nextStateId = $currentState['id'] ?? null;
-@endphp
 
 <!-- Forward Modal -->
 <div id="forwardModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4" data-modal data-modal-backdrop>
@@ -17,7 +13,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <h2 class="text-slate-900 text-lg font-bold">ارجاع به مرحله بعد</h2>
-                    <p class="text-slate-500 text-xs mt-0.5">{{ $nextStateName }}</p>
+                    <p class="text-slate-500 text-xs mt-0.5">{{ $nextState['name'] ?? 'مرحله بعد' }}</p>
                 </div>
                 <button type="button" data-modal-close class="w-9 h-9 rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-all">
                     <i class="fa-solid fa-xmark text-slate-600"></i>
@@ -36,8 +32,8 @@
                 @csrf
 
                 <input type="hidden" name="action" value="forward">
-                @if($nextStateId)
-                    <input type="hidden" name="next_state_id" value="{{ $nextStateId }}">
+                @if($nextState)
+                    <input type="hidden" name="next_state_id" value="{{ $nextState['id'] }}">
                 @endif
 
                 <!-- Forward Note -->

@@ -27,6 +27,7 @@
             break;
         }
     }
+    $nextState = $workflowStates[$currentStateIndex + 1] ?? null;
 
     $attachments = $task['attachments'] ?? [];
     $followUps = $task['followUps'] ?? [];
@@ -344,7 +345,7 @@
     <x-pwa::modals.follow-up-modal :task-id="$task['id'] ?? null" />
 
     <!-- Forward Modal -->
-    <x-pwa::modals.forward-modal :task-id="$task['id'] ?? null" :current-state="$currentState" />
+    <x-pwa::modals.forward-modal :task-id="$task['id'] ?? null" :current-state="$currentState" :next-state="$nextState" />
 
     <!-- Task Info Modal -->
     <x-pwa::modals.task-info-modal :task="$task" :workflow="$workflow" :priority-style="$priorityStyle" />
