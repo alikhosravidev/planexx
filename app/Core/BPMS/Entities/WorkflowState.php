@@ -23,7 +23,6 @@ use Spatie\Permission\Traits\HasPermissions;
  * @property int                         $id
  * @property int                         $workflow_id
  * @property string                      $name
- * @property string|null                 $slug
  * @property string|null                 $description
  * @property string|null                 $color
  * @property int                         $order
@@ -53,7 +52,6 @@ class WorkflowState extends BaseEntity implements SortableEntity
     protected $fillable = [
         'workflow_id',
         'name',
-        'slug',
         'description',
         'color',
         'order',

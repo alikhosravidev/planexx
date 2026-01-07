@@ -119,8 +119,6 @@ function initBpmsWorkflowPage() {
     const nameInput = stateItem.querySelector('.state-name-input');
     nameInput.name = `states[${currentIndex}][name]`;
 
-    const slugInput = stateItem.querySelector('.state-slug-input');
-    slugInput.name = `states[${currentIndex}][slug]`;
 
     colorInput.name = `states[${currentIndex}][color]`;
 
@@ -144,16 +142,9 @@ function initBpmsWorkflowPage() {
     const allowedRolesSelect = stateItem.querySelector(
       'select[data-tom-select-ajax]',
     );
-    console.log('🔍 DEBUG: Found allowedRolesSelect:', {
-      found: !!allowedRolesSelect,
-      originalName: allowedRolesSelect?.name,
-      newName: `states[${currentIndex}][allowed_roles][]`,
-      hasDataAttribute: !!allowedRolesSelect?.hasAttribute('data-tom-select-ajax')
-    });
 
     if (allowedRolesSelect) {
       allowedRolesSelect.name = `states[${currentIndex}][allowed_roles][]`;
-      console.log('🔍 DEBUG: Updated allowedRolesSelect name to:', allowedRolesSelect.name);
     }
 
     // Update hidden fields
@@ -162,9 +153,6 @@ function initBpmsWorkflowPage() {
 
     if (initialData) {
       if (initialData.name && nameInput) nameInput.value = initialData.name;
-      if (initialData.slug && slugInput) {
-        slugInput.value = initialData.slug;
-      }
       if (initialData.color && colorInput) {
         colorInput.value = initialData.color;
       }
@@ -220,18 +208,9 @@ function initBpmsWorkflowPage() {
       }
 
       // Set allowed_roles for the state
-      console.log('🔍 DEBUG: Setting allowed_roles for state:', {
-        stateId: initialData.id,
-        stateName: initialData.name,
-        allowed_roles: initialData.allowed_roles,
-        allowedRolesSelectFound: !!allowedRolesSelect
-      });
 
       if (initialData.allowed_roles && allowedRolesSelect) {
-        console.log('🔍 DEBUG: Storing initial values in dataset:', initialData.allowed_roles);
         allowedRolesSelect.dataset.initialValues = JSON.stringify(initialData.allowed_roles);
-      } else {
-        console.log('🔍 DEBUG: No allowed_roles data or select element not found');
       }
     }
 
@@ -261,47 +240,26 @@ function initBpmsWorkflowPage() {
     statesContainer.appendChild(clone);
 
   // Initialize tom-select for the new state item
-  console.log('🔍 DEBUG: Initializing TomSelect for state item');
   if (typeof initTomSelect === 'function') {
-    console.log('🔍 DEBUG: Using initTomSelect function');
     initTomSelect(stateItem);
   } else if (window.tomSelectService) {
-    console.log('🔍 DEBUG: Using window.tomSelectService');
     window.tomSelectService.init(stateItem);
-  } else {
-    console.warn('⚠️ No TomSelect initialization method found');
   }
-  console.log('🔍 DEBUG: TomSelect initialization completed');
 
   // Set initial values for allowed_roles TomSelect after initialization
   // Find the select element after name updates and TomSelect initialization
   const finalAllowedRolesSelect = stateItem.querySelector('select[data-tom-select-ajax]');
-  console.log('🔍 DEBUG: Final allowed roles select element:', {
-    found: !!finalAllowedRolesSelect,
-    name: finalAllowedRolesSelect?.name,
-    hasInitialValues: !!finalAllowedRolesSelect?.dataset.initialValues,
-    initialValues: finalAllowedRolesSelect?.dataset.initialValues
-  });
 
   if (finalAllowedRolesSelect && finalAllowedRolesSelect.dataset.initialValues) {
     try {
       const initialValues = JSON.parse(finalAllowedRolesSelect.dataset.initialValues);
-      console.log('🔍 DEBUG: Parsed initial values for TomSelect:', initialValues);
 
       if (Array.isArray(initialValues) && initialValues.length > 0) {
-        console.log('🔍 DEBUG: Setting timeout to initialize TomSelect values');
         // Wait for TomSelect to be fully initialized
         setTimeout(() => {
-          console.log('🔍 DEBUG: Timeout executed, checking TomSelect instance');
           const tomSelectInstance = finalAllowedRolesSelect.tomselect;
-          console.log('🔍 DEBUG: TomSelect instance:', {
-            found: !!tomSelectInstance,
-            type: typeof tomSelectInstance
-          });
 
           if (tomSelectInstance) {
-            console.log('🔍 DEBUG: Processing initial values for TomSelect:', initialValues);
-
             // For TomSelect Ajax, we need to add options before setting values
             initialValues.forEach(role => {
               const option = {
@@ -310,40 +268,18 @@ function initBpmsWorkflowPage() {
                 value: role.id,
                 text: role.title || role.name
               };
-              console.log('🔍 DEBUG: Adding option to TomSelect:', option);
               tomSelectInstance.addOption(option);
             });
 
             // Convert role objects to IDs
             const roleIds = initialValues.map(role => role.id);
-            console.log('🔍 DEBUG: Setting TomSelect values:', roleIds);
-
-            // Check current values before setting
-            console.log('🔍 DEBUG: Current TomSelect values before setValue:', tomSelectInstance.getValue());
-            console.log('🔍 DEBUG: Available options before setValue:', Object.keys(tomSelectInstance.options));
-
             tomSelectInstance.setValue(roleIds);
-
-            // Check values after setting
-            setTimeout(() => {
-              console.log('🔍 DEBUG: TomSelect values after setValue:', tomSelectInstance.getValue());
-              console.log('🔍 DEBUG: TomSelect items count:', tomSelectInstance.items.length);
-              console.log('🔍 DEBUG: Available options after setValue:', Object.keys(tomSelectInstance.options));
-            }, 100);
-
-            console.log('✅ TomSelect values set successfully');
-          } else {
-            console.warn('⚠️ TomSelect instance not found for allowed_roles');
           }
         }, 300);
-      } else {
-        console.log('🔍 DEBUG: No initial values to set (empty or not array)');
       }
     } catch (err) {
       console.error('❌ Failed to parse initial allowed_roles values', err);
     }
-  } else {
-    console.log('🔍 DEBUG: No final select element or initial values found');
   }
 
   updateStatesUI();
@@ -378,11 +314,6 @@ function initBpmsWorkflowPage() {
       const nameInput = item.querySelector('input[name^="states["]');
       if (nameInput && nameInput.name.includes('[name]')) {
         nameInput.name = `states[${index}][name]`;
-      }
-
-      const slugInput = item.querySelector('input[name^="states["][name*="[slug]"]');
-      if (slugInput) {
-        slugInput.name = `states[${index}][slug]`;
       }
 
       const colorInput = item.querySelector('input[name^="states["][name*="[color]"]');
@@ -514,28 +445,18 @@ function initBpmsWorkflowPage() {
   observer.observe(statesContainer, { childList: true });
 
   const initialStatesRaw = form.dataset.initialStates;
-  console.log('🔍 DEBUG: initialStatesRaw:', initialStatesRaw);
 
   if (initialStatesRaw) {
     try {
       const initialStates = JSON.parse(initialStatesRaw);
-      console.log('🔍 DEBUG: Parsed initialStates:', initialStates);
 
       if (Array.isArray(initialStates) && initialStates.length > 0) {
         initialStates
           .sort((a, b) => (a.order || 0) - (b.order || 0))
           .forEach((state, index) => {
-            console.log(`🔍 DEBUG: Processing state ${index}:`, {
-              id: state.id,
-              name: state.name,
-              allowed_roles: state.allowed_roles,
-              allowedRoles: state.allowedRoles
-            });
-
             addState({
               id: state.id ?? null,
               name: state.name ?? null,
-              slug: state.slug ?? null,
               color: state.color ?? '#E3F2FD',
               position: state.position?.value ?? state.position ?? null,
               default_assignee_id: state.default_assignee_id ?? null,
@@ -544,14 +465,10 @@ function initBpmsWorkflowPage() {
               allowed_roles: state.allowed_roles ?? state.allowedRoles ?? null,
             });
           });
-      } else {
-        console.log('🔍 DEBUG: No initial states found or empty array');
       }
     } catch (err) {
       console.error('❌ Failed to parse initialStates', err);
     }
-  } else {
-    console.log('🔍 DEBUG: No initialStatesRaw data found');
   }
 }
 

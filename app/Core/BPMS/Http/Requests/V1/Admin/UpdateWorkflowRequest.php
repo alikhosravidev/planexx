@@ -44,7 +44,6 @@ class UpdateWorkflowRequest extends BaseRequest
             'states'                   => ['required', 'array', 'min:1', new ValidWorkflowStates()],
             'states.*.id'              => ['nullable', 'integer'],
             'states.*.name'            => ['required_with:states', 'string', 'max:150'],
-            'states.*.slug'            => ['nullable', 'string', 'max:150', 'regex:/^[a-z0-9-]+$/'],
             'states.*.description'     => ['nullable', 'string'],
             'states.*.color'           => ['nullable', 'string', 'max:20'],
             'states.*.order'           => ['nullable', 'integer', 'min:0'],

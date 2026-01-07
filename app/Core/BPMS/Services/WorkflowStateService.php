@@ -88,8 +88,7 @@ readonly class WorkflowStateService implements WorkflowStateServiceInterface
             return [
                 'id'                  => $stateData['id'] ?? null,
                 'workflow_id'         => $workflow->id,
-                'name'                => $stateData['name'] ?? '',
-                'slug'                => $this->generateSlug($stateData, $index),
+                'name'                => $stateData['name']                ?? '',
                 'description'         => $stateData['description']         ?? null,
                 'color'               => $stateData['color']               ?? null,
                 'order'               => $stateData['order']               ?? null,
@@ -134,11 +133,6 @@ readonly class WorkflowStateService implements WorkflowStateServiceInterface
             'final-closed'  => WorkflowStatePosition::FinalClosed,
             default         => WorkflowStatePosition::Middle,
         };
-    }
-
-    private function generateSlug(array $stateData, int $index): string
-    {
-        return $stateData['slug'] ?? $stateData['name'] ?? 'state-' . ($index + 1);
     }
 
     private function syncStateAllowedRoles(WorkflowState $state, array $allowedRoles): void

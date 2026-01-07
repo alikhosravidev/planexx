@@ -59,7 +59,7 @@
 
         <x-panel::forms.checkbox-badges
             name="allowed_roles"
-            label="نقش‌های مجاز برای دسترسی"
+            label="نقش‌های مجاز برای ایجاد کار"
             :options="$roles ?? []"
             :selected="$selectedRoleIds ?? []"
             class="mt-2"

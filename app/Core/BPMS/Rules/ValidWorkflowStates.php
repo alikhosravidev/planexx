@@ -20,7 +20,6 @@ class ValidWorkflowStates implements ValidationRule
         $hasFinal = false;
 
         $names = [];
-        $slugs = [];
 
         foreach ($value as $state) {
             if (!is_array($state)) {
@@ -57,21 +56,6 @@ class ValidWorkflowStates implements ValidationRule
                 }
             }
 
-            $slug = $state['slug'] ?? null;
-
-            if (is_string($slug)) {
-                $slug = trim($slug);
-
-                if ($slug !== '') {
-                    if (in_array($slug, $slugs, true)) {
-                        $fail('شناسه (slug) مراحل نباید تکراری باشد');
-
-                        return;
-                    }
-
-                    $slugs[] = $slug;
-                }
-            }
         }
 
         if (!$hasStart) {

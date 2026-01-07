@@ -13,13 +13,12 @@ class WorkflowStateRepository extends BaseRepository
         'id'          => '=',
         'workflow_id' => '=',
         'name'        => 'like',
-        'slug'        => 'like',
         'position'    => '=',
         'is_active'   => '=',
     ];
 
     public array $sortableFields = [
-        'id', 'name', 'slug', 'order', 'created_at', 'updated_at',
+        'id', 'name', 'order', 'created_at', 'updated_at',
     ];
 
     public function model(): string

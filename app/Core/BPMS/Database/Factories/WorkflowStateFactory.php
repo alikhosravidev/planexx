@@ -19,7 +19,6 @@ class WorkflowStateFactory extends Factory
         return [
             'workflow_id'         => Workflow::factory(),
             'name'                => $this->faker->words(2, true),
-            'slug'                => $this->faker->unique()->slug(2),
             'description'         => $this->faker->optional()->sentence(),
             'color'               => $this->faker->optional()->hexColor(),
             'order'               => $this->faker->numberBetween(1, 10),

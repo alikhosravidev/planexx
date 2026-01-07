@@ -15,7 +15,7 @@
         <div class="inline-flex items-stretch flex-row-reverse">
             @if(! empty($finalStates))
                 @php $finalCount = count($finalStates); @endphp
-                <div class="relative flex-shrink-0 state-arrow" style="margin-right: -18px;">
+                <div class="relative flex-shrink-0 state-arrow" style="margin-right: -12px;">
                     <div data-dropdown-toggle="final-states-dropdown" class="relative h-[40px] min-w-[80px] flex flex-col items-center justify-center px-3 cursor-pointer" style="z-index: 30;">
                         <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 50" preserveAspectRatio="none">
                             <path d="M8,0 C4,0 0,4 0,8 L0,42 C0,46 4,50 8,50 L80,50 L92,25 L80,0 Z" fill="#E8F5E9" />
@@ -51,8 +51,8 @@
                     $color = $state['color'] ?? '#E3F2FD';
                     $needsMargin = ! $isLast;
                 @endphp
-                <div class="relative flex-shrink-0 state-arrow" {{ $needsMargin ? 'style="margin-right: -18px;"' : '' }}>
-                    <div class="relative h-[40px] min-w-[80px] flex flex-col items-center justify-center px-3">
+                <div class="relative flex-shrink-0 state-arrow" style="{{ $needsMargin ? 'margin-right: -16px;' : '' }}">
+                    <div class="relative h-[40px] min-w-[80px] flex flex-col items-center justify-center">
                         <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 50" preserveAspectRatio="none">
                             @if($isLast)
                                 <path d="M92,0 L20,0 L8,25 L20,50 L92,50 C96,50 100,46 100,42 L100,8 C100,4 96,0 92,0 Z" fill="{{ $color }}" />

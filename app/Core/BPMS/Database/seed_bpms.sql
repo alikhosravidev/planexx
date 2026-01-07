@@ -23,63 +23,63 @@ INSERT INTO `bpms_workflows` (`id`, `name`, `slug`, `description`, `department_i
 -- ====================================================================
 
 -- States for Workflow 1: اینسپکشن
-INSERT INTO `bpms_workflow_states` (`id`, `workflow_id`, `name`, `slug`, `description`, `color`, `order`, `position`, `default_assignee_id`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'آزمون ورودی', 'entry-test', 'انجام آزمون اولیه و بررسی شرایط', '#E0F2F1', 1, 0, 7, 1, NOW(), NOW(), NULL),
-(2, 1, 'مشاوره خصوصی', 'private-consult', 'جلسه مشاوره یک به یک با مشتری', '#E3F2FD', 2, 1, NULL, 1, NOW(), NOW(), NULL),
-(3, 1, 'منتظر پرداخت', 'waiting-payment', 'پیش‌فاکتور ارسال شده و منتظر پرداخت', '#FFF3E0', 3, 1, 8, 1, NOW(), NOW(), NULL),
-(4, 1, 'پیش پرداخت شده', 'prepaid', 'پیش‌پرداخت انجام شده و آماده شروع پروژه', '#E8F5E9', 4, 1, NULL, 1, NOW(), NOW(), NULL),
-(5, 1, 'تکمیل شده', 'completed', 'پروژه با موفقیت تکمیل شده', '#C8E6C9', 5, 2, NULL, 1, NOW(), NOW(), NULL),
-(6, 1, 'لغو شده', 'cancelled', 'مشتری منصرف شده یا شرایط فراهم نیست', '#FFCDD2', 6, 3, NULL, 1, NOW(), NOW(), NULL);
+INSERT INTO `bpms_workflow_states` (`id`, `workflow_id`, `name`, `description`, `color`, `order`, `position`, `default_assignee_id`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'آزمون ورودی', 'انجام آزمون اولیه و بررسی شرایط', '#E0F2F1', 1, 0, 7, 1, NOW(), NOW(), NULL),
+(2, 1, 'مشاوره خصوصی', 'جلسه مشاوره یک به یک با مشتری', '#E3F2FD', 2, 1, NULL, 1, NOW(), NOW(), NULL),
+(3, 1, 'منتظر پرداخت', 'پیش‌فاکتور ارسال شده و منتظر پرداخت', '#FFF3E0', 3, 1, 8, 1, NOW(), NOW(), NULL),
+(4, 1, 'پیش پرداخت شده', 'پیش‌پرداخت انجام شده و آماده شروع پروژه', '#E8F5E9', 4, 1, NULL, 1, NOW(), NOW(), NULL),
+(5, 1, 'تکمیل شده', 'پروژه با موفقیت تکمیل شده', '#C8E6C9', 5, 2, NULL, 1, NOW(), NOW(), NULL),
+(6, 1, 'لغو شده', 'مشتری منصرف شده یا شرایط فراهم نیست', '#FFCDD2', 6, 3, NULL, 1, NOW(), NOW(), NULL);
 
 -- States for Workflow 2: مسیریابی
-INSERT INTO `bpms_workflow_states` (`id`, `workflow_id`, `name`, `slug`, `description`, `color`, `order`, `position`, `default_assignee_id`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(7, 2, 'سرنخ', 'lead', 'سرنخ جدید دریافت شده از کمپین', '#E0F2F1', 1, 0, 12, 1, NOW(), NOW(), NULL),
-(8, 2, 'ارسال آفر', 'offer-sent', 'پیشنهاد اولیه به مشتری ارسال شده', '#FFF8E1', 2, 1, NULL, 1, NOW(), NOW(), NULL),
-(9, 2, 'در حال مذاکره', 'negotiation', 'در حال مذاکره و بحث درباره جزئیات', '#E3F2FD', 3, 1, NULL, 1, NOW(), NOW(), NULL),
-(10, 2, 'موفق', 'success', 'مشتری با پیشنهاد موافقت کرد', '#C8E6C9', 4, 2, NULL, 1, NOW(), NOW(), NULL),
-(11, 2, 'ناموفق', 'failed', 'مشتری با پیشنهاد موافقت نکرد', '#FFCDD2', 5, 3, NULL, 1, NOW(), NOW(), NULL);
+INSERT INTO `bpms_workflow_states` (`id`, `workflow_id`, `name`, `description`, `color`, `order`, `position`, `default_assignee_id`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(7, 2, 'سرنخ', 'سرنخ جدید دریافت شده از کمپین', '#E0F2F1', 1, 0, 12, 1, NOW(), NOW(), NULL),
+(8, 2, 'ارسال آفر', 'پیشنهاد اولیه به مشتری ارسال شده', '#FFF8E1', 2, 1, NULL, 1, NOW(), NOW(), NULL),
+(9, 2, 'در حال مذاکره', 'در حال مذاکره و بحث درباره جزئیات', '#E3F2FD', 3, 1, NULL, 1, NOW(), NOW(), NULL),
+(10, 2, 'موفق', 'مشتری با پیشنهاد موافقت کرد', '#C8E6C9', 4, 2, NULL, 1, NOW(), NOW(), NULL),
+(11, 2, 'ناموفق', 'مشتری با پیشنهاد موافقت نکرد', '#FFCDD2', 5, 3, NULL, 1, NOW(), NOW(), NULL);
 
 -- States for Workflow 3: کمپین فیدبک
-INSERT INTO `bpms_workflow_states` (`id`, `workflow_id`, `name`, `slug`, `description`, `color`, `order`, `position`, `default_assignee_id`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(12, 3, 'سرنخ', 'lead', 'مشتری شناسایی شده برای دریافت فیدبک', '#E0F2F1', 1, 0, 13, 1, NOW(), NOW(), NULL),
-(13, 3, 'ارسال آفر', 'offer-sent', 'پیشنهاد یا تشویق برای فیدبک ارسال شده', '#FFF8E1', 2, 1, NULL, 1, NOW(), NOW(), NULL),
-(14, 3, 'در حال مذاکره', 'negotiation', 'در حال پیگیری برای دریافت فیدبک', '#E3F2FD', 3, 1, NULL, 1, NOW(), NOW(), NULL),
-(15, 3, 'تکمیل', 'completed', 'فیدبک با موفقیت دریافت شد', '#C8E6C9', 4, 2, NULL, 1, NOW(), NOW(), NULL),
-(16, 3, 'انصراف', 'declined', 'مشتری تمایل به ارائه فیدبک ندارد', '#FFCDD2', 5, 3, NULL, 1, NOW(), NOW(), NULL);
+INSERT INTO `bpms_workflow_states` (`id`, `workflow_id`, `name`, `description`, `color`, `order`, `position`, `default_assignee_id`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(12, 3, 'سرنخ', 'مشتری شناسایی شده برای دریافت فیدبک', '#E0F2F1', 1, 0, 13, 1, NOW(), NOW(), NULL),
+(13, 3, 'ارسال آفر', 'پیشنهاد یا تشویق برای فیدبک ارسال شده', '#FFF8E1', 2, 1, NULL, 1, NOW(), NOW(), NULL),
+(14, 3, 'در حال مذاکره', 'در حال پیگیری برای دریافت فیدبک', '#E3F2FD', 3, 1, NULL, 1, NOW(), NOW(), NULL),
+(15, 3, 'تکمیل', 'فیدبک با موفقیت دریافت شد', '#C8E6C9', 4, 2, NULL, 1, NOW(), NOW(), NULL),
+(16, 3, 'انصراف', 'مشتری تمایل به ارائه فیدبک ندارد', '#FFCDD2', 5, 3, NULL, 1, NOW(), NOW(), NULL);
 
 -- States for Workflow 4: سبد رها شده
-INSERT INTO `bpms_workflow_states` (`id`, `workflow_id`, `name`, `slug`, `description`, `color`, `order`, `position`, `default_assignee_id`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(17, 4, 'سبد پرداخت نشده', 'unpaid-cart', 'سبد خرید رها شده شناسایی شده', '#FFEBEE', 1, 0, 14, 1, NOW(), NOW(), NULL),
-(18, 4, 'در حال پیگیری', 'following-up', 'تماس اول با مشتری برقرار شده', '#E3F2FD', 2, 1, NULL, 1, NOW(), NOW(), NULL),
-(19, 4, 'ارسال آفر', 'offer-sent', 'تخفیف یا پیشنهاد ویژه ارسال شده', '#FFF8E1', 3, 1, NULL, 1, NOW(), NOW(), NULL),
-(20, 4, 'خرید شد', 'purchased', 'مشتری خرید را نهایی کرد', '#C8E6C9', 4, 2, NULL, 1, NOW(), NOW(), NULL),
-(21, 4, 'رها شد', 'abandoned', 'مشتری به پیگیری‌ها پاسخ نداد', '#FFCDD2', 5, 3, NULL, 1, NOW(), NOW(), NULL);
+INSERT INTO `bpms_workflow_states` (`id`, `workflow_id`, `name`, `description`, `color`, `order`, `position`, `default_assignee_id`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(17, 4, 'سبد پرداخت نشده', 'سبد خرید رها شده شناسایی شده', '#FFEBEE', 1, 0, 14, 1, NOW(), NOW(), NULL),
+(18, 4, 'در حال پیگیری', 'تماس اول با مشتری برقرار شده', '#E3F2FD', 2, 1, NULL, 1, NOW(), NOW(), NULL),
+(19, 4, 'ارسال آفر', 'تخفیف یا پیشنهاد ویژه ارسال شده', '#FFF8E1', 3, 1, NULL, 1, NOW(), NOW(), NULL),
+(20, 4, 'خرید شد', 'مشتری خرید را نهایی کرد', '#C8E6C9', 4, 2, NULL, 1, NOW(), NOW(), NULL),
+(21, 4, 'رها شد', 'مشتری به پیگیری‌ها پاسخ نداد', '#FFCDD2', 5, 3, NULL, 1, NOW(), NOW(), NULL);
 
 -- States for Workflow 5: استخدام (غیرفعال)
-INSERT INTO `bpms_workflow_states` (`id`, `workflow_id`, `name`, `slug`, `description`, `color`, `order`, `position`, `default_assignee_id`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(22, 5, 'دریافت رزومه', 'resume-received', 'رزومه متقاضی دریافت شده', '#E3F2FD', 1, 0, 11, 1, NOW(), NOW(), NULL),
-(23, 5, 'بررسی اولیه', 'initial-review', 'بررسی اولیه مدارک و رزومه', '#FFF3E0', 2, 1, NULL, 1, NOW(), NOW(), NULL),
-(24, 5, 'مصاحبه', 'interview', 'مصاحبه حضوری یا آنلاین', '#F3E5F5', 3, 1, NULL, 1, NOW(), NOW(), NULL),
-(25, 5, 'آزمون فنی', 'technical-test', 'انجام آزمون تخصصی', '#E8EAF6', 4, 1, NULL, 1, NOW(), NOW(), NULL),
-(26, 5, 'استخدام شده', 'hired', 'متقاضی استخدام شده', '#C8E6C9', 5, 2, NULL, 1, NOW(), NOW(), NULL),
-(27, 5, 'رد شده', 'rejected', 'متقاضی رد شده', '#FFCDD2', 6, 3, NULL, 1, NOW(), NOW(), NULL);
+INSERT INTO `bpms_workflow_states` (`id`, `workflow_id`, `name`, `description`, `color`, `order`, `position`, `default_assignee_id`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(22, 5, 'دریافت رزومه', 'رزومه متقاضی دریافت شده', '#E3F2FD', 1, 0, 11, 1, NOW(), NOW(), NULL),
+(23, 5, 'بررسی اولیه', 'بررسی اولیه مدارک و رزومه', '#FFF3E0', 2, 1, NULL, 1, NOW(), NOW(), NULL),
+(24, 5, 'مصاحبه', 'مصاحبه حضوری یا آنلاین', '#F3E5F5', 3, 1, NULL, 1, NOW(), NOW(), NULL),
+(25, 5, 'آزمون فنی', 'انجام آزمون تخصصی', '#E8EAF6', 4, 1, NULL, 1, NOW(), NOW(), NULL),
+(26, 5, 'استخدام شده', 'متقاضی استخدام شده', '#C8E6C9', 5, 2, NULL, 1, NOW(), NOW(), NULL),
+(27, 5, 'رد شده', 'متقاضی رد شده', '#FFCDD2', 6, 3, NULL, 1, NOW(), NOW(), NULL);
 
 -- States for Workflow 6: درخواست مرخصی
-INSERT INTO `bpms_workflow_states` (`id`, `workflow_id`, `name`, `slug`, `description`, `color`, `order`, `position`, `default_assignee_id`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(28, 6, 'درخواست ثبت شده', 'submitted', 'درخواست مرخصی ثبت شده', '#E3F2FD', 1, 0, NULL, 1, NOW(), NOW(), NULL),
-(29, 6, 'در حال بررسی', 'under-review', 'در حال بررسی توسط مدیر مستقیم', '#FFF8E1', 2, 1, 11, 1, NOW(), NOW(), NULL),
-(30, 6, 'تایید مدیر', 'manager-approved', 'تایید شده توسط مدیر', '#E8F5E9', 3, 1, NULL, 1, NOW(), NOW(), NULL),
-(31, 6, 'تایید نهایی', 'final-approved', 'تایید نهایی از HR', '#C8E6C9', 4, 2, NULL, 1, NOW(), NOW(), NULL),
-(32, 6, 'رد شده', 'rejected', 'درخواست رد شده', '#FFCDD2', 5, 3, NULL, 1, NOW(), NOW(), NULL);
+INSERT INTO `bpms_workflow_states` (`id`, `workflow_id`, `name`, `description`, `color`, `order`, `position`, `default_assignee_id`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(28, 6, 'درخواست ثبت شده', 'درخواست مرخصی ثبت شده', '#E3F2FD', 1, 0, NULL, 1, NOW(), NOW(), NULL),
+(29, 6, 'در حال بررسی', 'در حال بررسی توسط مدیر مستقیم', '#FFF8E1', 2, 1, 11, 1, NOW(), NOW(), NULL),
+(30, 6, 'تایید مدیر', 'تایید شده توسط مدیر', '#E8F5E9', 3, 1, NULL, 1, NOW(), NOW(), NULL),
+(31, 6, 'تایید نهایی', 'تایید نهایی از HR', '#C8E6C9', 4, 2, NULL, 1, NOW(), NOW(), NULL),
+(32, 6, 'رد شده', 'درخواست رد شده', '#FFCDD2', 5, 3, NULL, 1, NOW(), NOW(), NULL);
 
 -- States for Workflow 7: خرید و تدارکات
-INSERT INTO `bpms_workflow_states` (`id`, `workflow_id`, `name`, `slug`, `description`, `color`, `order`, `position`, `default_assignee_id`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(33, 7, 'درخواست خرید', 'purchase-request', 'درخواست خرید ثبت شده', '#E3F2FD', 1, 0, NULL, 1, NOW(), NOW(), NULL),
-(34, 7, 'بررسی فنی', 'technical-review', 'بررسی نیازمندی‌های فنی', '#F3E5F5', 2, 1, 6, 1, NOW(), NOW(), NULL),
-(35, 7, 'استعلام بها', 'quotation', 'دریافت قیمت از تامین‌کنندگان', '#FFF3E0', 3, 1, NULL, 1, NOW(), NOW(), NULL),
-(36, 7, 'تایید مالی', 'financial-approval', 'تایید بودجه و امور مالی', '#E8F5E9', 4, 1, 8, 1, NOW(), NOW(), NULL),
-(37, 7, 'خریداری شده', 'purchased', 'کالا یا خدمت خریداری شده', '#C8E6C9', 5, 2, NULL, 1, NOW(), NOW(), NULL),
-(38, 7, 'لغو شده', 'cancelled', 'درخواست لغو شده', '#FFCDD2', 6, 3, NULL, 1, NOW(), NOW(), NULL);
+INSERT INTO `bpms_workflow_states` (`id`, `workflow_id`, `name`, `description`, `color`, `order`, `position`, `default_assignee_id`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(33, 7, 'درخواست خرید', 'درخواست خرید ثبت شده', '#E3F2FD', 1, 0, NULL, 1, NOW(), NOW(), NULL),
+(34, 7, 'بررسی فنی', 'بررسی نیازمندی‌های فنی', '#F3E5F5', 2, 1, 6, 1, NOW(), NOW(), NULL),
+(35, 7, 'استعلام بها', 'دریافت قیمت از تامین‌کنندگان', '#FFF3E0', 3, 1, NULL, 1, NOW(), NOW(), NULL),
+(36, 7, 'تایید مالی', 'تایید بودجه و امور مالی', '#E8F5E9', 4, 1, 8, 1, NOW(), NOW(), NULL),
+(37, 7, 'خریداری شده', 'کالا یا خدمت خریداری شده', '#C8E6C9', 5, 2, NULL, 1, NOW(), NOW(), NULL),
+(38, 7, 'لغو شده', 'درخواست لغو شده', '#FFCDD2', 6, 3, NULL, 1, NOW(), NOW(), NULL);
 
 
 -- Tasks (کارها و وظایف)

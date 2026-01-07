@@ -20,20 +20,23 @@
                 </div>
             </div>
 
-            <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-indigo-600 focus-within:shadow-focus transition-all duration-200">
-                <div class="flex items-stretch">
-                    <label class="bg-bg-label border-l border-border-light min-w-[100px] px-3 py-3 text-sm text-text-secondary flex items-center leading-normal">
-                        شناسه
-                    </label>
-                    <input type="text" name="states[][slug]"
-                           class="state-slug-input flex-1 px-3 py-3 text-base text-text-primary outline-none bg-white leading-normal font-mono"
-                           placeholder="state-slug"
-                           pattern="[a-z0-9\-]+"
-                           dir="ltr">
-                </div>
-            </div>
+            {{--<x-panel::forms.tom-select-ajax
+                name="states[][position]"
+                label="موقعیت"
+                value="1"
+                :preload="true"
+                class="min-w-[140px]"
+                :url="route('api.v1.admin.enums.keyValList', ['enum' => 'WorkflowStatePosition'])"/>--}}
 
-            <div class="border border-border-medium rounded-xl overflow-hidden focus-within:border-indigo-600 focus-within:shadow-focus transition-all duration-200">
+            <x-panel::forms.select
+                name="states[][position]"
+                label="موقعیت"
+                class="min-w-[100px]"
+                select-class="bg-white state-position-select"
+                value="middle"
+                :options="['start' => 'نقطه شروع', 'middle' => 'میانی', 'final-success' => 'پایان موفق', 'final-failed' => 'پایان ناموفق', 'final-closed' => 'بسته شده']"/>
+
+            <div class="col-span-full border border-border-medium rounded-xl overflow-hidden focus-within:border-indigo-600 focus-within:shadow-focus transition-all duration-200">
                 <div class="flex items-stretch">
                     <label class="bg-bg-label border-l border-border-light min-w-[100px] px-3 py-3 text-sm text-text-secondary flex items-center leading-normal">
                         رنگ
@@ -43,14 +46,6 @@
                     </div>
                 </div>
             </div>
-
-            <x-panel::forms.select
-                name="states[][position]"
-                label="موقعیت"
-                class="min-w-[100px]"
-                select-class="bg-white state-position-select"
-                value="middle"
-                :options="['start' => 'نقطه شروع', 'middle' => 'میانی', 'final-success' => 'پایان موفق', 'final-failed' => 'پایان ناموفق', 'final-closed' => 'بسته شده']"/>
 
             <x-panel::forms.tom-select-ajax
                 name="states[][allowed_roles][]"
