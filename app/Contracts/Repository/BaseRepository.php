@@ -22,6 +22,22 @@ abstract class BaseRepository implements RepositoryInterface
     public array $sortableFields   = [];
     public array $filterableFields = [];
 
+    /**
+     * Custom filters configuration.
+     * Maps filter name to Criteria class.
+     *
+     * Example:
+     * ```php
+     * protected array $customFilters = [
+     *     'user_accessible' => UserAccessibleWorkflowsCriteria::class,
+     *     'has_active_tasks' => WorkflowWithActiveTasksCriteria::class,
+     * ];
+     * ```
+     *
+     * @var array<string, class-string<CriteriaInterface>>
+     */
+    protected array $customFilters = [];
+
     public function __construct()
     {
         $this->criteria = new Collection();
@@ -161,6 +177,70 @@ abstract class BaseRepository implements RepositoryInterface
         $this->criteria = new Collection();
 
         return $this;
+    }
+
+    // Custom Filters Methods
+
+    /**
+     * Apply custom filter by name.
+     *
+     * @param string $filterName The name of the custom filter
+     * @param mixed $params Parameters to pass to the Criteria constructor
+     * @return self
+     * @throws Exception If filter class doesn't exist or doesn't implement CriteriaInterface
+     *
+     * Usage:
+     * ```php
+     * // Simple usage (boolean trigger)
+     * $repository->applyCustomFilter('user_accessible');
+     *
+     * // With single parameter
+     * $repository->applyCustomFilter('minimum_states', 3);
+     *
+     * // With multiple parameters (as array)
+     * $repository->applyCustomFilter('user_accessible', [auth()->id(), true]);
+     * ```
+     */
+    public function applyCustomFilter(string $filterName, mixed $params = null): self
+    {
+        if (!isset($this->customFilters[$filterName])) {
+            return $this;
+        }
+
+        $criteriaClass = $this->customFilters[$filterName];
+
+        if (!class_exists($criteriaClass)) {
+            throw new Exception("Custom filter criteria class {$criteriaClass} not found");
+        }
+
+        // If params is an array, use as constructor arguments
+        // If params is null or other type, pass as single argument or no argument
+        if (is_array($params)) {
+            $criteria = new $criteriaClass(...$params);
+        } elseif ($params !== null) {
+            $criteria = new $criteriaClass($params);
+        } else {
+            $criteria = new $criteriaClass();
+        }
+
+        if (!$criteria instanceof CriteriaInterface) {
+            throw new Exception("Custom filter {$criteriaClass} must implement CriteriaInterface");
+        }
+
+        $this->pushCriteria($criteria);
+
+        return $this;
+    }
+
+    /**
+     * Check if custom filter exists.
+     *
+     * @param string $filterName The name of the custom filter
+     * @return bool
+     */
+    public function hasCustomFilter(string $filterName): bool
+    {
+        return isset($this->customFilters[$filterName]);
     }
 
 

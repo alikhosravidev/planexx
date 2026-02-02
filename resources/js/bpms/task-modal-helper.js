@@ -80,6 +80,8 @@ export async function loadWorkflows(apiContext, elements) {
       with_states: 1,
       includes: 'department',
       withCount: 'states',
+      filter: {'is_active': true},
+      custom_filters: {'user_accessible': true},
     });
 
     const response = await get(url).execute();

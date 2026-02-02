@@ -45,6 +45,9 @@ abstract class BaseAPIController
         $sorts      = $this->parseSort($request);
         $pagination = $this->parsePagination($request);
 
+        // Apply custom filters before building the query
+        $this->parseCustomFilters($request);
+
         $query = $this->repository->newQuery();
         $query = $this->applyEagerLoading($query, $includes);
         $query = $this->applyWithCount($query, $withCount);
@@ -117,6 +120,9 @@ abstract class BaseAPIController
         $search     = $this->parseSearch($request);
         $sorts      = $this->parseSort($request);
         $pagination = $this->parsePagination($request);
+
+        // Apply custom filters before building the query
+        $this->parseCustomFilters($request);
 
         $query = $this->repository->newQuery();
         $query = $this->applyEagerLoading($query, $includes);
@@ -711,5 +717,77 @@ abstract class BaseAPIController
     protected function customizeQuery(Builder $query, Request $request): Builder
     {
         return $query;
+    }
+
+    /**
+     * Parse and apply custom filters from request.
+     *
+     * Custom filters are domain-specific filters that use the Criteria pattern.
+     * They allow complex, reusable query logic to be applied via API requests.
+     *
+     * Request formats supported:
+     * - Query string: ?custom_filters[filter_name]=true
+     * - JSON: ?custom_filters={"filter_name": true}
+     * - With parameters: ?custom_filters[filter_name][]=param1&custom_filters[filter_name][]=param2
+     *
+     * @param  Request  $request
+     * @return void
+     * @throws \Exception
+     */
+    protected function parseCustomFilters(Request $request): void
+    {
+        $customFilters = $request->get('custom_filters', []);
+
+        // If custom_filters is sent as JSON string (query string)
+        if (is_string($customFilters)) {
+            $customFilters = json_decode($customFilters, true) ?? [];
+        }
+
+        if (!is_array($customFilters) || empty($customFilters)) {
+            return;
+        }
+
+        foreach ($customFilters as $filterName => $params) {
+            // Check if filter exists in repository
+            if (!$this->repository->hasCustomFilter($filterName)) {
+                continue;
+            }
+
+            // Normalize params for criteria constructor
+            // - If params is true/false/1/0, pass null (no params)
+            // - If params is an array, pass as constructor args
+            // - If params is a scalar value, pass as single arg
+            $normalizedParams = $this->normalizeCustomFilterParams($params);
+
+            // Apply filter
+            $this->repository->applyCustomFilter($filterName, $normalizedParams);
+        }
+    }
+
+    /**
+     * Normalize custom filter parameters for Criteria constructor.
+     *
+     * @param mixed $params Raw parameters from request
+     * @return mixed Normalized parameters
+     */
+    protected function normalizeCustomFilterParams(mixed $params): mixed
+    {
+        // Boolean true/false or string "true"/"false" means trigger filter without params
+        if ($params === true || $params === false || $params === 'true' || $params === 'false' || $params === '1' || $params === '0') {
+            return null;
+        }
+
+        // Array with numeric keys - pass as constructor args
+        if (is_array($params) && array_is_list($params)) {
+            return $params;
+        }
+
+        // Associative array - pass as single array argument
+        if (is_array($params)) {
+            return [$params];
+        }
+
+        // Scalar value (int, string) - pass as single argument
+        return $params;
     }
 }

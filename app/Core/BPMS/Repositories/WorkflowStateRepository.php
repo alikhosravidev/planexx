@@ -21,6 +21,8 @@ class WorkflowStateRepository extends BaseRepository
         'id', 'name', 'order', 'created_at', 'updated_at',
     ];
 
+    public array $customFilters = [];
+
     public function model(): string
     {
         return WorkflowState::class;
