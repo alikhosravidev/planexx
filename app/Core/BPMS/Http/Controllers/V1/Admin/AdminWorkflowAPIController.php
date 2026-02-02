@@ -16,7 +16,7 @@ use App\Core\BPMS\Services\WorkflowService;
 use App\Core\BPMS\Services\WorkflowStateService;
 use Illuminate\Http\JsonResponse;
 
-class WorkflowAPIController extends BaseAPIController
+class AdminWorkflowAPIController extends BaseAPIController
 {
     public function __construct(
         WorkflowRepository              $repository,

@@ -21,7 +21,7 @@
             <form id="followUpForm"
                   data-ajax
                   data-method="PUT"
-                  action="{{ $taskId ? route('api.v1.admin.bpms.tasks.update', ['task' => $taskId]) : '#' }}"
+                  action="{{ $taskId ? route('api.v1.client.bpms.tasks.update', ['task' => $taskId]) : '#' }}"
                   enctype="multipart/form-data"
                   data-on-success="reload">
                 @csrf

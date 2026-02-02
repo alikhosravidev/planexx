@@ -63,7 +63,7 @@ class TomSelectService {
     const dataPath = getAttr(el, DATA_ATTRIBUTES.dataPath);
     const valueField = getAttr(el, DATA_ATTRIBUTES.valueField, 'id');
     const labelField = getAttr(el, DATA_ATTRIBUTES.labelField, 'name');
-    const templateName = getAttr(el, DATA_ATTRIBUTES.template, 'default');
+    const templateName = getAttr(el, DATA_ATTRIBUTES.template);
     const preload = getBoolAttr(el, DATA_ATTRIBUTES.preload);
     const defaultValue = getAttr(el, DATA_ATTRIBUTES.defaultValue);
     const minSearch = getIntAttr(
@@ -72,7 +72,8 @@ class TomSelectService {
       DEFAULTS.minSearchLength,
     );
 
-    const template = templates[templateName] || templates.default;
+    // Get template if specified, otherwise use null (no custom rendering)
+    const template = templateName ? templates[templateName] : null;
 
     config.valueField = valueField;
     config.labelField = labelField;
@@ -98,7 +99,7 @@ class TomSelectService {
       }
 
       const items = normalizeData(data, dataPath);
-      const results = template.mapResults
+      const results = template?.mapResults
         ? template.mapResults(items, valueField, labelField)
         : items.map((item) => ({
             [valueField]: item[valueField],
@@ -123,7 +124,7 @@ class TomSelectService {
 
     config.preload = preload ? true : 'focus';
 
-    if (template.render) {
+    if (template?.render) {
       config.render = {
         option: (data, escape) => template.render.option(data, escape),
         item: (data, escape) => template.render.item(data, escape),

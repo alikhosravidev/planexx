@@ -33,11 +33,14 @@ class TaskMapper
                 ? new WorkflowStateId((int) $request->input('current_state_id'))
                 : null,
             estimatedHours: $request->filled('estimated_hours')
-                ? new Hours((int) $request->input('estimated_hours'))
+                ? new Hours((float) $request->input('estimated_hours'))
                 : null,
             nextFollowUpDate: $request->filled('due_date')
                 ? new \DateTimeImmutable($request->input('due_date'))
                 : null,
+            dueDate: $request->filled('due_date')
+                                ? new \DateTimeImmutable($request->input('due_date'))
+                                : null,
         );
     }
 
@@ -54,7 +57,7 @@ class TaskMapper
                 ? new WorkflowStateId((int) $request->input('current_state_id'))
                 : ($task->current_state_id ? new WorkflowStateId($task->current_state_id) : null),
             estimatedHours: $request->filled('estimated_hours')
-                ? new Hours((int) $request->input('estimated_hours'))
+                ? new Hours((float) $request->input('estimated_hours'))
                 : ($task->estimated_hours ? new Hours((int) $task->estimated_hours) : null),
             nextFollowUpDate: $request->filled('next_follow_up_date')
                                 ? new \DateTimeImmutable($request->input('next_follow_up_date'))

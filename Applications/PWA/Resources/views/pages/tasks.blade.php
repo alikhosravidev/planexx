@@ -26,9 +26,14 @@
                     </a>
                     <h1 class="text-slate-900 text-xl font-bold">{{ $pageTitle }}</h1>
                 </div>
-                <span class="bg-slate-900 text-white px-3 py-1.5 rounded-lg text-xs font-medium">
-                    {{ $counts['pending'] }} در انتظار
-                </span>
+                <div class="flex items-center gap-2">
+                    <button type="button" data-modal-open="createTaskModal" class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center hover:bg-slate-800 transition-all">
+                        <i class="fa-solid fa-plus text-white"></i>
+                    </button>
+                    <span class="bg-slate-900 text-white px-3 py-1.5 rounded-lg text-xs font-medium">
+                        {{ $counts['pending'] }} در انتظار
+                    </span>
+                </div>
             </div>
 
             <!-- Filter Tabs -->
@@ -106,4 +111,11 @@
         @endif
 
     </div>
+
+    {{-- Include Create Task Modal --}}
+    <x-pwa::modals.create-task-modal />
+
+    @push('scripts')
+        @vite('Applications/PWA/Resources/js/pages/tasks.js')
+    @endpush
 </x-pwa::layouts.app>

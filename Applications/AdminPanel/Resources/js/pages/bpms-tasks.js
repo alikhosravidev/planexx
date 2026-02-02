@@ -1,80 +1,40 @@
 /**
- * BPMS Tasks JavaScript
+ * BPMS Tasks JavaScript - AdminPanel
  * Handles task modal functionality with multi-step workflow selection
  * Uses project standard AJAX system and ui-components
  */
 
-import { get } from '@shared-js/api/request.js';
 import { uiComponents } from '@shared-js/ui-components.js';
-import { getTomSelectInstance } from '@shared-js/tom-select/index.js';
 import { initDocuments } from './documents.js';
+import {
+  createElementsGetters,
+  loadWorkflows as loadWorkflowsHelper,
+  goToStep1 as goToStep1Helper,
+  goToStep2 as goToStep2Helper,
+  updateFormAction as updateFormActionHelper,
+  updateModalTexts as updateModalTextsHelper,
+  populateFormWithTask as populateFormWithTaskHelper,
+  setAssigneeDefaultValue as setAssigneeDefaultValueHelper,
+  resetAssigneeSelect,
+} from '@shared-js/bpms/task-modal-helper.js';
 
 const MODAL_ID = 'taskModal';
+const FORM_ID = 'taskForm';
+const API_CONTEXT = 'admin';
 
 let workflowsData = [];
 let selectedWorkflow = null;
 let isEditMode = false;
 let editTaskId = null;
 
-const elements = {
-  get modal() {
-    return document.getElementById(MODAL_ID);
-  },
-  get form() {
-    return document.getElementById('taskForm');
-  },
-  get step1() {
-    return document.getElementById('taskStep1');
-  },
-  get step2() {
-    return document.getElementById('taskStep2');
-  },
-  get footer() {
-    return document.getElementById('taskModalFooter');
-  },
-  get workflowOptions() {
-    return document.getElementById('workflowOptions');
-  },
-  get workflowLoading() {
-    return document.getElementById('workflowLoading');
-  },
-  get selectedWorkflowName() {
-    return document.getElementById('selectedWorkflowName');
-  },
-  get selectedWorkflowId() {
-    return document.getElementById('selectedWorkflowId');
-  },
-  get assigneeSelect() {
-    return document.querySelector('#taskForm [name="assignee"]');
-  },
-  get modalTitle() {
-    return document.getElementById('taskModalTitle');
-  },
-  get submitBtnText() {
-    return document.getElementById('submitTaskBtnText');
-  },
-};
+const elements = createElementsGetters(MODAL_ID, FORM_ID);
 
 const loadWorkflows = async () => {
   try {
-    const url = window.route('api.v1.admin.bpms.workflows.index', {
-      per_page: 100,
-      field: 'name',
-      with_states: 1,
-      includes: 'department',
-      withCount: 'states',
-    });
-
-    const response = await get(url).execute();
-
-    workflowsData = response;
+    workflowsData = await loadWorkflowsHelper(API_CONTEXT, elements);
     renderWorkflowOptions();
   } catch (error) {
-    console.error('Error loading workflows:', error);
-    if (elements.workflowLoading) {
-      elements.workflowLoading.innerHTML =
-        '<p class="text-red-500 text-sm">خطا در بارگذاری فرایندها</p>';
-    }
+    // Error already handled in helper
   }
 };
 
@@ -124,38 +84,18 @@ const renderWorkflowOptions = () => {
 };
 
 const goToStep2 = () => {
-  if (!selectedWorkflow) return;
-
-  elements.step1?.classList.add('hidden');
-  elements.step2?.classList.remove('hidden');
-  elements.footer?.classList.remove('hidden');
-
-  if (elements.selectedWorkflowName) {
-    elements.selectedWorkflowName.textContent = selectedWorkflow.name;
-  }
-  if (elements.selectedWorkflowId) {
-    elements.selectedWorkflowId.value = selectedWorkflow.id;
-  }
+  goToStep2Helper(selectedWorkflow, elements);
 };
 
 const goToStep1 = () => {
-  elements.step1?.classList.remove('hidden');
-  elements.step2?.classList.add('hidden');
-  elements.footer?.classList.add('hidden');
+  goToStep1Helper(elements);
 };
 
 const resetModal = () => {
   elements.form?.reset();
   goToStep1();
 
-  const assigneeSelect = elements.assigneeSelect;
-  if (assigneeSelect) {
-    const tomSelectInstance = getTomSelectInstance(assigneeSelect);
-    if (tomSelectInstance) {
-      tomSelectInstance.clear();
-      tomSelectInstance.clearOptions();
-    }
-  }
+  resetAssigneeSelect(elements);
 
   document
     .querySelectorAll('.workflow-option input')
@@ -173,90 +113,39 @@ const resetModal = () => {
 };
 
 const updateFormAction = () => {
-  if (!elements.form) return;
-
-  if (isEditMode && editTaskId) {
-    elements.form.setAttribute(
-      'action',
-      window.route('api.v1.admin.bpms.tasks.update', { task: editTaskId }),
-    );
-    elements.form.setAttribute('data-method', 'PUT');
-  } else {
-    elements.form.setAttribute(
-      'action',
-      window.route('api.v1.admin.bpms.tasks.store'),
-    );
-    elements.form.setAttribute('data-method', 'POST');
-  }
+  updateFormActionHelper(elements, isEditMode, editTaskId, API_CONTEXT);
 };
 
 const updateModalTexts = () => {
-  if (elements.modalTitle) {
-    elements.modalTitle.textContent = isEditMode
-      ? 'ویرایش کار'
-      : 'افزودن کار جدید';
-  }
-  if (elements.submitBtnText) {
-    elements.submitBtnText.textContent = isEditMode
-      ? 'ذخیره تغییرات'
-      : 'ایجاد کار';
-  }
+  updateModalTextsHelper(elements, isEditMode);
 };
 
 const populateFormWithTask = (taskData) => {
-  if (!elements.form || !taskData) return;
-
-  const titleInput = elements.form.querySelector('[name="title"]');
-  const descriptionInput = elements.form.querySelector('[name="description"]');
-  const priorityInput = elements.form.querySelector('[name="priority"]');
-  const dueDateInput = elements.form.querySelector('[name="due_date"]');
-  const estimatedHoursInput = elements.form.querySelector(
-    '[name="estimated_hours"]',
-  );
-
-  if (titleInput) titleInput.value = taskData.title || '';
-  if (descriptionInput)
-    descriptionInput.value = taskData.description?.full || '';
-  if (priorityInput)
-    priorityInput.value = taskData.priority?.value ?? taskData.priority ?? 1;
-  if (dueDateInput) dueDateInput.value = taskData.due_date?.main || '';
-  if (estimatedHoursInput)
-    estimatedHoursInput.value = taskData.estimated_hours || '';
-
-  if (taskData.workflow_id) {
-    selectedWorkflow = workflowsData.find((w) => w.id == taskData.workflow_id);
-    if (selectedWorkflow) {
-      const option = document.querySelector(
-        `.workflow-option[data-workflow-id="${taskData.workflow_id}"]`,
-      );
-      if (option) {
-        option
-          .querySelector('div')
-          ?.classList.add('border-indigo-600', 'bg-indigo-50');
-        const input = option.querySelector('input');
-        if (input) input.checked = true;
-      }
-      goToStep2();
+  const selectWorkflowCallback = (workflow, workflowId) => {
+    selectedWorkflow = workflow;
+    const option = document.querySelector(
+      `.workflow-option[data-workflow-id="${workflowId}"]`,
+    );
+    if (option) {
+      option
+        .querySelector('div')
+        ?.classList.add('border-indigo-600', 'bg-indigo-50');
+      const input = option.querySelector('input');
+      if (input) input.checked = true;
     }
-  }
+    goToStep2();
+  };
+
+  populateFormWithTaskHelper(
+    elements,
+    taskData,
+    workflowsData,
+    selectWorkflowCallback,
+  );
 };
 
 const setAssigneeDefaultValue = (taskData) => {
-  if (!taskData?.assignee_id) return;
-
-  const assigneeSelect = elements.assigneeSelect;
-  if (!assigneeSelect) return;
-
-  const tomSelectInstance = getTomSelectInstance(assigneeSelect);
-  if (!tomSelectInstance) return;
-
-  const assigneeLabel =
-    taskData.assignee?.full_name || `User ${taskData.assignee_id}`;
-  tomSelectInstance.addOption({
-    id: taskData.assignee_id,
-    label: assigneeLabel,
-  });
-  tomSelectInstance.setValue(taskData.assignee_id, false);
+  setAssigneeDefaultValueHelper(elements, taskData);
 };
 
 const openTaskModal = async (taskData = null) => {

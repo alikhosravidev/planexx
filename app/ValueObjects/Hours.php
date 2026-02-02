@@ -6,7 +6,7 @@ namespace App\ValueObjects;
 
 final readonly class Hours
 {
-    public function __construct(public int $value)
+    public function __construct(public float $value)
     {
         if ($this->value < 0) {
             throw new \InvalidArgumentException('Invalid hours.');

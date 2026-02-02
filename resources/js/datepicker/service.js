@@ -1,6 +1,36 @@
 import { PersianDatepicker } from './persian-datepicker.js';
 import { SELECTORS, DATA_ATTRIBUTES } from './config.js';
 
+/**
+ * Check if an element is inside a hidden modal or container
+ * Only checks for common hiding patterns used in modals
+ */
+function isInsideHiddenModal(el) {
+  if (!el) return false;
+
+  // Walk up the DOM to find if element is inside a hidden modal
+  let current = el.parentElement;
+  while (current && current !== document.body) {
+    // Check for common modal hiding patterns
+    if (
+      current.classList?.contains('hidden') ||
+      current.style?.display === 'none'
+    ) {
+      // Check if this is a modal element
+      if (
+        current.hasAttribute('data-modal') ||
+        current.id?.includes('Modal') ||
+        current.id?.includes('modal')
+      ) {
+        return true;
+      }
+    }
+    current = current.parentElement;
+  }
+
+  return false;
+}
+
 class DatepickerService {
   #instances = new Map();
 
@@ -132,15 +162,24 @@ class DatepickerService {
   }
 
   #createDatepicker(el, defaultOptions) {
+    // Skip elements inside hidden modals - they will be initialized when modal opens
+    if (isInsideHiddenModal(el)) {
+      return null;
+    }
+
     const customOptions = this.#getOptionsFromAttributes(el);
     const options = { ...defaultOptions, ...customOptions };
 
     el.setAttribute('autocomplete', 'off');
 
-    const instance = new PersianDatepicker(el, options);
-    this.#instances.set(el, instance);
-
-    return instance;
+    try {
+      const instance = new PersianDatepicker(el, options);
+      this.#instances.set(el, instance);
+      return instance;
+    } catch (error) {
+      console.warn('Failed to create datepicker for element:', el, error);
+      return null;
+    }
   }
 
   #getOptionsFromAttributes(el) {

@@ -26,7 +26,7 @@
             <form id="forwardForm"
                   data-ajax
                   data-method="PUT"
-                  action="{{ $taskId ? route('api.v1.admin.bpms.tasks.update', ['task' => $taskId]) : '#' }}"
+                  action="{{ $taskId ? route('api.v1.client.bpms.tasks.update', ['task' => $taskId]) : '#' }}"
                   data-on-success="redirect"
                   data-redirect-url="{{ route('pwa.tasks.index') }}">
                 @csrf
@@ -64,7 +64,7 @@
                         name="assignee"
                         id="assignee"
                         data-tom-select-ajax
-                        data-url="{{ route('api.v1.admin.org.users.keyValList', ['per_page' => 100, 'field' => 'full_name', 'filter' => ['user_type' => 2]]) }}"
+                        data-url="{{ route('api.v1.client.org.users.keyValList', ['per_page' => 100, 'field' => 'full_name', 'filter' => ['user_type' => 2]]) }}"
                         data-placeholder="جستجو و انتخاب مسئول"
                         data-value-field="id"
                         data-label-field="label"
