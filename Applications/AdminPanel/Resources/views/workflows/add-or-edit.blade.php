@@ -45,8 +45,7 @@
                       data-initial-states='@json($initialStates)'
                       data-method="{{ isset($workflow) ? 'PUT' : 'POST' }}"
                       action="{{ isset($workflow) ? route('api.v1.admin.bpms.workflows.update', ['workflow' => $workflow['id'] ?? null]) : route('api.v1.admin.bpms.workflows.store') }}"
-                      data-on-success="redirect"
-                      data-redirect-url="{{ $listUrl }}">
+                      data-on-success="redirect">
                     @csrf
                     <input type="hidden" name="is_active" id="isActiveHidden" value="{{ $isActive ? '1' : '0' }}">
 

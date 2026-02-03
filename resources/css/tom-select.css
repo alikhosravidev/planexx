@@ -264,3 +264,12 @@
 .ts-dropdown .create {
   padding: 12px;
 }
+
+.multi .ts-control {
+  padding: 9.5px 15px;
+  height: 50px;
+}
+
+.multi .ts-control .item {
+  margin-bottom: 0;
+}

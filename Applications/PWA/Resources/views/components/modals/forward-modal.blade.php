@@ -54,7 +54,16 @@
                     </div>
                 </div>
 
-                <!-- Select Assignee -->
+                @php
+                    $roleIds = array_column($nextState['allowed_roles'] ?? [], 'id');
+                    $customFilters = !empty($roleIds) ? json_encode(['has_roles' => [$roleIds]]) : null;
+                    $queryParams = array_filter([
+                        'per_page' => 100,
+                        'field' => 'full_name',
+                        'filter' => ['user_type' => 2],
+                        'custom_filters' => $customFilters,
+                    ]);
+                @endphp
                 <div class="ts-field-wrapper mb-5">
                     <label for="assignee" class="ts-field-label">
                         مسئول انجام
@@ -64,7 +73,7 @@
                         name="assignee"
                         id="assignee"
                         data-tom-select-ajax
-                        data-url="{{ route('api.v1.client.org.users.keyValList', ['per_page' => 100, 'field' => 'full_name', 'filter' => ['user_type' => 2]]) }}"
+                        data-url="{{ route('api.v1.client.org.users.keyValList', $queryParams) }}"
                         data-placeholder="جستجو و انتخاب مسئول"
                         data-value-field="id"
                         data-label-field="label"

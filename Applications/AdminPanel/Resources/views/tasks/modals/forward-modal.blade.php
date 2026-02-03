@@ -46,12 +46,22 @@
                 </div>
 
                 {{-- Select Assignee --}}
+                @php
+                    $roleIds = array_column($nextState['allowed_roles'], 'id');
+                    $customFilters = !empty($roleIds) ? json_encode(['has_roles' => [$roleIds]]) : null;
+                    $queryParams = array_filter([
+                        'per_page' => 100,
+                        'field' => 'full_name',
+                        'filter' => ['user_type' => 2],
+                        'custom_filters' => $customFilters,
+                    ]);
+                @endphp
                 <x-panel::forms.tom-select-ajax
                     name="assignee"
                     label="مسئول انجام"
                     placeholder="جستجو و انتخاب مسئول"
                     required
-                    :url="route('api.v1.admin.org.users.keyValList', ['per_page' => 100, 'field' => 'full_name', 'filter' => ['user_type' => 2]])"
+                    :url="route('api.v1.admin.org.users.keyValList', $queryParams)"
                     class="min-w-[120px]"
                 />
             </form>

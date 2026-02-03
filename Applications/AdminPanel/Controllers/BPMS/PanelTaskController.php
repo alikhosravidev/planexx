@@ -53,7 +53,7 @@ class PanelTaskController extends BaseWebController
     {
         $includes = [
             'attachments',
-            'workflow.states',
+            'workflow.states.allowedRoles',
             'workflow.department',
             'workflow.owner',
             'currentState',

@@ -75,7 +75,7 @@ class Workflow extends BaseEntity
     public function states(): HasMany
     {
         return $this->hasMany(WorkflowState::class, 'workflow_id')
-            ->orderBy('position');
+            ->orderBy('position')->orderBy('order');
     }
 
     public function tasks(): HasMany

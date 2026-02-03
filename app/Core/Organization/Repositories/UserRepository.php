@@ -46,6 +46,19 @@ class UserRepository extends BaseRepository
         'updated_at',
     ];
 
+    /**
+     * Custom Filters Configuration.
+     *
+     * Available filters:
+     * - has_roles: Filters users who have at least one of the specified roles
+     *   Parameters: [array $roles] - Array of role names or IDs
+     *
+     * @var array<string, class-string>
+     */
+    public array $customFilters = [
+        'has_roles' => Criteria\UserHasRolesCriteria::class,
+    ];
+
     public function model(): string
     {
         return User::class;
