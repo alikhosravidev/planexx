@@ -20,7 +20,7 @@
             'items' => [
                 ['label' => 'نام و نام خانوادگی', 'value' => $user['full_name'] ?? '—', 'icon' => 'fa-id-card'],
                 ['label' => 'کد ملی', 'value' => $user['national_code'] ?? '—', 'icon' => 'fa-fingerprint'],
-                ['label' => 'تاریخ تولد', 'value' => $user['birth_date']['human']['date'] ?? $user['birth_date'] ?? '—', 'icon' => 'fa-cake-candles'],
+                ['label' => 'تاریخ تولد', 'value' => $user['birth_date']['human']['default'] ?? $user['birth_date'] ?? '—', 'icon' => 'fa-cake-candles'],
             ],
         ],
         [
@@ -40,7 +40,7 @@
                 ['label' => 'سمت', 'value' => $position, 'icon' => 'fa-briefcase'],
                 ['label' => 'مدیر مستقیم', 'value' => $user['direct_manager']['full_name'] ?? '—', 'icon' => 'fa-user-tie'],
                 ['label' => 'نوع قرارداد', 'value' => $user['contract_type'] ?? '—', 'icon' => 'fa-file-contract'],
-                ['label' => 'تاریخ استخدام', 'value' => $user['employment_date']['human']['date'] ?? $user['employment_date'] ?? '—', 'icon' => 'fa-calendar-check'],
+                ['label' => 'تاریخ استخدام', 'value' => $user['employment_date']['human']['default'] ?? $user['employment_date'] ?? '—', 'icon' => 'fa-calendar-check'],
                 ['label' => 'محل کار', 'value' => $user['work_location'] ?? '—', 'icon' => 'fa-location-dot'],
             ],
         ],
