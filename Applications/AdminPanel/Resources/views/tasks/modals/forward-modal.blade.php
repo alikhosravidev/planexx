@@ -47,7 +47,7 @@
 
                 {{-- Select Assignee --}}
                 @php
-                    $roleIds = array_column($nextState['allowed_roles'], 'id');
+                    $roleIds = array_column($nextState['allowed_roles'] ?? [], 'id');
                     $customFilters = !empty($roleIds) ? json_encode(['has_roles' => [$roleIds]]) : null;
                     $queryParams = array_filter([
                         'per_page' => 100,
