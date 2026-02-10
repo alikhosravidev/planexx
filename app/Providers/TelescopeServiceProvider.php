@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Core\Organization\Entities\User;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\Telescope;
@@ -52,10 +53,8 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     protected function gate(): void
     {
-        Gate::define('viewTelescope', function ($user) {
-            return in_array($user->email, [
-                //
-            ]);
+        Gate::define('viewTelescope', function (User $user) {
+            return $user->hasRole('god');
         });
     }
 }

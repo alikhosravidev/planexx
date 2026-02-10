@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Core\Organization\Providers;
 
-use App\Core\Organization\Entities\User;
 use App\Core\Organization\Services\Auth\DTOs\AuthConfig;
 use App\Core\Organization\Services\Auth\DTOs\PasswordConfig;
 use App\Core\Organization\Services\Auth\ProviderResolver;
@@ -13,7 +12,6 @@ use App\Core\Organization\Services\Auth\Providers\Password;
 use App\Core\Organization\Services\OTPService\Contracts\OTPGenerator;
 use App\Core\Organization\Services\OTPService\Generators\RealGenerator;
 use App\Core\Organization\Services\OTPService\OTPConfig;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -59,8 +57,5 @@ class AuthServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Gate::define('viewTelescope', function (User $user) {
-            return $user->hasRole('platform_owner');
-        });
     }
 }
