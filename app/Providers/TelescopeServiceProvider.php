@@ -6,6 +6,8 @@ namespace App\Providers;
 
 use App\Core\Organization\Entities\User;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
+use Laravel\Telescope\Avatar;
 use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\Telescope;
 use Laravel\Telescope\TelescopeApplicationServiceProvider;
@@ -25,6 +27,22 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 
         Telescope::filter(function (IncomingEntry $entry) use ($isLocal) {
             return $isLocal || $entry->isReportableException() || $entry->isFailedRequest() || $entry->isFailedJob() || $entry->isScheduledTask() || $entry->hasMonitoredTag();
+        });
+
+        // Fix for Email Value Object compatibility with Telescope Avatar
+        Avatar::register(function ($userId, $email) {
+            // Handle Email Value Object
+            if (is_array($email) && isset($email['value'])) {
+                $email = $email['value'];
+            } elseif (is_object($email)) {
+                $email = (string) $email;
+            }
+
+            if (empty($email)) {
+                return null;
+            }
+
+            return 'https://www.gravatar.com/avatar/' . md5(Str::lower($email)) . '?s=200';
         });
     }
 
