@@ -8,9 +8,8 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
   @vite([
-      'resources/css/shared.css',
       'Applications/AdminPanel/Resources/css/app.css',
-      'app/Core/Organization/Resources/js/organization-chart.js'
+      'Applications/AdminPanel/Resources/js/pages/organization-chart.js'
   ])
 
   <style>
