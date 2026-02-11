@@ -187,12 +187,13 @@ export class PersianDatepicker {
     if (options.selectedDate !== null) {
       const pd = PersianDate.parse(options.selectedDate);
       const jDate = pd.toString('YYYY/MM/DD/' + DateConverter.getWeekday(pd));
-      const gDate = DateConverter.jalaliToGregorian(pd);
+      // Use the preserved gDate from the parsed date to maintain time information
+      const gDate = pd.gDate;
       this.showDate(jDate, gDate, options.showGregorianDate);
     } else {
       const now = PersianDate.now();
       const jDate = now.toString('YYYY/MM/DD/' + DateConverter.getWeekday(now));
-      const gDate = DateConverter.jalaliToGregorian(now);
+      const gDate = now.gDate;
       this.showDate(jDate, gDate, options.showGregorianDate);
     }
   }

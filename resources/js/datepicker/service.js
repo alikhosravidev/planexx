@@ -202,6 +202,13 @@ class DatepickerService {
     if (defaultValue) {
       options.selectedDate = defaultValue;
       options.selectedBefore = true;
+    } else {
+      // Fallback to value attribute if data-datepicker-value is not set
+      const valueAttr = el.value || el.getAttribute('value');
+      if (valueAttr && valueAttr.trim()) {
+        options.selectedDate = valueAttr;
+        options.selectedBefore = true;
+      }
     }
 
     const showTime = el.getAttribute(DATA_ATTRIBUTES.showTime);

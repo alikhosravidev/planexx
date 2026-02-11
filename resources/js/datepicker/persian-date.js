@@ -22,6 +22,15 @@ export class PersianDate {
       return PersianDate.now();
     }
 
+    // Try to parse Gregorian date first (YYYY-MM-DD or YYYY-MM-DD HH:MM:SS format)
+    if (dateString.includes('-')) {
+      const dateObj = new Date(dateString);
+      if (!isNaN(dateObj.getTime())) {
+        return DateConverter.gregorianToJalali(dateObj);
+      }
+    }
+
+    // Parse Persian date (YYYY/MM/DD format)
     const parts = dateString.split('/');
     if (parts.length < 3) {
       return PersianDate.now();
