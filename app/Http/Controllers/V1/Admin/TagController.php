@@ -13,7 +13,7 @@ use App\Repositories\TagRepository;
 use App\Services\Tag\TagService;
 use Illuminate\Http\JsonResponse;
 
-class TagAPIController extends BaseAPIController
+class TagController extends BaseAPIController
 {
     public function __construct(
         TagRepository                $repository,

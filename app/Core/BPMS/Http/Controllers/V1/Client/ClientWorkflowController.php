@@ -8,7 +8,7 @@ use App\Contracts\Controller\BaseAPIController;
 use App\Core\BPMS\Http\Transformers\V1\Admin\WorkflowTransformer;
 use App\Core\BPMS\Repositories\WorkflowRepository;
 
-class ClientWorkflowAPIController extends BaseAPIController
+class ClientWorkflowController extends BaseAPIController
 {
     public function __construct(
         WorkflowRepository  $repository,

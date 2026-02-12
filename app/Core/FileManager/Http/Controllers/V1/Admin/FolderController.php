@@ -13,7 +13,7 @@ use App\Core\FileManager\Repositories\FolderRepository;
 use App\Core\FileManager\Services\FolderService;
 use Illuminate\Http\JsonResponse;
 
-class FolderAPIController extends BaseAPIController
+class FolderController extends BaseAPIController
 {
     public function __construct(
         FolderRepository               $repository,

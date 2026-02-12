@@ -113,8 +113,11 @@ abstract class BaseAPIController
         }
     }
 
-    public function keyValList(Request $request, string $field, string $key = 'id'): JsonResponse
+    public function keyValList(Request $request): JsonResponse
     {
+        $field = $request->route()->parameter('field');
+        $key   = $request->route()->parameter('key', 'id');
+
         $includes   = $this->parseIncludes($request);
         $filters    = $this->parseFilters($request);
         $search     = $this->parseSearch($request);

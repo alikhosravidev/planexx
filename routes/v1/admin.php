@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\V1\Admin\EnumController;
-use App\Http\Controllers\V1\Admin\TagAPIController;
+use App\Http\Controllers\V1\Admin\TagController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('api/v1/admin')
@@ -15,5 +15,5 @@ Route::prefix('api/v1/admin')
         Route::get('enums/{enum}/key-value-list', [EnumController::class, 'keyValList'])
             ->name('enums.keyValList');
 
-        Route::apiResource('tags', TagAPIController::class)->except(['create', 'edit']);
+        Route::apiResource('tags', TagController::class)->except(['create', 'edit']);
     });

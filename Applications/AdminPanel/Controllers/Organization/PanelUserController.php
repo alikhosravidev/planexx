@@ -54,7 +54,7 @@ class PanelUserController extends BaseWebController
         $queryParams['includes'] = 'avatar,primaryRoles';
 
         if ($userType === UserTypeEnum::Employee) {
-            $queryParams['includes'] = 'avatar,primaryRoles,departments';
+            $queryParams['includes'] = 'avatar,primaryRoles,roles,departments';
         }
 
         $response = $this->apiGet('api.v1.admin.org.users.index', $queryParams);
