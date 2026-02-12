@@ -333,7 +333,8 @@
                     <i class="fa-solid fa-comment"></i>
                     ثبت یادداشت
                 </button>
-                <button data-modal-open="forwardModal" class="flex-1 h-12 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-medium transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                <button {{ $nextState === null ? 'disabled' : '' }} data-modal-open="forwardModal"
+                        class="flex-1 h-12 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-medium transition-all active:scale-[0.98] flex items-center justify-center gap-2 {{ $nextState === null ? 'opacity-60 cursor-not-allowed' : '' }}">
                     <i class="fa-solid fa-paper-plane"></i>
                     ارجاع به مرحله بعد
                 </button>
@@ -345,7 +346,7 @@
     <x-pwa::modals.follow-up-modal :task-id="$task['id'] ?? null" />
 
     <!-- Forward Modal -->
-    <x-pwa::modals.forward-modal :task-id="$task['id'] ?? null" :current-state="$currentState" :next-state="$nextState" />
+    <x-pwa::modals.forward-modal :task="$task ?? null" :current-state="$currentState" :next-state="$nextState" />
 
     <!-- Task Info Modal -->
     <x-pwa::modals.task-info-modal :task="$task" :workflow="$workflow" :priority-style="$priorityStyle" />

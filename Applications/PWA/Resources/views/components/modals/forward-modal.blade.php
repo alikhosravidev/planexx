@@ -1,5 +1,5 @@
 @props([
-    'taskId' => null,
+    'task' => null,
     'currentState' => null,
     'nextState' => null,
 ])
@@ -26,15 +26,12 @@
             <form id="forwardForm"
                   data-ajax
                   data-method="PUT"
-                  action="{{ $taskId ? route('api.v1.client.bpms.tasks.update', ['task' => $taskId]) : '#' }}"
+                  action="{{ isset($task['id']) ? route('api.v1.client.bpms.tasks.update', ['task' => $task['id']]) : '#' }}"
                   data-on-success="redirect"
                   data-redirect-url="{{ route('pwa.tasks.index') }}">
                 @csrf
 
                 <input type="hidden" name="action" value="forward">
-                @if($nextState)
-                    <input type="hidden" name="next_state_id" value="{{ $nextState['id'] }}">
-                @endif
 
                 <!-- Forward Note -->
                 <div class="mb-5">
@@ -82,6 +79,17 @@
                         required
                     ></select>
                 </div>
+
+                <x-panel::forms.tom-select-ajax
+                    name="next_state_id"
+                    label="مرحله بعدی"
+                    placeholder="جستجو و انتخاب مسئول"
+                    required
+                    :preload="true"
+                    :url="route('api.v1.admin.bpms.states.keyValList', ['workflow_id' => $task['workflow']['id'], 'per_page' => 100, 'field' => 'name'])"
+                    value="{{ $nextState['id'] ?? null }}"
+                    class="min-w-[120px]"
+                />
             </form>
         </div>
 

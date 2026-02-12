@@ -43,6 +43,15 @@
     $progressPercentage = $task['progress_percentage'] ?? 0;
     $currentOrder = $task['current_state_order'] ?? 1;
     $totalStates = $task['total_states'] ?? 1;
+
+    $currentStateIndex = 0;
+    foreach ($workflowStates as $index => $state) {
+        if (($state['id'] ?? null) == $currentStateId) {
+            $currentStateIndex = $index;
+            break;
+        }
+    }
+    $nextState = $workflowStates[$currentStateIndex + 1] ?? null;
 @endphp
 
 <x-panel::layouts.app :title="$pageTitle">
@@ -88,17 +97,6 @@
     </div>
 
     @include('panel::tasks.modals.follow-up-modal', ['taskId' => $task['id'] ?? null])
-
-    @php
-        $currentStateIndex = 0;
-        foreach ($workflowStates as $index => $state) {
-            if (($state['id'] ?? null) == $currentStateId) {
-                $currentStateIndex = $index;
-                break;
-            }
-        }
-        $nextState = $workflowStates[$currentStateIndex + 1] ?? null;
-    @endphp
 
     @include('panel::tasks.modals.forward-modal', ['taskId' => $task['id'] ?? null, 'currentState' => $task['current_state'] ?? null, 'nextState' => $nextState])
 

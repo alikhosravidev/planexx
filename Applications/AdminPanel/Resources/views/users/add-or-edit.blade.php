@@ -131,7 +131,11 @@
                                 class="min-w-[140px]"
                                 :url="route('api.v1.admin.org.departments.index', ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => ''], 'includes' => 'children'])"/>
 
-                            <x-panel::forms.date name="employment_date" :value="$user['employment_date']['main'] ?? null" label="تاریخ استخدام"/>
+                            <x-panel::forms.date
+                                name="employment_date"
+                                :value="$user['employment_date']['main'] ?? null"
+                                class="min-w-[140px]"
+                                label="تاریخ استخدام"/>
                         </div>
                     </div>
 
