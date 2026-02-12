@@ -8,4 +8,4 @@ VALUES
     2, NULL, NULL, 'لقمان آوند', 'لقمان', 'آوند', '09129619077', 2, NULL, 'god@loghman.solutions', NULL, NULL, 1, 1, NULL, NOW(), NOW(), NULL, NULL, NULL, NOW(), NOW(), NULL
 );
 
-INSERT INTO `core_org_entity_has_roles` (`role_id`, `model_type`, `model_id`, `is_primary`) VALUES ('1', 'core_org_users', '2', '1'), ('1', 'core_org_users', '1', '1');
+INSERT INTO `core_org_entity_has_roles` (`role_id`, `model_type`, `model_id`) VALUES ('1', 'core_org_users', '2'), ('1', 'core_org_users', '1');
