@@ -6,23 +6,29 @@ namespace App\Exceptions;
 
 use App\Services\ResponseBuilder;
 use Exception;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 
-abstract class BaseException extends Exception
+abstract class BaseException extends Exception implements Responsable
 {
     public function __construct(string $message = '', private array $errors = [])
     {
         parent::__construct($message, $this->statusCode()->value);
     }
 
+    public function toResponse($request)
+    {
+        return $this->render($request);
+    }
+
     public function render($request)
     {
         if ($this->isApi($request)) {
-            return $this->renderApi($request);
+            return $this->renderApi();
         }
 
         return $this->renderWeb($request);
@@ -58,27 +64,34 @@ abstract class BaseException extends Exception
         return back()->withErrors(empty($this->errors) ? $this->getSafeMessage() : $this->errors);
     }
 
-    private function renderApi(Request $request): JsonResponse
+    private function renderApi(): JsonResponse
     {
-        $responder = new ResponseBuilder($request);
+        $responder = new ResponseBuilder();
 
-        return $responder
-            ->setMessage($this->getSafeMessage())
+        $message = $this->getSafeMessage();
+
+        $response = $responder
+            ->setMessage($message)
             ->setStatusCode($this->code)
             ->setErrors($this->errors)
             ->build();
+
+        // Add meta header to identify exception type for defensive programming
+        $response->header('X-Is-Business-Exception', $this instanceof BusinessException ? 'true' : 'false');
+
+        return $response;
     }
 
     private function getSafeMessage(): string
     {
-        if ($this instanceof TechnicalException) {
-            Log::error($this->message, [
-                'exception' => $this,
-            ]);
-
-            return trans('errors.failed_process');
+        if ($this instanceof BusinessException) {
+            return $this->message;
         }
 
-        return $this->message;
+        Log::error($this->message, [
+            'exception' => $this,
+        ]);
+
+        return trans('errors.failed_process');
     }
 }

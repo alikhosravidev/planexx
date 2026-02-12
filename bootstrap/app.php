@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Core\Organization\Http\Middlewares\CheckUserAccessToken;
+use App\Exceptions\BaseException;
+use App\Exceptions\BusinessException;
 use App\Middlewares\EncryptCookies;
 use App\Middlewares\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -35,5 +37,14 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        // Don't report BusinessException as server errors
+        $exceptions->dontReport([
+            BusinessException::class,
+        ]);
+
+        // Use custom render strategy for BaseException and its children
+        // Must return response directly to prevent Laravel from hiding the message
+        $exceptions->renderable(function (BaseException $e, $request) {
+            return $e->render($request);
+        });
     })->create();

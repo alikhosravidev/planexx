@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of the LSP API and Panels projects
@@ -19,6 +19,8 @@ namespace App\Core\Notify\Services\SmsServiceProvider;
 
 use App\Core\Notify\Services\SmsServiceProvider\Contracts\SmsProvider;
 use App\Core\Notify\Services\SmsServiceProvider\DTOs\ReceivedSmsDTO;
+use App\Core\Notify\Services\SmsServiceProvider\Exceptions\SmsException;
+use Illuminate\Support\Facades\Log;
 
 class SmsServiceProvider
 {
@@ -29,21 +31,39 @@ class SmsServiceProvider
 
     public function send(string $phoneNumber, string $message): self
     {
-        $this->provider->send($phoneNumber, $message);
+        try {
+            $this->provider->send($phoneNumber, $message);
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage(), [$exception]);
+
+            throw SmsException::failed();
+        }
 
         return $this;
     }
 
     public function bulk(array $phoneNumbers, string $message): self
     {
-        $this->provider->bulk($phoneNumbers, $message);
+        try {
+            $this->provider->bulk($phoneNumbers, $message);
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage(), [$exception]);
+
+            throw SmsException::failed();
+        }
 
         return $this;
     }
 
     public function verify(string $phoneNumber, array $tokens, int|string $identifier): self
     {
-        $this->provider->verify($phoneNumber, $tokens, $identifier);
+        try {
+            $this->provider->verify($phoneNumber, $tokens, $identifier);
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage(), [$exception]);
+
+            throw SmsException::failed();
+        }
 
         return $this;
     }

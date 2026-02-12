@@ -40,7 +40,7 @@ return [
     'auth' => [
         'guard' => 'sanctum',
 
-        'login_limitation_count' => 5,
+        'login_limitation_count' => 2,
 
         'auth_max_attempts' => (int) env('AUTH_MAX_ATTEMPTS', 15),
 

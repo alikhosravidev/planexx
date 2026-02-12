@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Applications\Contracts;
 
+use Applications\Contracts\Exceptions\WebApiException;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -59,9 +60,10 @@ abstract class BaseWebController
             $payload     = $this->extractPayload($route, $data, $routeParams);
             $subRequest  = $this->buildSubRequest($routeName, $routeParams, $payload, $method, $headers);
 
-            $response        = app(Kernel::class)->handle($subRequest);
-            $decodedResponse = json_decode($response->getContent(), true);
-            $statusCode      = $response->getStatusCode();
+            $response            = app(Kernel::class)->handle($subRequest);
+            $decodedResponse     = json_decode($response->getContent(), true);
+            $statusCode          = $response->getStatusCode();
+            $isBusinessException = $response->headers->get('X-Is-Business-Exception') === 'true';
 
             if ($statusCode >= 400) {
                 Log::error('API Error in BaseWebController', [
@@ -73,7 +75,7 @@ abstract class BaseWebController
                 ]);
             }
             $this->handleValidationErrors($statusCode, $decodedResponse, $data);
-            $this->handleOtherErrors($statusCode, $decodedResponse);
+            $this->handleOtherErrors($statusCode, $decodedResponse, $isBusinessException);
 
             return $decodedResponse;
         } finally {
@@ -152,16 +154,24 @@ abstract class BaseWebController
         throw ValidationException::withMessages($decodedResponse['errors'] ?? []);
     }
 
-    private function handleOtherErrors(int $statusCode, ?array $decodedResponse): void
+    private function handleOtherErrors(int $statusCode, ?array $decodedResponse, bool $isBusinessException = false): void
     {
         if ($statusCode < 400) {
             return;
         }
 
-        // For all other errors (500, 404, 403, etc.), throw an exception with details
         $message   = $decodedResponse['message']   ?? "API request failed with status {$statusCode}";
+        $errors    = $decodedResponse['errors']    ?? [];
         $exception = $decodedResponse['exception'] ?? null;
 
+        // DEFENSIVE: Only use WebApiException if it's explicitly marked as BusinessException
+        // This ensures we don't accidentally expose sensitive error messages
+        if ($isBusinessException === true) {
+            throw WebApiException::fromApiResponse($message, $statusCode, $errors);
+        }
+
+        // For all other errors (technical/server errors), use RuntimeException
+        // These messages will be hidden in production (APP_DEBUG=false)
         if ($exception && config('app.debug')) {
             throw new RuntimeException("{$message}: {$exception}");
         }
