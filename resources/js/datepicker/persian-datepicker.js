@@ -68,12 +68,20 @@ export class PersianDatepicker {
       options.selectedDate = options.startDate;
     }
 
-    if (options.selectedDate === null && !options.showGregorianDate) {
-      const datePattern =
-        /^([1-9][0-9]{3})\/([0]?[1-9]|[1][0-2])\/([0]?[1-9]|[1-2][0-9]|[3][0-1])$/;
+    // Read initial value from input if selectedDate is not set
+    if (options.selectedDate === null) {
       const elementValue = DomUtils.getValue(this.element);
 
-      if (datePattern.test(elementValue)) {
+      // Check for Gregorian date pattern (YYYY-MM-DD or YYYY-MM-DD HH:MM:SS)
+      const gregorianPattern = /^\d{4}-\d{2}-\d{2}/;
+      // Check for Persian date pattern (YYYY/MM/DD)
+      const persianPattern =
+        /^([1-9][0-9]{3})\/([0]?[1-9]|[1][0-2])\/([0]?[1-9]|[1-2][0-9]|[3][0-1])/;
+
+      if (
+        gregorianPattern.test(elementValue) ||
+        persianPattern.test(elementValue)
+      ) {
         options.selectedDate = elementValue;
       }
     }
@@ -285,7 +293,8 @@ export class PersianDatepicker {
       formattedGDate = formatGregorianDate(gDateObj, this.options.formatDate);
     }
 
-    const displayValue = showGdate ? formattedGDate : formattedJDate;
+    // Always display Jalali (Persian) date in the input field
+    const displayValue = formattedJDate;
     DomUtils.setValue(this.element, displayValue);
 
     this.element.setAttribute('data-jDate', formattedJDate);
@@ -327,7 +336,8 @@ export class PersianDatepicker {
       formattedGDate = formatGregorianDate(gDate, this.options.formatDate);
     }
 
-    const displayValue = showGdate ? formattedGDate : formattedJDate;
+    // Always display Jalali (Persian) date in the input field
+    const displayValue = formattedJDate;
     DomUtils.setValue(this.element, displayValue);
 
     this.element.setAttribute('data-jDate', formattedJDate);
