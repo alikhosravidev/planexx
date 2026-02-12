@@ -3,7 +3,6 @@
         <form data-ajax action="#" method="POST" data-on-success="reload">
             @method('PUT')
             @csrf
-            <button type="button" id="prefillRolesBtn" data-method="GET" class="hidden"></button>
 
             <!-- Header -->
             <div class="px-6 py-4 border-b border-border-light flex items-center justify-between">
@@ -25,7 +24,6 @@
             <div class="p-6 space-y-6">
                 <x-panel::forms.tom-select
                     name="primary_role"
-                    id="primaryRole"
                     label="نقش اصلی"
                     icon="fa-solid fa-star text-amber-500"
                     placeholder="انتخاب کنید"
@@ -33,7 +31,6 @@
                     required
                 />
 
-                <!--  TODO: load roles using ajax request -->
                 <div>
                     <label class="block text-sm font-medium text-text-secondary mb-3 leading-normal">
                         <i class="fa-solid fa-tags text-slate-400 ml-2"></i>
@@ -73,82 +70,3 @@
         </form>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const modal = document.getElementById('accessModal');
-        if (!modal) return;
-
-        modal.addEventListener('modal:data-loaded', (e) => {
-            const {userId, userName} = e.detail;
-
-            const usernameEl = modal.querySelector('[data-modal-username]');
-            if (usernameEl && userName) {
-                usernameEl.textContent = userName;
-            }
-
-            const form = modal.querySelector('form[data-ajax]');
-            if (form && userId) {
-                const url = window.route('api.v1.admin.org.users.roles.update', {user: userId});
-                form.setAttribute('action', url);
-            }
-
-            // Prefill current roles using AJAX system
-            if (userId) {
-                const prefillBtn = modal.querySelector('#prefillRolesBtn');
-                if (prefillBtn) {
-                    const showUrl = window.route('api.v1.admin.org.users.roles.show', {user: userId});
-                    prefillBtn.setAttribute('action', showUrl);
-                    prefillBtn.setAttribute('data-action', showUrl);
-
-                    const onSuccess = (event) => {
-                        try {
-                            const responsePayload = event.detail?.response || {};
-                            const data = event.detail?.data || responsePayload.data || {};
-                            const payload = responsePayload.result || data.result || data.data || data || {};
-                            const primary = payload.primary_role ?? null;
-                            const secondary = Array.isArray(payload.secondary_roles) ? payload.secondary_roles : [];
-
-                            const primarySelect = modal.querySelector('#primaryRole');
-                            if (primarySelect) {
-                                primarySelect.value = primary != null ? String(primary) : '';
-                                primarySelect.dispatchEvent(new Event('change', {bubbles: true}));
-                            }
-
-                            const checkboxes = modal.querySelectorAll('input[name="secondary_roles[]"]');
-                            const secondaryStr = secondary.map(String);
-                            checkboxes.forEach(cb => {
-                                const shouldCheck = secondaryStr.includes(cb.value);
-                                if (cb.checked !== shouldCheck) {
-                                    cb.checked = shouldCheck;
-                                    cb.dispatchEvent(new Event('change', {bubbles: true}));
-                                }
-                            });
-                        } catch (_) {
-                            // ignore
-                        } finally {
-                            prefillBtn.removeEventListener('ajax:success', onSuccess, {once: true});
-                        }
-                    };
-
-                    prefillBtn.addEventListener('ajax:success', onSuccess, {once: true});
-                    // Add data-ajax only after action is ready to avoid init errors
-                    prefillBtn.setAttribute('data-ajax', '');
-                    prefillBtn.click();
-                }
-            }
-        });
-
-        modal.addEventListener('modal:closed', () => {
-            const form = modal.querySelector('form[data-ajax]');
-            if (form) {
-                form.reset();
-                form.setAttribute('action', '#');
-            }
-            const usernameEl = modal.querySelector('[data-modal-username]');
-            if (usernameEl) {
-                usernameEl.textContent = '';
-            }
-        });
-    });
-</script>

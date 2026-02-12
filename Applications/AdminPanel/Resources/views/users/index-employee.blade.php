@@ -93,9 +93,15 @@
             'data_attrs' => [
                 'data-modal-open' => 'accessModal',
                 'data-modal-data' => function($row) {
+                    $primaryRoleId = $row['primaryRoles'][0]['id'] ?? null;
+                    $allRoleIds = array_column($row['roles'] ?? [], 'id');
+                    $secondaryRoleIds = array_values(array_diff($allRoleIds, [$primaryRoleId]));
+
                     return json_encode([
                         'userId' => $row['id'],
-                        'userName' => $row['full_name']
+                        'userName' => $row['full_name'],
+                        'primaryRole' => $primaryRoleId,
+                        'secondaryRoles' => $secondaryRoleIds
                     ]);
                 }
             ],
@@ -195,4 +201,6 @@
     </div>
 
     <x-panel::access-modal :roles="$roles"/>
+
+    @vite('Applications/AdminPanel/Resources/js/pages/user-access-modal.js')
 </x-panel::layouts.app>

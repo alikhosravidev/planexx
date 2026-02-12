@@ -301,6 +301,79 @@ class TomSelectService {
       this.#createMultiple(el);
     }
   }
+
+  /**
+   * Set value for a Tom-Select instance
+   * @param {HTMLElement} el - Select element
+   * @param {string|number} value - Value to set
+   * @param {boolean} silent - Whether to trigger change event (default: false)
+   * @returns {boolean} Success status
+   */
+  setValue(el, value, silent = false) {
+    const instance = this.getInstance(el);
+    if (!instance) {
+      console.warn('[TomSelect] Instance not found for element:', el);
+      return false;
+    }
+
+    const valueStr = String(value);
+
+    // Check if option exists
+    if (!instance.options[valueStr]) {
+      console.warn(
+        `[TomSelect] Option with value "${valueStr}" not found. Available options:`,
+        Object.keys(instance.options),
+      );
+      return false;
+    }
+
+    // Clear current selection and set new value
+    instance.clear();
+    instance.setValue(valueStr, silent);
+    return true;
+  }
+
+  /**
+   * Wait for Tom-Select instance to be initialized
+   * @param {HTMLElement} el - Select element
+   * @param {number} timeout - Maximum wait time in ms (default: 2000)
+   * @param {number} interval - Check interval in ms (default: 50)
+   * @returns {Promise<Object|null>} Tom-Select instance or null if timeout
+   */
+  async waitForInstance(el, timeout = 2000, interval = 50) {
+    const startTime = Date.now();
+
+    while (Date.now() - startTime < timeout) {
+      const instance = this.getInstance(el);
+      if (instance) {
+        return instance;
+      }
+      await new Promise((resolve) => setTimeout(resolve, interval));
+    }
+
+    console.warn(
+      '[TomSelect] Instance initialization timeout for element:',
+      el,
+    );
+    return null;
+  }
+
+  /**
+   * Set value with automatic wait for initialization
+   * @param {HTMLElement} el - Select element
+   * @param {string|number} value - Value to set
+   * @param {boolean} silent - Whether to trigger change event (default: false)
+   * @param {number} timeout - Maximum wait time in ms (default: 2000)
+   * @returns {Promise<boolean>} Success status
+   */
+  async setValueAsync(el, value, silent = false, timeout = 2000) {
+    const instance = await this.waitForInstance(el, timeout);
+    if (!instance) {
+      return false;
+    }
+
+    return this.setValue(el, value, silent);
+  }
 }
 
 export const tomSelectService = new TomSelectService();
