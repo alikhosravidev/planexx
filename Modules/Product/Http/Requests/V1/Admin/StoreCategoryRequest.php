@@ -26,10 +26,11 @@ class StoreCategoryRequest extends BaseRequest
                 'regex:/^[a-z0-9-]+$/',
                 Rule::unique(Category::class, 'slug')->withoutTrashed(),
             ],
-            'parent_id'  => ['nullable', 'integer', Rule::exists(Category::class, 'id')],
-            'icon_class' => ['nullable', 'string', 'max:100'],
-            'sort_order' => ['nullable', 'integer', 'min:0'],
-            'is_active'  => ['nullable', 'boolean'],
+            'parent_id'   => ['nullable', 'integer', Rule::exists(Category::class, 'id')],
+            'description' => ['nullable', 'string'],
+            'icon_class'  => ['nullable', 'string', 'max:100'],
+            'sort_order'  => ['nullable', 'integer', 'min:0'],
+            'is_active'   => ['nullable', 'boolean'],
         ];
     }
 

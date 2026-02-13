@@ -16,6 +16,7 @@ use Modules\Product\Database\Factories\CategoryFactory;
  * @property int                         $id
  * @property string                      $name
  * @property string                      $slug
+ * @property string|null                 $description
  * @property int|null                    $parent_id
  * @property string|null                 $icon_class
  * @property int                         $sort_order
@@ -43,6 +44,7 @@ class Category extends BaseEntity
     protected $fillable = [
         'name',
         'slug',
+        'description',
         'parent_id',
         'icon_class',
         'sort_order',

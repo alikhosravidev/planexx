@@ -50,12 +50,13 @@
 
                 {{-- دسته‌بندی والد و ترتیب --}}
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                    <x-panel::forms.select
+
+                    <x-panel::forms.tom-select-ajax
                         name="parent_id"
                         label="والد"
-                        :options="$parentOptions"
                         placeholder="بدون والد (دسته‌بندی اصلی)"
                         class="min-w-[110px]"
+                        url="{{ route('api.v1.admin.product.categories.keyValList', ['per_page' => 100, 'field' => 'name', 'filter' => ['parent_id' => null]]) }}"
                     />
 
                     <x-panel::forms.input

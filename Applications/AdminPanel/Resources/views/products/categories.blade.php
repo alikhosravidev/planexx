@@ -54,7 +54,7 @@
                 'icon' => function($row) { return $row['icon'] ?? 'fa-solid fa-folder'; },
                 'icon_bg' => 'bg-slate-50',
                 'icon_color' => 'text-slate-600',
-                'description' => function($row) { return $row['description'] ?? null; },
+                'description' => function($row) { return $row['description']['full'] ?? null; },
                 'description_class' => 'text-xs text-text-muted mt-0.5',
             ],
             'width' => '280px',
@@ -151,14 +151,6 @@
         'fa-solid fa-book', 'fa-solid fa-palette', 'fa-solid fa-futbol', 'fa-solid fa-baby',
         'fa-solid fa-leaf', 'fa-solid fa-bolt', 'fa-solid fa-shield-halved', 'fa-solid fa-flask',
     ];
-
-    // Parent categories for the select
-    $parentOptions = [];
-    foreach ($categories as $cat) {
-        if (empty($cat['parent_id'])) {
-            $parentOptions[$cat['id']] = $cat['name'];
-        }
-    }
 @endphp
 
 <x-panel::layouts.app :title="$title">
@@ -224,7 +216,6 @@
 
     {{-- مودال ایجاد/ویرایش دسته‌بندی --}}
     @include('panel::products.modals.category-modal', [
-        'parentOptions' => $parentOptions,
         'categoryIcons' => $categoryIcons,
     ])
 

@@ -11,7 +11,7 @@ if [ -z "$CONTAINER_NAME" ]; then
 fi
 
 if command -v docker >/dev/null 2>&1; then
-    docker exec -it "${CONTAINER_NAME}_node" npm run format || {
+    docker exec "${CONTAINER_NAME}_node" npm run format || {
         echo ""
         echo "⚠️  Docker execution failed. Trying locally..."
         npm run format || {

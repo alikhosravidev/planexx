@@ -17,12 +17,13 @@ class CategoryMapper
         $parentIdValue = OrNull::intOrNull($request->input('parent_id'));
 
         return new CategoryDTO(
-            name: $request->input('name'),
-            slug: OrNull::stringOrNull($request->input('slug')),
-            parentId: $parentIdValue !== null ? new CategoryId($parentIdValue) : null,
-            iconClass: OrNull::stringOrNull($request->input('icon_class')),
-            sortOrder: (int) ($request->input('sort_order') ?? 0),
-            isActive: $request->boolean('is_active', true),
+            name       : $request->input('name'),
+            slug       : OrNull::stringOrNull($request->input('slug')),
+            description: OrNull::stringOrNull($request->input('description')),
+            parentId   : $parentIdValue !== null ? new CategoryId($parentIdValue) : null,
+            iconClass  : OrNull::stringOrNull($request->input('icon_class')),
+            sortOrder  : (int) ($request->input('sort_order') ?? 0),
+            isActive   : $request->boolean('is_active', true),
         );
     }
 
@@ -33,14 +34,15 @@ class CategoryMapper
             : $category->parent_id;
 
         return new CategoryDTO(
-            name: $request->input('name', $category->name),
-            slug: OrNull::stringOrNull($request->input('slug')) ?? $category->slug,
-            parentId: $parentIdValue !== null ? new CategoryId($parentIdValue) : null,
-            iconClass: OrNull::stringOrNull($request->input('icon_class')) ?? $category->icon_class,
-            sortOrder: (int) ($request->input('sort_order') ?? $category->sort_order),
-            isActive: $request->has('is_active')
-                ? $request->boolean('is_active')
-                : $category->is_active,
+            name       : $request->input('name', $category->name),
+            slug       : OrNull::stringOrNull($request->input('slug'))        ?? $category->slug,
+            description: OrNull::stringOrNull($request->input('description')) ?? $category->description,
+            parentId   : $parentIdValue !== null ? new CategoryId($parentIdValue) : null,
+            iconClass  : OrNull::stringOrNull($request->input('icon_class')) ?? $category->icon_class,
+            sortOrder  : (int) ($request->input('sort_order') ?? $category->sort_order),
+            isActive   : $request->has('is_active')
+                             ? $request->boolean('is_active')
+                             : $category->is_active,
         );
     }
 }

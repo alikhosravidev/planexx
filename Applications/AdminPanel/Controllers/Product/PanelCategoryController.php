@@ -24,14 +24,20 @@ class PanelCategoryController extends BaseWebController
         $queryParams['includes'] = 'parent';
         $queryParams['per_page'] = 100;
 
-        if ($request->has('parent_filter')) {
-            $filter = $request->query('parent_filter');
+        $parentFilter = $request->query('parent_filter');
 
-            if ($filter === 'root') {
+        if (! empty($parentFilter)) {
+            if ($parentFilter === 'root') {
                 $queryParams['filter']['parent_id'] = null;
             } else {
                 $queryParams['filter']['parent_id']['not_null'] = true;
             }
+        }
+
+        $status = $request->query('status');
+
+        if (! empty($status)) {
+            $queryParams['filter']['is_active'] = $status === 'active';
         }
 
         $response = $this->apiGet('api.v1.admin.product.categories.index', $queryParams);

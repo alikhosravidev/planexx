@@ -80,7 +80,7 @@ const openEditCategoryModal = (categoryData) => {
   if (sortInput) sortInput.value = categoryData.sort_order ?? 0;
 
   const descInput = form?.querySelector('[name="description"]');
-  if (descInput) descInput.value = categoryData.description || '';
+  if (descInput) descInput.value = categoryData.description.full ?? '';
 
   // Set icon
   if (categoryData.icon) {

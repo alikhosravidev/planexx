@@ -11,9 +11,10 @@ return new class () extends Migration {
     {
         Schema::create('product_categories', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('name');
             $table->string('slug');
-            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->text('description')->nullable();
             $table->string('icon_class', 50)->nullable();
             $table->integer('sort_order')->default(0);
             $table->boolean('is_active')->default(true);
