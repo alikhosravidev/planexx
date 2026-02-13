@@ -16,4 +16,15 @@ class ProviderUtility
 
         return null;
     }
+
+    public static function modulePath(string $name, string $path = ''): ?string
+    {
+        $modulePath = base_path('Modules/' . $name);
+
+        if (is_dir($modulePath) || is_file($modulePath)) {
+            return $modulePath . (! empty($path) ? DIRECTORY_SEPARATOR . $path : '');
+        }
+
+        return null;
+    }
 }

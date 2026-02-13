@@ -16,7 +16,7 @@ class BPMSMenuRegistrar implements MenuRegistrar
             $menu->item('مدیریت وظایف', 'bpms')
                 ->route('web.bpms.dashboard')
                 ->icon('fa-solid fa-list-check')
-                ->order(3);
+                ->order(5);
         });
 
         $menu->register('bpms.sidebar', function (MenuBuilder $menu) {

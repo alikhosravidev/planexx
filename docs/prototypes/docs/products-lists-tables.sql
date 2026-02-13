@@ -1,132 +1,151 @@
 -- ============================================================
--- ماژول محصولات و لیست‌ها - Products & Lists Module
--- MySQL Database Schema
--- به‌روزرسانی شده: ۲۲ بهمن ۱۴۰۴
+-- ماژول محصولات و لیست‌ها - نسخه حرفه‌ای (Refactored)
+-- معماری: EAV برای لیست‌ها | Many-to-Many برای دسته‌بندی‌ها
 -- ============================================================
 
 -- -----------------------------------------------------------
--- جدول دسته‌بندی محصولات
+-- 1. جدول دسته‌بندی محصولات (Standard Adjacency List)
 -- -----------------------------------------------------------
-CREATE TABLE IF NOT EXISTS `product_categories` (
-    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `categories` (
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL COMMENT 'نام دسته‌بندی',
-    `slug` VARCHAR(255) NOT NULL COMMENT 'نامک (URL-friendly)',
-    `parent_id` INT UNSIGNED DEFAULT NULL COMMENT 'دسته‌بندی والد',
-    `icon` VARCHAR(100) DEFAULT NULL COMMENT 'آیکون دسته‌بندی',
-    `sort_order` INT NOT NULL DEFAULT 0 COMMENT 'ترتیب نمایش',
-    `is_active` TINYINT(1) NOT NULL DEFAULT 1 COMMENT 'وضعیت فعال/غیرفعال',
+    `slug` VARCHAR(255) NOT NULL COMMENT 'نامک یکتا برای URL',
+    `parent_id` BIGINT UNSIGNED DEFAULT NULL COMMENT 'والد برای ساختار درختی',
+    `icon_class` VARCHAR(50) DEFAULT NULL,
+    `sort_order` INT NOT NULL DEFAULT 0,
+    `is_active` TINYINT(1) NOT NULL DEFAULT 1,
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `deleted_at` TIMESTAMP NULL DEFAULT NULL COMMENT 'Soft Delete',
     PRIMARY KEY (`id`),
-    UNIQUE KEY `uk_product_categories_slug` (`slug`),
-    KEY `idx_product_categories_parent` (`parent_id`),
-    KEY `idx_product_categories_active` (`is_active`),
-    CONSTRAINT `fk_product_categories_parent` FOREIGN KEY (`parent_id`) REFERENCES `product_categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='دسته‌بندی محصولات';
-
+    UNIQUE KEY `uk_categories_slug` (`slug`),
+    KEY `idx_categories_parent` (`parent_id`),
+    CONSTRAINT `fk_categories_parent` FOREIGN KEY (`parent_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------------
--- جدول محصولات (ساختار ساده‌شده)
+-- 2. جدول اصلی محصولات (Normalized)
 -- -----------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `products` (
-    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `title` VARCHAR(500) NOT NULL COMMENT 'عنوان محصول',
-    `slug` VARCHAR(500) DEFAULT NULL COMMENT 'نامک (URL-friendly)',
-    `category_id` INT UNSIGNED DEFAULT NULL COMMENT 'شناسه دسته‌بندی',
-    `price` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT 'قیمت فروش (ریال)',
-    `sale_price` BIGINT UNSIGNED DEFAULT NULL COMMENT 'قیمت با تخفیف (ریال)',
-    `image_url` VARCHAR(500) DEFAULT NULL COMMENT 'تصویر اصلی محصول',
-    `status` ENUM('active','inactive','draft','out_of_stock') NOT NULL DEFAULT 'draft' COMMENT 'وضعیت محصول',
-    `is_featured` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'محصول ویژه',
-    `sort_order` INT NOT NULL DEFAULT 0 COMMENT 'ترتیب نمایش',
-    `created_by` INT UNSIGNED DEFAULT NULL COMMENT 'ایجادکننده',
-    `updated_by` INT UNSIGNED DEFAULT NULL COMMENT 'آخرین ویرایش‌کننده',
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(255) NOT NULL,
+    `slug` VARCHAR(255) NOT NULL,
+    `price` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT 'قیمت (ریال)',
+    `sale_price` BIGINT UNSIGNED DEFAULT NULL,
+    -- وضعیت به جای ENUM از TINYINT استفاده می‌کند (1: فعال، 2: پیش‌نویس، 3: ناموجود)
+    -- این کار پرفورمنس را بالا برده و تغییرات آینده را راحت‌تر می‌کند.
+    `status` TINYINT UNSIGNED NOT NULL DEFAULT 1,
+    `is_featured` TINYINT(1) NOT NULL DEFAULT 0,
+    `created_by` BIGINT UNSIGNED DEFAULT NULL,
+    `updated_by` BIGINT UNSIGNED DEFAULT NULL,
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `deleted_at` TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
-    KEY `idx_products_slug` (`slug`(191)),
-    KEY `idx_products_category` (`category_id`),
-    KEY `idx_products_status` (`status`),
+    UNIQUE KEY `uk_products_slug` (`slug`),
+    UNIQUE KEY `uk_products_sku` (`sku`),
     KEY `idx_products_price` (`price`),
-    KEY `idx_products_created` (`created_at`),
-    CONSTRAINT `fk_products_category` FOREIGN KEY (`category_id`) REFERENCES `product_categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='محصولات - ساختار ساده';
-
+    KEY `idx_products_status` (`status`),
+    CONSTRAINT `fk_products_creator` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+    CONSTRAINT `fk_products_updater` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------------
--- جدول لیست‌ها (تعریف لیست‌های سفارشی)
+-- 3. جدول میانی محصول-دسته‌بندی (Many-to-Many Pivot)
+-- * راهکار مشکل شماره ۲: یک محصول می‌تواند در چند دسته باشد.
+-- -----------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `category_product` (
+    `product_id` BIGINT UNSIGNED NOT NULL,
+    `category_id` BIGINT UNSIGNED NOT NULL,
+    PRIMARY KEY (`product_id`, `category_id`),
+    KEY `idx_cat_prod_category` (`category_id`),
+    CONSTRAINT `fk_cp_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
+    CONSTRAINT `fk_cp_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ============================================================
+-- بخش لیست‌های سفارشی (The EAV Transformation)
+-- ============================================================
+
+-- -----------------------------------------------------------
+-- 5. تعریف لیست‌ها (Entity)
+-- مثل: "لیست اموال"، "لیست قطعات یدکی"
 -- -----------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `custom_lists` (
-    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(255) NOT NULL COMMENT 'نام لیست (فارسی)',
-    `name_en` VARCHAR(255) NOT NULL COMMENT 'نام لیست (انگلیسی / Slug)',
-    `icon` VARCHAR(100) DEFAULT 'fa-solid fa-clipboard-list' COMMENT 'آیکون لیست (Font Awesome class)',
-    `color` VARCHAR(50) DEFAULT 'blue' COMMENT 'رنگ نمایشی: blue, green, purple, orange, teal, red, pink, indigo, amber, cyan, lime, rose',
-    `field1_label` VARCHAR(255) DEFAULT NULL COMMENT 'لیبل فیلد اختیاری ۱',
-    `field1_type` VARCHAR(50) DEFAULT NULL COMMENT 'نوع فیلد ۱: text, number, date, select, textarea',
-    `field2_label` VARCHAR(255) DEFAULT NULL COMMENT 'لیبل فیلد اختیاری ۲',
-    `field2_type` VARCHAR(50) DEFAULT NULL COMMENT 'نوع فیلد ۲',
-    `field3_label` VARCHAR(255) DEFAULT NULL COMMENT 'لیبل فیلد اختیاری ۳',
-    `field3_type` VARCHAR(50) DEFAULT NULL COMMENT 'نوع فیلد ۳',
-    `field4_label` VARCHAR(255) DEFAULT NULL COMMENT 'لیبل فیلد اختیاری ۴',
-    `field4_type` VARCHAR(50) DEFAULT NULL COMMENT 'نوع فیلد ۴',
-    `field5_label` VARCHAR(255) DEFAULT NULL COMMENT 'لیبل فیلد اختیاری ۵',
-    `field5_type` VARCHAR(50) DEFAULT NULL COMMENT 'نوع فیلد ۵',
-    `is_active` TINYINT(1) NOT NULL DEFAULT 1 COMMENT 'وضعیت فعال/غیرفعال',
-    `sort_order` INT NOT NULL DEFAULT 0 COMMENT 'ترتیب نمایش',
-    `created_by` INT UNSIGNED DEFAULT NULL COMMENT 'ایجادکننده',
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(255) NOT NULL,
+    `slug` VARCHAR(255) NOT NULL,
+    `description` TEXT DEFAULT NULL,
+    `icon_class` VARCHAR(50) DEFAULT 'fa-list',
+    `color` VARCHAR(7) DEFAULT '#000000',
+    `is_active` TINYINT(1) NOT NULL DEFAULT 1,
+    `created_by` BIGINT UNSIGNED DEFAULT NULL,
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
-    UNIQUE KEY `uk_custom_lists_name_en` (`name_en`),
-    KEY `idx_custom_lists_active` (`is_active`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='تعریف لیست‌های سفارشی';
-
+    UNIQUE KEY `uk_custom_lists_slug` (`slug`),
+    CONSTRAINT `fk_custom_lists_creator` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------------
--- جدول آیتم‌های لیست‌ها
+-- 6. تعریف ویژگی‌های هر لیست (Attribute Definitions)
+-- * راهکار مشکل شماره ۱: تعریف داینامیک فیلدها
+-- اینجا مشخص می‌کنیم هر لیست چه ستون‌هایی دارد (بدون محدودیت تعداد)
+-- -----------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `custom_list_attributes` (
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `list_id` BIGINT UNSIGNED NOT NULL,
+    `label` VARCHAR(255) NOT NULL COMMENT 'عنوان فیلد. مثلا: تاریخ انقضا',
+    `key_name` VARCHAR(100) NOT NULL COMMENT 'شناسه فنی فیلد. مثلا: expiration_date',
+    `data_type` ENUM('text', 'number', 'date', 'boolean', 'select') NOT NULL DEFAULT 'text',
+    `is_required` TINYINT(1) NOT NULL DEFAULT 0,
+    `sort_order` INT NOT NULL DEFAULT 0,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_list_attr_key` (`list_id`, `key_name`),
+    CONSTRAINT `fk_attributes_list` FOREIGN KEY (`list_id`) REFERENCES `custom_lists` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------------
+-- 7. آیتم‌های داخل لیست (Instances)
+-- هر رکورد در این جدول، یک سطر از لیست است
 -- -----------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `custom_list_items` (
-    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `list_id` INT UNSIGNED NOT NULL COMMENT 'شناسه لیست',
-    `title` VARCHAR(500) NOT NULL COMMENT 'عنوان آیتم',
-    `code` VARCHAR(100) DEFAULT NULL COMMENT 'کد آیتم',
-    `field1_value` TEXT DEFAULT NULL COMMENT 'مقدار فیلد اختیاری ۱',
-    `field2_value` TEXT DEFAULT NULL COMMENT 'مقدار فیلد اختیاری ۲',
-    `field3_value` TEXT DEFAULT NULL COMMENT 'مقدار فیلد اختیاری ۳',
-    `field4_value` TEXT DEFAULT NULL COMMENT 'مقدار فیلد اختیاری ۴',
-    `field5_value` TEXT DEFAULT NULL COMMENT 'مقدار فیلد اختیاری ۵',
-    `is_active` TINYINT(1) NOT NULL DEFAULT 1 COMMENT 'وضعیت فعال/غیرفعال',
-    `sort_order` INT NOT NULL DEFAULT 0 COMMENT 'ترتیب نمایش',
-    `created_by` INT UNSIGNED DEFAULT NULL COMMENT 'ایجادکننده',
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `list_id` BIGINT UNSIGNED NOT NULL,
+    `reference_code` VARCHAR(100) DEFAULT NULL COMMENT 'کد پیگیری یا سریال آیتم',
+    `created_by` BIGINT UNSIGNED DEFAULT NULL,
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     KEY `idx_list_items_list` (`list_id`),
-    KEY `idx_list_items_code` (`code`),
-    KEY `idx_list_items_active` (`list_id`, `is_active`),
-    FULLTEXT KEY `ft_list_items_search` (`title`, `code`),
-    CONSTRAINT `fk_list_items_list` FOREIGN KEY (`list_id`) REFERENCES `custom_lists` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='آیتم‌های لیست‌های سفارشی';
-
+    CONSTRAINT `fk_items_list` FOREIGN KEY (`list_id`) REFERENCES `custom_lists` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------------
--- داده‌های اولیه: دسته‌بندی‌های پیش‌فرض
+-- 8. مقادیر ویژگی‌ها (Values)
+-- * قلب تپنده EAV: مقادیر اینجا ذخیره می‌شوند
 -- -----------------------------------------------------------
-INSERT INTO `product_categories` (`name`, `slug`, `sort_order`) VALUES
-('الکترونیکی', 'electronic', 1),
-('خوراکی', 'food', 2),
-('بهداشتی', 'health', 3),
-('صنعتی', 'industrial', 4),
-('خدماتی', 'service', 5);
+CREATE TABLE IF NOT EXISTS `custom_list_values` (
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `item_id` BIGINT UNSIGNED NOT NULL COMMENT 'مربوط به کدام آیتم؟',
+    `attribute_id` BIGINT UNSIGNED NOT NULL COMMENT 'مربوط به کدام ویژگی؟',
 
+    -- ذخیره‌سازی مقادیر:
+    -- برای بهینگی می‌توانیم ستون‌های جداگانه برای انواع داده داشته باشیم
+    -- تا بتوانیم روی اعداد Sort و Filter درست انجام دهیم.
+    `value_text` TEXT DEFAULT NULL,
+    `value_number` DECIMAL(19, 4) DEFAULT NULL,
+    `value_date` DATETIME DEFAULT NULL,
+    `value_boolean` TINYINT(1) DEFAULT NULL,
 
--- -----------------------------------------------------------
--- داده‌های اولیه: لیست‌های نمونه
--- -----------------------------------------------------------
-INSERT INTO `custom_lists` (`name`, `name_en`, `icon`, `color`, `field1_label`, `field1_type`, `field2_label`, `field2_type`, `field3_label`, `field3_type`) VALUES
-('تأمین‌کنندگان', 'suppliers', 'fa-solid fa-truck', 'blue', 'شماره تماس', 'text', 'آدرس', 'text', 'امتیاز', 'number'),
-('ملزومات تولید', 'production-materials', 'fa-solid fa-industry', 'green', 'واحد', 'text', 'موجودی', 'number', 'حداقل سفارش', 'number'),
-('دستگاه‌ها و تجهیزات', 'equipment', 'fa-solid fa-cogs', 'purple', 'شماره سریال', 'text', 'محل نصب', 'text', 'تاریخ خرید', 'date'),
-('اموال و دارایی‌ها', 'assets', 'fa-solid fa-building', 'orange', 'کد اموال', 'text', 'محل استقرار', 'text', 'تحویل‌گیرنده', 'text'),
-('ابزارآلات', 'tools', 'fa-solid fa-wrench', 'teal', 'تعداد', 'number', 'محل نگهداری', 'text', NULL, NULL);
+    PRIMARY KEY (`id`),
+    -- ایندکس ترکیبی برای جستجوی سریع یک ویژگی خاص در یک آیتم
+    UNIQUE KEY `uk_item_attribute` (`item_id`, `attribute_id`),
+
+    -- ایندکس‌های جداگانه برای سرعت فیلترینگ روی مقادیر
+    KEY `idx_values_number` (`attribute_id`, `value_number`),
+    KEY `idx_values_date` (`attribute_id`, `value_date`),
+
+    CONSTRAINT `fk_values_item` FOREIGN KEY (`item_id`) REFERENCES `custom_list_items` (`id`) ON DELETE CASCADE,
+    CONSTRAINT `fk_values_attr` FOREIGN KEY (`attribute_id`) REFERENCES `custom_list_attributes` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

@@ -10,7 +10,7 @@
                 <x-panel::dashboard.stats :items="$stats" />
 
                 <!-- Quick Access Modules -->
-                <x-panel::dashboard.quick-access :modules="$quickAccessModules" />
+                <x-panel::dashboard.quick-access cols="grid-cols-2 sm:grid-cols-3 lg:grid-cols-4" :modules="$quickAccessModules" />
             </div>
         </main>
     </div>

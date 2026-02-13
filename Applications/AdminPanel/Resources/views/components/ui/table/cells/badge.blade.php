@@ -10,7 +10,7 @@
         return ($v instanceof \Closure) ? $v($item, $value) : $v;
     };
 
-    $variant = $resolve('variant', 'secondary');
+    $variant = $resolve('variant', 'default');
     $size = $resolve('size', 'sm');
     $icon = $resolve('icon', null);
     $iconClass = $resolve('icon_class', null);
@@ -18,7 +18,7 @@
         $iconClass = 'text-' . $options['icon_color'] . '-800';
     }
 
-    if (isset($options['variants']) && isset($options['variants'][$value])) {
+    if (isset($options['variants'][$value])) {
         $variant = $options['variants'][$value];
     }
 
@@ -26,7 +26,7 @@
     $suffix = $resolve('suffix', '');
     $label = $options['labels'][$value] ?? $resolve('label', null);
     if ($label === null) {
-        $label = (string) ($value ?? '-');
+        $label = (string) ($value ?? $resolve('default', '_'));
         if ($prefix || $suffix) {
             $label = trim($prefix . ' ' . $label . ' ' . $suffix);
         }
@@ -66,11 +66,13 @@
         @endif
         {{ $label ?? '-' }}
     </span>
-@else
+@elseif(! empty($value))
     <x-panel::ui.badge :variant="$variant" :size="$size">
         @if($icon)
             <i class="fa-solid {{ $icon }} {{ $iconClass ?? '' }}"></i>
         @endif
         {{ $label ?? '-' }}
     </x-panel::ui.badge>
+@else
+    {{ $resolve('default', '_') }}
 @endif

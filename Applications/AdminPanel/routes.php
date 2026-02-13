@@ -2,8 +2,7 @@
 
 declare(strict_types=1);
 
-use Applications\AdminPanel\Controllers\{
-    BPMS\PanelBPMSDashboardController,
+use Applications\AdminPanel\Controllers\{BPMS\PanelBPMSDashboardController,
     BPMS\PanelTaskController,
     BPMS\PanelWorkflowController,
     FileManager\PanelDocumentController,
@@ -14,7 +13,10 @@ use Applications\AdminPanel\Controllers\{
     Organization\PanelUserController,
     PanelDashboardController,
     PanelTagController,
-};
+    Product\PanelCategoryController,
+    Product\PanelCustomListController,
+    Product\PanelProductController,
+    Product\PanelProductDashboardController};
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web'])
@@ -91,6 +93,21 @@ Route::middleware(['web'])
 
                     Route::resource('tasks', PanelTaskController::class)
                         ->except(['create', 'edit', 'destroy', 'store', 'update']);
+                });
+
+            Route::name('product.')
+                ->prefix('product')
+                ->group(function () {
+                    Route::get('dashboard', [PanelProductDashboardController::class, 'index'])->name('dashboard');
+
+                    Route::resource('products', PanelProductController::class)
+                        ->except(['destroy', 'store', 'update']);
+
+                    Route::resource('categories', PanelCategoryController::class)
+                        ->only(['index']);
+
+                    Route::resource('custom-lists', PanelCustomListController::class)
+                        ->only(['index', 'show']);
                 });
         });
     });

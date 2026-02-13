@@ -89,19 +89,19 @@ class OrganizationStatsRegistrar implements RegistrarInterface
                 ->first();
 
             $builder->stat('کل دپارتمان‌ها', 'org-total-departments')
-                ->value($stats->total_departments)
+                ->value($stats->total_departments ?? 0)
                 ->icon('fa-solid fa-building')
                 ->color('blue')
                 ->order(1);
 
             $builder->stat('دپارتمان‌های فعال', 'org-active-departments')
-                ->value($stats->active_departments)
+                ->value($stats->active_departments ?? 0)
                 ->icon('fa-solid fa-check-circle')
                 ->color('green')
                 ->order(2);
 
             $builder->stat('کل کارمندان', 'org-employees')
-                ->value($stats->total_employees)
+                ->value($stats->total_employees ?? 0)
                 ->icon('fa-solid fa-shield-halved')
                 ->color('purple')
                 ->order(3);
