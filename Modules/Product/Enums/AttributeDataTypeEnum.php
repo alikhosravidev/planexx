@@ -14,12 +14,8 @@ enum AttributeDataTypeEnum: int
 
     public function label(): string
     {
-        return match ($this) {
-            self::Text    => trans('Product::enums.attribute_data_type.text'),
-            self::Number  => trans('Product::enums.attribute_data_type.number'),
-            self::Date    => trans('Product::enums.attribute_data_type.date'),
-            self::Boolean => trans('Product::enums.attribute_data_type.boolean'),
-            self::Select  => trans('Product::enums.attribute_data_type.select'),
-        };
+        $name = strtolower($this->name);
+
+        return trans("Product::enums.attribute_data_type.{$name}");
     }
 }

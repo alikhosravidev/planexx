@@ -12,7 +12,8 @@ return new class () extends Migration {
         Schema::create('product_products', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('slug')->unique();
+            $table->string('slug');
+            $table->string('sku')->index();
             $table->unsignedBigInteger('price')->default(0);
             $table->unsignedBigInteger('sale_price')->nullable();
             $table->unsignedTinyInteger('status')->default(1)
@@ -23,12 +24,9 @@ return new class () extends Migration {
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('created_by')
-                ->references('id')
-                ->on('core_org_users')
-                ->onDelete('set null');
+            $table->uniqueSoftDeleteBy(['slug'], 'slug');
 
-            $table->foreign('updated_by')
+            $table->foreign('created_by')
                 ->references('id')
                 ->on('core_org_users')
                 ->onDelete('set null');

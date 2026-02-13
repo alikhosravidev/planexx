@@ -18,7 +18,12 @@ $sizes = [
     'lg' => 'px-3 py-1.5 text-base',
 ];
 
-$classes = $variants[$variant] . ' ' . $sizes[$size];
+if (is_callable($variant)) {
+    $classes = $variant($slot);
+} else {
+    $classes = $variants[$variant] ?? 'default';
+}
+$classes .=  ' ' . $sizes[$size];
 @endphp
 
 <span {{ $attributes->merge(['class' => "inline-flex items-center gap-1 rounded-lg font-medium $classes"]) }}>

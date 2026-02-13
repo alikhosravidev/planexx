@@ -28,12 +28,12 @@ class StoreProductRequest extends BaseRequest
                 'regex:/^[a-z0-9-]+$/',
                 Rule::unique(Product::class, 'slug')->withoutTrashed(),
             ],
-            'price'          => ['required', 'integer', 'min:0'],
-            'sale_price'     => ['nullable', 'integer', 'min:0'],
-            'status'         => ['nullable', 'integer', Rule::enum(ProductStatusEnum::class)],
+            'price'          => ['required', 'numeric', 'min:0'],
+            'sale_price'     => ['nullable', 'numeric', 'min:0'],
+            'status'         => ['nullable', 'numeric', Rule::enum(ProductStatusEnum::class)],
             'is_featured'    => ['nullable', 'boolean'],
             'category_ids'   => ['nullable', 'array'],
-            'category_ids.*' => ['integer', Rule::exists(Category::class, 'id')],
+            'category_ids.*' => ['numeric', Rule::exists(Category::class, 'id')],
         ];
     }
 

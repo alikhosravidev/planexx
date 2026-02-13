@@ -34,16 +34,15 @@ readonly class ProductService
     {
         return DB::transaction(function () use ($dto, $createdBy) {
             $this->salePriceValidator->validate($dto->price, $dto->salePrice);
-
+            dd($dto->categoryIds);
             $data               = $dto->toArray();
             $data['slug']       = $this->resolveSlug->execute($dto);
             $data['status']     = $this->resolveStatus->execute($dto)->value;
             $data['created_by'] = $createdBy;
-            $data['updated_by'] = $createdBy;
 
             $product = $this->productRepository->create($data);
 
-            if (! $dto->categoryIds->isEmpty()) {
+            if ($dto->categoryIds->isNotEmpty()) {
                 $this->syncCategories->execute($product, $dto->categoryIds);
             }
 
@@ -66,7 +65,9 @@ readonly class ProductService
 
             $product = $this->productRepository->update($product->id, $data);
 
-            $this->syncCategories->execute($product, $dto->categoryIds);
+            if ($dto->categoryIds->isNotEmpty()) {
+                $this->syncCategories->execute($product, $dto->categoryIds);
+            }
 
             return $product->load('categories');
         });

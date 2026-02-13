@@ -90,7 +90,7 @@
                                     class="min-w-[80px]"
                                 />
                                 <div class="w-[160px]">
-                                    <x-panel::forms.select
+                                    <x-panel::forms.tom-select
                                         name="field{{ $i }}_type"
                                         label="نوع"
                                         :options="['text' => 'متن', 'number' => 'عدد', 'date' => 'تاریخ', 'select' => 'انتخابی', 'textarea' => 'متن بلند']"

@@ -14,9 +14,9 @@
     ];
 
     $statusOptions = [
-        'active' => 'فعال',
-        'draft' => 'پیش‌نویس',
-        'inactive' => 'غیرفعال',
+        1 => 'فعال',
+        2 => 'پیش‌نویس',
+        3 => 'غیرفعال',
     ];
 @endphp
 
@@ -80,12 +80,15 @@
                                 class="min-w-[140px]"
                             />
 
-                            <x-panel::forms.select
-                                name="category_id"
+                            <x-panel::forms.tom-select-ajax
+                                name="categories"
+                                :multiple="true"
                                 label="دسته‌بندی"
-                                :options="$categories ?? []"
                                 placeholder="انتخاب کنید"
-                                :value="$product['category_id'] ?? ''"
+                                :preload="true"
+                                class="min-w-[140px]"
+                                url="{{ route('api.v1.admin.product.categories.keyValList', ['per_page' => 100, 'field' => 'name']) }}"
+                                :value="$product['categories'][0]['name'] ?? null"
                             />
 
                             <x-panel::forms.radio
@@ -107,7 +110,7 @@
                                 label="قیمت (ریال)"
                                 placeholder="۰"
                                 :required="true"
-                                :value="$product['price'] ?? ''"
+                                :value="$product['price']['main'] ?? ''"
                                 class="min-w-[140px]"
                             />
 
@@ -115,7 +118,7 @@
                                 name="sale_price"
                                 label="قیمت با تخفیف"
                                 placeholder="خالی بگذارید اگر تخفیف ندارد"
-                                :value="$product['sale_price'] ?? ''"
+                                :value="$product['sale_price']['main'] ?? ''"
                             />
                         </div>
                     </div>

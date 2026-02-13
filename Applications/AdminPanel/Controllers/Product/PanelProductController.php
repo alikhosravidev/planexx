@@ -30,15 +30,9 @@ class PanelProductController extends BaseWebController
 
         $response = $this->apiGet('api.v1.admin.product.products.index', $queryParams);
 
-        $categoriesResponse = $this->apiGet('api.v1.admin.product.categories.keyValList', [
-            'per_page' => 100,
-            'field'    => 'name',
-        ]);
-
         return view('panel::products.index', [
-            'products'        => $response['result']             ?? [],
-            'pagination'      => $response['meta']['pagination'] ?? [],
-            'categoryOptions' => $categoriesResponse['result']   ?? [],
+            'products'   => $response['result']             ?? [],
+            'pagination' => $response['meta']['pagination'] ?? [],
         ]);
     }
 
@@ -56,13 +50,7 @@ class PanelProductController extends BaseWebController
 
     public function create(): View
     {
-        $categoriesResponse = $this->apiGet('api.v1.admin.product.categories.index', [
-            'per_page' => 100,
-        ]);
-
-        return view('panel::products.create', [
-            'categories' => $categoriesResponse['result'] ?? [],
-        ]);
+        return view('panel::products.create');
     }
 
     public function edit(Product $product): View
@@ -72,13 +60,8 @@ class PanelProductController extends BaseWebController
             'includes' => 'categories',
         ]);
 
-        $categoriesResponse = $this->apiGet('api.v1.admin.product.categories.index', [
-            'per_page' => 100,
-        ]);
-
         return view('panel::products.edit', [
-            'product'    => $response['result']           ?? [],
-            'categories' => $categoriesResponse['result'] ?? [],
+            'product' => $response['result'] ?? [],
         ]);
     }
 }

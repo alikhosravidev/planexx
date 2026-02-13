@@ -21,10 +21,11 @@
             'value' => request('search'),
         ],
         [
-            'type' => 'select',
+            'type' => 'tom-select-ajax',
             'name' => 'category_id',
             'label' => 'دسته‌بندی',
-            'options' => $categoryOptions ?? [],
+            'template' => 'keyValList',
+            'url' => route('api.v1.admin.product.categories.keyValList', ['per_page' => 100, 'field' => 'name']),
             'selected' => request('category_id'),
         ],
         [
@@ -69,7 +70,7 @@
             ],
         ],
         [
-            'key' => 'price',
+            'key' => 'price.main',
             'label' => 'قیمت (ریال)',
             'class' => 'font-medium',
         ],
@@ -78,12 +79,12 @@
             'label' => 'وضعیت',
             'component' => 'badge',
             'options' => [
-                'variant' => 'secondary',
+                'variant' => fn($row) => $row['status']['variant'],
                 'size' => 'sm',
             ],
         ],
         [
-            'key' => 'created_at_jalali',
+            'key' => 'created_at.human.default',
             'label' => 'تاریخ ایجاد',
             'class' => 'text-sm text-text-secondary',
         ],

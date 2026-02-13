@@ -12,10 +12,17 @@ enum ProductStatusEnum: int
 
     public function label(): string
     {
+        $name = strtolower($this->name);
+
+        return trans("Product::enums.product_status.{$name}");
+    }
+
+    public function variant(): string
+    {
         return match ($this) {
-            self::Active      => trans('Product::enums.product_status.active'),
-            self::Draft       => trans('Product::enums.product_status.draft'),
-            self::Unavailable => trans('Product::enums.product_status.unavailable'),
+            self::Active      => 'success',
+            self::Draft       => 'warning',
+            self::Unavailable => 'danger',
         };
     }
 }

@@ -7,12 +7,14 @@ namespace Modules\Product\Http\Transformers\V1\Admin;
 use App\Contracts\Transformer\BaseTransformer;
 use App\Core\Organization\Http\Transformers\V1\Admin\UserTransformer;
 use App\Services\Transformer\FieldTransformers\EnumTransformer;
+use App\Services\Transformer\FieldTransformers\PriceTransformer;
 use Modules\Product\Entities\Product;
 
 class ProductTransformer extends BaseTransformer
 {
     protected array $fieldTransformers = [
-        'status' => EnumTransformer::class,
+        'status'     => EnumTransformer::class,
+        'sale_price' => PriceTransformer::class,
     ];
 
     protected array $availableIncludes = [

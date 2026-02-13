@@ -24,6 +24,6 @@ final class ResolveProductStatusAction
 
     private function canPublish(ProductDTO $dto): bool
     {
-        return $dto->title !== '' && $dto->price > 0;
+        return $dto->title !== '' && $dto->price->value > 0;
     }
 }

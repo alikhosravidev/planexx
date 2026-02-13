@@ -18,6 +18,7 @@ use Modules\Product\Enums\ProductStatusEnum;
  * @property int                         $id
  * @property string                      $title
  * @property string                      $slug
+ * @property string                      $sku
  * @property int                         $price
  * @property int|null                    $sale_price
  * @property ProductStatusEnum           $status
@@ -47,11 +48,15 @@ class Product extends BaseEntity
         'title',
         'slug',
         'price',
+        'sku',
         'sale_price',
         'status',
         'is_featured',
         'created_by',
-        'updated_by',
+    ];
+
+    protected $hidden = [
+        'slug_deleted_at_unix',
     ];
 
     protected $casts = [

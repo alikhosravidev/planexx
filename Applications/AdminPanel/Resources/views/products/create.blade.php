@@ -14,9 +14,9 @@
     ];
 
     $statusOptions = [
-        'active' => 'فعال',
-        'draft' => 'پیش‌نویس',
-        'inactive' => 'غیرفعال',
+        1 => 'فعال',
+        2 => 'پیش‌نویس',
+        3 => 'غیرفعال',
     ];
 @endphp
 
@@ -44,7 +44,7 @@
                       action="{{ route('api.v1.admin.product.products.store') }}"
                       data-method="POST"
                       data-on-success="redirect"
-                      data-redirect="{{ route('web.product.products.index') }}"
+                      data-redirect-url="{{ route('web.product.products.index') }}"
                       enctype="multipart/form-data">
                     @csrf
 
@@ -68,6 +68,15 @@
                                 direction="ltr"
                             />
 
+                            <x-panel::forms.tom-select-ajax
+                                name="categories[]"
+                                :multiple="true"
+                                label="دسته‌بندی"
+                                placeholder="انتخاب کنید"
+                                class="min-w-[140px]"
+                                url="{{ route('api.v1.admin.product.categories.keyValList', ['per_page' => 100, 'field' => 'name']) }}"
+                            />
+
                             <x-panel::forms.input
                                 name="sku"
                                 label="کد محصول (SKU)"
@@ -75,13 +84,6 @@
                                 :required="true"
                                 direction="ltr"
                                 class="min-w-[140px]"
-                            />
-
-                            <x-panel::forms.select
-                                name="category_id"
-                                label="دسته‌بندی"
-                                :options="$categories ?? []"
-                                placeholder="انتخاب کنید"
                             />
 
                             <x-panel::forms.radio

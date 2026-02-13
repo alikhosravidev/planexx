@@ -12,12 +12,13 @@ use Modules\Product\Enums\ProductStatusEnum;
 final readonly class ProductDTO implements Arrayable
 {
     public function __construct(
-        public string $title,
-        public Price $price,
-        public ?string $slug = null,
-        public ?Price $salePrice = null,
-        public ProductStatusEnum $status = ProductStatusEnum::Draft,
-        public bool $isFeatured = false,
+        public string               $title,
+        public Price                $price,
+        public string               $sku,
+        public ?string              $slug = null,
+        public ?Price               $salePrice = null,
+        public ProductStatusEnum    $status = ProductStatusEnum::Draft,
+        public bool                 $isFeatured = false,
         public CategoryIdCollection $categoryIds = new CategoryIdCollection(),
     ) {
     }
@@ -27,6 +28,7 @@ final readonly class ProductDTO implements Arrayable
         return [
             'title'       => $this->title,
             'slug'        => $this->slug,
+            'sku'         => $this->sku,
             'price'       => $this->price->value,
             'sale_price'  => $this->salePrice?->value,
             'status'      => $this->status->value,
